@@ -1,0 +1,65 @@
+$darken-amount: 5%;
+
+/* Colours */
+$erza-red: #850512;
+$erza-red-highlight: #CE414A;
+$erza-blue: #082A6A;
+$erza-silver: #E1E3EF;
+$erza-silver-shade: #7E7E86;
+
+$white: #fff;
+$grey95: #f2f2f2;
+$grey94: #efefef;
+$grey80: #ccc;
+$grey40: #666;
+$onyx: #0f0f0f;
+$black: #000;
+
+$red: #ff0000;
+$green: #00ff00;
+$blue: #0000ff;
+$yellow: #ffff00;
+$magenta: #ff00ff;
+$cyan: #00ffff;
+
+$orange: #ff9900;
+$dark-violet: #674ea7;
+$very-dark-blue: #073763;
+$soft-blue: #6fa8dc;
+$dark-red: #a61c00;
+$desaturated-green: #93c47d; //$moderate-green: #99cc66;
+$brown-from-dark-yellow: #7f6000;
+
+/* Usages */
+$primary-background: $erza-red;
+$primary-colour: $erza-red;
+$primary-colour-contrast: $erza-silver;
+
+$secondary-background: $erza-red-highlight;
+$secondary-colour: $erza-red-highlight;
+$secondary-colour-contrast: $erza-silver-shade;
+
+$spinner-colour-one: $erza-silver;
+$spinner-colour-two: $erza-red-highlight;
+$spinner-colour-three: $erza-silver;
+$spinner-colour-four: $erza-red-highlight;
+
+$anchor-colour: $secondary-colour;
+$anchor-colour-hover: $secondary-colour-contrast;
+
+$category-colours: (
+  anime: $orange,
+  develop: $dark-violet,
+  exercise: $very-dark-blue,
+  gaming: $yellow,
+  manga: $soft-blue,
+  other: $magenta,
+  passing: $dark-red,
+  sleep: $grey40,
+  social: $desaturated-green,
+  wasted: $brown-from-dark-yellow,
+  work: $grey94
+);
+
+$danger-colour: $red;
+$success-colour: $green;

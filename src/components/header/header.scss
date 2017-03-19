@@ -1,0 +1,52 @@
+@import "../../styles/partials/_colours";
+@import "../../styles/partials/_variables";
+
+.application-header {
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  background-color: $primary-background;
+  color: $primary-colour-contrast;
+  padding: 5px;
+  z-index: map-get($z-index, header);
+}
+
+#logo-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+#navigation-links {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  width: 33%;
+  height: 100%;
+  div {
+    height: 100%;
+  }
+  a {
+    background-color: $primary-background;
+    color: $primary-colour-contrast;
+    height: 100%;
+    padding: 8px;
+    text-decoration: none;
+    box-sizing: border-box;
+    &:hover {
+      background-color: darken($primary-background, $darken-amount);
+    }
+    &.active {
+      background-color: $secondary-background;
+      color: $secondary-colour-contrast;
+      &:hover {
+        background-color: darken($secondary-background, $darken-amount);
+      }
+    }
+  }
+}
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

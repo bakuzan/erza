@@ -1,0 +1,68 @@
+@import "./partials/_colours";
+@import "./partials/_mixins";
+
+.button {
+  display: flex;
+  justify-content: center;
+  min-width: 100px;
+  min-height: 25px;
+  background-color: $white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover {
+    background-color: darken($white, $darken-amount);
+  }
+  &.rounded {
+    border-radius: 5px;
+  }
+  &.depress {
+    box-shadow: 0 0 5px $onyx;
+    &:active {
+      box-shadow: inset 0px 0px 5px $onyx;
+    }
+  }
+}
+
+.button.primary {
+  background-color: $primary-background;
+  color: $primary-colour-contrast;
+  &:hover {
+    @include lightenOrDarken("background-color", $primary-background, $darken-amount * 3);
+  }
+}
+.button.secondary {
+  background-color: $secondary-background;
+  color: $secondary-colour-contrast;
+  &:hover {
+    @include lightenOrDarken("background-color", $secondary-background, $darken-amount * 3);
+  }
+}
+
+.button-link {
+  display: flex;
+  justify-content: center;
+  background: inherit;
+  color: $anchor-colour;
+  appearance: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  &:focus, &:active {
+    color: $anchor-colour;
+  }
+  &:hover {
+   color: $anchor-colour-hover;
+  }
+}
+
+.button-link.primary {
+  color: $primary-colour;
+  &:focus, &:active {
+    color: $primary-colour;
+  }
+  &:hover {
+   color: darken($primary-colour, $darken-amount);
+  }
+}
