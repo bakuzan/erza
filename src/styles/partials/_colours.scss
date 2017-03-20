@@ -35,11 +35,13 @@ $brown-from-dark-yellow: #7f6000;
 // Usages
 
 // Themes start
-$theme-one-base: $white;
+$theme-one-base-background: $white;
+$theme-one-base-colour: $black;
 $theme-one-colour: $erza-red;
 $theme-one-contrast: $erza-silver;
 
-$theme-two-base: $black-red;
+$theme-two-base-background: $black-red;
+$theme-two-base-colour: $white;
 $theme-two-colour: $erza-red-highlight;
 $theme-two-contrast: $erza-silver-shade;
 // Themes end
