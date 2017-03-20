@@ -12,7 +12,7 @@ class AnimeCreate extends Component {
   
   handleUserInput(event) {
     const { name, type, value, checked } = event.target;
-    const updatedValue = type === 'checkbox' ? checked : value; // TODO move string to constants
+    const updatedValue = type === Strings.checkbox ? checked : value; 
     this.setState({ [name]: updatedValue });
   }
   
