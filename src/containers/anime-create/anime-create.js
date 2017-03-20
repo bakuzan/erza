@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { createAnime } from '../../actions/index'
+import { createAnime, updateAnime } from '../../actions/index'
 import { Strings } from '../../constants/strings'
 
 class AnimeCreate extends Component {
   
-  constructor() {
-    super();
-    this.state = {}; // TODO initalise state 
+  constructor(props) {
+    super(props);
+    this.state = Object.assign({}, props.item); // yes, i know i'm assigning a prop to state.
   }
   
   handleUserInput(event) {
@@ -19,10 +19,9 @@ class AnimeCreate extends Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log(event, this.state);
-    // Get the state here and dispatch to a thunk
-    // thunk will save item to db, then dispatch action
-    // action will update redux state
-    this.props.dispatch(createAnime());
+    const animeItem = Object.assign({}, this.state);
+    if (this.props.isCreate) return this.props.dispatch(createAnime(animeItem));
+    return this.props.dispatch(updateAnime(animeItem));
   }
   
   render() {
@@ -31,6 +30,7 @@ class AnimeCreate extends Component {
         <div className="has-float-label text-input-container">
           <input type="text"
                  name="title"
+                 value={this.state.title}
                  placeholder="title"
                  autoFocus
                  onChange={(e) => this.handleUserInput(e)}
@@ -39,7 +39,7 @@ class AnimeCreate extends Component {
         </div>
 
         <button type="submit">
-        { Strings.create }
+        { this.props.isCreate ? Strings.create : Strings.edit }
         </button>
       </form>
     </div>
@@ -47,6 +47,24 @@ class AnimeCreate extends Component {
   
 }
 
-AnimeCreate = connect()(AnimeCreate)
+AnimeCreate.PropTypes = {
+  isCreate: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired
+};
 
-export default AnimeCreate
+const getInitalItem = (state, params) => {
+  if (!!params.id) return state[params.id];
+  return {
+    id: null,
+    title: ''
+  };
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  isCreate: !ownProps.params.id,
+  item: getInitalItem(state.anime.byId, ownProps.params)
+})
+
+export default connect(
+  mapStateToProps
+)(AnimeCreate)
