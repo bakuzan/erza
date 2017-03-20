@@ -1,6 +1,6 @@
 $darken-amount: 5%;
 
-/* Colours */
+// Colours
 $erza-red: #850512;
 $erza-red-highlight: #CE414A;
 $erza-blue: #082A6A;
@@ -13,6 +13,7 @@ $grey94: #efefef;
 $grey80: #ccc;
 $grey40: #666;
 $onyx: #0f0f0f;
+$black-blue: #1c1f2b;
 $black: #000;
 
 $red: #ff0000;
@@ -30,7 +31,18 @@ $dark-red: #a61c00;
 $desaturated-green: #93c47d; //$moderate-green: #99cc66;
 $brown-from-dark-yellow: #7f6000;
 
-/* Usages */
+// Usages
+
+// Themes start
+$theme-one-base: $white;
+$theme-one-colour: $erza-red;
+$theme-one-contrast: $erza-silver;
+
+$theme-two-base: $black-blue;
+$theme-two-colour: $erza-red-highlight;
+$theme-two-contrast: $erza-silver-shade;
+// Themes end
+
 $primary-background: $erza-red;
 $primary-colour: $erza-red;
 $primary-colour-contrast: $erza-silver;
