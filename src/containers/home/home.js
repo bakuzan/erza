@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {Strings} from '../../constants/strings';
 import {Paths} from '../../constants/paths';
 import './home.css';
 
@@ -16,7 +17,7 @@ const Home = () => (
             <span>Enter details about a new anime entry.</span>
           </p>
           <p>
-            <Link to={`${Paths.base}${Paths.anime.list}`}>
+            <Link to={`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`}>
               Browse Anime
             </Link>
             <span>Search anime with a variable of filters and conditions</span>

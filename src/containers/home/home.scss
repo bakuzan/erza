@@ -1,25 +1,36 @@
+@import "../../styles/partials/_colours";
+
 .site-map-list {
+  display: flex;
   padding: 5px;
   list-style-type: none;
-  
+
   li {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
 
     .group-title {
       display: flex;
-      flex: 0 1 0%;
-      justify-content: flex-start;
-      align-content: center;
+      flex: 1 1 0%;
+      justify-content: center;
+      align-items: center;
+      background-color: $primary-colour;
+      color: $primary-colour-contrast;
       height: 100%;
       min-width: 5%;
-      max-width: 20%;
+      max-width: 10%;
       padding: 5px;
     }
 
-    .group-content span {
-      display: flex;
-      flex: 1 0 100%;
+    .group-content {
+      padding: 5px;
+
+      span {
+        display: flex;
+        flex: 1 0 100%;
+      }
+
     }
 
   }
