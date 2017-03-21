@@ -14,6 +14,7 @@ const Routes = ({ history }) => (
 
       <Route path={`${Paths.anime.list}(:filter)`} component={Anime} />
       <Route path={Paths.anime.create} component={AnimeCreate} />
+      <Route path={`${Paths.anime.edit}(:id)`} component={AnimeCreate} />
     </Route>
   </Router>
 )
