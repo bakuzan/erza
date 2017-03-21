@@ -18,5 +18,6 @@ export const Paths = {
   anime: {
     list: 'anime-list/',
     create: 'anime/create',
+    edit: 'anime/edit/'
   }
 }
