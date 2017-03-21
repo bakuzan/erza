@@ -66,3 +66,10 @@
    color: darken($primary-colour, $darken-amount);
   }
 }
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+  margin: 5px 0;
+}

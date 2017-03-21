@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/index'
 import { Strings } from '../../constants/strings'
 import { Paths } from '../../constants/paths'
@@ -27,7 +28,12 @@ class AnimeCreate extends Component {
 
   render() {
     return (
-      <div className="center-contents padding-10">
+      <div className="flex-column center-contents padding-10">
+        <header>
+          <h4>
+          { `${this.props.isCreate ? Strings.create : Strings.edit} ${Strings.anime}` }
+          </h4>
+        </header>
         <form name="animeForm" noValidate="" onSubmit={e => this.handleSubmit(e)}>
           <div className="has-float-label input-container">
             <input type="text"

@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react'
 import { connect } from 'react-redux'
+import ListFilter from '../../components/list-filter/list-filter'
 import AnimeList from '../../components/anime-list/anime-list'
 import {Strings} from '../../constants/strings'
 
 let Anime = ({ params, items }) => (
   <div>
-    Add filters
+    <ListFilter />
     {
       items && !!items.length &&
       <AnimeList
@@ -29,18 +30,21 @@ Anime.PropTypes = {
 
 const getVisibleAnime = (anime, filter) => {
   if (!anime || !anime.allIds.length) return Array(0);
+  const animeItems = anime.allIds.map(id => anime.byId[id]);
   switch (filter) {
     case Strings.filters.all:
+      return animeItems;
     case Strings.filters.completed:
+      return animeItems.filter(x => x.status === Strings.malAnime.status.completed);
     case Strings.filters.ongoing:
-      return anime.allIds.map(id => anime.byId[id]);  
+      return animeItems.filter(x => x.status === Strings.malAnime.status.ongoing);
     default:
       throw new Error('Unknown filter: ' + filter)
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  items: getVisibleAnime(state.anime, ownProps.params.filter)
+  items: getVisibleAnime(state.entities.anime, ownProps.params.filter)
 })
 
 // const mapDispatchToProps = ({

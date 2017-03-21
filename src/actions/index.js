@@ -5,6 +5,11 @@ import {Strings} from '../constants/strings'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
+let testId = 0;
+const getTestId = () => {
+  return testId++;
+}
+
 export const addAnime = (item) => ({
   type: ADD_ANIME,
   item
@@ -13,8 +18,14 @@ export const addAnime = (item) => ({
 export const createAnime = (item) => {
   console.log(item);
   return function(dispatch) {
-    dispatch(addAnime(item));
-    return redirectPostAction();
+    item.id = getTestId();
+    var goToNext = Promise.resolve(item);
+    setTimeout(() => {
+      goToNext.then(response => {
+        dispatch(addAnime(response));
+        return redirectPostAction();
+      })
+    }, 1000);
   }
 }
 
