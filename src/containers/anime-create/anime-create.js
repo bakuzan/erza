@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { createAnime, editAnime } from '../../actions/index'
 import { Strings } from '../../constants/strings'
+import AnimeModel from '../../models/anime-model';
 
 class AnimeCreate extends Component {
 
@@ -64,13 +65,8 @@ AnimeCreate.PropTypes = {
 };
 
 const getInitalItem = (state, params) => {
-  if (!!params.id) return state.byId[params.id];
-  return {
-    id: null,
-    title: '',
-    episode: 0
-    // TODO Finish this default implementation!!
-  };
+  if (!!params.id) return new AnimeModel(state.byId[params.id]);
+  return new AnimeModel();
 }
 
 const mapStateToProps = (state, ownProps) => ({
