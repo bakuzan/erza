@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import { connect } from 'react-redux'
 import AnimeList from '../../components/anime-list/anime-list'
+import {Strings} from '../../constants/strings'
 
 let Anime = ({ params, items }) => (
   <div>
@@ -14,12 +15,24 @@ let Anime = ({ params, items }) => (
   </div>
 )
 
+Anime.PropTypes = {
+  items: PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+    console.log(propValue, key, componentName, location, propFullName);
+    if (!/matchme/.test(propValue[key])) {
+      return new Error(
+        'Invalid prop `' + propFullName + '` supplied to' +
+        ' `' + componentName + '`. Validation failed.'
+      );
+    }
+  })
+}
+
 const getVisibleAnime = (anime, filter) => {
   if (!anime || !anime.allIds.length) return Array(0);
   switch (filter) {
-    case 'all':
-    case 'completed':
-    case 'ongoing':
+    case Strings.filters.all:
+    case Strings.filters.completed:
+    case Strings.filters.ongoing:
       return anime.allIds.map(id => anime.byId[id]);  
     default:
       throw new Error('Unknown filter: ' + filter)
