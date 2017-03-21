@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { createAnime, editAnime } from '../../actions/index'
 import { Strings } from '../../constants/strings'
+import { Paths } from '../../constants/paths'
 import AnimeModel from '../../models/anime-model';
 
 class AnimeCreate extends Component {
@@ -49,9 +50,15 @@ class AnimeCreate extends Component {
             <label>episode</label>
           </div>
 
-          <button type="submit" className="button ripple">
-          { this.props.isCreate ? Strings.create : Strings.edit }
-          </button>
+          <div className="button-group">
+            <button type="submit" className="button ripple">
+            { this.props.isCreate ? Strings.create : Strings.edit }
+            </button>
+            <Link to={`${Paths.base}${Paths.anime.list}`}
+                  className="button-link">
+            { Strings.cancel }
+            </Link>
+          </div>
         </form>
       </div>
     );
