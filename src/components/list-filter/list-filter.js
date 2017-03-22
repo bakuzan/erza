@@ -1,6 +1,6 @@
 import React from 'react'
 import FilterLink from '../../containers/filter-link/filter-link'
-import {Strings} from '../../constants/strings'
+import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
 import './list-filter.css'
 
