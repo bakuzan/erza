@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import { connect } from 'react-redux'
 import ListFilter from '../../components/list-filter/list-filter'
 import AnimeList from '../../components/anime-list/anime-list'
-import {Strings} from '../../constants/strings'
+import {Strings, Enums} from '../../constants/values'
 
 let Anime = ({ params, items }) => (
   <div>
@@ -35,9 +35,9 @@ const getVisibleAnime = (anime, filter) => {
     case Strings.filters.all:
       return animeItems;
     case Strings.filters.completed:
-      return animeItems.filter(x => x.status === Strings.malAnime.status.completed);
+      return animeItems.filter(x => x.status === Enums.anime.status.completed);
     case Strings.filters.ongoing:
-      return animeItems.filter(x => x.status === Strings.malAnime.status.ongoing);
+      return animeItems.filter(x => x.status === Enums.anime.status.ongoing);
     default:
       throw new Error('Unknown filter: ' + filter)
   }
