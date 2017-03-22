@@ -5,6 +5,7 @@ import { createAnime, editAnime } from '../../actions/index'
 import { Strings } from '../../constants/strings'
 import { Paths } from '../../constants/paths'
 import AnimeModel from '../../models/anime-model';
+import RatingControl from '../../components/rating-control/rating-control';
 
 class AnimeCreate extends Component {
 
@@ -35,6 +36,7 @@ class AnimeCreate extends Component {
           </h4>
         </header>
         <form name="animeForm" noValidate="" onSubmit={e => this.handleSubmit(e)}>
+
           <div className="has-float-label input-container">
             <input type="text"
                    name="title"
@@ -54,6 +56,62 @@ class AnimeCreate extends Component {
                    onChange={(e) => this.handleUserInput(e)}
              />
             <label>episode</label>
+          </div>
+
+          <div className="has-float-label input-container">
+            <input type="date"
+                   name="start"
+                   value={this.state.start}
+                   placeholder="start"
+                   onChange={(e) => this.handleUserInput(e)}
+             />
+            <label>start</label>
+          </div>
+          <div className="has-float-label input-container">
+            <input type="date"
+                   name="end"
+                   value={this.state.end}
+                   placeholder="end"
+                   onChange={(e) => this.handleUserInput(e)}
+             />
+            <label>end</label>
+          </div>
+
+          <RatingControl readOnly="false"
+                         name="rating"
+                         value={this.state.rating}
+                         onChange={this.handleUserInput}
+          />
+
+          <div className="has-float-label input-container">
+            <label>
+              <input type="checkbox"
+                     name="owned"
+                     value={this.state.owned}
+                     onChange={(e) => this.handleUserInput(e)}
+             />
+             owned
+            </label>
+          </div>
+          <div className="has-float-label input-container">
+            <label>
+              <input type="checkbox"
+                     name="isAdult"
+                     value={this.state.isAdult}
+                     onChange={(e) => this.handleUserInput(e)}
+             />
+             is adult
+            </label>
+          </div>
+          <div className="has-float-label input-container">
+            <label>
+              <input type="checkbox"
+                     name="isRepeat"
+                     value={this.state.isRepeat}
+                     onChange={(e) => this.handleUserInput(e)}
+             />
+             is repeat
+            </label>
           </div>
 
           <div className="button-group">
