@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/index'
-import { Strings } from '../../constants/strings'
+import { Strings } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
@@ -12,6 +12,8 @@ class AnimeCreate extends Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, props.item); // yes, i know i'm assigning a prop to state.
+
+    this.handleUserInput = this.handleUserInput.bind(this);
   }
 
   handleUserInput(event) {
@@ -28,6 +30,7 @@ class AnimeCreate extends Component {
   }
 
   render() {
+    console.log('render anime create :: ', this.state);
     return (
       <div className="flex-column center-contents padding-10">
         <header>
@@ -35,7 +38,12 @@ class AnimeCreate extends Component {
           { `${this.props.isCreate ? Strings.create : Strings.edit} ${Strings.anime}` }
           </h4>
         </header>
-        <form name="animeForm" noValidate="" onSubmit={e => this.handleSubmit(e)}>
+        <form name="animeForm"
+              className="center-contents flex-column"
+              autoComplete="false"
+              noValidate=""
+              onSubmit={e => this.handleSubmit(e)}
+              >
 
           <div className="has-float-label input-container">
             <input type="text"
@@ -77,37 +85,39 @@ class AnimeCreate extends Component {
             <label>end</label>
           </div>
 
-          <RatingControl readOnly="false"
-                         name="rating"
+          <RatingControl name="rating"
                          value={this.state.rating}
                          onChange={this.handleUserInput}
           />
 
-          <div className="has-float-label input-container">
-            <label>
+          <div className="input-container">
+            <label className="flex-row">
               <input type="checkbox"
+                     className="tickbox"
                      name="owned"
-                     value={this.state.owned}
+                     checked={this.state.owned}
                      onChange={(e) => this.handleUserInput(e)}
              />
              owned
             </label>
           </div>
-          <div className="has-float-label input-container">
-            <label>
+          <div className="input-container">
+            <label className="flex-row">
               <input type="checkbox"
+                     className="tickbox"
                      name="isAdult"
-                     value={this.state.isAdult}
+                     checked={this.state.isAdult}
                      onChange={(e) => this.handleUserInput(e)}
              />
              is adult
             </label>
           </div>
-          <div className="has-float-label input-container">
-            <label>
+          <div className="input-container">
+            <label className="flex-row">
               <input type="checkbox"
+                     className="tickbox"
                      name="isRepeat"
-                     value={this.state.isRepeat}
+                     checked={this.state.isRepeat}
                      onChange={(e) => this.handleUserInput(e)}
              />
              is repeat

@@ -1,0 +1,43 @@
+$size: 15px;
+.rating-control-option {
+  position: relative;
+  height: $size;
+  width: $size;
+  margin: 1px;
+  &::before {
+    content: "\2B50";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 1.5em;
+    transform: translateY(-35%);
+  }
+  &.past::before, &.selected::before {
+    content: "\2605";
+  }
+  input[type="radio"] {
+    appearance: none;
+    height: $size;
+    width: $size;
+    margin: 0;
+    transform: translateY(25%);
+  }
+}
+
+.rating-control-option.low {
+  &.past, &.selected {
+    color: #f00;
+  }
+}
+.rating-control-option.average {
+  &.past, &.selected {
+    color: #00f;
+  }
+}
+.rating-control-option.good {
+  &.past, &.selected {
+    color: #0f0;
+  }
+}

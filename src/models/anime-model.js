@@ -2,7 +2,7 @@ class AnimeModel {
   constructor(props = this.initaliseDefaults()) {
     Object.assign(this, props);
   }
-  
+
   initaliseDefaults() {
     return {
       id: null,
@@ -11,8 +11,8 @@ class AnimeModel {
       status: 1,  // 1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned
       rating: 0,
       isAdult: false,
-      start: null,
-      end: null,
+      start: '',
+      end: '',
       /* season will be derived from data
        *  inSeason = series.start < start < series.end
        *  season = series.start.getMonth    //  [0,1,2] = Winter, [3,4,5] = Spring, [6,7,8] = Summer, [9,10,11] = Fall
@@ -42,7 +42,7 @@ class AnimeModel {
       */
     };
   }
-  
+
 }
 
 export default AnimeModel;
