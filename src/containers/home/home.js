@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Strings} from '../../constants/strings';
+import {Strings} from '../../constants/values';
 import {Paths} from '../../constants/paths';
 import './home.css';
 
