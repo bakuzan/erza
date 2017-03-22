@@ -1,7 +1,7 @@
 import { ADD_ANIME, UPDATE_ANIME } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import {Paths} from '../constants/paths'
-import {Strings} from '../constants/strings'
+import {Strings} from '../constants/values'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
