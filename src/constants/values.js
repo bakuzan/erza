@@ -1,7 +1,5 @@
-export const Strings = {
-  checkbox: 'checkbox',
-  // models
-  malAnime: {
+export const Enums = {
+  anime: {
     status: {
       ongoing: 1,
       completed: 2,
@@ -18,7 +16,11 @@ export const Strings = {
       ona: 5,
       music: 6
     }
-  },
+  }
+}
+
+export const Strings = {
+  checkbox: 'checkbox',
   // page text
   create: 'Create',
   edit: 'Edit',
