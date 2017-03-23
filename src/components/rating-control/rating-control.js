@@ -63,7 +63,7 @@ class RatingControl extends Component {
 
 RatingControl.PropTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOf(
+  value: PropTypes.oneOfType(
     PropTypes.bool,
     PropTypes.string,
     PropTypes.number
