@@ -2,9 +2,10 @@
 
 $rating-control-size: 20px;
 $rating-kpi: (
-  low: $red,
-  average: $blue,
-  good: $green
+  low: $black-smokey,
+  average: $bronze,
+  good: $silver,
+  great: $gold
 );
 
 .rating-control:not(.read-only) .rating-control-option input {
