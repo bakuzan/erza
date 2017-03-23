@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './rating-control.css';
 
 class RatingControl extends Component {
@@ -59,6 +59,16 @@ class RatingControl extends Component {
     );
   }
 
+}
+
+RatingControl.PropTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.oneOf(
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.number
+  ).isRequired,
+  onChange: PropTypes.func
 }
 
 export default RatingControl;
