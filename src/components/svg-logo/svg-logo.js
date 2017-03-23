@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import "./svg-logo.css";
 
@@ -55,6 +55,10 @@ class SvgLogo extends Component {
       </div>
     );
   }
+}
+
+SvgLogo.PropTypes = {
+  text: PropTypes.string.isRequired
 }
 
 export default SvgLogo;
