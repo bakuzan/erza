@@ -17,14 +17,14 @@ let Anime = ({ params, items }) => (
 )
 
 Anime.PropTypes = {
-  items: PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+  items: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
     console.log(propValue, key, componentName, location, propFullName);
-    if (!/matchme/.test(propValue[key])) {
-      return new Error(
-        'Invalid prop `' + propFullName + '` supplied to' +
-        ' `' + componentName + '`. Validation failed.'
-      );
-    }
+    // if (!/matchme/.test(propValue[key])) {
+    //   return new Error(
+    //     'Invalid prop `' + propFullName + '` supplied to' +
+    //     ' `' + componentName + '`. Validation failed.'
+    //   );
+    // }
   })
 }
 
@@ -39,7 +39,7 @@ const getVisibleAnime = (anime, filter) => {
     case Strings.filters.ongoing:
       return animeItems.filter(x => x.status === Enums.anime.status.ongoing);
     default:
-      throw new Error('Unknown filter: ' + filter)
+      throw new Error(`getVisibleAnime : Unknown filter type "${filter}"`)
   }
 }
 

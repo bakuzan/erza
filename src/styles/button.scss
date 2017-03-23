@@ -67,6 +67,11 @@
   }
 }
 
+a.button-link.active {
+  text-decoration: none;
+  color: $primary-colour-contrast;
+}
+
 .button-group {
   display: flex;
   justify-content: space-around;

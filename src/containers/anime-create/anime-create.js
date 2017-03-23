@@ -6,6 +6,8 @@ import { Strings } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
+import Tickbox from '../../components/tickbox/tickbox';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 
 class AnimeCreate extends Component {
 
@@ -31,6 +33,7 @@ class AnimeCreate extends Component {
 
   render() {
     console.log('render anime create :: ', this.state);
+    if (this.props.isFetching) return ( <LoadingSpinner /> );
     return (
       <div className="flex-column center-contents padding-10">
         <header>
@@ -91,44 +94,35 @@ class AnimeCreate extends Component {
           />
 
           <div className="input-container">
-            <label className="flex-row">
-              <input type="checkbox"
-                     className="tickbox"
+            <Tickbox className="tickbox"
+                     text="owned"
                      name="owned"
                      checked={this.state.owned}
-                     onChange={(e) => this.handleUserInput(e)}
+                     onChange={this.handleUserInput}
              />
-             owned
-            </label>
           </div>
           <div className="input-container">
-            <label className="flex-row">
-              <input type="checkbox"
-                     className="tickbox"
+            <Tickbox className="tickbox"
+                     text="is adult"
                      name="isAdult"
                      checked={this.state.isAdult}
-                     onChange={(e) => this.handleUserInput(e)}
-             />
-             is adult
-            </label>
+                     onChange={this.handleUserInput}
+            />
           </div>
           <div className="input-container">
-            <label className="flex-row">
-              <input type="checkbox"
-                     className="tickbox"
+            <Tickbox className="tickbox"
+                     text="is repeat"
                      name="isRepeat"
                      checked={this.state.isRepeat}
-                     onChange={(e) => this.handleUserInput(e)}
-             />
-             is repeat
-            </label>
+                     onChange={this.handleUserInput}
+            />
           </div>
 
           <div className="button-group">
             <button type="submit" className="button ripple">
             { this.props.isCreate ? Strings.create : Strings.edit }
             </button>
-            <Link to={`${Paths.base}${Paths.anime.list}`}
+            <Link to={`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`}
                   className="button-link">
             { Strings.cancel }
             </Link>
@@ -142,7 +136,8 @@ class AnimeCreate extends Component {
 
 AnimeCreate.PropTypes = {
   isCreate: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired
 };
 
 const getInitalItem = (state, params) => {
@@ -152,7 +147,8 @@ const getInitalItem = (state, params) => {
 
 const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.params.id,
-  item: getInitalItem(state.anime, ownProps.params)
+  item: getInitalItem(state.entities.anime, ownProps.params),
+  isFetching: state.isFetching
 })
 
 export default connect(
