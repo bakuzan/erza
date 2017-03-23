@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './loading-spinner.css';
 
 class LoadingSpinner extends Component {
@@ -11,6 +11,10 @@ class LoadingSpinner extends Component {
       </div>
     );
   }
+}
+
+LoadingSpinner.PropTypes = {
+  size: PropTypes.string
 }
 
 export default LoadingSpinner;
