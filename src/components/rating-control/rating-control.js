@@ -3,15 +3,16 @@ import './rating-control.css';
 
 class RatingControl extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.maximum = 10;
     this.iterator = Array(this.maximum).fill(null);
+    this.isReadOnly = !props.onChange;
   }
 
   handleChange(event) {
-    if (!this.props.onChange) return;
+    if (this.isReadOnly) return;
     const { value } = event.target;
     this.props.onChange({
       target: {
@@ -52,7 +53,7 @@ class RatingControl extends Component {
     const ratingSelectors = this.renderSelectors();
 
     return (
-      <div className="rating-control" role="radiogroup">
+      <div className={`rating-control${this.isReadOnly ? ' read-only' : ''}`} role="radiogroup">
         { ratingSelectors }
       </div>
     );
