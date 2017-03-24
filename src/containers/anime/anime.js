@@ -1,20 +1,46 @@
-import React, {PropTypes} from 'react'
+import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import ListFilter from '../../components/list-filter/list-filter'
 import AnimeList from '../../components/anime-list/anime-list'
 import {Strings, Enums} from '../../constants/values'
 
-let Anime = ({ params, items }) => (
-  <div>
-    <ListFilter />
-    {
-      items && !!items.length &&
-      <AnimeList
-          items={items}
-      />
-    }
-  </div>
-)
+class Anime extends Component {
+  
+  constructor() {
+    super();
+    this.state = {
+      search: ''
+    };
+    
+    this.handleUserInput = this.handleUserInput.bind(this);
+  }
+  
+  handleUserInput(event) {
+    const { name, type, value, checked } = event.target;
+    const newValue = type === Strings.checkbox ? checked : value;
+    this.setState({ [name]: newValue });
+  }
+  
+  render() {
+    const items = this.props.items.filter(x => x.title.indexOf(this.state.search) > -1);
+    
+    return (
+      <div>
+        <ListFilter
+            search={this.state.search}
+            onChange={this.handleUserInput}
+        />
+        {
+          items && !!items.length &&
+          <AnimeList
+              items={items}
+          />
+        }
+      </div>
+    );
+  }
+  
+}
 
 Anime.PropTypes = {
   items: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
@@ -51,8 +77,6 @@ const mapStateToProps = (state, ownProps) => ({
 //   onTodoClick: toggleTodo
 // })
 
-Anime = connect(
+export default connect(
   mapStateToProps
 )(Anime)
-
-export default Anime
