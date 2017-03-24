@@ -33,7 +33,7 @@ class AnimeCreate extends Component {
 
   render() {
     console.log('render anime create :: ', this.state);
-    if (this.props.isFetching) return ( <LoadingSpinner /> );
+    if (this.props.isFetching) return ( <LoadingSpinner size="fullscreen" /> );
     return (
       <div className="flex-column center-contents padding-10">
         <header>
