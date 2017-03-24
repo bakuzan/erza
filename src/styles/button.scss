@@ -78,3 +78,8 @@ a.button-link.active {
   padding: 5px;
   margin: 5px 0;
 }
+
+form .button-group {
+  width: 100%;
+  justify-content: flex-end;
+}
