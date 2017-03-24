@@ -44,9 +44,17 @@ $rating-kpi: (
 }
 
 @each $level, $colour in $rating-kpi {
+  
+  .rating-control-option.#{$level}:hover {
+    input::before {
+      color: $colour;
+    }
+  }
+  
   .rating-control-option.#{$level} {
     &.past input::before, &.selected input::before {
       color: $colour;
     }
   } 
+  
 }
