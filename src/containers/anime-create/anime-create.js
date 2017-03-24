@@ -93,30 +93,24 @@ class AnimeCreate extends Component {
                          onChange={this.handleUserInput}
           />
 
-          <div className="input-container">
-            <Tickbox className="tickbox"
-                     text="owned"
-                     name="owned"
-                     checked={this.state.owned}
-                     onChange={this.handleUserInput}
-             />
-          </div>
-          <div className="input-container">
-            <Tickbox className="tickbox"
-                     text="is adult"
-                     name="isAdult"
-                     checked={this.state.isAdult}
-                     onChange={this.handleUserInput}
-            />
-          </div>
-          <div className="input-container">
-            <Tickbox className="tickbox"
-                     text="is repeat"
-                     name="isRepeat"
-                     checked={this.state.isRepeat}
-                     onChange={this.handleUserInput}
-            />
-          </div>
+          <Tickbox className="tickbox"
+                   text="owned"
+                   name="owned"
+                   checked={this.state.owned}
+                   onChange={this.handleUserInput}
+           />
+          <Tickbox className="tickbox"
+                   text="is adult"
+                   name="isAdult"
+                   checked={this.state.isAdult}
+                   onChange={this.handleUserInput}
+          />
+          <Tickbox className="tickbox"
+                   text="is repeat"
+                   name="isRepeat"
+                   checked={this.state.isRepeat}
+                   onChange={this.handleUserInput}
+          />
 
           <div className="button-group">
             <button type="submit" className="button ripple">
