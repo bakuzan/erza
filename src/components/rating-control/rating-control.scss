@@ -8,9 +8,11 @@ $rating-kpi: (
   great: $gold
 );
 
-.rating-control:not(.read-only) .rating-control-option input {
-  cursor: pointer;
+.rating-control {
+  display: flex;
+  padding: 5px;
 }
+
 .rating-control-option {
   height: $rating-control-size;
   width: $rating-control-size;
@@ -23,13 +25,17 @@ $rating-kpi: (
     &::before {
       content: "\2B50";
       position: absolute;
-      top: 0;
+      top: -5px;
       bottom: 0;
       left: 0;
       right: 0;
       font-size: 1.5em;
     }
   }
+}
+
+.rating-control:not(.read-only) .rating-control-option input {
+  cursor: pointer;
 }
 
 .rating-control-option.past input::before, 
