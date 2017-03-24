@@ -9,12 +9,16 @@ const ALL_FILTER = `${FILTER_BASE}${Strings.filters.all}`;
 const COMPLETED_FILTER = `${FILTER_BASE}${Strings.filters.completed}`;
 const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
 
-const ListFilter = () => (
+const ListFilter = ({ search, onChange }) => (
   <div className="list-filter">
     <div className="has-float-label input-container">
       <input type="text"
+             name="search"
              placeholder="search"
+             value={search}
+             onChange={onChange}
              autoFocus
+             autoComplete="false"
       />
       <label>search</label>
     </div>
