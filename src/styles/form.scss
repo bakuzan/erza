@@ -2,6 +2,10 @@
 @import "./partials/_mixins";
 
 // Input
+form .input-container {
+  width: 100%;
+}
+
 .input-container {
   padding: 5px;
 
