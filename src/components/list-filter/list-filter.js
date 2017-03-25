@@ -9,7 +9,7 @@ const ALL_FILTER = `${FILTER_BASE}${Strings.filters.all}`;
 const COMPLETED_FILTER = `${FILTER_BASE}${Strings.filters.completed}`;
 const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
 
-const ListFilter = ({ search, onChange }) => (
+const ListFilter = ({ search, onChange, sortOrder, sortOrderToggle, sortKey, sortKeyChange }) => (
   <div className="list-filter">
     <div className="has-float-label input-container">
       <input type="text"
@@ -32,6 +32,45 @@ const ListFilter = ({ search, onChange }) => (
       <FilterLink filter={ONGOING_FILTER}>
       { Strings.filters.ongoing }
       </FilterLink>
+    </div>
+    <div>
+      <label>
+        <input type="radio"
+               name="sortOrder"
+               value={Strings.ascending}
+               checked={sortOrder === Strings.ascending}
+               onChange={(e) => sortOrderToggle(e)}
+         />
+         <span>{ Strings.ascending }</span>
+      </label>
+      <label>
+        <input type="radio"
+               name="sortOrder"
+               value={Strings.descending}
+               checked={sortOrder === Strings.descending}
+               onChange={(e) => sortOrderToggle(e)}
+         />
+         <span>{ Strings.descending }</span>
+      </label>
+    </div>
+    <div>
+      <select name="sortKey"
+              selected={sortKey}
+              onChange={(e) => sortKeyChange(e)}
+      >
+        {
+          [
+            { text: 'Title', value: 'title' },
+            { text: 'Update date', value: 'updateDate' }
+          ].map(item => {
+            return (
+              <option key={item.value} value={item.value}>
+                { item.text }
+              </option>
+            );
+          })
+        }
+      </select>
     </div>
   </div>
 )

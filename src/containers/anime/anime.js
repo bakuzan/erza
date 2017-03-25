@@ -2,33 +2,39 @@ import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import ListFilter from '../../components/list-filter/list-filter'
 import AnimeList from '../../components/anime-list/anime-list'
+import {toggleSortOrder, setSortKey} from '../../actions/list-settings'
 import {Strings, Enums} from '../../constants/values'
 
 class Anime extends Component {
-  
+
   constructor() {
     super();
     this.state = {
       search: ''
     };
-    
+
     this.handleUserInput = this.handleUserInput.bind(this);
   }
-  
+
   handleUserInput(event) {
     const { name, type, value, checked } = event.target;
     const newValue = type === Strings.checkbox ? checked : value;
     this.setState({ [name]: newValue });
   }
-  
+
   render() {
-    const items = this.props.items.filter(x => x.title.indexOf(this.state.search) > -1);
-    
+    const searchString = this.state.search.toLowerCase();
+    const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1);
+
     return (
-      <div>
+      <div className="flex-row">
         <ListFilter
             search={this.state.search}
             onChange={this.handleUserInput}
+            sortOrder={this.props.sortOrder}
+            sortOrderToggle={this.props.onSortOrderToggle}
+            sortKey={this.props.sortKey}
+            sortKeyChange={this.props.onChangeSortKey}
         />
         {
           items && !!items.length &&
@@ -39,19 +45,13 @@ class Anime extends Component {
       </div>
     );
   }
-  
+
 }
 
 Anime.PropTypes = {
-  items: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
-    console.log(propValue, key, componentName, location, propFullName);
-    // if (!/matchme/.test(propValue[key])) {
-    //   return new Error(
-    //     'Invalid prop `' + propFullName + '` supplied to' +
-    //     ' `' + componentName + '`. Validation failed.'
-    //   );
-    // }
-  })
+  items: PropTypes.arrayOf(PropTypes.object),
+  sortOrder: PropTypes.string.isRequired,
+  sortKey: PropTypes.string.isRequired
 }
 
 const getVisibleAnime = (anime, filter) => {
@@ -69,14 +69,26 @@ const getVisibleAnime = (anime, filter) => {
   }
 }
 
+const sortVisibleAnime = ({ sortOrder, sortKey }, items) => {
+  return items.sort((a, b) => {
+    if (a[sortKey] < b[sortKey]) return sortOrder === Strings.ascending ? -1 : 1;
+    if (a[sortKey] > b[sortKey]) return sortOrder === Strings.ascending ? 1 : -1;
+    return 0;
+  })
+}
+
 const mapStateToProps = (state, ownProps) => ({
-  items: getVisibleAnime(state.entities.anime, ownProps.params.filter)
+  items: sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
+  sortOrder: state.sorting.sortOrder,
+  sortKey: state.sorting.sortKey
 })
 
-// const mapDispatchToProps = ({
-//   onTodoClick: toggleTodo
-// })
+const mapDispatchToProps = ({
+  onSortOrderToggle: toggleSortOrder,
+  onChangeSortKey: setSortKey
+})
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Anime)

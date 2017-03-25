@@ -37,8 +37,8 @@ class AnimeModel {
         end: null,
       }
       /* Meta-data handled exclusively on the server.
-        created:
-        updated:
+        createdDate:
+        updatedDate:
       */
     };
   }

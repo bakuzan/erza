@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 import anime from './anime'
-import {isFetching} from './general-ui'
+import {isFetching} from './loading'
+import {sorting} from './sorting'
 
 const entities = combineReducers({
   anime
@@ -10,7 +11,8 @@ const entities = combineReducers({
 const rootReducer = combineReducers({
   routing,
   entities,
-  isFetching
+  isFetching,
+  sorting
 })
 
 export default rootReducer
