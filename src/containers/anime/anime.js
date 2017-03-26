@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import ListFilter from '../../components/list-filter/list-filter'
-import AnimeList from '../../components/anime-list/anime-list'
-import {toggleSortOrder, setSortKey} from '../../actions/list-settings'
+import ListFilter from '../../containers/list-filter/list-filter'
+import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
 
 class Anime extends Component {
@@ -32,16 +31,11 @@ class Anime extends Component {
             search={this.state.search}
             onChange={this.handleUserInput}
             sortOrder={this.props.sortOrder}
-            sortOrderToggle={this.props.onSortOrderToggle}
             sortKey={this.props.sortKey}
-            sortKeyChange={this.props.onChangeSortKey}
         />
-        {
-          items && !!items.length &&
-          <AnimeList
-              items={items}
-          />
-        }
+        <PagedAnimeList
+            items={items}
+         />
       </div>
     );
   }
@@ -83,12 +77,6 @@ const mapStateToProps = (state, ownProps) => ({
   sortKey: state.sorting.sortKey
 })
 
-const mapDispatchToProps = ({
-  onSortOrderToggle: toggleSortOrder,
-  onChangeSortKey: setSortKey
-})
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Anime)

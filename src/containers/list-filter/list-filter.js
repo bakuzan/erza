@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import FilterLink from '../../containers/filter-link/filter-link'
-import {toggleSortOrder, setSortKey} from '../../actions/list-settings'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
 import './list-filter.css'
@@ -11,7 +9,7 @@ const ALL_FILTER = `${FILTER_BASE}${Strings.filters.all}`;
 const COMPLETED_FILTER = `${FILTER_BASE}${Strings.filters.completed}`;
 const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
 
-const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
+const ListFilter = ({ search, onChange, sortOrder, sortOrderToggle, sortKey, sortKeyChange }) => (
   <div className="list-filter">
 
     <div className="has-float-label input-container">
@@ -42,7 +40,7 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
       <select className="select-box"
               name="sortKey"
               selected={sortKey}
-              onChange={(e) => onChangeSortKey(e)}
+              onChange={(e) => sortKeyChange(e)}
       >
         {
           [
@@ -65,7 +63,7 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
                name="sortOrder"
                value={Strings.ascending}
                checked={sortOrder === Strings.ascending}
-               onChange={(e) => onSortOrderToggle(e)}
+               onChange={(e) => sortOrderToggle(e)}
          />
          <span>{ Strings.ascending }</span>
       </label>
@@ -74,7 +72,7 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
                name="sortOrder"
                value={Strings.descending}
                checked={sortOrder === Strings.descending}
-               onChange={(e) => onSortOrderToggle(e)}
+               onChange={(e) => sortOrderToggle(e)}
          />
          <span>{ Strings.descending }</span>
       </label>
@@ -83,11 +81,4 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
   </div>
 )
 
-const mapDispatchToProps = ({
-  onSortOrderToggle: toggleSortOrder,
-  onChangeSortKey: setSortKey
-})
-
-export default connect(
-  mapDispatchToProps
-)(ListFilter)
+export default ListFilter
