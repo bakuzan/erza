@@ -1,5 +1,8 @@
-import React from 'react'
-import FilterLink from '../../containers/filter-link/filter-link'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+import FilterLink from '../filter-link/filter-link'
+import RadioButton from '../../components/radio-button/radio-button'
+import {toggleSortOrder, setSortKey} from '../../actions/list-settings'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
 import './list-filter.css'
@@ -9,7 +12,7 @@ const ALL_FILTER = `${FILTER_BASE}${Strings.filters.all}`;
 const COMPLETED_FILTER = `${FILTER_BASE}${Strings.filters.completed}`;
 const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
 
-const ListFilter = ({ search, onChange, sortOrder, sortOrderToggle, sortKey, sortKeyChange }) => (
+const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
   <div className="list-filter">
 
     <div className="has-float-label input-container">
@@ -40,7 +43,7 @@ const ListFilter = ({ search, onChange, sortOrder, sortOrderToggle, sortKey, sor
       <select className="select-box"
               name="sortKey"
               selected={sortKey}
-              onChange={(e) => sortKeyChange(e)}
+              onChange={(e) => onChangeSortKey(e)}
       >
         {
           [
@@ -58,27 +61,39 @@ const ListFilter = ({ search, onChange, sortOrder, sortOrderToggle, sortKey, sor
       <label>sort on</label>
     </div>
     <div className="radio-group" role="radiogroup">
-      <label>
-        <input type="radio"
-               name="sortOrder"
-               value={Strings.ascending}
-               checked={sortOrder === Strings.ascending}
-               onChange={(e) => sortOrderToggle(e)}
-         />
-         <span>{ Strings.ascending }</span>
-      </label>
-      <label>
-        <input type="radio"
-               name="sortOrder"
-               value={Strings.descending}
-               checked={sortOrder === Strings.descending}
-               onChange={(e) => sortOrderToggle(e)}
-         />
-         <span>{ Strings.descending }</span>
-      </label>
+      <RadioButton 
+        name="sortOrder"
+        label={Strings.ascending}
+        value={Strings.ascending}
+        checked={sortOrder === Strings.ascending}
+        onChange={(e) => onSortOrderToggle(e)}
+      />
+      <RadioButton 
+        name="sortOrder"
+        label={Strings.descending}
+        value={Strings.descending}
+        checked={sortOrder === Strings.descending}
+        onChange={(e) => onSortOrderToggle(e)}
+      />
     </div>
 
   </div>
 )
 
-export default ListFilter
+ListFilter.PropTypes = {
+  search: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  onSortOrderToggle: PropTypes.func.isRequired,
+  sortKey: PropTypes.string.isRequired,
+  onChangeSortKey: PropTypes.func.isRequired
+}
+
+const mapDispatchToProps = ({
+  onSortOrderToggle: toggleSortOrder,
+  onChangeSortKey: setSortKey
+})
+
+export default connect(
+  mapDispatchToProps
+)(ListFilter)
