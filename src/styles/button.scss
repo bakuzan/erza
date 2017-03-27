@@ -77,6 +77,11 @@ a.button-link.active {
   justify-content: space-around;
   padding: 5px;
   margin: 5px 0;
+
+  &.centered {
+    justify-content: center;
+  }
+
 }
 
 form .button-group {

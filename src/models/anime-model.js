@@ -23,9 +23,11 @@ class AnimeModel {
           year: 0
         },
       */
-      tags: Array(0), // Array of Tag id's
+      history: Array(0), // Array of episode history id's
+      tags: Array(0),    // Array of Tag id's
       owned: false,
       image: '',
+      link: '',
       isRepeat: false,   // is rewatching
       timesCompleted: 0, // number of re-watches
       malId: null,

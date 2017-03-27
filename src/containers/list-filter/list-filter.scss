@@ -1,5 +1,7 @@
-// Temporary to keep filters from spreading.
+
 .list-filter {
-  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 20%;
   padding: 20px 5px;
 }

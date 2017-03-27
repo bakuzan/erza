@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react'
 import './radio-button.css'
 
-const RadioButton = ({ name, label, value, checked, onSelect }) = (
-  <label 
+const RadioButton = ({ name, label, value, checked, onSelect }) => (
+  <label
     className="radio"
     role="radio"
     >
-    <input 
+    <input
       type="radio"
       name={name}
       value={value}
@@ -16,5 +16,17 @@ const RadioButton = ({ name, label, value, checked, onSelect }) = (
     <span>{ label }</span>
   </label>
 )
+
+RadioButton.PropTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.number
+  ]).isRequired,
+  checked: PropTypes.bool.isRequired,
+  onSelect: PropTypes.func.isRequired
+}
 
 export default RadioButton

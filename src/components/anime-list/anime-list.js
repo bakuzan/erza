@@ -14,7 +14,10 @@ const AnimeList = ({ items }) => {
         ) :
         items.map(item => (
           <li key={item.id} className="anime-item">
-            { item.title }
+            <time dateTime={item.updatedDate}>{ item.updatedDate }</time>
+            <h4>
+              { item.title }
+            </h4>
             <Link to={`${Paths.base}${Paths.anime.edit}${item.id}`}>
               Edit
             </Link>

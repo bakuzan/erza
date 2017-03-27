@@ -48,7 +48,7 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
         {
           [
             { text: 'Title', value: 'title' },
-            { text: 'Update date', value: 'updateDate' }
+            { text: 'Updated date', value: 'updatedDate' }
           ].map(item => {
             return (
               <option key={item.value} value={item.value}>
@@ -61,19 +61,19 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
       <label>sort on</label>
     </div>
     <div className="radio-group" role="radiogroup">
-      <RadioButton 
+      <RadioButton
         name="sortOrder"
         label={Strings.ascending}
         value={Strings.ascending}
         checked={sortOrder === Strings.ascending}
-        onChange={(e) => onSortOrderToggle(e)}
+        onSelect={(e) => onSortOrderToggle(e)}
       />
-      <RadioButton 
+      <RadioButton
         name="sortOrder"
         label={Strings.descending}
         value={Strings.descending}
         checked={sortOrder === Strings.descending}
-        onChange={(e) => onSortOrderToggle(e)}
+        onSelect={(e) => onSortOrderToggle(e)}
       />
     </div>
 
@@ -89,11 +89,17 @@ ListFilter.PropTypes = {
   onChangeSortKey: PropTypes.func.isRequired
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  sortKey: state.sorting.sortKey,
+  sortOrder: state.sorting.sortOrder
+})
+
 const mapDispatchToProps = ({
   onSortOrderToggle: toggleSortOrder,
   onChangeSortKey: setSortKey
 })
 
 export default connect(
+  mapStateToProps,
   mapDispatchToProps
 )(ListFilter)

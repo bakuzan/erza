@@ -1,4 +1,16 @@
 .anime-list {
+  // display: flex;
+  // flex-direction: column;
+  // flex: 1 1 80%;
+  width: 75%;
+  min-width: 50%;
   padding: 5px;
+  margin: 1em auto;
   list-style-type: none;
+}
+
+.anime-item {
+  display: flex;
+  flex: 1 0 100%;
+  padding: 2px;
 }

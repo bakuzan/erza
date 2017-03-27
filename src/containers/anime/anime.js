@@ -30,8 +30,6 @@ class Anime extends Component {
         <ListFilter
             search={this.state.search}
             onChange={this.handleUserInput}
-            sortOrder={this.props.sortOrder}
-            sortKey={this.props.sortKey}
         />
         <PagedAnimeList
             items={items}

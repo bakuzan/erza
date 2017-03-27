@@ -8,37 +8,37 @@ const testObj = {
     id: 0,
     title: 'abc',
     status: 1,
-    updateDate: new Date(2017, 0, 1).toISOString()
+    updatedDate: new Date(2017, 0, 1).toISOString()
   },
   1: {
     id: 1,
     title: 'zab',
     status: 1,
-    updateDate: new Date(2017, 2, 25).toISOString()
+    updatedDate: new Date(2017, 2, 25).toISOString()
   },
   2: {
     id: 2,
     title: 'mno',
     status: 1,
-    updateDate: new Date(2013, 0, 1).toISOString()
+    updatedDate: new Date(2013, 0, 1).toISOString()
   },
   3: {
     id: 3,
     title: 'xyz',
     status: 1,
-    updateDate: new Date(2014, 10, 21).toISOString()
+    updatedDate: new Date(2014, 10, 21).toISOString()
   },
   4: {
     id: 4,
     title: 'jkl',
     status: 1,
-    updateDate: new Date(2016, 11, 31).toISOString()
+    updatedDate: new Date(2016, 11, 31).toISOString()
   },
   5: {
     id: 5,
     title: 'rst',
     status: 1,
-    updateDate: new Date(2015, 4, 4).toISOString()
+    updatedDate: new Date(2015, 4, 4).toISOString()
   },
 }
 // test

@@ -39,17 +39,22 @@ $bronze: #cc6633;
 
 // Usages
 
-// Themes start
-$theme-one-base-background: $white;
-$theme-one-base-colour: $black;
-$theme-one-colour: $erza-red;
-$theme-one-contrast: $erza-silver;
-
-$theme-two-base-background: $black-red;
-$theme-two-base-colour: $white;
-$theme-two-colour: $erza-red-highlight;
-$theme-two-contrast: $erza-silver-shade;
-// Themes end
+// Super theme maps!
+$theme-maps: (
+  theme-one: (
+    base-background: $white,
+    base-colour: $black,
+    colour: $erza-red,
+    contrast: $erza-silver
+  ),
+  theme-two: (
+    base-background: $black-red,
+    base-colour: $white,
+    colour: $erza-red-highlight,
+    contrast: $erza-silver-shade
+  )
+);
+// Super theme maps end!
 
 $primary-background: $erza-red;
 $primary-colour: $erza-red;

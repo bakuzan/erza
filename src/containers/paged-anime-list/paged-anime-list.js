@@ -23,9 +23,9 @@ class PagedAnimeList extends Component {
     const pagedItems = this.selectPageOfItems(paging, items);
 
     return (
-      <div>
-        <div>
-          <div className="button-group">
+      <div className="flex-column flex-grow">
+        <div className="flex-row">
+          <div className="button-group centered flex-grow">
             <button type="button"
                     className="button ripple"
                     onClick={goBackAPage}
