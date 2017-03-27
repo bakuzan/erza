@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import AnimeList from '../../components/anime-list/anime-list'
 import {nextPage, prevPage, setItemsPerPage} from '../../actions/list-settings'
@@ -41,7 +41,7 @@ class PagedAnimeList extends Component {
             Next
             </button>
           </div>
-          <div className="has-float-label input-container">
+          <div className="has-float-label select-container">
             <select className="select-box"
                     name="itemsPerPage"
                     selected={paging.itemsPerPage}
@@ -67,6 +67,14 @@ class PagedAnimeList extends Component {
     );
   }
 
+}
+
+PagedAnimeList.PropTypes = {
+  changeItemsPerPage: PropTypes.func.isRequired,
+  goForwardAPage: PropTypes.func.isRequired,
+  goBackAPage: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  paging: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
