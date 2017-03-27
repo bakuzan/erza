@@ -36,7 +36,7 @@ const ListFilter = ({ search, onChange, sortOrder, sortOrderToggle, sortKey, sor
       </FilterLink>
     </div>
 
-    <div className="has-float-label input-container">
+    <div className="has-float-label select-container">
       <select className="select-box"
               name="sortKey"
               selected={sortKey}
