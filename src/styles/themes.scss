@@ -1,4 +1,10 @@
 @import "./partials/_colours";
+@import "./partials/_mixins";
+
+
+@mixin shiftColourLightness($colour, $percentage) {
+  @include lightenOrDarken("background-color", $colour, $percentage);
+}
 
 @each $name, $values in $theme-maps {
   $base-background: map-get($values, base-background);
@@ -10,12 +16,37 @@
     background: $base-background;
     color: $base-colour;
 
-    .input-container {
+    .input-container {     
       input {
-        border-bottom-color: $base-colour;
+        background-color: inherit;
+        color: $colour;
+        &:focus {
+          border-bottom-color: $colour;
+        }     
+      }
+      
+      .tickbox input::before {
+        color: $contrast;
+      }
+      .tickbox input:checked::before {
+        color: $colour;
+      }      
+    }
+    
+    .rating-control {
+      .rating-control-option input[type="radio"] {
+        color: $contrast;
+      }
+    }
+    
+    .button {
+      background-color: $base-background;
+      color: $base-colour;
+      &:hover {
+        @include shiftColourLightness($base-background, $darken-amount);
       }
     }
 
-  }
+  } // End of Theme block
 
-}
+} // End of @each
