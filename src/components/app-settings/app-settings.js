@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './app-settings.css'
 
 class AppSettings extends Component {
   
