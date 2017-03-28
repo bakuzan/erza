@@ -10,40 +10,74 @@
   $base-colour: map-get($values, base-colour);
   $colour: map-get($values, colour);
   $contrast: map-get($values, contrast);
+  $anchor-colour: map-get($values, anchor-colour);
+  $anchor-colour-hover: map-get($values, anchor-colour-hover);
 
   .#{$name} {
     background: $base-background;
     color: $base-colour;
 
-    .input-container {     
-      input {
+    // Generic components
+    .input-container, .select-container {
+      input, select {
         background-color: inherit;
         color: $base-colour;
         &:focus {
           border-bottom-color: $colour;
-        }     
+        }
       }
-      
+
       .tickbox input::before {
         color: $contrast;
       }
       .tickbox input:checked::before {
         color: $colour;
-      }      
+      }
     }
-    
+
     .rating-control {
       .rating-control-option input[type="radio"] {
         color: $contrast;
       }
     }
-    
+
     .button {
       background-color: $base-background;
       color: $base-colour;
       &:hover {
         @include shiftColourLightness($base-background, $darken-amount);
       }
+    }
+    .button-link {
+      color: $anchor-colour;
+      &:focus, &:active, &:visited {
+        color: $anchor-colour;
+      }
+      &:hover {
+       color: $anchor-colour-hover;
+      }
+    }
+
+    .radio input[type="radio"]:checked::after {
+      color: $colour;
+    }
+    .radio input[type="radio"]::after {
+      color: $contrast;
+    }
+
+    .dropdown-menu {
+    	background-color: $base-background;
+      box-shadow: 2px 2px 10px $contrast;
+      .dropdown-arrow {
+        border-bottom-color: $base-background; //20px solid $base-background;
+        -webkit-filter: drop-shadow(0 -2px 2px $contrast);
+      }
+    }
+
+    // Unique UI elements
+    .application-header, .site-map-list .group-title {
+      background-color: $colour;
+      color: $contrast;
     }
 
   } // End of Theme block

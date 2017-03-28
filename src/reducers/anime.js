@@ -7,7 +7,7 @@ const testObj = {
   0: {
     id: 0,
     title: 'abc',
-    status: 1,
+    status: 2,
     updatedDate: new Date(2017, 0, 1).toISOString()
   },
   1: {
@@ -44,6 +44,7 @@ const testObj = {
 // test
 
 const updateById = (state, action) => {
+  console.log('by id : ', state, action);
   return update(state, {
     byId: {
       [action.item.id]: { $set: action.item }

@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/index'
-import { Strings } from '../../constants/values'
+import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
+import { capitalise } from '../../utils/common'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
@@ -86,6 +87,23 @@ class AnimeCreate extends Component {
                    onChange={(e) => this.handleUserInput(e)}
              />
             <label>end</label>
+          </div>
+
+          <div className="has-float-label select-container">
+            <select className="select-box"
+                    name="status"
+                    selected={this.state.status}
+                    onChange={(e) => this.handleUserInput(e)}
+                    >
+            {
+              Object.keys(Enums.anime.status).map(item => (
+                <option key={item}
+                        value={Enums.anime.status[item]}>
+                { capitalise(item) }
+                </option>
+              ))
+            }
+            </select>
           </div>
 
           <RatingControl name="rating"

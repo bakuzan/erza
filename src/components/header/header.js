@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SvgLogo from '../svg-logo/svg-logo.js';
+import AppSettings from '../app-settings/app-settings';
 import { Link } from 'react-router';
 import { Paths } from '../../constants/paths';
 import './header.css';
@@ -22,6 +23,7 @@ class Header extends Component {
         <h1>ERZA</h1>
         <div id="navigation-links">
           <div className="flex-right">
+            <AppSettings />
           </div>
         </div>
       </nav>

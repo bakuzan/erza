@@ -45,13 +45,17 @@ $theme-maps: (
     base-background: $white,
     base-colour: $black,
     colour: $erza-red,
-    contrast: $erza-silver-shade
+    contrast: $erza-silver-shade,
+    anchor-colour: $erza-red-highlight,
+    anchor-colour-hover: $erza-silver
   ),
   theme-two: (
     base-background: $black-red,
     base-colour: $white,
     colour: $erza-red-highlight,
-    contrast: $erza-silver
+    contrast: $erza-silver,
+    anchor-colour: $erza-red,
+    anchor-colour-hover: $erza-silver-shade
   )
 );
 // Super theme maps end!

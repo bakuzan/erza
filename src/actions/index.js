@@ -50,11 +50,10 @@ export const editAnime = (item) => {
   console.log(item);
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    dispatch(updateAnime(item)).then(response => {
-      setTimeout(() => {
-        dispatch(finishAnimeRequest());
-        return redirectPostAction();
-      }, 1000)
-    });
+    dispatch(updateAnime(item));
+    setTimeout(() => {
+      dispatch(finishAnimeRequest());
+      return redirectPostAction();
+    }, 1000)
   }
 }
