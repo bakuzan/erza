@@ -1,7 +1,6 @@
 @import "./partials/_colours";
 @import "./partials/_mixins";
 
-
 @mixin shiftColourLightness($colour, $percentage) {
   @include lightenOrDarken("background-color", $colour, $percentage);
 }
@@ -19,7 +18,7 @@
     .input-container {     
       input {
         background-color: inherit;
-        color: $colour;
+        color: $base-colour;
         &:focus {
           border-bottom-color: $colour;
         }     
