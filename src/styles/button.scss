@@ -72,6 +72,23 @@ a.button-link.active {
   color: $primary-colour-contrast;
 }
 
+
+.button-icon {
+  display: flex;
+  flex: 0 1 0%;
+  justify-content: center;
+  align-items: center;
+  background: inherit;
+  color: inherit;
+  appearance: none;
+  border: none;
+  &:before {
+    content: attr(icon);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
 .button-group {
   display: flex;
   justify-content: space-around;
