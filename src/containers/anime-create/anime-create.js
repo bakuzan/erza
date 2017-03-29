@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/index'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
-import { capitalise } from '../../utils/common'
+import { capitalise, getEventValue } from '../../utils/common'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
@@ -19,10 +19,9 @@ class AnimeCreate extends Component {
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
-  handleUserInput(event) {
-    const { name, type, value, checked } = event.target;
-    const updatedValue = type === Strings.checkbox ? checked : value;
-    this.setState({ [name]: updatedValue });
+  handleUserInput({ target }) {
+    const updatedValue = getEventValue(target);
+    this.setState({ [target.name]: updatedValue });
   }
 
   handleSubmit(event) {
@@ -92,7 +91,7 @@ class AnimeCreate extends Component {
           <div className="has-float-label select-container">
             <select className="select-box"
                     name="status"
-                    selected={this.state.status}
+                    value={this.state.status}
                     onChange={(e) => this.handleUserInput(e)}
                     >
             {
