@@ -42,7 +42,7 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
     <div className="has-float-label select-container">
       <select className="select-box"
               name="sortKey"
-              selected={sortKey}
+              value={sortKey}
               onChange={(e) => onChangeSortKey(e)}
       >
         {
