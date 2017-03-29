@@ -1,3 +1,5 @@
+@import "../../styles/partials/_variables";
+
 .tickbox {
   display: flex;
   justify-content: flex-start;
@@ -21,6 +23,8 @@
 .tickbox input:checked:before {
   color: #000;
   transition: all 0.3s;
+  cursor: pointer;
+  z-index: map-get($z-index, wafer);
 }
 
 .tickbox input:before {
