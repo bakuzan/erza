@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
+import {getEventValue} from '../../utils/common'
 
 class Anime extends Component {
 
@@ -15,10 +16,9 @@ class Anime extends Component {
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
-  handleUserInput(event) {
-    const { name, type, value, checked } = event.target;
-    const newValue = type === Strings.checkbox ? checked : value;
-    this.setState({ [name]: newValue });
+  handleUserInput({ target }) {
+    const newValue = getEventValue(target);
+    this.setState({ [target.name]: newValue });
   }
 
   render() {
