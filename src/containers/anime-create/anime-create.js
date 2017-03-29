@@ -5,6 +5,7 @@ import { createAnime, editAnime } from '../../actions/index'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import { capitalise, getEventValue } from '../../utils/common'
+import ValidationUtil from '../../utils/validation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
@@ -21,7 +22,10 @@ class AnimeCreate extends Component {
 
   handleUserInput({ target }) {
     const updatedValue = getEventValue(target);
-    this.setState({ [target.name]: updatedValue });
+    this.setState((prevState) => {
+      const updatedState = Object.assign({}, prevState, { [target.name]: updatedValue });
+      return ValidationUtil.validateAnimeModel(updatedState);
+    });
   }
 
   handleSubmit(event) {
@@ -54,6 +58,7 @@ class AnimeCreate extends Component {
                    value={this.state.title}
                    placeholder="title"
                    autoFocus
+                   autoComplete="false"
                    onChange={(e) => this.handleUserInput(e)}
              />
             <label>title</label>
@@ -63,6 +68,7 @@ class AnimeCreate extends Component {
                    name="episode"
                    value={this.state.episode}
                    min="0"
+                   max={this.state.series.episodes}
                    placeholder="episode"
                    onChange={(e) => this.handleUserInput(e)}
              />
@@ -73,6 +79,7 @@ class AnimeCreate extends Component {
             <input type="date"
                    name="start"
                    value={this.state.start}
+                   max={this.state.end}
                    placeholder="start"
                    onChange={(e) => this.handleUserInput(e)}
              />
@@ -82,8 +89,10 @@ class AnimeCreate extends Component {
             <input type="date"
                    name="end"
                    value={this.state.end}
+                   min={this.state.start}
                    placeholder="end"
                    onChange={(e) => this.handleUserInput(e)}
+                   disabled={this.state.status !== Enums.anime.status.completed}
              />
             <label>end</label>
           </div>
@@ -103,6 +112,7 @@ class AnimeCreate extends Component {
               ))
             }
             </select>
+            <label>status</label>
           </div>
 
           <RatingControl name="rating"

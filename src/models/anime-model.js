@@ -4,6 +4,7 @@ class AnimeModel {
   }
 
   initaliseDefaults() {
+    const now = new Date().toISOString().split('T')[0];
     return {
       id: null,
       title: '',
@@ -11,7 +12,7 @@ class AnimeModel {
       status: 1,  // 1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned
       rating: 0,
       isAdult: false,
-      start: '',
+      start: now,
       end: '',
       /* season will be derived from data
        *  inSeason = series.start < start < series.end

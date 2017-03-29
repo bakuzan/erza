@@ -22,6 +22,7 @@ export const Enums = {
 export const Strings = {
   checkbox: 'checkbox',
   selectbox: 'select-one',
+  date: 'date',
   ascending: 'ASC',
   descending: 'DESC',
   // page text
