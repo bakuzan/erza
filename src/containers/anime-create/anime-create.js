@@ -74,7 +74,7 @@ class AnimeCreate extends Component {
                    name="episode"
                    value={this.state.episode}
                    min="0"
-                   max={this.state.series.episodes}
+                   max={this.state.series_episodes}
                    placeholder="episode"
                    onChange={(e) => this.handleUserInput(e)}
              />
