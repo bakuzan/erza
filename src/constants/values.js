@@ -25,6 +25,8 @@ export const Strings = {
   selectbox: 'select-one',
   date: 'date',
   text: 'text',
+  // properties
+  isRepeat: 'isRepeat',
   // directions
   ascending: 'ASC',
   descending: 'DESC',

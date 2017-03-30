@@ -3,11 +3,14 @@
 
 .application-header {
   position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   height: 50px;
   width: 100%;
   background-color: $primary-background;
   color: $primary-colour-contrast;
-  padding: 5px;
+  // padding: 5px;
   z-index: map-get($z-index, header);
 }
 
@@ -18,10 +21,7 @@
   cursor: pointer;
 }
 #navigation-links {
-  position: absolute;
-  top: 0;
-  right: 10px;
-  width: 33%;
+  position: relative;
   height: 100%;
   div {
     height: 100%;

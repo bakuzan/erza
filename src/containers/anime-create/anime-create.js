@@ -11,6 +11,8 @@ import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
 import SelectBox from '../../components/select-box/select-box';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import TabContainer from '../../components/tab-container/tab-container'
+import TabView from '../../components/tab-view/tab-view'
 
 class AnimeCreate extends Component {
 
@@ -25,7 +27,7 @@ class AnimeCreate extends Component {
     const updatedValue = getEventValue(target);
     this.setState((prevState) => {
       const updatedState = Object.assign({}, prevState, { [target.name]: updatedValue });
-      return ValidationUtil.validateAnimeModel(updatedState);
+      return ValidationUtil.validateAnimeModel(updatedState, target.name);
     });
   }
 
@@ -43,7 +45,7 @@ class AnimeCreate extends Component {
       text: capitalise(item),
       value: Enums.anime.status[item]
     }));
-    
+
     return (
       <div className="flex-column center-contents padding-10">
         <header>
@@ -57,81 +59,132 @@ class AnimeCreate extends Component {
               noValidate=""
               onSubmit={e => this.handleSubmit(e)}
               >
+          <TabContainer>
+            <TabView name="Required">
+              <div className="flex-column">
+                <div className="has-float-label input-container">
+                  <input type="text"
+                         name="title"
+                         value={this.state.title}
+                         placeholder="title"
+                         autoFocus
+                         autoComplete="false"
+                         onChange={(e) => this.handleUserInput(e)}
+                   />
+                  <label>title</label>
+                </div>
+                <div className="has-float-label input-container">
+                  <input type="number"
+                         name="episode"
+                         value={this.state.episode}
+                         min="0"
+                         max={this.state.series_episodes || null}
+                         placeholder="episode"
+                         onChange={(e) => this.handleUserInput(e)}
+                   />
+                  <label>episode</label>
+                </div>
 
-          <div className="has-float-label input-container">
-            <input type="text"
-                   name="title"
-                   value={this.state.title}
-                   placeholder="title"
-                   autoFocus
-                   autoComplete="false"
-                   onChange={(e) => this.handleUserInput(e)}
-             />
-            <label>title</label>
-          </div>
-          <div className="has-float-label input-container">
-            <input type="number"
-                   name="episode"
-                   value={this.state.episode}
-                   min="0"
-                   max={this.state.series_episodes}
-                   placeholder="episode"
-                   onChange={(e) => this.handleUserInput(e)}
-             />
-            <label>episode</label>
-          </div>
+                <div className="has-float-label input-container">
+                  <input type="date"
+                         name="start"
+                         value={this.state.start}
+                         max={this.state.end}
+                         placeholder="start"
+                         onChange={(e) => this.handleUserInput(e)}
+                   />
+                  <label>start</label>
+                </div>
+                <div className="has-float-label input-container">
+                  <input type="date"
+                         name="end"
+                         value={this.state.end}
+                         min={this.state.start}
+                         placeholder="end"
+                         onChange={(e) => this.handleUserInput(e)}
+                         disabled={this.state.status !== Enums.anime.status.completed}
+                   />
+                  <label>end</label>
+                </div>
 
-          <div className="has-float-label input-container">
-            <input type="date"
-                   name="start"
-                   value={this.state.start}
-                   max={this.state.end}
-                   placeholder="start"
-                   onChange={(e) => this.handleUserInput(e)}
-             />
-            <label>start</label>
-          </div>
-          <div className="has-float-label input-container">
-            <input type="date"
-                   name="end"
-                   value={this.state.end}
-                   min={this.state.start}
-                   placeholder="end"
-                   onChange={(e) => this.handleUserInput(e)}
-                   disabled={this.state.status !== Enums.anime.status.completed}
-             />
-            <label>end</label>
-          </div>
-          
-          <SelectBox name="status"
-                     text="status"
-                     value={this.state.status}
-                     onSelect={(e) => this.handleUserInput(e)}
-                     options={statusOptions}
-            />
+                <SelectBox name="status"
+                           text="status"
+                           value={this.state.status}
+                           onSelect={(e) => this.handleUserInput(e)}
+                           options={statusOptions}
+                  />
 
-          <RatingControl name="rating"
-                         value={this.state.rating}
+                <RatingControl name="rating"
+                               value={this.state.rating}
+                               onChange={this.handleUserInput}
+                />
+
+                <Tickbox text="owned"
+                         name="owned"
+                         checked={this.state.owned}
                          onChange={this.handleUserInput}
-          />
+                 />
+                <Tickbox text="is adult"
+                         name="isAdult"
+                         checked={this.state.isAdult}
+                         onChange={this.handleUserInput}
+                />
+                <Tickbox text="is repeat"
+                         name="isRepeat"
+                         checked={this.state.isRepeat}
+                         onChange={this.handleUserInput}
+                         disabled={this.state.status !== Enums.anime.status.completed}
+                />
+              </div>
+            </TabView>
+            <TabView name="Additional">
+              <div className="flex-column">
+                <div className="has-float-label input-container">
+                  <input type="number"
+                    name="series_episodes"
+                    value={this.state.series_episodes}
+                    min="1"
+                    placeholder="episodes"
+                    onChange={(e) => this.handleUserInput(e)}
+                    />
+                  <label>total episodes</label>
+                </div>
 
-          <Tickbox text="owned"
-                   name="owned"
-                   checked={this.state.owned}
-                   onChange={this.handleUserInput}
-           />
-          <Tickbox text="is adult"
-                   name="isAdult"
-                   checked={this.state.isAdult}
-                   onChange={this.handleUserInput}
-          />
-          <Tickbox text="is repeat"
-                   name="isRepeat"
-                   checked={this.state.isRepeat}
-                   onChange={this.handleUserInput}
-                   disabled={this.state.status !== Enums.anime.status.completed}
-          />
+                <div>
+                  <img src={this.state.image} alt={`Cover for ${this.state.title || 'anime under creation.'}`} />
+                  <div className="has-float-label input-container">
+                    <input type="file"
+                      name="image"
+                      value={this.state.image}
+                      placeholder="image"
+                      onChange={(e) => this.handleUserInput(e)}
+                      />
+                    <label>image</label>
+                  </div>
+                </div>
+                <div className="has-float-label input-container">
+                  <input type="url"
+                    name="link"
+                    value={this.state.link}
+                    placeholder="link"
+                    onChange={(e) => this.handleUserInput(e)}
+                    />
+                  <label>link</label>
+                </div>
 
+                <div className="has-float-label input-container">
+                  <input type="text"
+                    name="tags"
+                    value={this.state.tags}
+                    min="1"
+                    placeholder="add tag..."
+                    onChange={(e) => this.handleUserInput(e)}
+                    />
+                  <label>tags</label>
+                </div>
+              </div>
+            </TabView>
+          </TabContainer>
           <div className="button-group">
             <button type="submit" className="button ripple">
             { this.props.isCreate ? Strings.create : Strings.edit }
@@ -148,7 +201,7 @@ class AnimeCreate extends Component {
 
 }
 
-AnimeCreate.PropTypes = {
+AnimeCreate.propTypes = {
   isCreate: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired

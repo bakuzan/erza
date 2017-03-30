@@ -1,0 +1,61 @@
+@import "../../styles/partials/_colours";
+@import "../../styles/partials/_variables";
+$tab-controls-height: 31px;
+
+.tab-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 5px 0;
+  .tabs {
+    position: relative;
+    height: calc(100% - #{$tab-controls-height});
+    border-top: 1px solid $primary-colour;
+  }
+}
+
+.tab-controls {
+  display: flex;
+  height: $tab-controls-height;
+  padding: 0 5px;
+  margin: 0;
+  white-space: nowrap;
+  list-style-type: none;
+  li {
+    display: inline-flex;
+    padding: 2px;
+    margin: 0 1px;
+    border: {
+      width: 1px;
+      style: solid;
+      color: $grey80;
+      bottom-color: $white;
+    };
+    z-index: map-get($z-index, above-siblings);
+  }
+  li.active {
+    border: {
+      color: $primary-colour;
+      bottom-color: $white;
+    };
+    margin-bottom: -1px;
+  }
+}
+
+.tab-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  margin: 0;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  &.active {
+    position: relative;
+    opacity: 1;
+    z-index: map-get($z-index, above-siblings);
+  }
+}

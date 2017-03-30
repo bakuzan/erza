@@ -21,4 +21,21 @@ const SelectBox = ({ name, value, disabled, onSelect, text, options }) => (
   </div>
 );
 
+SelectBox.defaultProps = {
+  disabled: false
+}
+
+SelectBox.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]).isRequired,
+  disabled: PropTypes.bool,
+  text: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSelect: PropTypes.func.isRequired
+}
+
 export default SelectBox

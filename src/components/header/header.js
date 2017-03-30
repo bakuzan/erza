@@ -16,15 +16,15 @@ import '../../styles/box-model.css';
 class Header extends Component {
   render() {
     return (
-      <nav className="application-header center-contents">
+      <nav className="application-header">
         <Link className="ripple" id="logo-svg" to={Paths.base}>
           <SvgLogo text="Erza" />
         </Link>
+        <div className="flex-spacer"></div>
         <h1>ERZA</h1>
+        <div className="flex-spacer"></div>
         <div id="navigation-links">
-          <div className="flex-right">
-            <AppSettings />
-          </div>
+          <AppSettings />
         </div>
       </nav>
     );
