@@ -11,10 +11,10 @@ class ValidationUtil {
 
   deriveStatusFromState(model) {
     const {
-      status, start, episode, series
+      status, start, episode, series_episodes
     } = model;
 
-    if (episode !== 0 && series.episodes !== 0 && episode === series.episodes) return Enums.anime.status.completed;
+    if (episode !== 0 && series_episodes !== 0 && episode === series_episodes) return Enums.anime.status.completed;
     const notSetToOtherStatus = status !== Enums.anime.status.onhold && status !== Enums.anime.status.dropped;
     if (notSetToOtherStatus && start) return Enums.anime.status.ongoing;
     if (notSetToOtherStatus && !start) return Enums.anime.status.planned;
@@ -23,11 +23,11 @@ class ValidationUtil {
 
   shouldAnimeHaveEnd(model) {
     const {
-      end, episode, series, isRepeat
+      end, episode, series_episodes, isRepeat
     } = model;
 
-    if (!isRepeat && episode !== series.episodes) return '';
-    if (episode === series.episodes) return new Date().toISOString().split('T')[0];
+    if (!isRepeat && episode !== series_episodes) return '';
+    if (episode === series_episodes) return new Date().toISOString().split('T')[0];
     return end;
   }
 
