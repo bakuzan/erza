@@ -120,20 +120,17 @@ class AnimeCreate extends Component {
                          onChange={this.handleUserInput}
           />
 
-          <Tickbox className="tickbox"
-                   text="owned"
+          <Tickbox text="owned"
                    name="owned"
                    checked={this.state.owned}
                    onChange={this.handleUserInput}
            />
-          <Tickbox className="tickbox"
-                   text="is adult"
+          <Tickbox text="is adult"
                    name="isAdult"
                    checked={this.state.isAdult}
                    onChange={this.handleUserInput}
           />
-          <Tickbox className="tickbox"
-                   text="is repeat"
+          <Tickbox text="is repeat"
                    name="isRepeat"
                    checked={this.state.isRepeat}
                    onChange={this.handleUserInput}
