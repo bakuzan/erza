@@ -20,7 +20,7 @@
     // Generic components
     .input-container, .select-container {
       input, select {
-        background-color: inherit;
+        background-color: $base-background;
         color: $base-colour;
         &:focus {
           border-bottom-color: $colour;
