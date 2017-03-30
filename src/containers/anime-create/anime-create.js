@@ -9,6 +9,7 @@ import ValidationUtil from '../../utils/validation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
+import SelectBox from '../../components/select-box/select-box';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 
 class AnimeCreate extends Component {
@@ -36,8 +37,13 @@ class AnimeCreate extends Component {
   }
 
   render() {
-    console.log('render anime create :: ', this.state);
     if (this.props.isFetching) return ( <LoadingSpinner size="fullscreen" /> );
+    console.log('render anime create :: ', this.state);
+    const statusOptions = Object.keys(Enums.anime.status).map(item => ({
+      text: capitalise(item),
+      value: Enums.anime.status[item]
+    }));
+    
     return (
       <div className="flex-column center-contents padding-10">
         <header>
@@ -96,24 +102,13 @@ class AnimeCreate extends Component {
              />
             <label>end</label>
           </div>
-
-          <div className="has-float-label select-container">
-            <select className="select-box"
-                    name="status"
-                    value={this.state.status}
-                    onChange={(e) => this.handleUserInput(e)}
-                    >
-            {
-              Object.keys(Enums.anime.status).map(item => (
-                <option key={item}
-                        value={Enums.anime.status[item]}>
-                { capitalise(item) }
-                </option>
-              ))
-            }
-            </select>
-            <label>status</label>
-          </div>
+          
+          <SelectBox name="status"
+                     text="status"
+                     value={this.state.status}
+                     onSelect={(e) => this.handleUserInput(e)}
+                     options={statusOptions}
+            />
 
           <RatingControl name="rating"
                          value={this.state.rating}
@@ -134,6 +129,7 @@ class AnimeCreate extends Component {
                    name="isRepeat"
                    checked={this.state.isRepeat}
                    onChange={this.handleUserInput}
+                   disabled={this.state.status !== Enums.anime.status.completed}
           />
 
           <div className="button-group">
