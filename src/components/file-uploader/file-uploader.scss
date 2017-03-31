@@ -1,0 +1,19 @@
+@import "../../styles/partials/_colours";
+
+.file-uploader {
+  display: flex;
+  padding: 5px;
+  border-bottom: {
+    style: solid;
+    width: 2px;
+    color: $primary-colour;
+  };
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  .file-value {
+    padding: 5px;
+  }
+}
