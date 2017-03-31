@@ -53,9 +53,11 @@ $tab-controls-height: 31px;
   margin: 0;
   opacity: 0;
   transition: all 1s ease-in-out;
+  pointer-events: none;
   &.active {
     position: relative;
     opacity: 1;
     z-index: map-get($z-index, above-siblings);
+    pointer-events: auto;
   }
 }
