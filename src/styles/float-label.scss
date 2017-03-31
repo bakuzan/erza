@@ -69,6 +69,9 @@
   
   &.input-list-container input {
     padding-bottom: 0.3em;
+    @include float-label-scaled {
+      top: 1em;
+    }
   }
 
   &.select-container::after {
