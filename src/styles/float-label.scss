@@ -1,4 +1,39 @@
-@import './partials/_mixins-float-label';
+@mixin float-label-container {
+  display: block;
+  position: relative;
+}
+
+@mixin float-label {
+  label, > span {
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    cursor: text;
+    font-size: .75em;
+    opacity: 1;
+    transition: all .2s;
+    @content;
+  }
+}
+
+@mixin float-label-input {
+  &::-webkit-input-placeholder {
+    opacity: 1;
+    transition: all .2s;
+  }
+  &:placeholder-shown:not(:focus)::-webkit-input-placeholder {
+      opacity: 0;
+  }
+}
+
+@mixin float-label-scaled {
+  &:placeholder-shown:not(:focus) + *:not(.input-has-content) {
+      font-size: 1.3em;
+      opacity: .5;
+      pointer-events: none;
+      @content;
+  }
+}
 
 .has-float-label {
   @include float-label-container;
@@ -30,6 +65,10 @@
       outline: none;
       border-color: rgba(0,0,0,.5);
     }
+  }
+  
+  &.input-list-container input {
+    padding-bottom: 0.3em;
   }
 
   &.select-container::after {
