@@ -60,10 +60,10 @@ class InputList extends Component {
     const inputList = list.map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (
-        <span key={index} className={`input-list-item${readyRemoval ? ' active' : ''}`}>
-          { item.name }
+        <span key={index} className={`input-chip input-chip-deltable${readyRemoval ? ' active' : ''}`}>
+          <span className="input-chip-text">{ item.name }</span>
           <button type="button"
-                  className="button-icon small"
+                  className="input-chip-delete button-icon small"
                   title="remove"
                   icon="&#10060;"
                   onClick={() => this.removeInputItem(item.name)}
