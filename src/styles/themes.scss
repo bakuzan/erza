@@ -22,7 +22,7 @@
       input, select {
         background-color: $base-background;
         color: $base-colour;
-        &:focus {
+        &:focus, &:focus ~ .list {
           border-bottom-color: $colour;
         }
       }
