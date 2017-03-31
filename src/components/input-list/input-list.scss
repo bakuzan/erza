@@ -5,11 +5,14 @@
   flex-direction: row-reverse;
   justify-content: flex-start;
   align-items: center;
+  padding-top: 1em;
   
   > .list {
-    padding: 0 0.5em {
+    padding: {
+      top: 0;
+      left: 0.5em;
       bottom: 0.2em;
-      top: 1em;
+      right: 0.5em;
     };
     margin-bottom: 2px;
     border: 0;
@@ -22,15 +25,50 @@
   }
   
 }
-  
-.input-list-item {
-  display: inline-flex;
-  background-color: $grey80;
-  padding-left: 5px;
-  border-radius: 4px;
-  margin: 0 2px;
-  &.active {
-    background-color: $primary-background;
-    color: $primary-colour-contrast;
-  }
+
+.input-chip {
+    height: 32px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    line-height: 32px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 16px;
+    background-color: #dedede;
+    display: inline-block;
+    color: rgba(0,0,0,.87);
+    margin: 2px 0;
+    font-size: 0;
+    white-space: nowrap;
+    &.active, &.active .input-chip-delete {
+      background-color: $primary-background;
+      color: $primary-colour-contrast;
+    }
+}
+.input-chip-deletable {
+    padding-right: 4px;
+}
+
+.input-chip-text {
+    font-size: 13px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.input-chip-delete {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    text-align: center;
+    height: 24px;
+    width: 24px;
+    background: 0 0;
+    opacity: .54;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 0 0 4px;
+    font-size: 13px;
+    text-decoration: none;
+    color: rgba(0,0,0,.87);
+    border: none;
+    outline: none;
 }
