@@ -4,7 +4,7 @@ class ValidationUtil {
 
   validateAnimeModel(model, updateProperty) {
     return Object.assign({}, model, {
-      episodes: this.adjustEpisodeCount(model, updateProperty),
+      episode: this.adjustEpisodeCount(model, updateProperty),
       status: this.deriveStatusFromState(model),
       end: this.shouldAnimeHaveEnd(model),
       isRepeat: this.handleRewatch(model, updateProperty)
