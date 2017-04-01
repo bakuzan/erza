@@ -5,8 +5,8 @@ class ValidationUtil {
   validateAnimeModel(model, updateProperty) {
     return Object.assign({}, model, {
       episode: this.adjustEpisodeCount(model, updateProperty),
-      status: this.deriveStatusFromState(model),
-      end: this.shouldAnimeHaveEnd(model),
+      status: this.deriveStatusFromState(model, updateProperty),
+      end: this.shouldAnimeHaveEnd(model, updateProperty),
       isRepeat: this.handleRewatch(model, updateProperty)
     });
   }
@@ -22,11 +22,12 @@ class ValidationUtil {
     return episode;
   }
 
-  deriveStatusFromState(model) {
+  deriveStatusFromState(model, property) {
     const {
-      status, start, episode, series_episodes
+      status, start, episode, series_episodes, isRepeat
     } = model;
 
+    if (isRepeat || property === Strings.isRepeat) return status;
     if (episode !== 0 && series_episodes !== 0 && episode === series_episodes) return Enums.anime.status.completed;
     const notSetToOtherStatus = status !== Enums.anime.status.onhold && status !== Enums.anime.status.dropped;
     if (notSetToOtherStatus && start) return Enums.anime.status.ongoing;
@@ -34,13 +35,13 @@ class ValidationUtil {
     return status;
   }
 
-  shouldAnimeHaveEnd(model) {
+  shouldAnimeHaveEnd(model, property) {
     const {
       end, episode, series_episodes, isRepeat
     } = model;
 
-    if (!isRepeat && episode !== series_episodes) return '';
-    if (episode !== 0 && series_episodes !== 0 && episode === series_episodes) return new Date().toISOString().split('T')[0];
+    if (!isRepeat && property !== Strings.isRepeat && episode !== series_episodes) return '';
+    if (!end && episode !== 0 && series_episodes !== 0 && episode === series_episodes) return new Date().toISOString().split('T')[0];
     return end;
   }
 

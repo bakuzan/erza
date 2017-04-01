@@ -62,6 +62,12 @@ class AnimeCreate extends Component {
         </header>
         <div className="width-100 flex-row">
           <div className="series-image-container">
+          {
+            this.state.image && this.state.image.startsWith('blob:') &&
+            <div>
+              <p>* This is a preview image</p>
+            </div>
+          }
             <img src={this.state.image} alt={`Cover for ${this.state.title || 'anime under creation.'}`} />
           </div>
           <form name="animeForm"
@@ -144,7 +150,7 @@ class AnimeCreate extends Component {
                            name="isRepeat"
                            checked={this.state.isRepeat}
                            onChange={this.handleUserInput}
-                           disabled={this.state.status !== Enums.anime.status.completed}
+                           disabled={(this.state.status !== Enums.anime.status.completed) || (this.state.isRepeat && this.state.episode !== 0)}
                   />
                 </div>
               </TabView>

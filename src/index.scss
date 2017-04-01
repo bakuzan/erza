@@ -40,7 +40,7 @@ body {
     height: 0;
     -webkit-filter: drop-shadow(0 -2px 2px #aaa);
   }
-  
+
   .button-group {
     border-bottom: 1px solid rgba(0,0,0,.07);
     margin: 0;
@@ -53,4 +53,22 @@ button:focus + .dropdown-menu {
   pointer-events: auto;
   transition: all 1s cubic-bezier(.07,1.46,.81,.57);
   z-index: map-get($z-index, dropdown);
+}
+
+.series-image-container {
+  height: auto;
+  max-width: 300px;
+  padding: 5px;
+  overflow: hidden;
+
+  p {
+    padding: 5px;
+    margin: 5px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+  }
 }

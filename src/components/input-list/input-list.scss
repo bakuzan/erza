@@ -1,12 +1,12 @@
 @import "../../styles/partials/_colours";
 
 .input-list-container {
-  display: flex;
+  display: flex !important;
   flex-direction: row-reverse;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 1em;
-  
+  padding-top: 1em !important;
+
   > .list {
     padding: {
       top: 0;
@@ -19,11 +19,11 @@
     border-radius: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   input:focus ~ .list {
     border-color: rgba(0, 0, 0, 0.5);
   }
-  
+
 }
 
 .input-chip {
@@ -55,7 +55,7 @@
 }
 
 .input-chip-delete {
-    display: inline-block;
+    display: inline-block !important;
     vertical-align: middle;
     overflow: hidden;
     text-align: center;

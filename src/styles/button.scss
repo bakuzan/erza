@@ -23,6 +23,11 @@
       box-shadow: inset 0px 0px 5px $onyx;
     }
   }
+  &:disabled {
+    background-color: $grey80 !important;
+    color: $grey40 !important;
+    cursor: default;
+  }
 }
 
 .button.primary {
@@ -43,6 +48,7 @@
 .button-link {
   display: flex;
   justify-content: center;
+  align-items: center;
   background: inherit;
   color: $anchor-colour;
   appearance: none;

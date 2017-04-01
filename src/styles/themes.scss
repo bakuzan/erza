@@ -35,6 +35,10 @@
       }
     }
 
+    .input-chip-delete:hover:before {
+      color: $colour;
+    }
+
     .rating-control {
       .rating-control-option input[type="radio"] {
         color: $contrast;

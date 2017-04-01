@@ -2,31 +2,45 @@ import React, { Component, PropTypes } from 'react'
 import './file-uploader.css'
 
 class FileUploader extends Component {
-  
-  handleUserInput(event) {
-    this.props.onFileSelect(event);
+
+  uploadFile(file) {
+    const data = new FormData();
+    data.append('file', file);
+    fetch('ENTER_API_ENDPOINT_HERE', { method: "POST", body: data }).then(response => console.log('img upload => ', response));
   }
-  
+
+  handleUserInput(event) {
+    console.log(this.fileInput.files);
+    const file = this.fileInput.files[0];
+    const previewUrl = window.URL.createObjectURL(file);
+    // this.uploadFile(file);
+    this.props.onFileSelect({
+      target: {
+        name: this.props.name,
+        value: previewUrl
+      }
+    });
+  }
+
   handleFileUpload() {
     this.fileInput.click();
   }
-  
+
   render() {
     const { name, value, placeholder } = this.props;
-    
+
     return (
       <div className="file-uploader">
         <input ref={(element) => this.fileInput = element}
           type="file"
           name={name}
-          value={value}
           placeholder={placeholder}
           onChange={(e) => this.handleUserInput(e)}
           />
-        <div className="file-value">
+        <div className="file-value flex-all">
           { value || 'Nothing selected' }
         </div>
-        <button 
+        <button
           className="button ripple primary"
           type="button"
           onClick={() => this.handleFileUpload()}
