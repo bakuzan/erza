@@ -80,7 +80,7 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
   </div>
 )
 
-ListFilter.PropTypes = {
+ListFilter.propTypes = {
   search: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   sortOrder: PropTypes.string.isRequired,

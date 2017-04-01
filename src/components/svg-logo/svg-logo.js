@@ -57,7 +57,7 @@ class SvgLogo extends Component {
   }
 }
 
-SvgLogo.PropTypes = {
+SvgLogo.propTypes = {
   text: PropTypes.string.isRequired
 }
 

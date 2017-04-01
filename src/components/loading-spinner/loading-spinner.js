@@ -13,7 +13,7 @@ class LoadingSpinner extends Component {
   }
 }
 
-LoadingSpinner.PropTypes = {
+LoadingSpinner.propTypes = {
   size: PropTypes.string
 }
 

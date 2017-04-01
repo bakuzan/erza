@@ -69,7 +69,7 @@ class PagedAnimeList extends Component {
 
 }
 
-PagedAnimeList.PropTypes = {
+PagedAnimeList.propTypes = {
   changeItemsPerPage: PropTypes.func.isRequired,
   goForwardAPage: PropTypes.func.isRequired,
   goBackAPage: PropTypes.func.isRequired,

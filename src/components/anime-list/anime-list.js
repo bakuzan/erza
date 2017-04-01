@@ -28,7 +28,7 @@ const AnimeList = ({ items }) => {
   );
 }
 
-AnimeList.PropTypes = {
+AnimeList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 

@@ -11,7 +11,7 @@ const FilterLink = ({ filter, children }) => (
   </Link>
 );
 
-FilterLink.PropTypes = {
+FilterLink.propTypes = {
   children: PropTypes.node.isRequired,
   filter: PropTypes.string
 }

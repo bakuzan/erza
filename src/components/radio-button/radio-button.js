@@ -17,7 +17,7 @@ const RadioButton = ({ name, label, value, checked, onSelect }) => (
   </label>
 )
 
-RadioButton.PropTypes = {
+RadioButton.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   value: PropTypes.oneOfType([

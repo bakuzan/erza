@@ -15,7 +15,7 @@ const Tickbox = ({ name, checked, disabled, onChange, text }) => (
   </div>
 );
 
-Tickbox.PropTypes = {
+Tickbox.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,

@@ -10,9 +10,11 @@ import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
 import SelectBox from '../../components/select-box/select-box';
+import InputList from '../../components/input-list/input-list';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import TabContainer from '../../components/tab-container/tab-container'
 import TabView from '../../components/tab-view/tab-view'
+import FileUploader from '../../components/file-uploader/file-uploader'
 
 class AnimeCreate extends Component {
 
@@ -31,7 +33,7 @@ class AnimeCreate extends Component {
       return ValidationUtil.validateAnimeModel(updatedState, target.name);
     });
   }
-  
+
   handleListUpdate(name, newList) {
     this.setState({ [name]: newList });
   }
@@ -174,7 +176,7 @@ class AnimeCreate extends Component {
                       />
                     <label>link</label>
                   </div>
-                  
+
                   <InputList
                     name="tags"
                     label="tags"

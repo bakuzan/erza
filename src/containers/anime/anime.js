@@ -40,7 +40,7 @@ class Anime extends Component {
 
 }
 
-Anime.PropTypes = {
+Anime.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired

@@ -1,49 +1,49 @@
-import React, { Component, propTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import './input-list.css'
 
 class InputList extends Component {
-  
+
   constructor() {
     super();
     this.state = {
       text: '',
       readyRemoval: false
     };
-    
+
   }
-  
+
   updateList(list) {
     this.props.updateList(this.props.name, list);
     this.setStateRemoval(false);
   }
-  
+
   addInputItem() {
     const alreadyExists = this.props.list.find(x => x.name === this.state.text);
     if (alreadyExists) return;
-    
+
     const list = [...this.props.list, { name: this.state.text }];
     this.updateList(list);
     this.setState({ text: '' });
   }
-  
+
   removeInputItem(name) {
     const list = this.props.list.filter(x => x.name !== name);
     this.updateList(list);
   }
-  
+
   removeLastInputItem() {
     const list = this.props.list.slice(0, this.props.list.length - 1);
     this.updateList(list);
   }
-  
+
   setStateRemoval(value) {
     this.setState({ readyRemoval: value });
   }
-  
+
   handleText(event) {
     this.setState({ text: event.target.value.toLowerCase(), readyRemoval: false })
   }
-  
+
   handleKeyDown(event) {
     const { keyCode } = event;
     if (keyCode === 13 && this.state.text) {
@@ -54,7 +54,7 @@ class InputList extends Component {
       if (this.state.readyRemoval) return this.removeLastInputItem();
     }
   }
-  
+
   render() {
     const { name, label, placeholder, list } = this.props;
     const inputList = list.map((item, index, array) => {
@@ -72,10 +72,10 @@ class InputList extends Component {
       );
     });
     const hasInputs = inputList.length > 0;
-    
+
     return (
       <div className="input-list-container has-float-label input-container">
-        <input 
+        <input
           className="flex-all"
           type="text"
           name={name}
@@ -91,11 +91,11 @@ class InputList extends Component {
           hasInputs &&
           <div className="list">
             { inputList }
-          </div>      
+          </div>
         }
       </div>
     );
-  }  
+  }
 }
 
 InputList.defaultProps = {
@@ -104,10 +104,10 @@ InputList.defaultProps = {
 }
 
 InputList.propTypes = {
-  name: propTypes.string.isRequired,
-  label: propTypes.string,
-  placeholder: propTypes.string,
-  list: propTypes.arrayOf(propTypes.object).isRequired
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  list: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default InputList;
