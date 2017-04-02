@@ -15,6 +15,11 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import TabContainer from '../../components/tab-container/tab-container'
 import TabView from '../../components/tab-view/tab-view'
 import FileUploader from '../../components/file-uploader/file-uploader'
+import { loadTags } from '../../actions/tags'
+
+const loadData = props => {
+  props.loadTags();
+}
 
 class AnimeCreate extends Component {
 
@@ -24,6 +29,10 @@ class AnimeCreate extends Component {
 
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
+  }
+
+  componentDidMount() {
+    loadData(this.props);
   }
 
   handleUserInput({ target }) {
@@ -160,7 +169,7 @@ class AnimeCreate extends Component {
                     <input type="number"
                       name="series_episodes"
                       value={this.state.series_episodes}
-                      min="1"
+                      min="0"
                       placeholder="episodes"
                       onChange={(e) => this.handleUserInput(e)}
                       />
@@ -227,6 +236,11 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching
 })
 
+const mapDispatchToProps = {
+  loadTags
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(AnimeCreate)

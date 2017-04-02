@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 import anime from './anime'
+import tags from './tags'
 import {isFetching} from './loading'
 import {sorting} from './sorting'
 import {paging} from './paging'
 
 const entities = combineReducers({
-  anime
+  anime,
+  tags
 })
 
 const rootReducer = combineReducers({

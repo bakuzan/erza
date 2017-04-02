@@ -16,7 +16,7 @@ class ValidationUtil {
       episode, status, series_episodes, isRepeat
     } = model;
     console.log(episode, series_episodes, isRepeat, property);
-    if (episode > series_episodes) return series_episodes;
+    if (series_episodes !== 0 && episode > series_episodes) return series_episodes;
     if (isRepeat && property === Strings.isRepeat && episode === series_episodes) return 0;
     if (!isRepeat && property === Strings.isRepeat && status === Enums.anime.status.completed) return series_episodes;
     return episode;

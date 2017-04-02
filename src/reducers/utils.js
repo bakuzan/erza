@@ -1,13 +1,29 @@
-export function updateObject(oldObject, newValues) {
-  return Object.assign({}, oldObject, newValues);
+import update from 'immutability-helper';
+
+export function updateById(state, action) {
+  return update(state, {
+    byId: {
+      [action.item.id]: { $set: action.item }
+    }
+  })
 }
 
-export function updateItemInArray(array, itemId, updateItemCallback) {
-    const updatedItems = array.map(item => {
-        if(item.id !== itemId) return item;
-        return updateItemCallback(item);
-    });
-    return updatedItems;
+export function addEntity(state, action) {
+  const updatedById = updateById(state, action);
+  const idExists = updatedById.allIds.find(x => x === action.item.id);
+  if (idExists) return updatedById;
+
+  return update(updatedById, {
+    allIds: { $push: [action.item.id] }
+  })
+}
+
+export function loadEntityList(state, action) {
+  let latestState = state;
+  action.data.forEach(item => {
+    latestState = addEntity(latestState, { item });
+  });
+  return latestState;
 }
 
 export function createReducer(initialState, handlers) {

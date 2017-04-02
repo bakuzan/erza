@@ -4,6 +4,11 @@ import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
 import {getEventValue} from '../../utils/common'
+import { loadAnime } from '../../actions/index'
+
+const loadData = props => {
+  props.loadAnime();
+}
 
 class Anime extends Component {
 
@@ -14,6 +19,10 @@ class Anime extends Component {
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
+  }
+
+  componentDidMount() {
+    loadData(this.props);
   }
 
   handleUserInput({ target }) {
@@ -75,6 +84,11 @@ const mapStateToProps = (state, ownProps) => ({
   sortKey: state.sorting.sortKey
 })
 
+const mapDispatchToProps = {
+  loadAnime
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Anime)
