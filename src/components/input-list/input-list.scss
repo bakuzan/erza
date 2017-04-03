@@ -2,12 +2,9 @@
 
 .input-list-container {
   display: flex !important;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  align-items: center;
   padding-top: 1em !important;
 
-  > .list {
+  .list {
     padding: {
       top: 0;
       left: 0.5em;
@@ -24,6 +21,13 @@
     border-color: rgba(0, 0, 0, 0.5);
   }
 
+}
+
+.input-list-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .input-chip {
@@ -71,4 +75,16 @@
     color: rgba(0,0,0,.87);
     border: none;
     outline: none;
+}
+
+
+.autocomplete-menu {
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  list-style-type: none;
+  
+  .autocomplete-suggestion .button {
+    width: 100%;
+  }
 }
