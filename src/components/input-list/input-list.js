@@ -12,12 +12,12 @@ class InputList extends Component {
     };
 
   }
-  
+
   persistListState(list) {
     this.props.updateList(this.props.name, list);
     this.setStateRemoval(false);
   }
-  
+
   updateList(item) {
     const list = [...this.props.list, item];
     this.persistListState(list);
@@ -30,11 +30,11 @@ class InputList extends Component {
 
     const alreadyExists = this.props.list.find(x => x.name === this.state.text);
     if (alreadyExists) return;
-    
+
     this.updateList({ name: this.state.text });
     this.setState({ text: '' });
   }
-  
+
   selectTypeaheadEntry(id) {
     const item = this.props.typeahead.find(x => x.id === id);
     this.updateList(item);
@@ -54,15 +54,15 @@ class InputList extends Component {
   setStateRemoval(value) {
     this.setState({ readyRemoval: value });
   }
-  
+
   filterAutoComplete() {
-    if (!(this.props.typeahead && this.state.text)) return Array(0); 
+    if (!(this.props.typeahead && this.state.text)) return Array(0);
     return this.props.typeahead.filter(x => {
       const item = this.props.list.find(y => y.id === x.id);
       return !item && x.name.indexOf(this.state.text) > -1;
     });
   }
-  
+
   updateActiveSuggestion(value) {
     const maxIndex = this.filterAutoComplete().length - 1;
     let newValue = this.state.activeSuggestion + value;
@@ -110,11 +110,11 @@ class InputList extends Component {
     const autoCompleteList = this.filterAutoComplete();
     const hasInputs = inputList.length > 0;
     const hasAutoComplete = autoCompleteList.length > 0;
-    
+
     return (
       <div className="input-list-container has-float-label input-container">
         <div className="input-list-wrapper">
-          <input 
+          <input
             className="flex-all"
             type="text"
             name={name}
@@ -140,7 +140,7 @@ class InputList extends Component {
                 autoCompleteList.map((item, index) => {
                   const activeSuggestion = this.state.activeSuggestion === index ? ' primary' : '';
                   return (
-                    <li key={item.id} 
+                    <li key={item.id}
                       className="autocomplete-suggestion">
                       <button type="button"
                         className={`button ripple${activeSuggestion}`}
@@ -155,7 +155,7 @@ class InputList extends Component {
         }
       </div>
     );
-  }  
+  }
 }
 InputList.defaultProps = {
   label: 'input list',
@@ -166,7 +166,8 @@ InputList.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  list: PropTypes.arrayOf(PropTypes.object).isRequired
+  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  typeahead: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default InputList;

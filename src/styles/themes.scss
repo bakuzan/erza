@@ -45,7 +45,7 @@
       }
     }
 
-    .button {
+    .button:not(.primary) {
       background-color: $base-background;
       color: $base-colour;
       &:hover {

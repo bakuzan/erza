@@ -2,6 +2,7 @@
 
 .input-list-container {
   display: flex !important;
+  flex-direction: column;
   padding-top: 1em !important;
 
   .list {
@@ -83,7 +84,7 @@
   padding: 5px;
   margin: 0;
   list-style-type: none;
-  
+
   .autocomplete-suggestion .button {
     width: 100%;
   }

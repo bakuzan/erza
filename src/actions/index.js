@@ -1,5 +1,6 @@
 import { ADD_ANIME, UPDATE_ANIME, ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
+import toaster from '../utils/toaster'
 import {Paths} from '../constants/paths'
 import {Strings} from '../constants/values'
 
@@ -40,7 +41,7 @@ const testObj = [
     title: 'rst',
     status: 1,
     updatedDate: new Date(2015, 4, 4).toISOString()
-  }  
+  }
 ]
 // test
 
@@ -81,6 +82,7 @@ export const createAnime = (item) => {
       goToNext.then(response => {
         dispatch(addAnime(response));
         dispatch(finishAnimeRequest());
+        toaster.success('Added!', 'Successfully created anime.');
         return redirectPostAction();
       })
     }, 1000);
@@ -99,6 +101,7 @@ export const editAnime = (item) => {
     dispatch(updateAnime(item));
     setTimeout(() => {
       dispatch(finishAnimeRequest());
+      toaster.success('Saved!', 'Successfully edited anime.');
       return redirectPostAction();
     }, 1000)
   }

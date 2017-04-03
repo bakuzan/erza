@@ -7,7 +7,8 @@ class ValidationUtil {
       episode: this.adjustEpisodeCount(model, updateProperty),
       status: this.deriveStatusFromState(model, updateProperty),
       end: this.shouldAnimeHaveEnd(model, updateProperty),
-      isRepeat: this.handleRewatch(model, updateProperty)
+      isRepeat: this.handleRewatch(model, updateProperty),
+      timesCompleted: this.handleTimesCompleted(model, updateProperty)
     });
   }
 
@@ -52,6 +53,15 @@ class ValidationUtil {
     console.log('rewatch => ', property);
     if (isRepeat && property !== Strings.isRepeat && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return false;
     return isRepeat;
+  }
+
+  handleTimesCompleted(model, property) {
+    const {
+      episode, series_episodes, isRepeat, timesCompleted
+    } = model;
+
+    if (isRepeat && property === Strings.episode && episode === series_episodes) return timesCompleted + 1;
+    return timesCompleted;
   }
 
 }

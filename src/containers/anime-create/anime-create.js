@@ -50,13 +50,13 @@ class AnimeCreate extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const animeItem = Object.assign({}, this.state);
-    if (this.props.isCreate) return this.props.dispatch(createAnime(animeItem));
-    return this.props.dispatch(editAnime(animeItem));
+    if (this.props.isCreate) return this.props.createAnime(animeItem);
+    return this.props.editAnime(animeItem);
   }
 
   render() {
     if (this.props.isFetching) return ( <LoadingSpinner size="fullscreen" /> );
-    console.log('render anime create :: ', this.state);
+    console.log('render anime create :: ', this.state, this.props);
     const statusOptions = Object.keys(Enums.anime.status).map(item => ({
       text: capitalise(item),
       value: Enums.anime.status[item]
@@ -197,6 +197,7 @@ class AnimeCreate extends Component {
                     label="tags"
                     placeholder="add tag..."
                     list={this.state.tags}
+                    typeahead={this.props.typeaheadTags}
                     updateList={this.handleListUpdate}
                    />
                 </div>
@@ -222,8 +223,13 @@ class AnimeCreate extends Component {
 AnimeCreate.propTypes = {
   isCreate: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  typeaheadTags: PropTypes.arrayOf(PropTypes.object)
 };
+
+const getTypeaheadList = (state) => {
+  return state.allIds.map(item => state.byId[item]);
+}
 
 const getInitalItem = (state, params) => {
   if (!!params.id) return new AnimeModel(state.byId[params.id]);
@@ -233,11 +239,14 @@ const getInitalItem = (state, params) => {
 const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.params.id,
   item: getInitalItem(state.entities.anime, ownProps.params),
-  isFetching: state.isFetching
+  isFetching: state.isFetching,
+  typeaheadTags: getTypeaheadList(state.entities.tags)
 })
 
 const mapDispatchToProps = {
-  loadTags
+  loadTags,
+  createAnime,
+  editAnime
 }
 
 export default connect(

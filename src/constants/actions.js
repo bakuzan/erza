@@ -6,6 +6,8 @@ export const ANIME_LOAD = 'ANIME_LOAD'
 export const ANIME_SUCCESS = 'ANIME_SUCCESS'
 export const ANIME_FAILURE = 'ANIME_FAILURE'
 
+export const ADD_TAG = 'ADD_TAG'
+
 export const TAGS_REQUEST = 'TAGS_REQUEST'
 export const TAGS_LOAD = 'TAGS_LOAD'
 export const TAGS_SUCCESS = 'TAGS_SUCCESS'
