@@ -18,10 +18,10 @@ export const Enums = {
     }
   },
   keyCode: {
-    backspace: 0,
+    backspace: 8,
     enter: 13,
-    up: 0,
-    down: 0
+    up: 38,
+    down: 40
   }
 }
 

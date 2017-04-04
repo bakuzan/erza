@@ -21,11 +21,12 @@ const AnimeList = ({ items }) => {
                 { item.title }
               </h4>
               <div className="button-group">
-                <button type="button"
-                        className="button ripple">
+                <Link to={`${Paths.base}${Paths.anime.view}${item.id}`}
+                      className="button ripple">
                   View
-                </button>
-                <Link to={`${Paths.base}${Paths.anime.edit}${item.id}`}>
+                </Link>
+                <Link to={`${Paths.base}${Paths.anime.edit}${item.id}`}
+                      className="button ripple">
                   Edit
                 </Link>
               </div>

@@ -11,6 +11,8 @@
   border: none;
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
+
   &:hover {
     background-color: darken($white, $darken-amount);
   }

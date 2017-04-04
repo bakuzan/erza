@@ -40,7 +40,8 @@ const fetchTags = () => {
     { id: 1, name: 'comedy', isAdult: false },
     { id: 2, name: 'adventure', isAdult: false },
     { id: 3, name: 'vanilla', isAdult: true },
-    { id: 4, name: 'blow', isAdult: true }
+    { id: 4, name: 'blow', isAdult: true },
+    { id: 7, name: 'martial arts', isAdult: false }
   ]);
 }
 

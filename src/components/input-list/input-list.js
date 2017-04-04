@@ -81,12 +81,12 @@ class InputList extends Component {
     if (keyCode === Enums.keyCode.enter && this.state.text) {
       event.preventDefault();
       this.addInputItem();
-    } else if (keyCode === 8 && !this.state.text) { //backspace
+    } else if (keyCode === Enums.keyCode.backspace && !this.state.text) {
       if (!this.state.readyRemoval) return this.setStateRemoval(true);
       if (this.state.readyRemoval) return this.removeLastInputItem();
-    } else if (keyCode === 40) { //down
+    } else if (keyCode === Enums.keyCode.down) {
       this.updateActiveSuggestion(1);
-    } else if (keyCode === 38) { //up
+    } else if (keyCode === Enums.keyCode.up) {
       this.updateActiveSuggestion(-1);
     }
   }

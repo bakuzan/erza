@@ -58,14 +58,14 @@ class ValidationUtil {
 
   handleTimesCompleted(model, property) {
     const {
-      episode, series_episodes, status, isRepeat, timesCompleted
+      episode, series_episodes, status, timesCompleted
     } = model;
 
     if (property === Strings.episode && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return timesCompleted + 1;
     if (property === Strings.episode && status === Enums.anime.status.completed && (episode !== 0 && series_episodes !== 0 && episode !== series_episodes)) return timesCompleted - 1;
     return timesCompleted;
   }
-  
+
   checkTagsType(model, property) {
     const { isAdult, tags } = model;
     if (property !== Strings.isAdult) return tags;

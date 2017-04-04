@@ -17,6 +17,7 @@ export const Paths = {
   home: '',
   anime: {
     list: 'anime-list/',
+    view: 'anime/',
     create: 'anime/create',
     edit: 'anime/edit/'
   }

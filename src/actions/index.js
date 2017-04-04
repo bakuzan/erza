@@ -41,13 +41,31 @@ const testObj = [
     title: 'rst',
     status: 1,
     updatedDate: new Date(2015, 4, 4).toISOString()
+  },
+  {
+    id: 6,
+    title: 'Kill La Kill',
+    status: 2,
+    start: new Date(2013, 9, 8).toLocaleDateString(),
+    end: new Date(2014, 2, 24).toLocaleDateString(),
+    rating: 9,
+    episode: 24,
+    series_episodes: 24,
+    isRepeat: false,
+    isAdult: false,
+    timesCompleted: 2,
+    tags: [0, 7],
+    owned: true,
+    image: 'https://myanimelist.cdn-dena.com/images/anime/8/75514.jpg',
+    link: '',
+    updatedDate: new Date(2015, 4, 4).toLocaleDateString()
   }
 ]
 // test
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
-let testId = 6;
+let testId = 7;
 const getTestId = () => {
   return testId++;
 }
