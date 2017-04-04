@@ -61,6 +61,7 @@ class AnimeCreate extends Component {
       text: capitalise(item),
       value: Enums.anime.status[item]
     }));
+    const availableTags = this.props.typeaheadTags.filter(x => x.isAdult === this.state.isAdult);
 
     return (
       <div className="flex-column center-contents padding-10">
@@ -197,7 +198,7 @@ class AnimeCreate extends Component {
                     label="tags"
                     placeholder="add tag..."
                     list={this.state.tags}
-                    typeahead={this.props.typeaheadTags}
+                    typeahead={availableTags}
                     updateList={this.handleListUpdate}
                    />
                 </div>
