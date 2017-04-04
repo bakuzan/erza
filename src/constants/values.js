@@ -26,8 +26,9 @@ export const Strings = {
   date: 'date',
   text: 'text',
   // properties
-  isRepeat: 'isRepeat',
   episode: 'episode',
+  isAdult: 'isAdult',
+  isRepeat: 'isRepeat',
   // directions
   ascending: 'ASC',
   descending: 'DESC',
