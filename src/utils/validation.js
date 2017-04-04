@@ -57,10 +57,11 @@ class ValidationUtil {
 
   handleTimesCompleted(model, property) {
     const {
-      episode, series_episodes, isRepeat, timesCompleted
+      episode, series_episodes, status, isRepeat, timesCompleted
     } = model;
 
-    if (isRepeat && property === Strings.episode && episode === series_episodes) return timesCompleted + 1;
+    if (property === Strings.episode && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return timesCompleted + 1;
+    if (property === Strings.episode && status === Enums.anime.status.completed && (episode !== 0 && series_episodes !== 0 && episode !== series_episodes)) return timesCompleted - 1;
     return timesCompleted;
   }
 
