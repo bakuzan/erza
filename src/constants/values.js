@@ -16,6 +16,12 @@ export const Enums = {
       ona: 5,
       music: 6
     }
+  },
+  keyCode: {
+    backspace: 0,
+    enter: 13,
+    up: 0,
+    down: 0
   }
 }
 
