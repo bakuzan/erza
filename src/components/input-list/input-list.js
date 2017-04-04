@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import {Enums} from '../../constants/values'
 import './input-list.css'
 
 class InputList extends Component {
@@ -77,7 +78,7 @@ class InputList extends Component {
 
   handleKeyDown(event) {
     const { keyCode } = event;
-    if (keyCode === 13 && this.state.text) { //enter
+    if (keyCode === Enums.keyCode.enter && this.state.text) {
       event.preventDefault();
       this.addInputItem();
     } else if (keyCode === 8 && !this.state.text) { //backspace
