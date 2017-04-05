@@ -1,4 +1,4 @@
-import {Enums, Strings} from '../constants/values'
+import {Enums, Properties} from '../constants/values'
 
 class ValidationUtil {
 
@@ -19,8 +19,8 @@ class ValidationUtil {
     } = model;
     console.log(episode, series_episodes, isRepeat, property);
     if (series_episodes !== 0 && episode > series_episodes) return series_episodes;
-    if (isRepeat && property === Strings.isRepeat && episode === series_episodes) return 0;
-    if (!isRepeat && property === Strings.isRepeat && status === Enums.anime.status.completed) return series_episodes;
+    if (isRepeat && property === Properties.isRepeat && episode === series_episodes) return 0;
+    if (!isRepeat && property === Properties.isRepeat && status === Enums.anime.status.completed) return series_episodes;
     return episode;
   }
 
@@ -29,7 +29,7 @@ class ValidationUtil {
       status, start, episode, series_episodes, isRepeat
     } = model;
 
-    if (isRepeat || property === Strings.isRepeat) return status;
+    if (isRepeat || property === Properties.isRepeat) return status;
     if (episode !== 0 && series_episodes !== 0 && episode === series_episodes) return Enums.anime.status.completed;
     const notSetToOtherStatus = status !== Enums.anime.status.onhold && status !== Enums.anime.status.dropped;
     if (notSetToOtherStatus && start) return Enums.anime.status.ongoing;
@@ -42,7 +42,7 @@ class ValidationUtil {
       end, episode, series_episodes, isRepeat
     } = model;
 
-    if (!isRepeat && property !== Strings.isRepeat && episode !== series_episodes) return '';
+    if (!isRepeat && property !== Properties.isRepeat && episode !== series_episodes) return '';
     if (!end && episode !== 0 && series_episodes !== 0 && episode === series_episodes) return new Date().toISOString().split('T')[0];
     return end;
   }
@@ -52,7 +52,7 @@ class ValidationUtil {
       episode, series_episodes, isRepeat
     } = model;
     console.log('rewatch => ', property);
-    if (isRepeat && property !== Strings.isRepeat && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return false;
+    if (isRepeat && property !== Properties.isRepeat && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return false;
     return isRepeat;
   }
 
@@ -61,14 +61,14 @@ class ValidationUtil {
       episode, series_episodes, status, timesCompleted
     } = model;
 
-    if (property === Strings.episode && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return timesCompleted + 1;
-    if (property === Strings.episode && status === Enums.anime.status.completed && (episode !== 0 && series_episodes !== 0 && episode !== series_episodes)) return timesCompleted - 1;
+    if (property === Properties.episode && (episode !== 0 && series_episodes !== 0 && episode === series_episodes)) return timesCompleted + 1;
+    if (property === Properties.episode && status === Enums.anime.status.completed && (episode !== 0 && series_episodes !== 0 && episode !== series_episodes)) return timesCompleted - 1;
     return timesCompleted;
   }
 
   checkTagsType(model, property) {
     const { isAdult, tags } = model;
-    if (property !== Strings.isAdult) return tags;
+    if (property !== Properties.isAdult) return tags;
     return tags.filter(x => x.isAdult === isAdult);
   }
 
