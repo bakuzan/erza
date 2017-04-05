@@ -31,10 +31,12 @@ export const Strings = {
   selectbox: 'select-one',
   date: 'date',
   text: 'text',
-  // properties
+  // labels
   episode: 'episode',
-  isAdult: 'isAdult',
-  isRepeat: 'isRepeat',
+  isAdult: 'is adult',
+  isRepeat: 'is repeat',
+  owned: 'owned',
+  status: 'status',
   // directions
   ascending: 'ASC',
   descending: 'DESC',
@@ -50,4 +52,15 @@ export const Strings = {
   anime: 'anime',
   manga: 'manga',
   monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+}
+
+export const Properties = {
+  episode: 'episode',
+  isAdult: 'isAdult',
+  isRepeat: 'isRepeat'
+}
+
+export const Icons = {
+  tick: '&#x274c;',
+  cross: '&#x274c;'
 }
