@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import FilterLink from '../filter-link/filter-link'
 import RadioButton from '../../components/radio-button/radio-button'
+import Tickbox from '../../components/tickbox/tickbox'
 import {toggleSortOrder, setSortKey} from '../../actions/list-settings'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
@@ -12,7 +13,7 @@ const ALL_FILTER = `${FILTER_BASE}${Strings.filters.all}`;
 const COMPLETED_FILTER = `${FILTER_BASE}${Strings.filters.completed}`;
 const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
 
-const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
+const ListFilter = ({ search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
   <div className="list-filter">
 
     <div className="has-float-label input-container">
@@ -77,8 +78,13 @@ const ListFilter = ({ search, onChange, sortOrder, onSortOrderToggle, sortKey, o
       />
     </div>
 
+    <Tickbox text="is adult"
+             name="isAdult"
+             checked={isAdult}
+             onChange={onChange}
+     />
   </div>
-)
+);
 
 ListFilter.propTypes = {
   search: PropTypes.string,

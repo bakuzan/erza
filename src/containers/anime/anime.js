@@ -15,7 +15,8 @@ class Anime extends Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      search: '',
+      isAdult: false
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -32,12 +33,13 @@ class Anime extends Component {
 
   render() {
     const searchString = this.state.search.toLowerCase();
-    const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1);
+    const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.state.isAdult);
 
     return (
       <div className="flex-row">
         <ListFilter
             search={this.state.search}
+            isAdult={this.state.isAdult}
             onChange={this.handleUserInput}
         />
         <PagedAnimeList

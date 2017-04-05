@@ -10,44 +10,50 @@ const testObj = [
     id: 0,
     title: 'abc',
     status: 2,
-    updatedDate: new Date(2017, 0, 1).toISOString()
+    updatedDate: new Date(2017, 0, 1).toISOString(),
+    isAdult: false
   },
   {
     id: 1,
     title: 'zab',
     status: 1,
-    updatedDate: new Date(2017, 2, 25).toISOString()
+    updatedDate: new Date(2017, 2, 25).toISOString(),
+    isAdult: false
   },
   {
     id: 2,
     title: 'mno',
     status: 1,
-    updatedDate: new Date(2013, 0, 1).toISOString()
+    updatedDate: new Date(2013, 0, 1).toISOString(),
+    isAdult: false
   },
   {
     id: 3,
     title: 'xyz',
     status: 1,
-    updatedDate: new Date(2014, 10, 21).toISOString()
+    updatedDate: new Date(2014, 10, 21).toISOString(),
+    isAdult: false
   },
   {
     id: 4,
     title: 'jkl',
     status: 1,
-    updatedDate: new Date(2016, 11, 31).toISOString()
+    updatedDate: new Date(2016, 11, 31).toISOString(),
+    isAdult: false
   },
   {
     id: 5,
     title: 'rst',
     status: 1,
-    updatedDate: new Date(2015, 4, 4).toISOString()
+    updatedDate: new Date(2015, 4, 4).toISOString(),
+    isAdult: true
   },
   {
     id: 6,
     title: 'Kill La Kill',
     status: 2,
-    start: new Date(2013, 9, 8).toLocaleDateString(),
-    end: new Date(2014, 2, 24).toLocaleDateString(),
+    start: new Date(2013, 9, 8).toDateString(),
+    end: new Date(2014, 2, 24).toDateString(),
     rating: 9,
     episode: 24,
     series_episodes: 24,
@@ -126,6 +132,9 @@ export const editAnime = (item) => {
 }
 
 //TEMP UNTIL SERVER-SIDE
+const fetchAnimeById = (id) => {
+  return Promise.resolve(testObj.find(x => x.id === id));
+}
 const fetchAnime = () => {
   return Promise.resolve(testObj);
 }
@@ -135,6 +144,15 @@ export const loadAnime = () => {
     dispatch(startingAnimeRequest());
     fetchAnime()
       .then(data => dispatch(loadAnimeData(data)) )
+      .then(() => dispatch(finishAnimeRequest()) );
+  }
+}
+
+export const loadAnimeById = (id) => {
+  return function(dispatch) {
+    dispatch(startingAnimeRequest());
+    fetchAnimeById(id)
+      .then(data => dispatch(loadAnimeData([data])) )
       .then(() => dispatch(finishAnimeRequest()) );
   }
 }

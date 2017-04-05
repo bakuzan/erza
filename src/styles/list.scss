@@ -1,0 +1,46 @@
+@import "./partials/_colours";
+
+$columns: (
+  two: 50%,
+  three: 33%,
+  four: 25%,
+  five: 20%
+);
+
+.list {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  margin: 5px 0;
+  list-style-type: none;
+
+  &.column {
+    flex-wrap: wrap;
+
+    li:nth-child(odd):hover {
+      &, & + li {
+        background-color: $primary-background;
+        color: $primary-colour-contrast;
+      }
+    }
+
+    @each $number, $percentage in $columns {
+      &.#{$number} li {
+        width: $percentage;
+      }
+    }
+  }
+
+  .label {
+    font-weight: bold;
+  }
+  .label, .value {
+    display: flex;
+    align-items: center;
+    padding: 2px 10px;
+  }
+  .value::before {
+    content: attr(icon);
+    font-weight: bold;
+  }
+}

@@ -43,6 +43,7 @@ export const Strings = {
   // page text
   create: 'Create',
   edit: 'Edit',
+  back: 'Back',
   cancel: 'cancel',
   filters: {
     all: 'all',
