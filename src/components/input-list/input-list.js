@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import {Enums} from '../../constants/values'
+import {Enums, Icons} from '../../constants/values'
 import './input-list.css'
 
 class InputList extends Component {
@@ -102,7 +102,7 @@ class InputList extends Component {
           <button type="button"
                   className="button-icon small input-chip-delete"
                   title="remove"
-                  icon="&#10060;"
+                  icon={Icons.cross}
                   onClick={() => this.removeInputItem(item.name)}
             ></button>
         </span>
