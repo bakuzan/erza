@@ -61,6 +61,6 @@ export const Properties = {
 }
 
 export const Icons = {
-  tick: '&#x274c;',
-  cross: '&#x274c;'
+  tick: '\u2713',
+  cross: '\u274C'
 }
