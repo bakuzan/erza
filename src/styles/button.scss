@@ -56,7 +56,9 @@
   &:before {
     content: attr(icon);
     font-size: 1.5rem;
-    cursor: pointer;
+    &:not(:disabled){
+      cursor: pointer; 
+    }
   }
   &.small:before {
     font-size: 0.8rem;
