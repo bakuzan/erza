@@ -94,7 +94,7 @@ class InputList extends Component {
   render() {
     const { name, label, placeholder, list, typeahead } = this.props;
     console.log('render => ', name, label, placeholder, list, typeahead);
-    const inputList = list.map((item, index, array) => {
+    const inputList = list.filter(x => x !== undefined).map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (
         <span key={index} className={`input-chip input-chip-deletable${readyRemoval ? ' active' : ''}`}>

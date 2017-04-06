@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Paths} from '../../constants/paths'
+import {Enums} from '../../constants/values'
 import {formatDateForDisplay} from '../../utils/common'
 import './anime-list.css'
 
@@ -20,7 +21,7 @@ const AnimeList = ({ items, addEpisode }) => (
             <div className="flex-row start-center-contents">
                 {
                   !!addEpisode &&
-                  <button 
+                  <button
                     type="button"
                     className="button-icon small rounded primary"
                     icon="+"
@@ -29,7 +30,7 @@ const AnimeList = ({ items, addEpisode }) => (
                     ></button>
                 }
               <span>{ `${item.episode}/${item.series_episodes || '??'}` }</span>
-            </div>    
+            </div>
             <div className="button-group">
               <Link to={`${Paths.base}${Paths.anime.view}${item.id}`}
                     className="button ripple">

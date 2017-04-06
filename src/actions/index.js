@@ -52,8 +52,8 @@ const testObj = [
     id: 6,
     title: 'Kill La Kill',
     status: 2,
-    start: new Date(2013, 9, 8).toDateString(),
-    end: new Date(2014, 2, 24).toDateString(),
+    start: new Date(2013, 9, 8).toISOString().split('T')[0],
+    end: new Date(2014, 2, 24).toISOString().split('T')[0],
     rating: 9,
     episode: 24,
     series_episodes: 24,
@@ -64,7 +64,7 @@ const testObj = [
     owned: true,
     image: 'https://myanimelist.cdn-dena.com/images/anime/8/75514.jpg',
     link: '',
-    updatedDate: new Date(2015, 4, 4).toLocaleDateString()
+    updatedDate: new Date(2015, 4, 4).toISOString().split('T')[0]
   }
 ]
 // test

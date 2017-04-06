@@ -35,6 +35,11 @@ class AnimeCreate extends Component {
     loadData(this.props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.tags.find(x => x && typeof x === 'object')) return;
+    this.setState(nextProps.item);
+  }
+
   handleUserInput({ target }) {
     const updatedValue = getEventValue(target);
     this.setState((prevState) => {
@@ -232,14 +237,19 @@ const getTypeaheadList = (state) => {
   return state.allIds.map(item => state.byId[item]);
 }
 
-const getInitalItem = (state, params) => {
-  if (!!params.id) return new AnimeModel(state.byId[params.id]);
-  return new AnimeModel();
+const getInitalItem = (entities, params) => {
+  if (!params.id) return new AnimeModel();
+  const anime = entities.anime.byId[params.id];
+  if (!anime) return new AnimeModel();
+  const editItem = Object.assign({}, anime, {
+    tags: entities.tags.allIds.length === 0 ? anime.tags : anime.tags.map(id => entities.tags.byId[id])
+  });
+  return new AnimeModel(editItem);
 }
 
 const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.params.id,
-  item: getInitalItem(state.entities.anime, ownProps.params),
+  item: getInitalItem(state.entities, ownProps.params),
   isFetching: state.isFetching,
   typeaheadTags: getTypeaheadList(state.entities.tags)
 })
