@@ -1,6 +1,7 @@
 @import "./partials/_colours";
 
 $columns: (
+  one: 100%,
   two: 50%,
   three: 33%,
   four: 25%,
@@ -15,10 +16,10 @@ $columns: (
   list-style-type: none;
 
   &.column {
-    flex-wrap: wrap;
+    flex-direction: column;
 
-    li:nth-child(odd):hover {
-      &, & + li {
+    .label:nth-child(odd):hover {
+      &, & + .value {
         background-color: $primary-background;
         color: $primary-colour-contrast;
       }

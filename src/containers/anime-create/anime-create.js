@@ -36,7 +36,7 @@ class AnimeCreate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.tags.find(x => x && typeof x === 'object')) return;
+    if (!nextProps.tags || !nextProps.tags.find(x => x && typeof x === 'object')) return;
     this.setState(nextProps.item);
   }
 
@@ -147,6 +147,7 @@ class AnimeCreate extends Component {
                     />
 
                   <RatingControl name="rating"
+                                 label="series rating"
                                  value={this.state.rating}
                                  onChange={this.handleUserInput}
                   />

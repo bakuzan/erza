@@ -13,10 +13,11 @@ class RatingControl extends Component {
 
   handleChange(event) {
     if (this.isReadOnly) return;
-    const { value } = event.target;
+    const { value, type } = event.target;
     this.props.onChange({
       target: {
         value,
+        type,
         name: this.props.name
       }
     });
@@ -55,6 +56,7 @@ class RatingControl extends Component {
     return (
       <div className={`rating-control${this.isReadOnly ? ' read-only' : ''}`} role="radiogroup">
         { ratingSelectors }
+        <label className="rating-control-label">{this.props.label}</label>
       </div>
     );
   }
@@ -63,6 +65,7 @@ class RatingControl extends Component {
 
 RatingControl.propTypes = {
   name: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,

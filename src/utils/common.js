@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import {Strings} from '../constants/values'
 
 export const capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -6,8 +7,8 @@ export const getEventValue = ({ type, checked, value }) =>
   type === Strings.checkbox                      ? checked :
   type === Strings.date || type === Strings.text ? value   :
                                                    parseIfInt(value);
-export const padNumber = (n, width, z) => {
-   z = z || '0';
+export const padNumber = (n, width, z = 0) => {
+  //  z = z || '0';
    n += '';
    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
@@ -19,3 +20,17 @@ export const formatDateForDisplay = (date) => {
 }
 
 export const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
+
+const buildUpdateSkeleton = (o, s, v) => {
+  s.split('.').forEach((k, i, a) => {
+    let x = !(i === a.length - 1);
+    o[k] = x ? {} : { $set: v };
+    o = o[k];
+  });
+};
+
+export const updateNestedProperty = (o, s, v) => {
+  let obj = {};
+  buildUpdateSkeleton(obj, s, v);
+  return update(o, obj);
+}

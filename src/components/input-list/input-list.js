@@ -72,6 +72,22 @@ class InputList extends Component {
     this.setState({ activeSuggestion: newValue });
   }
 
+  highlightMatch(value) {
+    const match = value.match(this.state.text);
+    if (!match) return value;
+
+    const length = this.state.text.length;
+    return (
+      <span>
+        { value.slice(0, match.index) }
+        <span className="highlight">
+          { value.slice(match.index, match.index + length) }
+        </span>
+        { value.slice(match.index + length) }
+      </span>
+    );
+  }
+
   handleText(event) {
     this.setState({ text: event.target.value.toLowerCase(), readyRemoval: false, activeSuggestion: 0 })
   }
@@ -146,7 +162,7 @@ class InputList extends Component {
                       <button type="button"
                         className={`button ripple${activeSuggestion}`}
                         onClick={() => this.selectTypeaheadEntry(item.id)}>
-                        { item.name }
+                        { this.highlightMatch(item.name) }
                       </button>
                     </li>
                   );
