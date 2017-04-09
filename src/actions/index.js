@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import { ADD_ANIME, UPDATE_ANIME, ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
@@ -127,6 +128,21 @@ export const editAnime = (item) => {
       dispatch(finishAnimeRequest());
       toaster.success('Saved!', 'Successfully edited anime.');
       return redirectPostAction();
+    }, 1000)
+  }
+}
+
+export const addEpisodes = (updateValues) => {
+  return function(dispatch, getState) {
+    const anime = getState().entities.anime.byId[updateValues.id];
+    console.log('add episode => ', updateValues, anime)
+    setTimeout(() => {
+      // save the history here, return the id's and add them to the anime item!!
+      const editItem = update(anime, {
+        episode: { $set: updateValues.episode },
+        // history: { $push: [] }
+      })
+      dispatch(editAnime(editItem));
     }, 1000)
   }
 }

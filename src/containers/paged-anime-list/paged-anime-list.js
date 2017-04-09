@@ -6,6 +6,7 @@ import Dialog from '../../components/dialog/dialog'
 import RatingControl from '../../components/rating-control/rating-control'
 import {Strings} from '../../constants/values'
 import {getEventValue, updateNestedProperty} from '../../utils/common'
+import {addEpisodes} from '../../actions/index'
 
 class PagedAnimeList extends Component {
 
@@ -40,6 +41,8 @@ class PagedAnimeList extends Component {
 
   handleEdit(event) {
     console.log('submit edit! => ', event.target);
+    this.props.addEpisodesToAnime(this.state.editItem);
+    this.closeEditDialog();
   }
 
   handleUserInput(event) {
@@ -130,6 +133,11 @@ const mapStateToProps = (state, ownProps) => ({
   paging: state.paging
 })
 
+const mapDispatchToProps = {
+  addEpisodesToAnime: addEpisodes
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PagedAnimeList)
