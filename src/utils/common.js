@@ -8,7 +8,6 @@ export const getEventValue = ({ type, checked, value }) =>
   type === Strings.date || type === Strings.text ? value   :
                                                    parseIfInt(value);
 export const padNumber = (n, width, z = 0) => {
-  //  z = z || '0';
    n += '';
    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
