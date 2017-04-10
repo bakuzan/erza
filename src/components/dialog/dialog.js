@@ -3,7 +3,16 @@ import {Strings} from '../../constants/values'
 import './dialog.css'
 
 class Dialog extends Component {
-
+  
+  handleRef(element) {
+    this.self = element;
+    this.props.getDialogRef(element);
+  }
+  
+  handleClose() {
+    this.self.close();
+  }
+  
   handleAction(event) {
     event.preventDefault();
     this.props.action(event);
@@ -12,7 +21,7 @@ class Dialog extends Component {
   render() {
     const dialogStyle = { 'top': `calc(${window.scrollY}px + 50vh)` };
     return (
-      <dialog open={this.props.isOpen}
+      <dialog ref={(el) => this.handleRef(el)}
               style={dialogStyle}
               className="dialog backdrop"
         >
@@ -36,7 +45,7 @@ class Dialog extends Component {
               <button
                 type="button"
                 className="button ripple"
-                onClick={this.props.close}
+                onClick={() => this.handleClose()}
                 >
                 { Strings.cancel }
               </button>
@@ -51,11 +60,10 @@ class Dialog extends Component {
 Dialog.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
+  getDialogRef: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
   actionText: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired
 }
 
 export default Dialog
