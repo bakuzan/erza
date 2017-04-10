@@ -13,49 +13,48 @@ class PagedAnimeList extends Component {
   constructor() {
     super();
     this.state = {
-      showEdit: false,
       editItem: {
         id: null,
+        episode: 0,
+        min: 0,
+        max: null,
+        ratings: {}
       }
     };
 
     this.openEditDialog = this.openEditDialog.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
-    this.closeEditDialog = this.closeEditDialog.bind(this);
+    this.assignDialogRef = this.assignDialogRef.bind(this);
   }
 
   openEditDialog(id) {
     const editItem = this.props.items.find(x => x.id === id);
-    this.setState({
-      showEdit: true,
+    this.setState(Object.assign({}, this.state.editItem, {
       editItem: {
         id,
-        episode: editItem.episode || 0,
-        min: editItem.episode || 0,
-        max: editItem.series_episodes || null,
-        ratings: {}
+        episode: editItem.episode,
+        min: editItem.episode,
+        max: editItem.series_episodes,
       }
-    });
+    }));
+    this.dialog.showModal();
   }
 
   handleEdit(event) {
-    console.log('submit edit! => ', event.target);
     this.props.addEpisodesToAnime(this.state.editItem);
-    this.closeEditDialog();
+    this.dialog.close();
   }
 
   handleUserInput(event) {
     const target = event.target;
     const newValue = getEventValue(target);
-    console.log('input handle => ', this, newValue);
     const updateEditValues = updateNestedProperty(this.state.editItem, target.name, newValue);
-    console.log('spec => ', updateEditValues);
     this.setState({ editItem: updateEditValues });
   }
 
-  closeEditDialog() {
-    this.setState({ showEdit: false, editItem: { id: null } });
+  assignDialogRef(element) {
+    this.dialog = element;
   }
 
   selectPageOfItems({ page, itemsPerPage }, items) {
@@ -76,48 +75,44 @@ class PagedAnimeList extends Component {
             items={pagedItems}
             addEpisode={this.openEditDialog}
         />
-        {
-          this.state.showEdit &&
-          <Dialog
-            name="animeEdit"
-            title={`Edit ${editItem.title}`}
-            isOpen={this.state.showEdit}
-            close={this.closeEditDialog}
-            actionText={Strings.edit}
-            action={this.handleEdit}
-            >
+        <Dialog
+          name="animeEdit"
+          title={`Edit ${editItem.title}`}
+          getDialogRef={this.assignDialogRef}
+          actionText={Strings.edit}
+          action={this.handleEdit}
+          >
 
-            <div className="has-float-label input-container">
-              <input type="number"
-                name="episode"
-                value={this.state.editItem.episode}
-                min={this.state.editItem.min}
-                max={this.state.editItem.max}
-                placeholder="episode"
-                onChange={(e) => this.handleUserInput(e)}
-                />
-              <label>episode</label>
-            </div>
-            <ul className="list column one">
-            {
-                !!this.state.editItem.episode &&
-                Array(this.state.editItem.episode - this.state.editItem.min).fill(null).map((item, index) => {
-                  const episodeNumber = this.state.editItem.min + 1 + index;
-                  return (
-                    <li key={index}>
-                      <RatingControl
-                        name={`ratings.${episodeNumber}`}
-                        label={`rating for episode ${episodeNumber}`}
-                        value={this.state.editItem.ratings[episodeNumber] || 0}
-                        onChange={this.handleUserInput}
-                        />
-                    </li>
-                  );
-                })
-            }
-            </ul>
-          </Dialog>
-        }
+          <div className="has-float-label input-container">
+            <input type="number"
+              name="episode"
+              value={this.state.editItem.episode}
+              min={this.state.editItem.min}
+              max={this.state.editItem.max}
+              placeholder="episode"
+              onChange={(e) => this.handleUserInput(e)}
+              />
+            <label>episode</label>
+          </div>
+          <ul className="list column one">
+          {
+              !!this.state.editItem.episode &&
+              Array(this.state.editItem.episode - this.state.editItem.min).fill(null).map((item, index) => {
+                const episodeNumber = this.state.editItem.min + 1 + index;
+                return (
+                  <li key={index}>
+                    <RatingControl
+                      name={`ratings.${episodeNumber}`}
+                      label={`rating for episode ${episodeNumber}`}
+                      value={this.state.editItem.ratings[episodeNumber] || 0}
+                      onChange={this.handleUserInput}
+                      />
+                  </li>
+                );
+              })
+          }
+          </ul>
+        </Dialog>
       </div>
     );
   }
