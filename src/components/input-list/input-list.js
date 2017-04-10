@@ -158,9 +158,9 @@ class InputList extends Component {
                   const activeSuggestion = this.state.activeSuggestion === index ? ' primary' : '';
                   return (
                     <li key={item.id}
-                      className="autocomplete-suggestion">
+                      className={`autocomplete-suggestion${activeSuggestion}`}>
                       <button type="button"
-                        className={`button ripple${activeSuggestion}`}
+                        className="button ripple"
                         onClick={() => this.selectTypeaheadEntry(item.id)}>
                         { this.highlightMatch(item.name) }
                       </button>
