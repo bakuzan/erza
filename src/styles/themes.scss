@@ -35,8 +35,22 @@
       }
     }
 
-    .input-chip-delete:hover:before {
-      color: $colour;
+    .input-chip-delete {
+      &:hover::before {
+        color: $colour;
+      }
+      &:not(.active):hover::before {
+        color: $contrast;
+      }
+    }
+    .autocomplete-suggestion {
+       border: 1px solid $base-background;
+      &.active {
+        border-color: $colour;
+        .button {
+          color: $colour;
+        }
+      }
     }
 
     .rating-control {
