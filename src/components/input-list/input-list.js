@@ -155,7 +155,7 @@ class InputList extends Component {
             <ul className="autocomplete-menu">
               {
                 autoCompleteList.map((item, index) => {
-                  const activeSuggestion = this.state.activeSuggestion === index ? ' primary' : '';
+                  const activeSuggestion = this.state.activeSuggestion === index ? ' active' : '';
                   return (
                     <li key={item.id}
                       className={`autocomplete-suggestion${activeSuggestion}`}>

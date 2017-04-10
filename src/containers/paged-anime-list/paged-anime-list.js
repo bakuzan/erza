@@ -18,7 +18,8 @@ class PagedAnimeList extends Component {
         episode: 0,
         min: 0,
         max: null,
-        ratings: {}
+        ratings: {},
+        notes: {}
       }
     };
 
@@ -30,14 +31,16 @@ class PagedAnimeList extends Component {
 
   openEditDialog(id) {
     const editItem = this.props.items.find(x => x.id === id);
-    this.setState(Object.assign({}, this.state.editItem, {
-      editItem: {
-        id,
-        episode: editItem.episode,
-        min: editItem.episode,
-        max: editItem.series_episodes,
-      }
-    }));
+    this.setState((prevState) => {
+      return {
+        editItem: Object.assign({}, prevState.editItem, {
+          id,
+          episode: editItem.episode || 0,
+          min: editItem.episode || 0,
+          max: editItem.series_episodes || null,
+        })
+      };
+    });
     this.dialog.showModal();
   }
 
@@ -67,7 +70,7 @@ class PagedAnimeList extends Component {
     const { items, paging } = this.props;
     const pagedItems = this.selectPageOfItems(paging, items);
     const editItem = items.find(x => x.id === this.state.editItem.id) || {};
-
+    console.log(this.state.editItem);
     return (
       <div className="flex-column flex-grow">
         <PagingControls totalItems={items.length} />
@@ -82,36 +85,53 @@ class PagedAnimeList extends Component {
           actionText={Strings.edit}
           action={this.handleEdit}
           >
-
-          <div className="has-float-label input-container">
-            <input type="number"
-              name="episode"
-              value={this.state.editItem.episode}
-              min={this.state.editItem.min}
-              max={this.state.editItem.max}
-              placeholder="episode"
-              onChange={(e) => this.handleUserInput(e)}
-              />
-            <label>episode</label>
-          </div>
-          <ul className="list column one">
+          <div>
           {
-              !!this.state.editItem.episode &&
-              Array(this.state.editItem.episode - this.state.editItem.min).fill(null).map((item, index) => {
-                const episodeNumber = this.state.editItem.min + 1 + index;
-                return (
-                  <li key={index}>
-                    <RatingControl
-                      name={`ratings.${episodeNumber}`}
-                      label={`rating for episode ${episodeNumber}`}
-                      value={this.state.editItem.ratings[episodeNumber] || 0}
-                      onChange={this.handleUserInput}
-                      />
-                  </li>
-                );
-              })
+            !!this.state.editItem.id &&
+            <div>
+              <div className="has-float-label input-container">
+                <input type="number"
+                  name="episode"
+                  value={this.state.editItem.episode}
+                  min={this.state.editItem.min}
+                  max={this.state.editItem.max}
+                  placeholder="episode"
+                  onChange={(e) => this.handleUserInput(e)}
+                  />
+                <label>episode</label>
+              </div>
+              <ul className="list column one">
+                {
+                  !!this.state.editItem.episode &&
+                  Array(this.state.editItem.episode - this.state.editItem.min).fill(null).map((item, index) => {
+                    const episodeNumber = this.state.editItem.min + 1 + index;
+                    return (
+                      <li key={index}
+                          className="flex-row">
+                        <RatingControl
+                          name={`ratings.${episodeNumber}`}
+                          label={`rating for episode ${episodeNumber}`}
+                          value={this.state.editItem.ratings[episodeNumber] || 0}
+                          onChange={this.handleUserInput}
+                          />
+                        <div className="has-float-label input-container">
+                          <input type="text"
+                            name={`notes.${episodeNumber}`}
+                            value={this.state.editItem.notes[episodeNumber] || ''}
+                            maxLength={140}
+                            placeholder="enter note"
+                            onChange={(e) => this.handleUserInput(e)}
+                            />
+                          <label>{`note for ${episodeNumber}`}</label>
+                        </div>
+                      </li>
+                    );
+                  })
+              }
+              </ul>
+            </div>
           }
-          </ul>
+          </div>
         </Dialog>
       </div>
     );

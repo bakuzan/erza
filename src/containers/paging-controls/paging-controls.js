@@ -14,6 +14,11 @@ const PagingControls = ({ totalItems, paging, goBackAPage, goForwardAPage, chang
         >
         Previous
         </button>
+        <div className="center-contents padding-5">
+        {
+          `${paging.page + 1}/${finalPage + 1}`
+        }
+        </div>
         <button type="button"
                 className="button ripple"
                 onClick={goForwardAPage}
