@@ -136,12 +136,20 @@ export const addEpisodes = (updateValues) => {
   return function(dispatch, getState) {
     const anime = getState().entities.anime.byId[updateValues.id];
     console.log('add episode => ', updateValues, anime)
+    const history = Array(data.episode - anime.episode).fill(null).map((item, index) => {
+      const episodeNumber = anime.episode + 1 + index;
+      return new EpisodeModel({
+        parent: data.id,
+        rating: data.ratings[episodeNumber] || 0,
+        note: data.notes[episodeNumber] || '',
+        episode: episodeNumber
+      });
+    });
     setTimeout(() => {
-      // save the history here, return the id's and add them to the anime item!!
+      // save the history here!!
       const editItem = update(anime, {
-        episode: { $set: updateValues.episode },
-        // history: { $push: [] }
-      })
+        episode: { $set: updateValues.episode }
+      });
       dispatch(editAnime(editItem));
     }, 1000)
   }
