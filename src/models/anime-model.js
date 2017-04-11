@@ -24,7 +24,6 @@ class AnimeModel {
           year: 0
         },
       */
-      history: Array(0), // Array of episode history id's
       tags: Array(0),    // Array of Tag id's
       owned: false,
       image: '',
