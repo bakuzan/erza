@@ -3,16 +3,16 @@ import {Strings} from '../../constants/values'
 import './dialog.css'
 
 class Dialog extends Component {
-  
+
   handleRef(element) {
     this.self = element;
     this.props.getDialogRef(element);
   }
-  
+
   handleClose() {
     this.self.close();
   }
-  
+
   handleAction(event) {
     event.preventDefault();
     this.props.action(event);
@@ -61,7 +61,10 @@ Dialog.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   getDialogRef: PropTypes.func.isRequired,
-  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
   actionText: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired
 }

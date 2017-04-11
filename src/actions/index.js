@@ -2,6 +2,7 @@ import update from 'immutability-helper'
 import { ADD_ANIME, UPDATE_ANIME, ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
+import {mapEpisodeData} from '../utils/data'
 import {Paths} from '../constants/paths'
 import {Strings} from '../constants/values'
 
@@ -12,42 +13,48 @@ const testObj = [
     title: 'abc',
     status: 2,
     updatedDate: new Date(2017, 0, 1).toISOString(),
-    isAdult: false
+    isAdult: false,
+    tags: Array(0)
   },
   {
     id: 1,
     title: 'zab',
     status: 1,
     updatedDate: new Date(2017, 2, 25).toISOString(),
-    isAdult: false
+    isAdult: false,
+        tags: Array(0)
   },
   {
     id: 2,
     title: 'mno',
     status: 1,
     updatedDate: new Date(2013, 0, 1).toISOString(),
-    isAdult: false
+    isAdult: false,
+        tags: Array(0)
   },
   {
     id: 3,
     title: 'xyz',
     status: 1,
     updatedDate: new Date(2014, 10, 21).toISOString(),
-    isAdult: false
+    isAdult: false,
+        tags: Array(0)
   },
   {
     id: 4,
     title: 'jkl',
     status: 1,
     updatedDate: new Date(2016, 11, 31).toISOString(),
-    isAdult: false
+    isAdult: false,
+        tags: Array(0)
   },
   {
     id: 5,
     title: 'rst',
     status: 1,
     updatedDate: new Date(2015, 4, 4).toISOString(),
-    isAdult: true
+    isAdult: true,
+        tags: Array(0)
   },
   {
     id: 6,
@@ -135,16 +142,8 @@ export const editAnime = (item) => {
 export const addEpisodes = (updateValues) => {
   return function(dispatch, getState) {
     const anime = getState().entities.anime.byId[updateValues.id];
-    console.log('add episode => ', updateValues, anime)
-    const history = Array(data.episode - anime.episode).fill(null).map((item, index) => {
-      const episodeNumber = anime.episode + 1 + index;
-      return new EpisodeModel({
-        parent: data.id,
-        rating: data.ratings[episodeNumber] || 0,
-        note: data.notes[episodeNumber] || '',
-        episode: episodeNumber
-      });
-    });
+    const history = mapEpisodeData(anime.episode, updateValues);
+    console.log('add episode => ', anime, updateValues, history)
     setTimeout(() => {
       // save the history here!!
       const editItem = update(anime, {
