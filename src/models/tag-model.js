@@ -1,5 +1,5 @@
 class TagModel {
-  constructor(props) {
+  constructor(props = this.initaliseDefaults()) {
     Object.assign(this, this.initaliseDefaults(), props);
   }
   
