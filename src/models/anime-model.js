@@ -1,6 +1,6 @@
 class AnimeModel {
   constructor(props = this.initaliseDefaults()) {
-    Object.assign(this, props);
+    Object.assign(this, this.initaliseDefaults(), props);
   }
 
   initaliseDefaults() {
