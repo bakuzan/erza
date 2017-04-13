@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
@@ -32,6 +33,7 @@ class Anime extends Component {
   }
 
   render() {
+    if (this.props.isFetching) return (<LoadingSpinner size="fullscreen" />);
     const searchString = this.state.search.toLowerCase();
     const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.state.isAdult);
 
@@ -52,6 +54,7 @@ class Anime extends Component {
 }
 
 Anime.propTypes = {
+  isFetching: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired
@@ -81,6 +84,7 @@ const sortVisibleAnime = ({ sortOrder, sortKey }, items) => {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   items: sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey

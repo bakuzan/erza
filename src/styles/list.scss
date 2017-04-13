@@ -16,7 +16,8 @@ $columns: (
   list-style-type: none;
 
   &.column {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
 
     .label:nth-child(odd):hover {
       &, & + .value {
