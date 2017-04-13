@@ -1,69 +1,50 @@
 import React, { Component } from 'react'
+import {setApplicationTheme} from '../../actions/theme'
+import {Strings} from '../../constants/values'
 
-class AppSettings extends Component {
-
-  constructor() {
-    super();
-
-    this.themes = [
-      { name: 'Light', class: 'theme-one' },
-      { name: 'Dark', class: 'theme-two' }
-    ];
-    this.default = {
-      theme: this.themes[0].class
-    }
-  }
-
-  componentDidMount() {
-    const settingState = this.getSettings();
-    this.handleThemeChange(settingState.theme);
-  }
-
-  getSettings() {
-    return JSON.parse(localStorage.getItem('settingState')) || this.default;
-  }
-
-  saveSettings(object) {
-    const settingsState = this.getSettings();
-    const updated = Object.assign({}, settingsState, object);
-    localStorage.setItem('settingState', JSON.stringify(updated));
-  }
-
-  handleThemeChange(theme) {
-    document.body.className = theme;
-    this.saveSettings({ theme });
-  }
-
-  render() {
-
-    return (
-      <div id="app-settings">
-        <button type="button"
-                title="App settings"
-                className="button-icon ripple"
-                icon="&#x2699;">
-        </button>
-        <ul className="dropdown-menu" role="menu">
-          <li className="dropdown-arrow"></li>
-          <li className="button-group">
-            {
-              this.themes.map(item => (
-                <button key={item.class}
-                        type="button"
-                        role="menuitem"
-                        className="button"
-                        onClick={() => this.handleThemeChange(item.class)}
-                  >
-                  { item.name }
-                </button>
-              ))
-            }
-          </li>
-        </ul>
-      </div>
-    );
-  }
-
+const applyThemeToBody = (theme) => {
+  document.body.className = theme;
 }
 
-export default AppSettings
+const AppSettings = ({ theme, setApplicationTheme }) => {
+  applyThemeToBody(theme);
+  return (
+    <div id="app-settings">
+      <button type="button"
+              title="App settings"
+              className="button-icon ripple"
+              icon="&#x2699;">
+      </button>
+      <ul className="dropdown-menu" role="menu">
+        <li className="dropdown-arrow"></li>
+        <li className="button-group">
+          {
+            this.themes.map(item => (
+              <button key={item.class}
+                      type="button"
+                      role="menuitem"
+                      className="button"
+                      onClick={() => setApplicationTheme(item.class)}
+                >
+                { item.name }
+              </button>
+            ))
+          }
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+AppSettings.propTypes = {
+  theme: PropTypes.string.isRequired,
+  setApplicationTheme: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({ theme: state.theme });
+const mapDispatchToProps = ({ setApplicationTheme })
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppSettings)
