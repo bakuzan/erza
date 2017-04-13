@@ -19,3 +19,5 @@ export const SET_SORT_KEY = 'SET_SORT_KEY'
 export const SET_ITEMS_PER_PAGE = 'SET_ITEMS_PER_PAGE'
 export const NEXT_PAGE = 'NEXT_PAGE'
 export const PREV_PAGE = 'PREV_PAGE'
+
+export const SET_THEME_CLASS = 'SET_THEME_CLASS'
