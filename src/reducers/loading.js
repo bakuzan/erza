@@ -9,9 +9,15 @@ const launchRequest = (state, action) => {
   return true;
 }
 
-export const isFetching = createReducer(false, {
-    [ANIME_REQUEST] : launchRequest,
-    [ANIME_SUCCESS] : resolveRequest,
-    [TAGS_REQUEST]  : launchRequest,
-    [TAGS_SUCCESS]  : resolveRequest
-});
+export const isFetching = (state = false, action) => {
+  switch(action.type) {
+    case ANIME_REQUEST:
+    case TAGS_REQUEST:
+      return launchRequest;
+    case ANIME_SUCCESS:
+    case TAGS_SUCCESS:
+      return resolveRequest;
+    default: 
+      return state;
+  }
+};
