@@ -5,6 +5,7 @@ import tags from './tags'
 import {isFetching} from './loading'
 import {sorting} from './sorting'
 import {paging} from './paging'
+import {theme} from './theme'
 
 const entities = combineReducers({
   anime,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   entities,
   isFetching,
   sorting,
-  paging
+  paging,
+  theme
 })
 
 export default rootReducer
