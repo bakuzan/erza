@@ -26,6 +26,7 @@ export const Enums = {
 }
 
 export const Strings = {
+  localUserSettings: 'settingState',
   // inputs
   checkbox: 'checkbox',
   selectbox: 'select-one',
