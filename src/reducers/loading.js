@@ -1,5 +1,4 @@
 import { ANIME_REQUEST, ANIME_SUCCESS, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
-import { createReducer } from './utils'
 
 const resolveRequest = (state, action) => {
   return false;
@@ -17,7 +16,7 @@ export const isFetching = (state = false, action) => {
     case ANIME_SUCCESS:
     case TAGS_SUCCESS:
       return resolveRequest;
-    default: 
+    default:
       return state;
   }
 };

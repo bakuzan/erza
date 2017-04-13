@@ -6,6 +6,7 @@ import {Strings} from '../../constants/values'
 const applyThemeToBody = theme => document.body.className = theme;
 
 const AppSettings = ({ theme, setApplicationTheme }) => {
+  const themes = Strings.themes.slice(0);
   applyThemeToBody(theme);
   return (
     <div id="app-settings">
@@ -18,7 +19,7 @@ const AppSettings = ({ theme, setApplicationTheme }) => {
         <li className="dropdown-arrow"></li>
         <li className="button-group">
           {
-            this.themes.map(item => (
+            themes.map(item => (
               <button key={item.class}
                       type="button"
                       role="menuitem"
