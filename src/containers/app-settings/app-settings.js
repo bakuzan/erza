@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, { PropTypes } from 'react'
+import {connect} from 'react-redux'
 import {setApplicationTheme} from '../../actions/theme'
 import {Strings} from '../../constants/values'
 
-const applyThemeToBody = (theme) => {
-  document.body.className = theme;
-}
+const applyThemeToBody = theme => document.body.className = theme;
 
 const AppSettings = ({ theme, setApplicationTheme }) => {
   applyThemeToBody(theme);
