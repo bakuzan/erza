@@ -1,7 +1,6 @@
 import {SET_THEME_CLASS} from '../constants/actions'
 import {Strings} from '../constants/values'
-
-const getUserSettings = () => JSON.parse(localStorage.getItem(Strings.localUserSettings)) || null;
+import {getUserSettings, persistUserSettings} from '../utils/common'
 
 const getUserTheme = () => {
   const settings = getUserSettings();
@@ -10,12 +9,9 @@ const getUserTheme = () => {
 }
 
 const persistUserThemeChoice = (state, action) => {
-  const settings = getUserSettings();
-  const updated = Object.assign({}, settings, { theme: action.theme });
-  localStorage.setItem(Strings.localUserSettings, JSON.stringify(updated));
+  persistUserSettings({ theme: action.theme });
   return action.theme;
 }
-
 
 export const theme = (state = getUserTheme(), action) => {
   switch(action.type) {

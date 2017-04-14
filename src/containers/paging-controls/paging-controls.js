@@ -30,7 +30,7 @@ const PagingControls = ({ totalItems, paging, goBackAPage, goForwardAPage, chang
       <div className="has-float-label select-container">
         <select className="select-box"
                 name="itemsPerPage"
-                selected={paging.itemsPerPage}
+                value={paging.itemsPerPage}
                 onChange={(e) => changeItemsPerPage(e)}
         >
           {
