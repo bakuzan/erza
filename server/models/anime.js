@@ -52,10 +52,10 @@ const AnimeSchema = new Schema({
     type: String,
     default: ''
   },
-  tags: {
-    type: Array,
-    default: []
-  },
+  tags: [{
+    type: ObjectId,
+    ref: 'Tag'
+  }],
 	malId: {
     type: Number
   },

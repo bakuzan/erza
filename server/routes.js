@@ -1,7 +1,9 @@
 const chalk = require('chalk');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+const schema = require('./graphql/schema.js');
 const mongoose = require('mongoose');
+
 const Constants = require('./constants');
 
 const environment = process.env.NODE_ENV || 'development';
@@ -23,6 +25,7 @@ router.use((req, res, next) => {
 // GraphqQL server route
 router.use('/graphql', graphqlHTTP(req => ({
   schema,
+	graphiql: true,
   pretty: true
 })));
 

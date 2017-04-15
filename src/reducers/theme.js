@@ -4,7 +4,7 @@ import {getUserSettings, persistUserSettings} from '../utils/common'
 
 const getUserTheme = () => {
   const settings = getUserSettings();
-  if (!settings || !settings.theme) return Strings.themes[0];
+  if (!settings || !settings.theme) return Strings.themes[0].class;
   return settings.theme;
 }
 
