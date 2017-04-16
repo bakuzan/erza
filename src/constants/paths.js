@@ -20,5 +20,8 @@ export const Paths = {
     view: 'anime-view/',
     create: 'anime/create',
     edit: 'anime/edit/'
+  },
+  graphql: {
+    base: '/graphql?query='
   }
 }

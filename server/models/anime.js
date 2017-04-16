@@ -90,9 +90,9 @@ AnimeSchema.virtual('season').get(function() {
 
   return Object.assign({}, {
     inSeason: (start.year !== seriesStart.year || start.month !== seriesStart.month) && !Common.getSeasonText(start.month),
-    year: start.year
+    year: start.year,
     season: Common.getSeasonText(start.month),
-    fullName: function() {
+    seasonName: function() {
       return `${this.season} ${this.year}`;
     }
   });

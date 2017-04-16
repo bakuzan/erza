@@ -1,4 +1,9 @@
 const express = require('express');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
+
+const graffiti = require('@risingstack/graffiti');
+const {getSchema} = require('@risingstack/graffiti-mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const favicon = require('serve-favicon');
@@ -8,7 +13,14 @@ const dotenv = require('dotenv');
 //loads .env file into process.env
 dotenv.config();
 
+// schema
+const Anime = require('./models/anime.js');
+const Tag = require('./models/tag.js');
+
 const app = express();
+app.use(graffiti.express({
+  schema: getSchema([Anime, Tag])
+}));
 
 // Setup logger
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));

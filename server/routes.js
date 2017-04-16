@@ -1,10 +1,10 @@
 const chalk = require('chalk');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const schema = require('./graphql/schema.js');
 const mongoose = require('mongoose');
 
 const Constants = require('./constants');
+const fetchMe = require('./fetch.js');
 
 const environment = process.env.NODE_ENV || 'development';
 const db = mongoose.connect(`mongodb://localhost/${Constants.appName}-${environment}`, (err) => {
@@ -22,11 +22,7 @@ router.use((req, res, next) => {
 	next(); // pass to next handler.
 });
 
-// GraphqQL server route
-router.use('/graphql', graphqlHTTP(req => ({
-  schema,
-	graphiql: true,
-  pretty: true
-})));
+// Graphql route
+// router.use('/graphql', fetchMe);
 
 module.exports = router;

@@ -20,7 +20,8 @@ const getSeasonText = (month) => {
 
 const handleErrorResponse = (err, res) => {
   console.error(chalk.red(err));
-  return res.status(400).send({ error: err });
+  const error = { error: err };
+  return res ? res.status(400).send(error) : error;
 }
 
 const Common = {

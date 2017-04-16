@@ -1,4 +1,17 @@
 import { TAGS_LOAD, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
+import {Paths} from '../constants/paths'
+import TagQL from '../graphql/query/tag'
+
+const setOptions = (method = 'GET', body = null) => {
+  return {
+    method: method,
+    body: body ? JSON.stringify(body) : body,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  };
+}
 
 const startingTagsRequest = () => ({
   type: TAGS_REQUEST,
@@ -48,7 +61,7 @@ const fetchTags = () => {
 export const loadTags = () => {
   return function(dispatch) {
     dispatch(startingTagsRequest());
-    fetchTags()
+    fetch(`${Paths.graphql.base}${TagQL.getAll}`, setOptions())
       .then(data => dispatch(loadTagsData(data)) )
       .then(() => dispatch(finishTagsRequest()) );
   }
