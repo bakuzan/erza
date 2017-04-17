@@ -6,7 +6,7 @@ import Dialog from '../../components/dialog/dialog'
 import RatingControl from '../../components/rating-control/rating-control'
 import {Strings} from '../../constants/values'
 import {getEventValue, updateNestedProperty} from '../../utils/common'
-import {addEpisodes} from '../../actions/index'
+import {addEpisodes} from '../../actions/anime'
 
 class PagedAnimeList extends Component {
 
@@ -70,7 +70,7 @@ class PagedAnimeList extends Component {
     const { items, paging } = this.props;
     const pagedItems = this.selectPageOfItems(paging, items);
     const editItem = items.find(x => x.id === this.state.editItem.id) || {};
-    console.log(this.state.editItem);
+    console.log(items, paging, pagedItems);
     return (
       <div className="flex-column flex-grow">
         <PagingControls totalItems={items.length} />

@@ -2,19 +2,25 @@ import React, {Component, PropTypes} from 'react'
 import {browserHistory, Link} from 'react-router'
 import { connect } from 'react-redux'
 import RatingControl from '../../components/rating-control/rating-control';
-import {loadAnimeById} from '../../actions/index'
+import {loadAnimeById} from '../../actions/anime'
 import {getKeyByValue} from '../../utils/common'
 import {Paths} from '../../constants/paths'
 import {Strings, Enums, Icons} from '../../constants/values'
 
 const loadData = props => {
-  props.loadAnimeById(parseInt(props.params.id, 10));
+  props.loadAnimeById(props.params.id);
 }
 
 class AnimeView extends Component {
 
   componentDidMount() {
     if (!this.props.item.id) return loadData(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps, this.props);
+    if (nextProps.params.id === this.props.params.id) return;
+    return loadData(nextProps);
   }
 
   render() {

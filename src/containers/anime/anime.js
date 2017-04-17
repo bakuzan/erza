@@ -5,10 +5,11 @@ import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
 import {getEventValue} from '../../utils/common'
-import { loadAnime } from '../../actions/index'
+import { loadAnime } from '../../actions/anime'
 
 const loadData = props => {
-  props.loadAnime();
+  const statusFilter = Enums.anime.status[props.params.filter];
+  props.loadAnime(statusFilter);
 }
 
 class Anime extends Component {
@@ -36,7 +37,7 @@ class Anime extends Component {
     if (this.props.isFetching) return (<LoadingSpinner size="fullscreen" />);
     const searchString = this.state.search.toLowerCase();
     const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.state.isAdult);
-
+    console.log('props => ', this.props, items);
     return (
       <div className="flex-row">
         <ListFilter

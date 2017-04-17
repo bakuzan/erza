@@ -5,7 +5,9 @@ export const Enums = {
       completed: 2,
       onhold: 3,
       dropped: 4,
-      planned: 6
+      planned: 6,
+      // all for status filter
+      all: [1,2,3,4,6]
     },
     type: {
       unknown: 0,
@@ -65,5 +67,7 @@ export const Properties = {
 
 export const Icons = {
   tick: '\u2713',
-  cross: '\u274C'
+  cross: '\u274C',
+  pause: '\u23F8',
+  clockwise: '\u27F3'
 }

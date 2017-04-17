@@ -2,10 +2,17 @@ const chalk = require('chalk');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
+const graffiti = require('@risingstack/graffiti');
+const {getSchema} = require('@risingstack/graffiti-mongoose');
 
 const Constants = require('./constants');
-const fetchMe = require('./fetch.js');
 
+// schema
+const Anime = require('./models/anime.js');
+const Tag = require('./models/tag.js');
+
+// db
 const environment = process.env.NODE_ENV || 'development';
 const db = mongoose.connect(`mongodb://localhost/${Constants.appName}-${environment}`, (err) => {
 	if (err) {
@@ -23,6 +30,8 @@ router.use((req, res, next) => {
 });
 
 // Graphql route
-// router.use('/graphql', fetchMe);
+router.use(graffiti.express({
+  schema: getSchema([Anime, Tag])
+}));
 
 module.exports = router;

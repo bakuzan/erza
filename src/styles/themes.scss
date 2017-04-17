@@ -75,6 +75,9 @@
        color: $anchor-colour-hover;
       }
     }
+    .button-icon.bold {
+      font-weight: bold;
+    }
 
     .radio input[type="radio"]:checked::after {
       color: $colour;

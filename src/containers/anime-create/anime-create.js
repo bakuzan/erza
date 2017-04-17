@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router'
-import { createAnime, editAnime } from '../../actions/index'
+import { createAnime, editAnime } from '../../actions/anime'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import { capitalise, getEventValue } from '../../utils/common'

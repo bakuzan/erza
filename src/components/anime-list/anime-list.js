@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Paths} from '../../constants/paths'
-import {Enums} from '../../constants/values'
+import {Enums, Icons} from '../../constants/values'
 import {formatDateForDisplay} from '../../utils/common'
 import './anime-list.css'
 
@@ -30,6 +30,21 @@ const AnimeList = ({ items, addEpisode }) => (
                     ></button>
                 }
               <span>{ `${item.episode}/${item.series_episodes || '??'}` }</span>
+              {
+                item.status === Enums.anime.status.onhold &&
+                <span className="button-icon small bold"
+                      icon={Icons.pause}></span>
+              }
+              {
+                item.status === Enums.anime.status.completed &&
+                <span className="button-icon small bold"
+                      icon={Icons.tick}></span>
+              }
+              {
+                item.isRepeat &&
+                <span className="button-icon small bold"
+                      icon={Icons.clockwise}></span>
+              }
             </div>
             <div className="button-group">
               <Link to={`${Paths.base}${Paths.anime.view}${item.id}`}

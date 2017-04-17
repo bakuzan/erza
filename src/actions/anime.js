@@ -4,78 +4,9 @@ import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
 import {mapEpisodeData} from '../utils/data'
 import {Paths} from '../constants/paths'
+import fetchFromServer from '../graphql/fetch'
+import AnimeQL from '../graphql/query/anime'
 import {Strings} from '../constants/values'
-
-// test
-const testObj = [
-  {
-    id: 0,
-    title: 'abc',
-    status: 2,
-    updatedDate: new Date(2017, 0, 1).toISOString(),
-    isAdult: false,
-    tags: Array(0)
-  },
-  {
-    id: 1,
-    title: 'zab',
-    status: 1,
-    updatedDate: new Date(2017, 2, 25).toISOString(),
-    isAdult: false,
-        tags: Array(0)
-  },
-  {
-    id: 2,
-    title: 'mno',
-    status: 1,
-    updatedDate: new Date(2013, 0, 1).toISOString(),
-    isAdult: false,
-        tags: Array(0)
-  },
-  {
-    id: 3,
-    title: 'xyz',
-    status: 1,
-    updatedDate: new Date(2014, 10, 21).toISOString(),
-    isAdult: false,
-        tags: Array(0)
-  },
-  {
-    id: 4,
-    title: 'jkl',
-    status: 1,
-    updatedDate: new Date(2016, 11, 31).toISOString(),
-    isAdult: false,
-        tags: Array(0)
-  },
-  {
-    id: 5,
-    title: 'rst',
-    status: 1,
-    updatedDate: new Date(2015, 4, 4).toISOString(),
-    isAdult: true,
-        tags: Array(0)
-  },
-  {
-    id: 6,
-    title: 'Kill La Kill',
-    status: 2,
-    start: new Date(2013, 9, 8).toISOString().split('T')[0],
-    end: new Date(2014, 2, 24).toISOString().split('T')[0],
-    rating: 9,
-    episode: 24,
-    series_episodes: 24,
-    isRepeat: false,
-    isAdult: false,
-    timesCompleted: 2,
-    tags: [0, 7],
-    owned: true,
-    image: 'https://myanimelist.cdn-dena.com/images/anime/8/75514.jpg',
-    link: '',
-    updatedDate: new Date(2015, 4, 4).toISOString().split('T')[0]
-  }
-]
-// test
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
@@ -154,19 +85,11 @@ export const addEpisodes = (updateValues) => {
   }
 }
 
-//TEMP UNTIL SERVER-SIDE
-const fetchAnimeById = (id) => {
-  return Promise.resolve(testObj.find(x => x.id === id));
-}
-const fetchAnime = () => {
-  return Promise.resolve(testObj);
-}
-
-export const loadAnime = () => {
+export const loadAnime = (status = 1) => {
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    fetchAnime()
-      .then(data => dispatch(loadAnimeData(data)) )
+    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(status)}`)
+      .then(response => dispatch(loadAnimeData(response.data.animes)) )
       .then(() => dispatch(finishAnimeRequest()) );
   }
 }
@@ -174,8 +97,8 @@ export const loadAnime = () => {
 export const loadAnimeById = (id) => {
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    fetchAnimeById(id)
-      .then(data => dispatch(loadAnimeData([data])) )
+    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getById(id)}`)
+      .then(response => dispatch(loadAnimeData([response.data.anime])) )
       .then(() => dispatch(finishAnimeRequest()) );
   }
 }

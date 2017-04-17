@@ -36,6 +36,10 @@ const AnimeSchema = new Schema({
     type: Number,
     default: 0
   },
+  isAdult: {
+    type: Boolean,
+    default: false
+  },
   isRepeat: {
     type: Boolean,
     default: false

@@ -1,7 +1,7 @@
 const getAll = `
   query allTags {
     tags {
-      _id,
+      id,
       name,
       isAdult
     }
