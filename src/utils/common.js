@@ -41,3 +41,6 @@ export const persistUserSettings = (settingUpdate) => {
   localStorage.setItem(Strings.localUserSettings, JSON.stringify(updated));
   return updated;
 }
+
+export const getTimeoutSeconds = s => 1000 * s;
+export const getTimeoutMinutes = m => getTimeoutSeconds(60) * m;
