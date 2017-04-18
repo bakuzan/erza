@@ -56,6 +56,9 @@ export const Strings = {
   anime: 'anime',
   manga: 'manga',
   monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  // theme
+  light: 'Light',
+  dark: 'Dark',
   themes: [{ name: 'Light', class: 'theme-one' }, { name: 'Dark', class: 'theme-two' }]
 }
 
