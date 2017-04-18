@@ -1,18 +1,10 @@
+import { animeKeyFields, pagedData } from './common'
+
 const getAll = `
   query allAnime {
     animes {
-      id,
-      title,
-      episode,
-      start,
-      end,
-      status,
-      isAdult,
-      owned,
-      image,
-      malId,
-      series_episodes,
-      updatedDate
+      ...animeKeyFields,
+      ...pagedData
     }
   }
 `;
@@ -20,18 +12,8 @@ const getAll = `
 const getByStatus = (status) => (`
   query animeByStatus {
     animes(status: ${status}) {
-      id,
-      title,
-      episode,
-      start,
-      end,
-      status,
-      isAdult,
-      owned,
-      image,
-      malId,
-      series_episodes,
-      updatedDate
+      ...animeKeyFields,
+      ...pagedData
     }
   }
 `);
@@ -39,20 +21,9 @@ const getByStatus = (status) => (`
 const getById = (id) => (`
   query animeById {
     anime(id: "${id}") {
-      id,
-      title,
-      episode,
-      start,
-      end,
-      status,
+      ...animeKeyFields,
       rating,
-      isAdult,
       isRepeat,
-      owned,
-      image,
-      malId,
-      series_episodes,
-      updatedDate
     }
   }
 `);
