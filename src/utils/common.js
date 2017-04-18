@@ -39,4 +39,5 @@ export const persistUserSettings = (settingUpdate) => {
   const settings = getUserSettings();
   const updated = Object.assign({}, settings, settingUpdate);
   localStorage.setItem(Strings.localUserSettings, JSON.stringify(updated));
+  return updated;
 }
