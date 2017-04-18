@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react'
 import {connect} from 'react-redux'
-import {setApplicationTheme} from '../../actions/theme'
+import Tickbox from '../../components/tickbox/tickbox';
+import {setApplicationTheme, toggleTimedTheme} from '../../actions/theme'
 import {Strings} from '../../constants/values'
 
 const applyThemeToBody = theme => document.body.className = theme;
 
-const AppSettings = ({ theme, setApplicationTheme }) => {
+const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme }) => {
   const themes = Strings.themes.slice(0);
   applyThemeToBody(theme);
   return (
@@ -31,6 +32,13 @@ const AppSettings = ({ theme, setApplicationTheme }) => {
             ))
           }
         </li>
+        <li>
+          <Tickbox text="timed theme change"
+                   name="isTimed"
+                   checked={isTimed}
+                   onChange={() => toggleTimedTheme()}
+          />
+        </li>
       </ul>
     </div>
   );
@@ -38,11 +46,20 @@ const AppSettings = ({ theme, setApplicationTheme }) => {
 
 AppSettings.propTypes = {
   theme: PropTypes.string.isRequired,
-  setApplicationTheme: PropTypes.func.isRequired
+  isTimed: PropTypes.bool.isRequired,
+  setApplicationTheme: PropTypes.func.isRequired,
+  toggleTimedTheme: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({ theme: state.theme });
-const mapDispatchToProps = ({ setApplicationTheme })
+const mapStateToProps = (state) => ({ 
+  theme: state.theme.class,
+  isTimed: state.theme.isTimed
+})
+
+const mapDispatchToProps = ({ 
+  setApplicationTheme,
+  toggleTimedTheme
+})
 
 export default connect(
   mapStateToProps,
