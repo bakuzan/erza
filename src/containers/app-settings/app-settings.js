@@ -15,8 +15,8 @@ const setTimedThemeCheck = (theme, updateTheme) => {
       let timedThemeShade;
       const { sunrise, sunset } = json.results;
       
-      clearTimeout(timedTheme);
-      timedTheme = setTimeout(() => {
+      clearInterval(timedTheme);
+      timedTheme = setInterval(() => {
         const start = new Date(sunrise).getTime();
         const end = new Date(sunset).getTime();
         const now = Date.now();
