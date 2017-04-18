@@ -1,9 +1,9 @@
+import { tagFields } from './common'
+
 const getAll = `
   query allTags {
     tags {
-      id,
-      name,
-      isAdult
+      ${tagFields}
     }
   }
 `;

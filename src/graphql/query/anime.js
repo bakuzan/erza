@@ -1,10 +1,9 @@
-import { animeKeyFields, pagedData } from './common'
+import { animeKeyFields, pagedData, tagFields } from './common'
 
 const getAll = `
   query allAnime {
     animes {
-      ...animeKeyFields,
-      ...pagedData
+      ${animeKeyFields}
     }
   }
 `;
@@ -12,8 +11,7 @@ const getAll = `
 const getByStatus = (status) => (`
   query animeByStatus {
     animes(status: ${status}) {
-      ...animeKeyFields,
-      ...pagedData
+      ${animeKeyFields}
     }
   }
 `);
@@ -21,9 +19,31 @@ const getByStatus = (status) => (`
 const getById = (id) => (`
   query animeById {
     anime(id: "${id}") {
-      ...animeKeyFields,
+      ${animeKeyFields},
       rating,
       isRepeat,
+    }
+  }
+`);
+
+const getByIdForEdit = (id) => (`
+  query animeForEdit {
+    anime(id: "${id}") {
+      ${animeKeyFields},
+      isRepeat,
+      link,
+      rating,
+      series_end,
+      series_start,
+      series_type,
+      tags {
+        edges {
+          node {
+            id
+          }
+        }
+      },
+      timesCompleted
     }
   }
 `);
@@ -31,7 +51,8 @@ const getById = (id) => (`
 const AnimeQL = {
   getAll,
   getById,
-  getByStatus
+  getByStatus,
+  getByIdForEdit
 };
 
 export default AnimeQL;

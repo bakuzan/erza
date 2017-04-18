@@ -9,18 +9,22 @@ export const pagedData = `
 `;
 
 export const animeKeyFields = `
-  fragment keyFields on Anime {
-    id,
-    title,
-    episode,
-    start,
-    end,
-    status,
-    isAdult,
-    owned,
-    image,
-    malId,
-    series_episodes,
-    updatedDate
-  }
+  id,
+  title,
+  episode,
+  start,
+  end,
+  status,
+  isAdult,
+  owned,
+  image,
+  malId,
+  series_episodes,
+  updatedDate
+`;
+
+export const tagFields = `
+  id,
+  name,
+  isAdult
 `;

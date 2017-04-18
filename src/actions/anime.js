@@ -94,10 +94,10 @@ export const loadAnime = (status = 1) => {
   }
 }
 
-export const loadAnimeById = (id) => {
+export const loadAnimeById = (id, type = 'getById') => {
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getById(id)}`)
+    fetchFromServer(`${Paths.graphql.base}${AnimeQL[type](id)}`)
       .then(response => dispatch(loadAnimeData([response.data.anime])) )
       .then(() => dispatch(finishAnimeRequest()) );
   }

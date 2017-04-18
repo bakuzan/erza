@@ -15,10 +15,14 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import TabContainer from '../../components/tab-container/tab-container'
 import TabView from '../../components/tab-view/tab-view'
 import FileUploader from '../../components/file-uploader/file-uploader'
+import {loadAnimeById} from '../../actions/anime'
 import { loadTags } from '../../actions/tags'
 
 const loadData = props => {
   props.loadTags();
+  if (!!props.params.id) {
+    props.loadAnimeById(props.params.id, 'getByIdForEdit');
+  }
 }
 
 class AnimeCreate extends Component {
@@ -258,6 +262,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   loadTags,
+  loadAnimeById,
   createAnime,
   editAnime
 }

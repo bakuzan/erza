@@ -10,18 +10,20 @@ const getUserTheme = () => {
 }
 
 const persistUserThemeChoice = (state, action) => {
-  return persistUserSettings({
+  const updatedSettings = persistUserSettings({
     theme: { ...state, class: action.theme }
   });
+  return updatedSettings.theme;
 }
 
 const persistUserTimedSetting = (state, action) => {
-  return persistUserSettings({
+  const updatedSettings = persistUserSettings({
     theme: { ...state, isTimed: !state.isTimed }
   });
+  return updatedSettings.theme;
 }
 
 export const theme = createReducer(getUserTheme(), {
-  [SET_THEME_CLASS]     : persistUserThemeChoice(state, action);
-  [TOGGLE_TIMED_THEME]  : persistUserTimedSetting(state, action);
-}
+  [SET_THEME_CLASS]     : persistUserThemeChoice,
+  [TOGGLE_TIMED_THEME]  : persistUserTimedSetting
+})

@@ -9,12 +9,13 @@ import {getTimeoutMinutes} from '../../utils/common'
 let timedTheme;
 const applyThemeToBody = theme => document.body.className = theme;
 const setTimedThemeCheck = (theme, updateTheme) => {
+  const themes = Strings.themes.slice(0);
   fetch(Paths.sunrise_sunset)
     .then(response => response.json())
     .then(json => {
       let timedThemeShade;
       const { sunrise, sunset } = json.results;
-      
+
       clearInterval(timedTheme);
       timedTheme = setInterval(() => {
         const start = new Date(sunrise).getTime();
@@ -31,7 +32,7 @@ const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme }) 
   const themes = Strings.themes.slice(0);
   applyThemeToBody(theme);
   if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
-  
+
   return (
     <div id="app-settings">
       <button type="button"
@@ -74,12 +75,12 @@ AppSettings.propTypes = {
   toggleTimedTheme: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({ 
+const mapStateToProps = (state) => ({
   theme: state.theme.class,
   isTimed: state.theme.isTimed
 })
 
-const mapDispatchToProps = ({ 
+const mapDispatchToProps = ({
   setApplicationTheme,
   toggleTimedTheme
 })

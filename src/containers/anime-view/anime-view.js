@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {browserHistory, Link} from 'react-router'
 import { connect } from 'react-redux'
 import RatingControl from '../../components/rating-control/rating-control';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import {loadAnimeById} from '../../actions/anime'
 import {getKeyByValue} from '../../utils/common'
 import {Paths} from '../../constants/paths'
@@ -14,17 +15,12 @@ const loadData = props => {
 class AnimeView extends Component {
 
   componentDidMount() {
-    if (!this.props.item.id) return loadData(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps, this.props);
-    if (nextProps.params.id === this.props.params.id) return;
-    return loadData(nextProps);
+    loadData(this.props);
   }
 
   render() {
-    const { item } = this.props;
+    const { item, isFetching } = this.props;
+    if (isFetching) return (<LoadingSpinner size="fullscreen" />);
 
     return (
       <section>
@@ -76,7 +72,8 @@ class AnimeView extends Component {
 }
 
 AnimeView.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 const selectItemFromId = (anime, id) => {
@@ -84,7 +81,8 @@ const selectItemFromId = (anime, id) => {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  item: selectItemFromId(state.entities.anime, ownProps.params.id)
+  item: selectItemFromId(state.entities.anime, ownProps.params.id),
+  isFetching: state.isFetching
 })
 
 const mapDispatchToProps = ({
