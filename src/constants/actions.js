@@ -21,3 +21,4 @@ export const NEXT_PAGE = 'NEXT_PAGE'
 export const PREV_PAGE = 'PREV_PAGE'
 
 export const SET_THEME_CLASS = 'SET_THEME_CLASS'
+export const TOGGLE_TIMED_THEME = 'TOGGLE_TIMED_THEME'
