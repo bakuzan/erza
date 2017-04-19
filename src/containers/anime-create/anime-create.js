@@ -5,7 +5,7 @@ import { createAnime, editAnime } from '../../actions/anime'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import { capitalise, getEventValue } from '../../utils/common'
-import ValidationUtil from '../../utils/validation'
+import AnimeValidator from '../../utils/validators/anime-creation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
 import Tickbox from '../../components/tickbox/tickbox';
@@ -48,7 +48,7 @@ class AnimeCreate extends Component {
     const updatedValue = getEventValue(target);
     this.setState((prevState) => {
       const updatedState = Object.assign({}, prevState, { [target.name]: updatedValue });
-      return ValidationUtil.validateAnimeModel(updatedState, target.name);
+      return AnimeValidator.validateAnimeChanges(updatedState, target.name);
     });
   }
 
