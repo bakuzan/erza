@@ -5,8 +5,7 @@ const ObjectId = Schema.ObjectId;
 const EpisodeSchema = new Schema({
   parent: {
     type: ObjectId,
-    ref: 'Anime',
-    required: 'Parent Id is required'
+    ref: 'Anime'
   },
   date: {
     type: Date

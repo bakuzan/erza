@@ -1,4 +1,5 @@
-import { animeKeyFields, pagedData, tagFields } from './common'
+import { animeKeyFields } from './common'
+//pagedData, tagFields
 
 const getAll = `
   query allAnime {

@@ -22,7 +22,8 @@ const setTimedThemeCheck = (theme, updateTheme) => {
         const end = new Date(sunset).getTime();
         const now = Date.now();
         timedThemeShade = (start < now && now < end) ? Strings.light : Strings.dark;
-        if (theme !== themes.find(x => x.name === timedThemeShade).class) return updateTheme(timedTheme);
+        const themeClass = themes.find(x => x.name === timedThemeShade).class;
+        if (theme !== themeClass) return updateTheme(themeClass);
       }, getTimeoutMinutes(5));
     })
     .catch(error => console.error(error));

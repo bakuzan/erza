@@ -1,17 +1,4 @@
-import {Enums, Properties} from '../constants/values'
-
-const validateAnimeChanges = (model, updateProperty) => {
-  return Object.assign({}, model, processValidatorChanges(model, updateProperty));
-}
-
-const processValidatorChanges = (anime, property) => {
-  switch(property) {
-    case Properties.episode  : return episodeChangeHandler(anime);
-    case Properties.status   : return statusChangeHandler(anime);
-    case Properties.isRepeat : return repeatChangeHandler(anime);
-    default                  : return {};
-  }
-}
+import {Enums, Properties} from '../../constants/values'
 
 const episodeChangeHandler = (anime) => {
   const changes = {};
@@ -26,7 +13,7 @@ const episodeChangeHandler = (anime) => {
 }
 
 const statusChangeHandler = (anime) => {
-  const { planned, ongoing, completed } = Enums.anime.status;
+  const { planned, ongoing } = Enums.anime.status;
   switch(anime.status) {
       case planned   : return { start: '', end: '' };
       case ongoing   : return { start: new Date(), end: '' };
@@ -38,11 +25,24 @@ const repeatChangeHandler = (anime) => {
   return { episode: anime.isRepeat ? 0 : anime.series_episodes };
 }
 
+const processValidatorChanges = (anime, property) => {
+  switch(property) {
+    case Properties.episode  : return episodeChangeHandler(anime);
+    case Properties.status   : return statusChangeHandler(anime);
+    case Properties.isRepeat : return repeatChangeHandler(anime);
+    default                  : return {};
+  }
+}
+
+const validateAnimeChanges = (model, updateProperty) => {
+  return Object.assign({}, model, processValidatorChanges(model, updateProperty));
+}
+
 const validateAnimeSubmission = (model) => {
   console.warn('validateAnimeSubmission not implemented!');
 }
 
-const animeValidator = {
+const AnimeValidator = {
   validateAnimeChanges,
   validateAnimeSubmission
 }
