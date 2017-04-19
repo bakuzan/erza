@@ -10,6 +10,7 @@ const Constants = require('./constants');
 
 // schema
 const Anime = require('./models/anime.js');
+const Episode = require('./models/episode.js');
 const Tag = require('./models/tag.js');
 
 // db
@@ -30,8 +31,19 @@ router.use((req, res, next) => {
 });
 
 // Graphql route
-router.use(graffiti.express({
-  schema: getSchema([Anime, Tag])
-}));
+router.use(
+  graffiti.express({
+    schema: getSchema([Anime, Episode, Tag]),
+    graphiql: true,
+    pretty: true,
+    extensions: ({ document, variables, operationName, result }) => ({ requestAt: Date.now() }),
+    formatError: error => ({
+      message: error.message,
+      locations: error.locations,
+      stack: error.stack,
+      path: error.path
+    })
+  })
+);
 
 module.exports = router;
