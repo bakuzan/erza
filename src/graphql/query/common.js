@@ -1,4 +1,10 @@
-export const pagedData = `
+export const pagedDataWrapper = (fields) => (`
+  edges {
+    cursor
+    node {
+      ${fields}
+    }
+  }
   pageInfo {
     hasNextPage,
     hasPreviousPage,
@@ -6,7 +12,7 @@ export const pagedData = `
     endCursor
   }
   totalCount
-`;
+`);
 
 export const animeKeyFields = `
   id,
