@@ -1,4 +1,4 @@
-import { TOGGLE_SORT, SET_SORT_KEY, NEXT_PAGE, PREV_PAGE, SET_ITEMS_PER_PAGE } from '../constants/actions'
+import { TOGGLE_SORT, SET_SORT_KEY, NEXT_PAGE, PREV_PAGE, SET_ITEMS_PER_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
 
 export const toggleSortOrder = (event) => ({
   type: TOGGLE_SORT,
@@ -21,4 +21,9 @@ export const prevPage = () => ({
 export const setItemsPerPage = (event) => ({
   type: SET_ITEMS_PER_PAGE,
   itemsPerPage: event.target.value
+})
+
+export const loadPageInfo = (paging) => ({
+  type: LOAD_PAGE_INFO,
+  paging
 })

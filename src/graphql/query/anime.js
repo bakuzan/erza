@@ -1,4 +1,4 @@
-import { animeKeyFields } from './common'
+import { animeKeyFields, pagedDataWrapper } from './common'
 //pagedData, tagFields
 
 const getAll = `
@@ -9,10 +9,12 @@ const getAll = `
   }
 `;
 
-const getByStatus = (status) => (`
-  query animeByStatus {
-    animes(status: ${status}) {
-      ${animeKeyFields}
+const getByStatus = (pageParameters, status) => (`
+  {
+    viewer {
+      animes(${pageParameters} status: ${status}) {
+        ${pagedDataWrapper(animeKeyFields)}
+      }
     }
   }
 `);

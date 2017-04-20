@@ -1,4 +1,4 @@
-import { SET_ITEMS_PER_PAGE, NEXT_PAGE, PREV_PAGE } from '../constants/actions'
+import { SET_ITEMS_PER_PAGE, NEXT_PAGE, PREV_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
 import {getUserSettings, persistUserSettings} from '../utils/common'
 
 const changePage = (state, action) => {
@@ -27,9 +27,22 @@ const setItemsPerPage = (state, action) => {
   }
 }
 
-export const paging = (state = { itemsPerPage: getUserItemsPerPage(), page: 0 }, action) => {
+const setPageInfo = (state, action) => {
+  if (action.type !== LOAD_PAGE_INFO) return state;
+  const { pageInfo, count } = action.paging;
+  return {
+    totalCount: count,
+    hasNextPage: pageInfo.hasNextPage,
+    hadPrevPage: pageInfo.hasPreviousPage,
+    before: pageInfo.startCursor,
+    after: pageInfo.endCursor
+  };
+}
+
+export const paging = (state = { itemsPerPage: getUserItemsPerPage(), page: 0, pageInfo: {} }, action) => {
   return {
     itemsPerPage: setItemsPerPage(state.itemsPerPage, action),
-    page: changePage(state.page, action)
+    page: changePage(state.page, action),
+    pageInfo: setPageInfo(state.pageInfo, action)
   };
 }

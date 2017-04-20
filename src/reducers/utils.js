@@ -18,10 +18,24 @@ export function addEntity(state, action) {
   })
 }
 
+export function addListEntity(state, action) {
+  const updatedById = update(state, {
+    byId: {
+      [action.item.node.id]: { $set: action.item }
+    }
+  });
+  const idExists = updatedById.allIds.find(x => x === action.item.node.id);
+  if (idExists) return updatedById;
+
+  return update(updatedById, {
+    allIds: { $push: [action.item.node.id] }
+  })
+}
+
 export function loadEntityList(state, action) {
   let latestState = state;
   action.data.forEach(item => {
-    latestState = addEntity(latestState, { item });
+    latestState = addListEntity(latestState, { item });
   });
   return latestState;
 }

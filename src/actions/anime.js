@@ -6,6 +6,7 @@ import {mapEpisodeData} from '../utils/data'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
+import {loadPageInfo} from './list-settings'
 import {Strings} from '../constants/values'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
@@ -14,6 +15,20 @@ let testId = 7;
 const getTestId = () => {
   return testId++;
 }
+
+// temp function
+const tempFunctionForPageing = (paging, { sortKey, sortOrder }) => {
+  return `
+    first: ${paging.itemsPerPage},
+    ${
+      !paging.move           ? ' '                      :
+      paging.move === 'NEXT' ? `after: ${paging.after},` :
+                               `before: ${paging.before},`
+    }
+    orderBy: ${sortKey.toUpperCase()}_${sortOrder},
+  `;
+}
+//
 
 const startingAnimeRequest = () => ({
   type: ANIME_REQUEST,
@@ -86,10 +101,17 @@ export const addEpisodes = (updateValues) => {
 }
 
 export const loadAnime = (status = 1) => {
-  return function(dispatch) {
+  return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
-    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(status)}`)
-      .then(response => dispatch(loadAnimeData(response.data.animes)) )
+    const { paging, sorting } = getState();
+    const pageSettings = tempFunctionForPageing(paging, sorting);
+    console.log('page settings => ', pageSettings);
+    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(pageSettings, status)}`)
+      .then(response => {
+        const data = response.data.viewer.animes;
+        dispatch(loadAnimeData(data.edges));
+        dispatch(loadPageInfo({ pageInfo: data.pageInfo, count: data.count }));
+      })
       .then(() => dispatch(finishAnimeRequest()) );
   }
 }

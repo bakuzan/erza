@@ -11,7 +11,7 @@ export const pagedDataWrapper = (fields) => (`
     startCursor,
     endCursor
   }
-  totalCount
+  count
 `);
 
 export const animeKeyFields = `

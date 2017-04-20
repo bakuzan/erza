@@ -67,15 +67,15 @@ class PagedAnimeList extends Component {
   }
 
   render() {
-    const { items, paging } = this.props;
-    const pagedItems = this.selectPageOfItems(paging, items);
+    const { items } = this.props;
+    // const pagedItems = this.selectPageOfItems(paging, items);
     const editItem = items.find(x => x.id === this.state.editItem.id) || {};
-    console.log(items, paging, pagedItems);
+    console.log(items);
     return (
       <div className="flex-column flex-grow">
-        <PagingControls totalItems={items.length} />
+        <PagingControls />
         <AnimeList
-            items={pagedItems}
+            items={items}
             addEpisode={this.openEditDialog}
         />
         <Dialog

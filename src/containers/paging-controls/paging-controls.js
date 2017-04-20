@@ -2,27 +2,28 @@ import React, {PropTypes} from 'react'
 import { connect } from 'react-redux'
 import {nextPage, prevPage, setItemsPerPage} from '../../actions/list-settings'
 
-const PagingControls = ({ totalItems, paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
-  const finalPage = Math.ceil(totalItems / paging.itemsPerPage) - 1;
+const PagingControls = ({ paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
+  const { pageInfo: { totalCount, hasNextPage, hasPrevPage }, itemsPerPage, page } = paging;
+  const finalPage = Math.ceil(totalCount / itemsPerPage) - 1;
   return (
     <div className="flex-row">
       <div className="button-group centered flex-grow">
         <button type="button"
                 className="button ripple"
                 onClick={goBackAPage}
-                disabled={paging.page === 0}
+                disabled={!hasPrevPage}
         >
         Previous
         </button>
         <div className="center-contents padding-5">
         {
-          `${paging.page + 1}/${finalPage + 1}`
+          `${page + 1}/${finalPage + 1}`
         }
         </div>
         <button type="button"
                 className="button ripple"
                 onClick={goForwardAPage}
-                disabled={paging.page === finalPage}
+                disabled={!hasNextPage}
         >
         Next
         </button>
@@ -30,7 +31,7 @@ const PagingControls = ({ totalItems, paging, goBackAPage, goForwardAPage, chang
       <div className="has-float-label select-container">
         <select className="select-box"
                 name="itemsPerPage"
-                value={paging.itemsPerPage}
+                value={itemsPerPage}
                 onChange={(e) => changeItemsPerPage(e)}
         >
           {
@@ -53,7 +54,6 @@ PagingControls.propTypes = {
   changeItemsPerPage: PropTypes.func.isRequired,
   goForwardAPage: PropTypes.func.isRequired,
   goBackAPage: PropTypes.func.isRequired,
-  totalItems: PropTypes.number.isRequired,
   paging: PropTypes.object.isRequired
 }
 
