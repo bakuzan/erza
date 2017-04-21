@@ -100,13 +100,13 @@ export const addEpisodes = (updateValues) => {
   }
 }
 
-export const loadAnime = (status = 1) => {
+export const loadAnime = (filters = { status: 1, isAdult: false }) => {
   return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
     const { paging, sorting } = getState();
     const pageSettings = tempFunctionForPageing(paging, sorting);
     console.log('page settings => ', pageSettings);
-    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(pageSettings, status)}`)
+    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(pageSettings, filters)}`)
       .then(response => {
         const data = response.data.viewer.animes;
         dispatch(loadAnimeData(data.edges));
