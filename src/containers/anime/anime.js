@@ -7,9 +7,9 @@ import {Strings, Enums} from '../../constants/values'
 import {getEventValue} from '../../utils/common'
 import { loadAnime } from '../../actions/anime'
 
-const loadData = props => {
-  const statusFilter = Enums.anime.status[props.params.filter];
-  props.loadAnime(statusFilter);
+const loadData = (props, state) => {
+  const status = Enums.anime.status[props.params.filter];
+  props.loadAnime({ status, ...state });
 }
 
 class Anime extends Component {
@@ -25,12 +25,13 @@ class Anime extends Component {
   }
 
   componentDidMount() {
-    loadData(this.props);
+    loadData(this.props, this.state);
   }
 
   handleUserInput({ target }) {
     const newValue = getEventValue(target);
     this.setState({ [target.name]: newValue });
+    loadData(this.props, this.state);
   }
 
   render() {
