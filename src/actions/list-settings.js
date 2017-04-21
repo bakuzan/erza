@@ -10,13 +10,27 @@ export const setSortKey = (event) => ({
   key: event.target.value
 })
 
-export const nextPage = () => ({
+const fetchNextPage = () => ({
   type: NEXT_PAGE
 })
 
-export const prevPage = () => ({
+const fetchPrevPage = () => ({
   type: PREV_PAGE
 })
+
+export const nextPage = (type) => {
+  return function () {
+    // TODO based on type select loadData for that type
+    fetchNextPage();
+  }
+}
+
+export const prevPage = (type) => {
+  return function () {
+    // TODO based on type select loadData for that type
+    fetchPrevPage();
+  }
+}
 
 export const setItemsPerPage = (event) => ({
   type: SET_ITEMS_PER_PAGE,
