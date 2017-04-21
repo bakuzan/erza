@@ -17,13 +17,13 @@ const getTestId = () => {
 }
 
 // temp function
-const tempFunctionForPageing = (paging, { sortKey, sortOrder }) => {
+const tempFunctionForPageing = (paging, { sortKey, sortOrder }, pageChange) => {
   return `
     first: ${paging.itemsPerPage},
     ${
-      !paging.move           ? ' '                      :
-      paging.move === 'NEXT' ? `after: ${paging.after},` :
-                               `before: ${paging.before},`
+       pageChange === Strings.next ? `after: ${paging.after},`   :
+       pageChange === Strings.prev ? `before: ${paging.before},` :
+                                      ' '
     }
     orderBy: ${sortKey.toUpperCase()}_${sortOrder},
   `;
@@ -100,11 +100,11 @@ export const addEpisodes = (updateValues) => {
   }
 }
 
-export const loadAnime = (filters = { status: 1, isAdult: false }) => {
+export const loadAnime = (filters = { status: 1, isAdult: false }, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
     const { paging, sorting } = getState();
-    const pageSettings = tempFunctionForPageing(paging, sorting);
+    const pageSettings = tempFunctionForPageing(paging, sorting, pageChange);
     console.log('page settings => ', pageSettings);
     fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(pageSettings, filters)}`)
       .then(response => {
