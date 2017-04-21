@@ -43,6 +43,8 @@ export const Strings = {
   // directions
   ascending: 'ASC',
   descending: 'DESC',
+  next: 'next',
+  prev: 'prev',
   // page text
   create: 'Create',
   edit: 'Edit',
