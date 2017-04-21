@@ -73,7 +73,7 @@ class PagedAnimeList extends Component {
     console.log(items);
     return (
       <div className="flex-column flex-grow">
-        <PagingControls />
+        <PagingControls listType={Strings.anime} />
         <AnimeList
             items={items}
             addEpisode={this.openEditDialog}
