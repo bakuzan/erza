@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import { connect } from 'react-redux'
 import {nextPage, prevPage, setItemsPerPage} from '../../actions/list-settings'
 
-const PagingControls = ({ paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
+const PagingControls = ({ listType, paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
   const { pageInfo: { totalCount, hasNextPage, hasPrevPage }, itemsPerPage, page } = paging;
   const finalPage = Math.ceil(totalCount / itemsPerPage) - 1;
   return (
@@ -10,7 +10,7 @@ const PagingControls = ({ paging, goBackAPage, goForwardAPage, changeItemsPerPag
       <div className="button-group centered flex-grow">
         <button type="button"
                 className="button ripple"
-                onClick={goBackAPage}
+                onClick={goBackAPage(listType)}
                 disabled={!hasPrevPage}
         >
         Previous
@@ -22,7 +22,7 @@ const PagingControls = ({ paging, goBackAPage, goForwardAPage, changeItemsPerPag
         </div>
         <button type="button"
                 className="button ripple"
-                onClick={goForwardAPage}
+                onClick={goForwardAPage(listType)}
                 disabled={!hasNextPage}
         >
         Next
@@ -54,7 +54,8 @@ PagingControls.propTypes = {
   changeItemsPerPage: PropTypes.func.isRequired,
   goForwardAPage: PropTypes.func.isRequired,
   goBackAPage: PropTypes.func.isRequired,
-  paging: PropTypes.object.isRequired
+  paging: PropTypes.object.isRequired,
+  listType: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
