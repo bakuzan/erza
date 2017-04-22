@@ -1,5 +1,4 @@
-import { animeKeyFields, pagedDataWrapper } from './common'
-//pagedData, tagFields
+import { animeKeyFields, pagedDataWrapper, constructFilterString } from './common'
 
 const getAll = `
   query allAnime {
@@ -9,10 +8,10 @@ const getAll = `
   }
 `;
 
-const getByStatus = (pageParameters, status) => (`
+const getFilteredList = (pageParameters, filters) => (`
   {
     viewer {
-      animes(${pageParameters} status: ${status}) {
+      animes(${pageParameters}${constructFilterString(filters)}) {
         ${pagedDataWrapper(animeKeyFields)}
       }
     }
@@ -54,7 +53,7 @@ const getByIdForEdit = (id) => (`
 const AnimeQL = {
   getAll,
   getById,
-  getByStatus,
+  getFilteredList,
   getByIdForEdit
 };
 

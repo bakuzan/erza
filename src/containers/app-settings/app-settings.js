@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import {connect} from 'react-redux'
 import Tickbox from '../../components/tickbox/tickbox';
 import {setApplicationTheme, toggleTimedTheme} from '../../actions/theme'
+import {toggleIsAdult} from '../../actions/is-adult'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
 import {getTimeoutMinutes} from '../../utils/common'
@@ -29,7 +30,7 @@ const setTimedThemeCheck = (theme, updateTheme) => {
     .catch(error => console.error(error));
 }
 
-const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme }) => {
+const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, isAdult, toggleIsAdult }) => {
   const themes = Strings.themes.slice(0);
   applyThemeToBody(theme);
   if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
@@ -64,6 +65,13 @@ const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme }) 
                    onChange={() => toggleTimedTheme()}
           />
         </li>
+        <li>
+            <Tickbox text="toggle adult lists"
+                     name="isAdult"
+                     checked={isAdult}
+                     onChange={() => toggleIsAdult()}
+             />
+        </li>
       </ul>
     </div>
   );
@@ -73,17 +81,21 @@ AppSettings.propTypes = {
   theme: PropTypes.string.isRequired,
   isTimed: PropTypes.bool.isRequired,
   setApplicationTheme: PropTypes.func.isRequired,
-  toggleTimedTheme: PropTypes.func.isRequired
+  toggleTimedTheme: PropTypes.func.isRequired,
+  isAdult: PropTypes.bool.isRequired,
+  toggleIsAdult: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
   theme: state.theme.class,
-  isTimed: state.theme.isTimed
+  isTimed: state.theme.isTimed,
+  isAdult: state.isAdult
 })
 
 const mapDispatchToProps = ({
   setApplicationTheme,
-  toggleTimedTheme
+  toggleTimedTheme,
+  toggleIsAdult
 })
 
 export default connect(

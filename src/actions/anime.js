@@ -6,7 +6,8 @@ import {mapEpisodeData} from '../utils/data'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
-import {loadPageInfo} from './list-settings'
+import {constructPagingAndSorting} from '../graphql/query/common'
+import {loadPageInfo} from './paging'
 import {Strings} from '../constants/values'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
@@ -15,20 +16,6 @@ let testId = 7;
 const getTestId = () => {
   return testId++;
 }
-
-// temp function
-const tempFunctionForPageing = (paging, { sortKey, sortOrder }, pageChange) => {
-  return `
-    first: ${paging.itemsPerPage},
-    ${
-       pageChange === Strings.next ? `after: ${paging.after},`   :
-       pageChange === Strings.prev ? `before: ${paging.before},` :
-                                      ' '
-    }
-    orderBy: ${sortKey.toUpperCase()}_${sortOrder},
-  `;
-}
-//
 
 const startingAnimeRequest = () => ({
   type: ANIME_REQUEST,
@@ -100,13 +87,13 @@ export const addEpisodes = (updateValues) => {
   }
 }
 
-export const loadAnime = (filters = { status: 1, isAdult: false }, pageChange = null) => {
+export const loadAnime = (filters = { status: 1 }, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
-    const { paging, sorting } = getState();
-    const pageSettings = tempFunctionForPageing(paging, sorting, pageChange);
-    console.log('page settings => ', pageSettings);
-    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getByStatus(pageSettings, filters)}`)
+    const { isAdult, paging, sorting } = getState();
+    const pageSettings = constructPagingAndSorting(paging, sorting, pageChange);
+    console.log('%c query!! => ', 'color: cyan; font-weight: bold', filters, pageSettings, pageChange);
+    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getFilteredList(pageSettings, Object.assign({}, filters, { isAdult }) )}`)
       .then(response => {
         const data = response.data.viewer.animes;
         dispatch(loadAnimeData(data.edges));

@@ -17,8 +17,7 @@ class Anime extends Component {
   constructor() {
     super();
     this.state = {
-      search: '',
-      isAdult: false
+      search: ''
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -26,6 +25,16 @@ class Anime extends Component {
 
   componentDidMount() {
     loadData(this.props, this.state);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.isAdult !== this.props.isAdult ||
+      nextProps.sortKey !== this.props.sortKey ||
+      nextProps.sortOrder !== this.props.sortOrder
+    ) {
+      loadData(nextProps, this.state)
+    }
   }
 
   handleUserInput({ target }) {
@@ -37,16 +46,16 @@ class Anime extends Component {
   render() {
     if (this.props.isFetching) return (<LoadingSpinner size="fullscreen" />);
     const searchString = this.state.search.toLowerCase();
-    const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.state.isAdult);
+    const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
     console.log('props => ', this.props, items);
     return (
       <div className="flex-row">
         <ListFilter
             search={this.state.search}
-            isAdult={this.state.isAdult}
             onChange={this.handleUserInput}
         />
         <PagedAnimeList
+            filters={this.state}
             items={items}
          />
       </div>
@@ -57,6 +66,7 @@ class Anime extends Component {
 
 Anime.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired
@@ -87,6 +97,7 @@ const sortVisibleAnime = ({ sortOrder, sortKey }, items) => {
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
+  isAdult: state.isAdult,
   items: sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey

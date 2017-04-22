@@ -15,7 +15,7 @@ const setSortKey = (state, action) => {
   }
 }
 
-export const sorting = (state = { sortKey: 'title', sortOrder: Strings.ascending }, action) => {
+export const sorting = (state = { sortKey: 'updatedDate', sortOrder: Strings.descending }, action) => {
   return {
     sortKey: setSortKey(state.sortKey, action),
     sortOrder: setSortOrder(state.sortOrder, action)
