@@ -33,6 +33,7 @@ class Anime extends Component {
       nextProps.sortKey !== this.props.sortKey ||
       nextProps.sortOrder !== this.props.sortOrder
     ) {
+      console.log('%c will get props !! > ', nextProps, this.props);
       loadData(nextProps, this.state)
     }
   }
@@ -55,7 +56,7 @@ class Anime extends Component {
             onChange={this.handleUserInput}
         />
         <PagedAnimeList
-            filters={this.state}
+            filters={{ ...this.state, status: Enums.anime.status[this.props.params.filter] }}
             items={items}
          />
       </div>

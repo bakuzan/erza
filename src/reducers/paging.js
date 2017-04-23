@@ -33,9 +33,9 @@ const setPageInfo = (state, action) => {
   return {
     totalCount: count,
     hasNextPage: pageInfo.hasNextPage,
-    hadPrevPage: pageInfo.hasPreviousPage,
-    before: pageInfo.startCursor,
-    after: pageInfo.endCursor
+    hasPrevPage: pageInfo.hasPreviousPage,
+    backFrom: pageInfo.startCursor,
+    forwardFrom: pageInfo.endCursor
   };
 }
 

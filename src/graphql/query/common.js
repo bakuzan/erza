@@ -4,8 +4,8 @@ export const constructPagingAndSorting = (paging, { sortKey, sortOrder }, pageCh
   return `
     first: ${paging.itemsPerPage},
     ${
-       pageChange === Strings.next ? `after: ${paging.after},`   :
-       pageChange === Strings.prev ? `before: ${paging.before},` :
+       pageChange === Strings.next ? `after: "${paging.pageInfo.forwardFrom}",`   :
+       pageChange === Strings.prev ? `before: "${paging.pageInfo.backFrom}",` :
                                       ' '
     }
     orderBy: ${sortKey.toUpperCase()}_${sortOrder},

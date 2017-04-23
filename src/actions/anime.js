@@ -92,8 +92,9 @@ export const loadAnime = (filters = { status: 1 }, pageChange = null) => {
     dispatch(startingAnimeRequest());
     const { isAdult, paging, sorting } = getState();
     const pageSettings = constructPagingAndSorting(paging, sorting, pageChange);
-    console.log('%c query!! => ', 'color: cyan; font-weight: bold', filters, pageSettings, pageChange);
-    fetchFromServer(`${Paths.graphql.base}${AnimeQL.getFilteredList(pageSettings, Object.assign({}, filters, { isAdult }) )}`)
+    const query = AnimeQL.getFilteredList(pageSettings, Object.assign({}, filters, { isAdult }) );
+    console.log('%c query !! > ', 'font-weight: bold; font-size: 24px; color: red', query);
+    fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data.viewer.animes;
         dispatch(loadAnimeData(data.edges));

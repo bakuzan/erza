@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
+const composeWithMongoose = require('graphql-compose-mongoose');
+const { GQC } = require('graphql-compose');
+
 const Common = require('../utils/common.js');
 
 const AnimeSchema = new Schema({
@@ -102,4 +105,10 @@ AnimeSchema.virtual('season').get(function() {
   });
 });
 
-module.exports = mongoose.model('Anime', AnimeSchema);
+const Anime = mongoose.model('Anime', AnimeSchema);
+const AnimeTC = composeWithMongoose(Anime, {});
+
+module.exports = {
+  Anime,
+  AnimeTC
+}
