@@ -8,17 +8,18 @@ export const constructPagingAndSorting = (paging, { sortKey, sortOrder }, pageCh
        pageChange === Strings.prev ? `before: "${paging.pageInfo.backFrom}",` :
                                       ' '
     }
-    orderBy: ${sortKey.toUpperCase()}_${sortOrder},
+    sort: ${sortKey.toUpperCase()}_${sortOrder},
   `;
 }
 
 export const constructFilterString = (filters) => {
-  return Object.keys(filters).reduce((acc, curr, i, arr) => {
+  const properties = Object.keys(filters).reduce((acc, curr, i, arr) => {
     const value = filters[curr];
     const nextArg = value || value.toString() === "false" ? `${curr}: ${value}` : '';
     const separator = arr.length === i + 1 || !value ? '' : ', ';
     return `${acc}${nextArg}${separator}`;
   }, '');
+  return `filter: { ${properties} }`;
 }
 
 export const pagedDataWrapper = (fields) => (`

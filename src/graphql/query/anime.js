@@ -10,10 +10,8 @@ const getAll = `
 
 const getFilteredList = (pageParameters, filters) => (`
   {
-    viewer {
-      animes(${pageParameters}${constructFilterString(filters)}) {
-        ${pagedDataWrapper(animeKeyFields)}
-      }
+    animeConnection(${pageParameters}${constructFilterString(filters)}) {
+      ${pagedDataWrapper(animeKeyFields)}
     }
   }
 `);

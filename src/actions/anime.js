@@ -96,7 +96,7 @@ export const loadAnime = (filters = { status: 1 }, pageChange = null) => {
     console.log('%c query !! > ', 'font-weight: bold; font-size: 24px; color: red', query);
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
-        const data = response.data.viewer.animes;
+        const data = response.data.animeConnection;
         dispatch(loadAnimeData(data.edges));
         dispatch(loadPageInfo({ pageInfo: data.pageInfo, count: data.count }));
       })

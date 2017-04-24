@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const composeWithMongoose = require('graphql-compose-mongoose');
+const { composeWithMongoose } = require('graphql-compose-mongoose');
 const { GQC } = require('graphql-compose');
 
 const Common = require('../utils/common.js');
@@ -18,7 +18,8 @@ const AnimeSchema = new Schema({
   episode: {
     type: Number,
     default: '0',
-    trim: true
+    trim: true,
+    required: 'Episode is required'
   },
   start: {
     type: Date,
@@ -82,7 +83,8 @@ const AnimeSchema = new Schema({
   },
 	updatedDate: {
 		type: Date,
-    default: Date.now
+    default: Date.now,
+    required: 'Updated date is required'
 	},
   createdDate: {
 		type: Date,
@@ -106,7 +108,7 @@ AnimeSchema.virtual('season').get(function() {
 });
 
 const Anime = mongoose.model('Anime', AnimeSchema);
-const AnimeTC = composeWithMongoose(Anime, {});
+const AnimeTC = composeWithMongoose(Anime);
 
 module.exports = {
   Anime,
