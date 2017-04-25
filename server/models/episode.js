@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const EpisodeSchema = new Schema({
-  parent: {
-    type: ObjectId,
-    ref: 'Anime'
-  },
   date: {
     type: Date
   },
