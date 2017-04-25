@@ -4,7 +4,7 @@ const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 const graffiti = require('@risingstack/graffiti');
-const GraphqlSchema = require('./graphql/query.js');
+const GraphqlSchema = require('./graphql/schema.js');
 
 const Constants = require('./constants');
 
