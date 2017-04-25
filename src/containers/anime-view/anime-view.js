@@ -35,7 +35,7 @@ class AnimeView extends Component {
                         className="button ripple">
                   { Strings.back }
                 </button>
-                <Link to={`${Paths.base}${Paths.anime.edit}${item.id}`}
+                <Link to={`${Paths.base}${Paths.anime.edit}${item._id}`}
                       className="button ripple">
                   { Strings.edit }
                 </Link>

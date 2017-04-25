@@ -14,7 +14,7 @@ const AnimeList = ({ items, addEpisode }) => (
         </li>
       ) :
       items.map(item => (
-        <li key={item.id} className="anime-item">
+        <li key={item._id} className="anime-item">
           <div>
             <time dateTime={item.updatedDate}>{ formatDateForDisplay(item.updatedDate) }</time>
             <h4>{ item.title }</h4>
@@ -25,7 +25,7 @@ const AnimeList = ({ items, addEpisode }) => (
                     type="button"
                     className="button-icon small rounded primary"
                     icon="+"
-                    onClick={() => addEpisode(item.id)}
+                    onClick={() => addEpisode(item._id)}
                     disabled={item.status === Enums.anime.status.completed && !item.isRepeat}
                     ></button>
                 }
@@ -47,11 +47,11 @@ const AnimeList = ({ items, addEpisode }) => (
               }
             </div>
             <div className="button-group">
-              <Link to={`${Paths.base}${Paths.anime.view}${item.id}`}
+              <Link to={`${Paths.base}${Paths.anime.view}${item._id}`}
                     className="button ripple">
                 View
               </Link>
-              <Link to={`${Paths.base}${Paths.anime.edit}${item.id}`}
+              <Link to={`${Paths.base}${Paths.anime.edit}${item._id}`}
                     className="button ripple">
                 Edit
               </Link>

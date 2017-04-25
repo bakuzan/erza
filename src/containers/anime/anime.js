@@ -31,7 +31,8 @@ class Anime extends Component {
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
-      nextProps.sortOrder !== this.props.sortOrder
+      nextProps.sortOrder !== this.props.sortOrder ||
+      nextProps.params.filter !== this.props.params.filter
     ) {
       console.log('%c will get props !! > ', nextProps, this.props);
       loadData(nextProps, this.state)

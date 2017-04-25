@@ -39,7 +39,7 @@ export const pagedDataWrapper = (fields) => (`
 `);
 
 export const animeKeyFields = `
-  id,
+  _id,
   title,
   episode,
   start,
@@ -54,7 +54,7 @@ export const animeKeyFields = `
 `;
 
 export const tagFields = `
-  id,
+  _id,
   name,
   isAdult
 `;

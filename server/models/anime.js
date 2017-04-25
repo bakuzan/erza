@@ -65,7 +65,8 @@ const AnimeSchema = new Schema({
     ref: 'Tag'
   }],
 	malId: {
-    type: Number
+    type: Number,
+    unique: true
   },
   series_type: {
     type: Number,
@@ -84,7 +85,7 @@ const AnimeSchema = new Schema({
 	updatedDate: {
 		type: Date,
     default: Date.now,
-    required: 'Updated date is required'
+    unique: true
 	},
   createdDate: {
 		type: Date,

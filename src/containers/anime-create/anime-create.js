@@ -247,7 +247,7 @@ const getInitalItem = (entities, params) => {
   const anime = entities.anime.byId[params.id];
   if (!anime) return new AnimeModel();
   const editItem = Object.assign({}, anime, {
-    tags: entities.tags.allIds.length === 0 ? anime.tags : anime.tags.edges.map(edge => entities.tags.byId[edge.node.id])
+    tags: entities.tags.allIds.length === 0 ? anime.tags : anime.tags.edges.map(edge => entities.tags.byId[edge.node._id])
   });
   console.log('%c get inital !! ', 'color: magenta;', editItem);
   return new AnimeModel(editItem);

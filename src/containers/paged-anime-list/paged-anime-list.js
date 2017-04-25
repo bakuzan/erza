@@ -14,7 +14,7 @@ class PagedAnimeList extends Component {
     super();
     this.state = {
       editItem: {
-        id: null,
+        _id: null,
         episode: 0,
         min: 0,
         max: null,
@@ -29,12 +29,12 @@ class PagedAnimeList extends Component {
     this.assignDialogRef = this.assignDialogRef.bind(this);
   }
 
-  openEditDialog(id) {
-    const editItem = this.props.items.find(x => x.id === id);
+  openEditDialog(_id) {
+    const editItem = this.props.items.find(x => x.__id === _id);
     this.setState((prevState) => {
       return {
         editItem: Object.assign({}, prevState.editItem, {
-          id,
+          _id,
           episode: editItem.episode || 0,
           min: editItem.episode || 0,
           max: editItem.series_episodes || null,
@@ -69,7 +69,7 @@ class PagedAnimeList extends Component {
   render() {
     const { filters, paging, items } = this.props;
     const pagedItems = this.selectPageOfItems(paging, items);
-    const editItem = items.find(x => x.id === this.state.editItem.id) || {};
+    const editItem = items.find(x => x.__id === this.state.editItem._id) || {};
     console.log(items);
     return (
       <div className="flex-column flex-grow">
@@ -90,7 +90,7 @@ class PagedAnimeList extends Component {
           >
           <div>
           {
-            !!this.state.editItem.id &&
+            !!this.state.editItem._id &&
             <div>
               <div className="has-float-label input-container">
                 <input type="number"
