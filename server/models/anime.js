@@ -96,7 +96,7 @@ const AnimeSchema = new Schema({
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
 AnimeTC.addFields({
-  season: { 
+  season: {
     type: 'Json', // String, Int, Float, Boolean, ID, Json
     description: 'Seasonal anime information',
     resolve: (source, args, context, info) => {
@@ -106,7 +106,7 @@ AnimeTC.addFields({
       const seriesStart = Common.getDateParts(item.series_start);
 
       return Object.assign({}, {
-        inSeason: (start.year !== seriesStart.year || start.month !== seriesStart.month) && !Common.getSeasonText(start.month),
+        inSeason: (start.year === seriesStart.year || start.month === seriesStart.month) && !!Common.getSeasonText(start.month),
         year: start.year,
         season: Common.getSeasonText(start.month),
         seasonName: function() {
@@ -114,6 +114,7 @@ AnimeTC.addFields({
         }
       });
     }
+  }
 });
 
 const extendedResolver = AnimeTC

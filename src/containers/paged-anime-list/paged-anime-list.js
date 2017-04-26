@@ -63,6 +63,7 @@ class PagedAnimeList extends Component {
   selectPageOfItems({ page, itemsPerPage }, items) {
     const startIndex = page * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
+    console.log('SELECTING PAGE => ', startIndex, endIndex, page, itemsPerPage);
     return items.slice(startIndex, endIndex);
   }
 
@@ -70,7 +71,7 @@ class PagedAnimeList extends Component {
     const { filters, paging, items } = this.props;
     const pagedItems = this.selectPageOfItems(paging, items);
     const editItem = items.find(x => x.__id === this.state.editItem._id) || {};
-    console.log(items);
+    console.log('PAGED => ', pagedItems);
     return (
       <div className="flex-column flex-grow">
         <PagingControls

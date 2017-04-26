@@ -76,3 +76,7 @@ export const Icons = {
   pause: '\u23F8',
   clockwise: '\u27F3'
 }
+
+export const Types = {
+  string: 'string'
+}

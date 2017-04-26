@@ -1,5 +1,5 @@
 import { SET_ITEMS_PER_PAGE, NEXT_PAGE, PREV_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
-import {getUserSettings, persistUserSettings} from '../utils/common'
+import {getUserSettings, persistUserSettings, parseIfInt} from '../utils/common'
 
 const changePage = (state, action) => {
   switch(action.type) {
@@ -22,8 +22,8 @@ const persistItemsPerPageChoice = (state, action) => {
 
 const setItemsPerPage = (state, action) => {
   switch (action.type) {
-    case SET_ITEMS_PER_PAGE : return persistItemsPerPageChoice(state, action);
-    default                 : return state;
+    case SET_ITEMS_PER_PAGE : return parseIfInt(persistItemsPerPageChoice(state, action));
+    default                 : return parseIfInt(state);
   }
 }
 
