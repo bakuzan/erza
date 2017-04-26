@@ -82,34 +82,39 @@ const AnimeSchema = new Schema({
   series_end: {
     type: Date
   },
-	updatedDate: {
-		type: Date,
+  updatedDate: {
+    type: Date,
     default: Date.now,
     unique: true
-	},
+  },
   createdDate: {
-		type: Date,
-		default: Date.now
+    type: Date,
+    default: Date.now
   }
-});
-
-AnimeSchema.virtual('season').get(function() {
-  const item = this;
-  const start = Common.getDateParts(item.start);
-  const seriesStart = Common.getDateParts(item.series_start);
-
-  return Object.assign({}, {
-    inSeason: (start.year !== seriesStart.year || start.month !== seriesStart.month) && !Common.getSeasonText(start.month),
-    year: start.year,
-    season: Common.getSeasonText(start.month),
-    seasonName: function() {
-      return `${this.season} ${this.year}`;
-    }
-  });
 });
 
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
+AnimeTC.addFields({
+  season: { 
+    type: 'Json', // String, Int, Float, Boolean, ID, Json
+    description: 'Seasonal anime information',
+    resolve: (source, args, context, info) => {
+      console.log(source, args, context, info);
+      const item = source;
+      const start = Common.getDateParts(item.start);
+      const seriesStart = Common.getDateParts(item.series_start);
+
+      return Object.assign({}, {
+        inSeason: (start.year !== seriesStart.year || start.month !== seriesStart.month) && !Common.getSeasonText(start.month),
+        year: start.year,
+        season: Common.getSeasonText(start.month),
+        seasonName: function() {
+          return `${this.season} ${this.year}`;
+        }
+      });
+    }
+});
 
 const extendedResolver = AnimeTC
   .getResolver('connection')
@@ -118,7 +123,7 @@ const extendedResolver = AnimeTC
     type: 'String',
     description: 'Search by regExp on title',
     query: (query, value, resolveParams) => { // eslint-disable-line
-      query.name = new RegExp(value, 'gi'); // eslint-disable-line
+      query.title = new RegExp(value, 'gi'); // eslint-disable-line
     },
   });
 extendedResolver.name = 'connection';
