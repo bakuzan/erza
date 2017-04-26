@@ -111,6 +111,19 @@ AnimeSchema.virtual('season').get(function() {
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
 
+const extendedResolver = AnimeTC
+  .getResolver('connection')
+  .addFilterArg({
+    name: 'search',
+    type: 'String',
+    description: 'Search by regExp on title',
+    query: (query, value, resolveParams) => { // eslint-disable-line
+      query.name = new RegExp(value, 'gi'); // eslint-disable-line
+    },
+  });
+extendedResolver.name = 'connection';
+AnimeTC.addResolver(extendedResolver);
+
 module.exports = {
   Anime,
   AnimeTC
