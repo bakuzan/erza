@@ -1,10 +1,14 @@
-import { NEXT_PAGE, PREV_PAGE, SET_ITEMS_PER_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
+import { NEXT_PAGE, PREV_PAGE, RESET_PAGE, SET_ITEMS_PER_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
 import { loadAnime } from './anime'
 import { Strings } from '../constants/values'
 
 const FetchData = {
   [Strings.anime] : loadAnime
 }
+
+export const resetPageToZero = () => ({
+  type: RESET_PAGE
+})
 
 const fetchNextPage = () => ({
   type: NEXT_PAGE
