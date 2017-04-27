@@ -1,11 +1,12 @@
-import { SET_ITEMS_PER_PAGE, NEXT_PAGE, PREV_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
+import { SET_ITEMS_PER_PAGE, NEXT_PAGE, PREV_PAGE, RESET_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
 import {getUserSettings, persistUserSettings, parseIfInt} from '../utils/common'
 
 const changePage = (state, action) => {
   switch(action.type) {
-    case NEXT_PAGE : return state + 1;
-    case PREV_PAGE : return state - 1;
-    default        : return state;
+    case NEXT_PAGE  : return state + 1;
+    case PREV_PAGE  : return state - 1;
+    case RESET_PAGE : return 0;
+    default         : return state;
   }
 }
 
