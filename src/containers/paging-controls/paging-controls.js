@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import {nextPage, prevPage, setItemsPerPage} from '../../actions/paging'
 
 const PagingControls = ({ listType, filters, paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
-  const { pageInfo: { totalCount, hasNextPage, hasPrevPage }, itemsPerPage, page } = paging;
-  const finalPage = Math.ceil(totalCount / itemsPerPage) - 1;
+  const { pageInfo, itemsPerPage, page } = paging;
+  const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage) - 1;
   return (
     <div className="flex-row">
       <div className="button-group centered flex-grow">
@@ -23,7 +23,7 @@ const PagingControls = ({ listType, filters, paging, goBackAPage, goForwardAPage
         <button type="button"
                 className="button ripple"
                 onClick={() => goForwardAPage(listType, filters)}
-                disabled={!hasNextPage}
+                disabled={page === finalPage}
         >
         Next
         </button>

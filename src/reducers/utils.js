@@ -33,7 +33,7 @@ export function addListEntity(state, action) {
 }
 
 export function loadEntityList(state, action) {
-  let latestState = state;
+  let latestState = { byId: {}, allIds: [] }; // I've opted to ditch current entities.
   action.data.forEach(item => {
     latestState = addListEntity(latestState, { item });
   });

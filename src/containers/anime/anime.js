@@ -4,7 +4,7 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
-import {getEventValue} from '../../utils/common'
+import {getEventValue, getTimeoutSeconds} from '../../utils/common'
 import { loadAnime } from '../../actions/anime'
 
 const loadData = (props, state) => {
@@ -42,11 +42,11 @@ class Anime extends Component {
   handleUserInput({ target }) {
     const newValue = getEventValue(target);
     this.setState({ [target.name]: newValue });
-    loadData(this.props, this.state);
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => loadData(this.props, this.state), getTimeoutSeconds(1));
   }
 
   render() {
-    if (this.props.isFetching) return (<LoadingSpinner size="fullscreen" />);
     const searchString = this.state.search.toLowerCase();
     const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
     console.log('props => ', this.props, items);
@@ -56,10 +56,17 @@ class Anime extends Component {
             search={this.state.search}
             onChange={this.handleUserInput}
         />
-        <PagedAnimeList
-            filters={{ ...this.state, status: Enums.anime.status[this.props.params.filter] }}
-            items={items}
-         />
+        {
+          this.props.isFetching &&
+          <LoadingSpinner size="fullscreen" />
+        }
+        {
+          !this.props.isFetching &&
+          <PagedAnimeList
+              filters={{ ...this.state, status: Enums.anime.status[this.props.params.filter] }}
+              items={items}
+           />
+        }
       </div>
     );
   }
