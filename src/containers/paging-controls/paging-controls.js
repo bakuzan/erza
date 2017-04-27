@@ -11,7 +11,7 @@ const PagingControls = ({ listType, filters, paging, goBackAPage, goForwardAPage
         <button type="button"
                 className="button ripple"
                 onClick={() => goBackAPage(listType, filters)}
-                disabled={!hasPrevPage}
+                disabled={page === 0}
         >
         Previous
         </button>
