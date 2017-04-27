@@ -7,7 +7,7 @@ import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
 import {constructPagingAndSorting} from '../graphql/query/common'
-import {loadPageInfo} from './paging'
+import {resetPageToZero, loadPageInfo} from './paging'
 import {Strings} from '../constants/values'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
@@ -99,6 +99,7 @@ export const loadAnime = (filters = { status: 1 }, pageChange = null) => {
         const data = response.data.animeConnection;
         dispatch(loadAnimeData(data.edges));
         dispatch(loadPageInfo({ pageInfo: data.pageInfo, count: data.count }));
+        if (!pageChange) dispatch(resetPageToZero());
       })
       .then(() => dispatch(finishAnimeRequest()) );
   }
