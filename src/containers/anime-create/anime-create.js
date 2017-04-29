@@ -242,12 +242,14 @@ const getTypeaheadList = (state) => {
   return state.allIds.map(item => state.byId[item]);
 }
 
+const setAnimeTags = (entities, anime) => entities.tags.allIds.length === 0 ? anime.tags : anime.tags.map(_id => entities.tags.byId[_id]);
 const getInitalItem = (entities, params) => {
   if (!params.id) return new AnimeModel();
   const anime = entities.anime.byId[params.id];
+
   if (!anime) return new AnimeModel();
   const editItem = Object.assign({}, anime, {
-    tags: entities.tags.allIds.length === 0 ? anime.tags : anime.tags.edges.map(edge => entities.tags.byId[edge.node._id])
+    tags: !!anime.tags ? setAnimeTags(entities, anime) : []
   });
   console.log('%c get inital !! ', 'color: magenta;', editItem);
   return new AnimeModel(editItem);

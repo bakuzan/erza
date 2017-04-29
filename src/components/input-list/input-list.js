@@ -27,7 +27,7 @@ class InputList extends Component {
   addInputItem() {
     const autoCompleteList = this.filterAutoComplete();
     const activeSuggestion = autoCompleteList[this.state.activeSuggestion];
-    if (activeSuggestion) return this.selectTypeaheadEntry(activeSuggestion.id);
+    if (activeSuggestion) return this.selectTypeaheadEntry(activeSuggestion._id);
 
     const alreadyExists = this.props.list.find(x => x.name === this.state.text);
     if (alreadyExists) return;
@@ -37,7 +37,7 @@ class InputList extends Component {
   }
 
   selectTypeaheadEntry(id) {
-    const item = this.props.typeahead.find(x => x.id === id);
+    const item = this.props.typeahead.find(x => x._id === id);
     this.updateList(item);
     this.setState({ text: '' });
   }
@@ -59,7 +59,7 @@ class InputList extends Component {
   filterAutoComplete() {
     if (!(this.props.typeahead && this.state.text)) return Array(0);
     return this.props.typeahead.filter(x => {
-      const item = this.props.list.find(y => y.id === x.id);
+      const item = this.props.list.find(y => y._id === x._id);
       return !item && x.name.indexOf(this.state.text) > -1;
     });
   }
@@ -157,11 +157,11 @@ class InputList extends Component {
                 autoCompleteList.map((item, index) => {
                   const activeSuggestion = this.state.activeSuggestion === index ? ' active' : '';
                   return (
-                    <li key={item.id}
+                    <li key={item._id}
                       className={`autocomplete-suggestion${activeSuggestion}`}>
                       <button type="button"
                         className="button ripple"
-                        onClick={() => this.selectTypeaheadEntry(item.id)}>
+                        onClick={() => this.selectTypeaheadEntry(item._id)}>
                         { this.highlightMatch(item.name) }
                       </button>
                     </li>

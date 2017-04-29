@@ -1,34 +1,39 @@
 import update from 'immutability-helper';
 
+const getItem = action => action.item.node || action.item;
+
 export function updateById(state, action) {
+  const item = getItem(action);
   return update(state, {
     byId: {
-      [action.item._id]: { $set: action.item }
+      [item._id]: { $set: item }
     }
   })
 }
 
 export function addEntity(state, action) {
   const updatedById = updateById(state, action);
-  const idExists = updatedById.allIds.find(x => x === action.item._id);
+  const item = getItem(action);
+  const idExists = updatedById.allIds.find(x => x === item._id);
   if (idExists) return updatedById;
 
   return update(updatedById, {
-    allIds: { $push: [action.item._id] }
+    allIds: { $push: [item._id] }
   })
 }
 
 export function addListEntity(state, action) {
+  const item = getItem(action);
   const updatedById = update(state, {
     byId: {
-      [action.item.node._id]: { $set: action.item }
+      [item._id]: { $set: item }
     }
   });
-  const idExists = updatedById.allIds.find(x => x === action.item.node._id);
+  const idExists = updatedById.allIds.find(x => x === item._id);
   if (idExists) return updatedById;
 
   return update(updatedById, {
-    allIds: { $push: [action.item.node._id] }
+    allIds: { $push: [item._id] }
   })
 }
 

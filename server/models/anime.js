@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const { GQC } = require('graphql-compose');
 
 const Common = require('../utils/common.js');
 

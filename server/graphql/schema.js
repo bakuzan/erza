@@ -3,9 +3,11 @@ const GQC = new ComposeStorage();
 
 const { combineArrayOfObjects, constructQueryFields, constructMutationFields } = require('./common');
 const { AnimeTC } = require('../models/anime');
+const { TagTC } = require('../models/tag');
 
 const arrayOfModels = [
-  { prefix: 'anime', type: AnimeTC }
+  { prefix: 'anime', type: AnimeTC },
+  { prefix: 'tag', type: TagTC }
 ];
 
 const queries = arrayOfModels.map(constructQueryFields).reduce(combineArrayOfObjects);

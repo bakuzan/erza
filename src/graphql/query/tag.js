@@ -1,8 +1,8 @@
 import { tagFields } from './common'
 
 const getAll = `
-  query allTags {
-    tags {
+  {
+    tagMany {
       ${tagFields}
     }
   }

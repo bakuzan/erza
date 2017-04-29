@@ -83,7 +83,7 @@ Anime.propTypes = {
 
 const getVisibleAnime = (anime, filter) => {
   if (!anime || !anime.allIds.length) return Array(0);
-  const animeItems = anime.allIds.map(id => anime.byId[id].node);
+  const animeItems = anime.allIds.map(id => anime.byId[id]);
   switch (filter) {
     case Strings.filters.all:
       return animeItems;

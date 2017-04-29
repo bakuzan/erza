@@ -1,13 +1,5 @@
 import { animeKeyFields, pagedDataWrapper, constructFilterString } from './common'
 
-const getAll = `
-  query allAnime {
-    animes {
-      ${animeKeyFields}
-    }
-  }
-`;
-
 const getFilteredList = (pageParameters, filters) => (`
   {
     animeConnection(${pageParameters}${constructFilterString(filters)}) {
@@ -36,20 +28,13 @@ const getByIdForEdit = (id) => (`
       series_end
       series_start
       series_type
-      tags {
-        edges {
-          node {
-            _id
-          }
-        }
-      }
+      tags
       timesCompleted
     }
   }
 `);
 
 const AnimeQL = {
-  getAll,
   getById,
   getFilteredList,
   getByIdForEdit

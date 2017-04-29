@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const { composeWithMongoose } = require('graphql-compose-mongoose');
+
 const TagSchema = new Schema({
   name: {
     type: String,
@@ -15,4 +17,10 @@ const TagSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Tag', TagSchema);
+const Tag = mongoose.model('Tag', TagSchema);
+const TagTC = composeWithMongoose(Tag);
+
+module.exports = {
+  Tag,
+  TagTC
+}

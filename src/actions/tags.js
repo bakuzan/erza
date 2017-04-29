@@ -40,7 +40,7 @@ export const loadTags = () => {
   return function(dispatch) {
     dispatch(startingTagsRequest());
     fetchFromServer(`${Paths.graphql.base}${TagQL.getAll}`)
-      .then(response => dispatch(loadTagsData(response.data.tags)) )
+      .then(response => dispatch(loadTagsData(response.data.tagMany)) )
       .then(() => dispatch(finishTagsRequest()) );
   }
 }
