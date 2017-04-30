@@ -108,8 +108,8 @@ class InputList extends Component {
   }
 
   render() {
-    const { name, label, placeholder, list, typeahead } = this.props;
-    console.log('render => ', name, label, placeholder, list, typeahead);
+    const { name, label, placeholder, list } = this.props;
+    // console.log('%c input list => ', 'font-weight: bold; font-size: 18px', list);
     const inputList = list.filter(x => x !== undefined).map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (

@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/anime'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
-import { capitalise, getEventValue } from '../../utils/common'
+import { capitalise, getEventValue, formatDateForInput } from '../../utils/common'
 import AnimeValidator from '../../utils/validators/anime-creation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
@@ -40,7 +40,7 @@ class AnimeCreate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.tags || !nextProps.tags.find(x => x && typeof x === 'object')) return;
+    if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && typeof x === 'object')) return;
     this.setState(nextProps.item);
   }
 
@@ -124,7 +124,7 @@ class AnimeCreate extends Component {
                   <div className="has-float-label input-container">
                     <input type="date"
                            name="start"
-                           value={this.state.start}
+                           value={formatDateForInput(this.state.start)}
                            max={this.state.end}
                            placeholder="start"
                            onChange={(e) => this.handleUserInput(e)}
@@ -134,7 +134,7 @@ class AnimeCreate extends Component {
                   <div className="has-float-label input-container">
                     <input type="date"
                            name="end"
-                           value={this.state.end}
+                           value={formatDateForInput(this.state.end)}
                            min={this.state.start}
                            placeholder="end"
                            onChange={(e) => this.handleUserInput(e)}

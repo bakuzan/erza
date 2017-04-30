@@ -17,6 +17,11 @@ export const formatDateForDisplay = (date) => {
   const d = new Date(date);
   return `${padNumber(d.getDate(), 2)} ${Strings.monthNames[d.getMonth()]} ${d.getFullYear()} @ ${formatTime(d)}`;
 }
+export const formatDateForInput = (d) => {
+  if (!d) return '';
+  const date = new Date(d);
+  return `${date.getFullYear()}-${padNumber(date.getMonth()+1, 2)}-${padNumber(date.getDate(), 2)}`;
+};
 
 export const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
 

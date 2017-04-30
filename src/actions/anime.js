@@ -1,11 +1,12 @@
 import update from 'immutability-helper'
-import { ADD_ANIME, UPDATE_ANIME, ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
+import { ADD_ANIME, ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
 import {mapEpisodeData} from '../utils/data'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
+import AnimeML from '../graphql/mutation/anime'
 import {constructPagingAndSorting} from '../graphql/query/common'
 import {resetPageToZero, loadPageInfo} from './paging'
 import {Strings} from '../constants/values'
@@ -54,21 +55,22 @@ export const createAnime = (item) => {
   }
 }
 
-const updateAnime = (item) => ({
-  type: UPDATE_ANIME,
-  item
-})
+// const updateAnime = (item) => ({
+//   type: UPDATE_ANIME,
+//   item
+// })
 
 export const editAnime = (item) => {
-  console.log(item);
+  console.log('%c edit anime => ', 'color: orange');
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    dispatch(updateAnime(item));
-    setTimeout(() => {
-      dispatch(finishAnimeRequest());
-      toaster.success('Saved!', 'Successfully edited anime.');
-      return redirectPostAction();
-    }, 1000)
+    const mutation = AnimeML.updateAnimeById(item);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`)
+      .then(response => {
+        dispatch(finishAnimeRequest());
+        toaster.success('Saved!', 'Successfully edited anime.');
+        return redirectPostAction();
+      });
   }
 }
 
