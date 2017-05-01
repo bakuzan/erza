@@ -11,7 +11,22 @@ export const constructPagingAndSorting = ({ itemsPerPage, pageInfo }, { sortKey,
   `;
 }
 
-const processType = (v) => v && typeof(v) === Types.string ? `"${v}"` : v;
+const appendCharacter = t => (a, i) => (a.length === i + 1) ? ` ${t}` : ', ';
+const appendArrayBreak = appendCharacter(']');
+const appendKeyBreak = appendCharacter('}');
+
+const processType = (v) =>
+  ((v || v === "") && typeof(v) === Types.string) ? `"${v}"` :
+                (v instanceof Array)              ? v.reduce((ac, cu, i) => `${ac} ${processType(cu)}${appendArrayBreak(v, i)}`, '[') :
+                                                    v;
+
+export const constructRecordForPost = (record) => {
+  return Object.keys(record).reduce((acc, curr, i, arr) => {
+    const value = processType(record[curr]);
+    return `${acc} ${curr}: ${value}${appendKeyBreak(arr, i)}`;
+  }, '{');
+}
+
 export const constructFilterString = (filters) => {
   const properties = Object.keys(filters).reduce((acc, curr, i, arr) => {
     const value = processType(filters[curr]);
@@ -51,6 +66,18 @@ export const animeKeyFields = `
   malId
   series_episodes
   updatedDate
+`;
+
+export const animeEditFields = `
+  ${animeKeyFields}
+  isRepeat
+  link
+  rating
+  series_end
+  series_start
+  series_type
+  tags
+  timesCompleted
 `;
 
 export const tagFields = `

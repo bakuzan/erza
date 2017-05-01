@@ -7,7 +7,7 @@ import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
 import AnimeML from '../graphql/mutation/anime'
-import {constructPagingAndSorting} from '../graphql/query/common'
+import {constructPagingAndSorting, constructRecordForPost} from '../graphql/query/common'
 import {resetPageToZero, loadPageInfo} from './paging'
 import {Strings} from '../constants/values'
 
@@ -61,11 +61,12 @@ export const createAnime = (item) => {
 // })
 
 export const editAnime = (item) => {
-  console.log('%c edit anime => ', 'color: orange');
+  console.log('%c edit anime => ', 'color: orange', item);
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    const mutation = AnimeML.updateAnimeById(item);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`)
+    const updatedAnime = constructRecordForPost(item);
+    const mutation = AnimeML.updateAnimeById(updatedAnime);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishAnimeRequest());
         toaster.success('Saved!', 'Successfully edited anime.');

@@ -1,7 +1,11 @@
+import {animeEditFields} from '../query/common'
+
 const updateAnimeById = (anime) => (`
   mutation {
-    animeUpdateById(${anime}) {
-
+    animeUpdateById(record: ${anime}) {
+      record: record {
+        ${animeEditFields}
+      }
     }
   }
 `)
