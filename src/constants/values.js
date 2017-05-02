@@ -53,7 +53,8 @@ export const Strings = {
   filters: {
     all: 'all',
     ongoing: 'ongoing',
-    completed: 'completed'
+    completed: 'completed',
+    onhold: 'onhold'
   },
   anime: 'anime',
   manga: 'manga',

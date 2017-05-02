@@ -89,8 +89,9 @@ const getVisibleAnime = (anime, filter) => {
       return animeItems;
     case Strings.filters.completed:
       return animeItems.filter(x => x.status === Enums.anime.status.completed);
+    case Strings.filters.onhold:
     case Strings.filters.ongoing:
-      return animeItems.filter(x => x.status === Enums.anime.status.ongoing);
+      return animeItems.filter(x => x.status === Enums.anime.status.ongoing || x.status === Enums.anime.status.onhold);
     default:
       throw new Error(`getVisibleAnime : Unknown filter type "${filter}"`)
   }

@@ -125,6 +125,16 @@ const extendedResolver = AnimeTC
     query: (query, value, resolveParams) => { // eslint-disable-line
       query.title = new RegExp(value, 'gi'); // eslint-disable-line
     },
+  })
+  .addFilterArg({
+    name: 'statusIn',
+    type: [AnimeTC.getFieldType('status')],
+    description: 'Status in given array',
+    query: (rawQuery, value, resolveParams) => {
+      if (value && value.length > 0) {
+        rawQuery.status = { $in: value };
+      }
+    },
   });
 extendedResolver.name = 'connection';
 AnimeTC.addResolver(extendedResolver);
