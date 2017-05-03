@@ -90,7 +90,7 @@ export const addEpisodes = (updateValues) => {
   }
 }
 
-export const loadAnime = (filters = { status: 1 }, pageChange = null) => {
+export const loadAnime = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
     const { isAdult, paging, sorting } = getState();

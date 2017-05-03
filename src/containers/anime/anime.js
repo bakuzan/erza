@@ -9,7 +9,9 @@ import { loadAnime } from '../../actions/anime'
 
 const loadData = (props, state) => {
   const status = Enums.anime.status[props.params.filter];
-  props.loadAnime({ status, ...state });
+  let statusIn = !!status.length ? status : [status];
+  statusIn = (props.params.filter === Strings.filters.ongoing) ? statusIn.concat([Enums.anime.status.onhold]) : statusIn;
+  props.loadAnime({ statusIn, ...state });
 }
 
 class Anime extends Component {
