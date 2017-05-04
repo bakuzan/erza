@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Paths} from '../../constants/paths'
 import {Enums, Icons} from '../../constants/values'
-import {formatDateForDisplay} from '../../utils/common'
+import {formatDateForDisplay, getKeyByValue} from '../../utils/common'
 
 const AnimeListItem = ({ item, addEpisode }) => {
   const statusIcon = item.isRepeat                                ? Icons.clockwise :
@@ -30,7 +30,9 @@ const AnimeListItem = ({ item, addEpisode }) => {
           {
             !!statusIcon &&
             <span className="button-icon small bold"
-                  icon={statusIcon}></span>
+                  icon={statusIcon}
+                  title={getKeyByValue(Enums.anime.status, item.status)}
+                  ></span>
           }
         </div>
         <div className="button-group">

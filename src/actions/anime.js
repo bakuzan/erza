@@ -13,11 +13,6 @@ import {Strings} from '../constants/values'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
-let testId = 7;
-const getTestId = () => {
-  return testId++;
-}
-
 const startingAnimeRequest = () => ({
   type: ANIME_REQUEST,
   isFetching: true
@@ -39,19 +34,18 @@ const addAnime = (item) => ({
 })
 
 export const createAnime = (item) => {
-  console.log(item);
+  console.log('%c create anime => ', 'color: magenta', item);
   return function(dispatch) {
     dispatch(startingAnimeRequest());
-    item.id = getTestId();
-    var goToNext = Promise.resolve(item);
-    setTimeout(() => {
-      goToNext.then(response => {
+    const updatedAnime = constructRecordForPost(item);
+    const mutation = AnimeML.createAnime(updatedAnime);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
+      .then(response => {
         dispatch(addAnime(response));
         dispatch(finishAnimeRequest());
         toaster.success('Added!', 'Successfully created anime.');
         return redirectPostAction();
-      })
-    }, 1000);
+      });
   }
 }
 

@@ -68,7 +68,7 @@ class AnimeCreate extends Component {
   render() {
     if (this.props.isFetching) return ( <LoadingSpinner size="fullscreen" /> );
     console.log('render anime create :: ', this.state, this.props);
-    const statusOptions = Object.keys(Enums.anime.status).map(item => ({
+    const statusOptions = Object.keys(Enums.anime.status).filter(x => x !== 'all').map(item => ({
       text: capitalise(item),
       value: Enums.anime.status[item]
     }));

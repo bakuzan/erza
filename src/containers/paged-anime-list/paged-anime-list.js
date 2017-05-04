@@ -30,7 +30,7 @@ class PagedAnimeList extends Component {
   }
 
   openEditDialog(_id) {
-    const editItem = this.props.items.find(x => x.__id === _id);
+    const editItem = this.props.items.find(x => x._id === _id);
     this.setState((prevState) => {
       return {
         editItem: Object.assign({}, prevState.editItem, {

@@ -49,9 +49,10 @@ class Anime extends Component {
   }
 
   render() {
-    const searchString = this.state.search.toLowerCase();
-    const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
-    console.log('props => ', this.props, items);
+    const { items } = this.props;
+    // const searchString = this.state.search.toLowerCase();
+    // const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
+    console.log('props => ', items);
     return (
       <div className="flex-row">
         <ListFilter
@@ -83,34 +84,36 @@ Anime.propTypes = {
   sortKey: PropTypes.string.isRequired
 }
 
-const getVisibleAnime = (anime, filter) => {
-  if (!anime || !anime.allIds.length) return Array(0);
-  const animeItems = anime.allIds.map(id => anime.byId[id]);
-  switch (filter) {
-    case Strings.filters.all:
-      return animeItems;
-    case Strings.filters.completed:
-      return animeItems.filter(x => x.status === Enums.anime.status.completed);
-    case Strings.filters.onhold:
-    case Strings.filters.ongoing:
-      return animeItems.filter(x => x.status === Enums.anime.status.ongoing || x.status === Enums.anime.status.onhold);
-    default:
-      throw new Error(`getVisibleAnime : Unknown filter type "${filter}"`)
-  }
-}
+// const getVisibleAnime = (anime, filter) => {
+//   if (!anime || !anime.allIds.length) return Array(0);
+//   const animeItems = anime.allIds.map(id => anime.byId[id]);
+//   switch (filter) {
+//     case Strings.filters.all:
+//       return animeItems;
+//     case Strings.filters.completed:
+//       return animeItems.filter(x => x.status === Enums.anime.status.completed);
+//     case Strings.filters.onhold:
+//     case Strings.filters.ongoing:
+//       return animeItems.filter(x => x.status === Enums.anime.status.ongoing || x.status === Enums.anime.status.onhold);
+//     default:
+//       throw new Error(`getVisibleAnime : Unknown filter type "${filter}"`)
+//   }
+// }
 
-const sortVisibleAnime = ({ sortOrder, sortKey }, items) => {
-  return items.sort((a, b) => {
-    if (a[sortKey] < b[sortKey]) return sortOrder === Strings.ascending ? -1 : 1;
-    if (a[sortKey] > b[sortKey]) return sortOrder === Strings.ascending ? 1 : -1;
-    return 0;
-  })
-}
+// const sortVisibleAnime = ({ sortOrder, sortKey }, items) => {
+//   return items.sort((a, b) => {
+//     if (a[sortKey] < b[sortKey]) return sortOrder === Strings.ascending ? -1 : 1;
+//     if (a[sortKey] > b[sortKey]) return sortOrder === Strings.ascending ? 1 : -1;
+//     return 0;
+//   })
+// }
+
+const getAnimeList = state => state.allIds.map(id => state.byId[id]);
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  items: sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
+  items: getAnimeList(state.entities.anime), //sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey
 })

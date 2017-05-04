@@ -1,9 +1,10 @@
 import {Enums, Properties} from '../../constants/values'
+import {formatDateForInput} from '../common'
 
 const episodeChangeHandler = (anime) => {
   const changes = {};
   if(anime.episode === anime.series_episodes && anime.series_episodes !== 0 && !anime.isRepeat) {
-    changes.end = new Date();
+    changes.end = formatDateForInput(new Date());
     changes.status = Enums.anime.status.completed;
   }
   if(anime.episode > anime.series_episodes && anime.series_episodes !== 0) {
@@ -16,7 +17,7 @@ const statusChangeHandler = (anime) => {
   const { planned, ongoing } = Enums.anime.status;
   switch(anime.status) {
       case planned   : return { start: '', end: '' };
-      case ongoing   : return { start: new Date(), end: '' };
+      case ongoing   : return { start: formatDateForInput(new Date()), end: '' };
       default        : return {};
   }
 }
@@ -39,7 +40,9 @@ const validateAnimeChanges = (model, updateProperty) => {
 }
 
 const validateAnimeSubmission = (model) => {
-  console.warn('validateAnimeSubmission not implemented!');
+  return Object.assign({}, state, {
+    tags: state.tags.map(tag => tag._id) 
+  });
 }
 
 const AnimeValidator = {
