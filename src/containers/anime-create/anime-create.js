@@ -25,8 +25,6 @@ const loadData = props => {
   }
 }
 
-const submitProcessing = state => Object.assign({}, state, { tags: state.tags.map(tag => tag._id) });
-
 class AnimeCreate extends Component {
 
   constructor(props) {
@@ -60,7 +58,7 @@ class AnimeCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const animeItem = submitProcessing(this.state);
+    const animeItem = AnimeValidator.validateAnimeSubmission(this.state);
     if (this.props.isCreate) return this.props.createAnime(animeItem);
     return this.props.editAnime(animeItem);
   }

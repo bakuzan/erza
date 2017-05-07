@@ -1,5 +1,5 @@
 import update from 'immutability-helper'
-import { ADD_ANIME, ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
+import { ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
 import {mapEpisodeData} from '../utils/data'
@@ -28,34 +28,22 @@ const finishAnimeRequest = () => ({
   isFetching: false
 })
 
-const addAnime = (item) => ({
-  type: ADD_ANIME,
-  item
-})
-
 export const createAnime = (item) => {
-  console.log('%c create anime => ', 'color: magenta', item);
   return function(dispatch) {
     dispatch(startingAnimeRequest());
     const updatedAnime = constructRecordForPost(item);
     const mutation = AnimeML.createAnime(updatedAnime);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
-        dispatch(addAnime(response));
+        console.log(`%c Anime  created`, 'font-size: 20px; color: green')
         dispatch(finishAnimeRequest());
-        toaster.success('Added!', 'Successfully created anime.');
+        toaster.success('Added!', `Successfully created '${response.data.animeCreate.title}' anime.`);
         return redirectPostAction();
       });
   }
 }
 
-// const updateAnime = (item) => ({
-//   type: UPDATE_ANIME,
-//   item
-// })
-
 export const editAnime = (item) => {
-  console.log('%c edit anime => ', 'color: orange', item);
   return function(dispatch) {
     dispatch(startingAnimeRequest());
     const updatedAnime = constructRecordForPost(item);
@@ -63,7 +51,7 @@ export const editAnime = (item) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishAnimeRequest());
-        toaster.success('Saved!', 'Successfully edited anime.');
+        toaster.success('Saved!', `Successfully edited '${response.data.animeUpdateById.title}' anime.`);
         return redirectPostAction();
       });
   }
@@ -71,7 +59,7 @@ export const editAnime = (item) => {
 
 export const addEpisodes = (updateValues) => {
   return function(dispatch, getState) {
-    const anime = getState().entities.anime.byId[updateValues.id];
+    const anime = getState().entities.anime.byId[updateValues._id];
     const history = mapEpisodeData(anime.episode, updateValues);
     console.log('add episode => ', anime, updateValues, history)
     setTimeout(() => {

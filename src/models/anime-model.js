@@ -34,8 +34,8 @@ class AnimeModel {
       // Series data populated by mal entry
       series_type: 0, // 0 = Unknown, 1 = TV, 2 = OVA, 3 = Movie, 4 = Special, 5 = ONA, 6 = Music
       series_episodes: 0,
-      series_start: '',
-      series_end: '',
+      series_start: null,
+      series_end: null,
       /* Meta-data handled exclusively on the server.
         createdDate:
         updatedDate:
