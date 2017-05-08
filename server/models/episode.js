@@ -2,7 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
+const { composeWithMongoose } = require('graphql-compose-mongoose');
+
 const EpisodeSchema = new Schema({
+  parent: {
+    type: ObjectId,
+    ref: 'Anime'
+  },
   date: {
     type: Date
   },
@@ -21,4 +27,10 @@ const EpisodeSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Episode', EpisodeSchema);
+const Episode = mongoose.model('Episode', EpisodeSchema);
+const EpisodeTC = composeWithMongoose(Episode);
+
+module.exports = {
+  Episode,
+  EpisodeTC
+}

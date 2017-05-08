@@ -8,6 +8,7 @@ import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
 import AnimeML from '../graphql/mutation/anime'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/query/common'
+import {createEpisode} from './episode'
 import {resetPageToZero, loadPageInfo} from './paging'
 import {Strings} from '../constants/values'
 
@@ -62,13 +63,11 @@ export const addEpisodes = (updateValues) => {
     const anime = getState().entities.anime.byId[updateValues._id];
     const history = mapEpisodeData(anime.episode, updateValues);
     console.log('add episode => ', anime, updateValues, history)
-    setTimeout(() => {
-      // save the history here!!
-      const editItem = update(anime, {
-        episode: { $set: updateValues.episode }
-      });
-      dispatch(editAnime(editItem));
-    }, 1000)
+    history.forEach(createEpisode);
+    const editItem = update(anime, {
+      episode: { $set: updateValues.episode }
+    });
+    dispatch(editAnime(editItem));
   }
 }
 

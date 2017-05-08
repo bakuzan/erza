@@ -6,7 +6,6 @@ class AnimeModel {
   initaliseDefaults() {
     const now = new Date().toISOString().split('T')[0];
     return {
-      _id: null,
       title: '',
       episode: 0,
       status: 1,  // 1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned

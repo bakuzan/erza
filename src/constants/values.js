@@ -68,7 +68,8 @@ export const Strings = {
 export const Properties = {
   episode: 'episode',
   isAdult: 'isAdult',
-  isRepeat: 'isRepeat'
+  isRepeat: 'isRepeat',
+  status: 'status'
 }
 
 export const Icons = {

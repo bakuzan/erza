@@ -44,8 +44,6 @@ const validateAnimeSubmission = (model) => {
   const startFormatted = !!start ? new Date(start).toISOString() : start;
   const endFormatted = !!end ? new Date(end).toISOString() : end;
 
-  if (!model._id) delete model._id;
-
   return Object.assign({}, model, {
     tags: model.tags.map(tag => tag._id),
     start: startFormatted,
