@@ -52,7 +52,7 @@ export const editAnime = (item) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishAnimeRequest());
-        toaster.success('Saved!', `Successfully edited '${response.data.animeUpdateById.title}' anime.`);
+        toaster.success('Saved!', `Successfully edited '${response.data.animeUpdateById.record.title}' anime.`);
         return redirectPostAction();
       });
   }
@@ -63,11 +63,12 @@ export const addEpisodes = (updateValues) => {
     const anime = getState().entities.anime.byId[updateValues._id];
     const history = mapEpisodeData(anime.episode, updateValues);
     console.log('add episode => ', anime, updateValues, history)
-    history.forEach(createEpisode);
+    history.forEach(item => dispatch(createEpisode(item)) );
     const editItem = update(anime, {
       episode: { $set: updateValues.episode }
     });
     dispatch(editAnime(editItem));
+    dispatch(loadAnimeData([{ node: editItem }]));
   }
 }
 
