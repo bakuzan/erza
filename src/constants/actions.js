@@ -13,6 +13,9 @@ export const TAGS_LOAD = 'TAGS_LOAD'
 export const TAGS_SUCCESS = 'TAGS_SUCCESS'
 export const TAGS_FAILURE = 'TAGS_FAILURE'
 
+export const EPISODE_REQUEST = 'EPISODE_REQUEST'
+export const EPISODE_SUCCESS = 'EPISODE_SUCCESS'
+
 export const TOGGLE_SORT = 'TOGGLE_SORT'
 export const SET_SORT_KEY = 'SET_SORT_KEY'
 
