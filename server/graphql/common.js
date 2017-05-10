@@ -10,8 +10,8 @@ const constructQueryFields = ({ prefix, type }) => ({
 })
 
 const constructMutationFields = ({ prefix, type }) => ({
-  [`${prefix}Create`]: type.getResolver('createOne').wrapResolve(updateDatePreSave('createdDate')),
-  [`${prefix}UpdateById`]: type.getResolver('updateById').wrapResolve(updateDatePreSave('updatedDate')),
+  [`${prefix}Create`]: type.getResolver('createOne'),
+  [`${prefix}UpdateById`]: type.getResolver('updateById'),
   [`${prefix}UpdateOne`]: type.getResolver('updateOne'),
   [`${prefix}UpdateMany`]: type.getResolver('updateMany'),
   [`${prefix}RemoveById`]: type.getResolver('removeById'),
@@ -19,7 +19,7 @@ const constructMutationFields = ({ prefix, type }) => ({
   [`${prefix}RemoveMany`]: type.getResolver('removeMany'),
 })
 
-const updateDatePreSave = property => next => resolveParams => {
+const updateDateBeforeSave = property => next => resolveParams => {
   const { source, args, context, info } = resolveParams;
   console.log(source, args, context, info);
   resolveParams.args.input.record[property] = new Date();
@@ -27,6 +27,7 @@ const updateDatePreSave = property => next => resolveParams => {
 })
 
 module.exports = {
+  updateDateBeforeSave,
   combineArrayOfObjects,
   constructQueryFields,
   constructMutationFields
