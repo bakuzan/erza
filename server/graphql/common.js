@@ -10,13 +10,22 @@ const constructQueryFields = ({ prefix, type }) => ({
 })
 
 const constructMutationFields = ({ prefix, type }) => ({
-  [`${prefix}Create`]: type.getResolver('createOne'),
-  [`${prefix}UpdateById`]: type.getResolver('updateById'),
+  [`${prefix}Create`]: type.getResolver('createOne').wrapResolve(updateDatePreSave),
+  [`${prefix}UpdateById`]: type.getResolver('updateById').wrapResolve(updateDatePreSave),
   [`${prefix}UpdateOne`]: type.getResolver('updateOne'),
   [`${prefix}UpdateMany`]: type.getResolver('updateMany'),
   [`${prefix}RemoveById`]: type.getResolver('removeById'),
   [`${prefix}RemoveOne`]: type.getResolver('removeOne'),
   [`${prefix}RemoveMany`]: type.getResolver('removeMany'),
+})
+
+const updateDatePreSave = next => resolveParams => {
+  const { source, args, context, info } = resolveParams;
+  console.log(source, args, context, info);
+  const date = Date.now();
+  resolveParams.args.input.record.updatedDate = date;
+  if ('check for create' === true) resolveParams.args.input.record.createdDate = date;
+  return next(resolveParams);
 })
 
 module.exports = {
