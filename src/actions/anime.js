@@ -2,6 +2,7 @@ import update from 'immutability-helper'
 import { ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
+import updatePrePost from '../utils/validators/anime-post'
 import {mapEpisodeData} from '../utils/data'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
@@ -64,9 +65,11 @@ export const addEpisodes = (updateValues) => {
     const history = mapEpisodeData(anime.episode, updateValues);
     console.log('add episode => ', anime, updateValues, history)
     history.forEach(item => dispatch(createEpisode(item)) );
-    const editItem = update(anime, {
-      episode: { $set: updateValues.episode }
-    });
+    const editItem = updatePrePost(
+      update(anime, {
+        episode: { $set: updateValues.episode }
+      })
+    );
     dispatch(editAnime(editItem));
     dispatch(loadAnimeData([{ node: editItem }]));
   }
