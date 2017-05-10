@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const favicon = require('serve-favicon');
 const path = require('path');
 
+const Constants = require('./constants');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,8 +14,8 @@ const app = express();
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
 // Serve static assets
-app.use('/erza/favicon.ico', favicon(path.join(__dirname, '..', 'build', 'favicon.ico')));
-app.use('/erza/static', express.static(path.resolve(__dirname, '..', 'build/static')));
+app.use(`/${Constants.appName}/favicon.ico`, favicon(path.join(__dirname, '..', 'build', 'favicon.ico')));
+app.use(`/${Constants.appName}/static`, express.static(path.resolve(__dirname, '..', 'build/static')));
 
 //Body parsing for POST-ing
 app.use(bodyParser.urlencoded({
