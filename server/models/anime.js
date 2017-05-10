@@ -116,7 +116,7 @@ AnimeTC.addFields({
   }
 });
 
-const extendedResolver = AnimeTC
+const extendConnection = AnimeTC
   .getResolver('connection')
   .addFilterArg({
     name: 'search',
@@ -136,8 +136,16 @@ const extendedResolver = AnimeTC
       }
     },
   });
-extendedResolver.name = 'connection';
-AnimeTC.addResolver(extendedResolver);
+
+const extendCreate = AnimeTC.getResolver('createOne').wrapResolve(updateDateBeforeSave('createdDate'));
+const extendUpdate = AnimeTC.getResolver('updateById').wrapResolve(updateDateBeforeSave('updatedDate'));
+
+extendConnection.name = 'connection';
+extendCreate.name = 'createOne';
+extendUpdate.name = 'updateById';
+AnimeTC.addResolver(extendConnection);
+AnimeTC.addResolver(extendCreate);
+AnimeTC.addResolver(extendUpdate);
 
 module.exports = {
   Anime,
