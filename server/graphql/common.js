@@ -20,11 +20,9 @@ const constructMutationFields = ({ prefix, type }) => ({
 })
 
 const updateDateBeforeSave = property => next => resolveParams => {
-  const { source, args, context, info } = resolveParams;
-  console.log(source, args, context, info);
-  resolveParams.args.input.record[property] = new Date();
+  resolveParams.args.record[property] = new Date();
   return next(resolveParams);
-})
+}
 
 module.exports = {
   updateDateBeforeSave,

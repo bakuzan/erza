@@ -30,13 +30,14 @@ class Anime extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
       nextProps.sortOrder !== this.props.sortOrder ||
-      nextProps.params.filter !== this.props.params.filter
+      nextProps.params.filter !== this.props.params.filter ||
+      nextProps.location.key !== this.props.location.key
     ) {
-      console.log('%c will get props !! > ', nextProps, this.props);
       loadData(nextProps, this.state)
     }
   }

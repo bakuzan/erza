@@ -4,6 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
+const {updateDateBeforeSave} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
 
 const AnimeSchema = new Schema({

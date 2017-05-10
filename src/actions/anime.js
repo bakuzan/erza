@@ -71,7 +71,6 @@ export const addEpisodes = (updateValues) => {
       })
     );
     dispatch(editAnime(editItem));
-    dispatch(loadAnimeData([{ node: editItem }]));
   }
 }
 
