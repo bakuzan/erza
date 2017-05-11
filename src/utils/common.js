@@ -49,3 +49,11 @@ export const persistUserSettings = (settingUpdate) => {
 
 export const getTimeoutSeconds = s => 1000 * s;
 export const getTimeoutMinutes = m => getTimeoutSeconds(60) * m;
+
+let debounceTimeout;
+export const debounce = (f, t) => {
+  clearTimeout(debounceTimeout);
+  debounceTimeout = setTimeout(() => {
+    f();
+  }, t);
+}
