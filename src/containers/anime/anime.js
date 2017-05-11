@@ -4,7 +4,7 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
-import {getEventValue, getTimeoutSeconds} from '../../utils/common'
+import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
 import { loadAnime } from '../../actions/anime'
 
 const loadData = (props, state) => {
@@ -45,8 +45,7 @@ class Anime extends Component {
   handleUserInput({ target }) {
     const newValue = getEventValue(target);
     this.setState({ [target.name]: newValue });
-    clearTimeout(this.debounce);
-    this.debounce = setTimeout(() => loadData(this.props, this.state), getTimeoutSeconds(1));
+    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
   }
 
   render() {
