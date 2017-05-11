@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 import anime from './anime'
+import episode from './episode'
 import tags from './tags'
 import {isFetching} from './loading'
 import {isAdult} from './is-adult'
@@ -10,6 +11,7 @@ import {theme} from './theme'
 
 const entities = combineReducers({
   anime,
+  episode,
   tags
 })
 

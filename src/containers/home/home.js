@@ -24,6 +24,17 @@ const Home = () => (
           </p>
         </div>
       </li>
+      <li>
+        <div className="group-title">Episode history</div>
+        <div className="group-content">
+          <p>
+            <Link to={`${Paths.base}${Paths.history}anime`}>
+              Recent anime history
+            </Link>
+            <span>View anime history by data range.</span>
+          </p>
+        </div>
+      </li>
     </ul>
   </div>
 )

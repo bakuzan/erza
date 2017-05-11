@@ -10,7 +10,8 @@ const EpisodeSchema = new Schema({
     ref: 'Anime'
   },
   date: {
-    type: Date
+    type: Number,
+    default: Date.now()
   },
   episode: {
     type: Number,

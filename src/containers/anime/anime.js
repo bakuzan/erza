@@ -5,6 +5,7 @@ import ListFilter from '../../containers/list-filter/list-filter'
 import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
 import {Strings, Enums} from '../../constants/values'
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
+import {mapStateToEntityList} from '../../utils/data'
 import { loadAnime } from '../../actions/anime'
 
 const loadData = (props, state) => {
@@ -108,12 +109,10 @@ Anime.propTypes = {
 //   })
 // }
 
-const getAnimeList = state => state.allIds.map(id => state.byId[id]);
-
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  items: getAnimeList(state.entities.anime), //sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
+  items: mapStateToEntityList(state.entities.anime), //sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey
 })

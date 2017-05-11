@@ -11,3 +11,5 @@ export const mapEpisodeData = (start = 0, { _id, episode, ratings, notes }) => {
     });
   });
 };
+
+export const mapStateToEntityList = state => state.allIds.map(id => state.byId[id]);

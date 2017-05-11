@@ -6,6 +6,7 @@ import Home from './containers/home/home'
 import Anime from './containers/anime/anime'
 import AnimeView from './containers/anime-view/anime-view'
 import AnimeCreate from './containers/anime-create/anime-create'
+import HistoryView from './containers/history-view/history-view'
 
 const Routes = ({ history }) => (
   <Router history={history}>
@@ -17,6 +18,8 @@ const Routes = ({ history }) => (
       <Route path={`${Paths.anime.view}(:id)`} component={AnimeView} />
       <Route path={Paths.anime.create} component={AnimeCreate} />
       <Route path={`${Paths.anime.edit}(:id)`} component={AnimeCreate} />
+
+      <Route path={`${Paths.history}(:type)`} component={HistoryView} />
     </Route>
   </Router>
 )

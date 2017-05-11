@@ -19,8 +19,9 @@ export const Paths = {
     list: 'anime-list/',
     view: 'anime-view/',
     create: 'anime/create',
-    edit: 'anime/edit/'
+    edit: 'anime/edit/',
   },
+  history: 'history/',
   graphql: {
     base: '/graphql?query='
   },

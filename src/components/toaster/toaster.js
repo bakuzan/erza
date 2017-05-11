@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {debounce, getTimeoutSeconds} from '../../utils/toaster'
+import {debounce, getTimeoutSeconds} from '../../utils/common'
 import toaster from '../../utils/toaster'
 import './toaster.css'
 
