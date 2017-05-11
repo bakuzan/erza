@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {debounce, getTimeoutSeconds} from '../../utils/toaster'
 import toaster from '../../utils/toaster'
 import './toaster.css'
 
@@ -8,7 +9,6 @@ class Toaster extends Component {
     this.state = {
       stack: Array(0)
     };
-    this.cooldown = null;
 
     toaster.register(this);
   }
@@ -24,10 +24,7 @@ class Toaster extends Component {
   }
 
   eatToast() {
-    clearTimeout(this.cooldown);
-    this.cooldown = setTimeout(() => {
-      this.removeToast();
-    }, 3000);
+    debounce(() => this.removeToast(), getTimeoutSeconds(3));
   }
 
   popToast(toast) {
