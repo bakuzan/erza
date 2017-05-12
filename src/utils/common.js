@@ -21,7 +21,10 @@ export const formatDateForInput = (d) => {
   if (!d) return '';
   const date = new Date(d);
   return `${date.getFullYear()}-${padNumber(date.getMonth()+1, 2)}-${padNumber(date.getDate(), 2)}`;
-};
+}
+export const formatDateISO = d => {
+  return `${formatDateForInput(d)}T${formatTime(d)}`;
+}
 
 export const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
 
