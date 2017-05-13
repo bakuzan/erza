@@ -12,7 +12,9 @@ export const padNumber = (n, width, z = 0) => {
    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
-const formatTime = date => `${padNumber(date.getHours(), 2)}:${padNumber(date.getMinutes(), 2)}`;
+/*  DATE AND TIME FUNCTIONS
+*/
+const formatTime = date => `${padNumber(new Date(date).getHours(), 2)}:${padNumber(new Date(date).getMinutes(), 2)}`;
 export const formatDateForDisplay = (date) => {
   const d = new Date(date);
   return `${padNumber(d.getDate(), 2)} ${Strings.monthNames[d.getMonth()]} ${d.getFullYear()} @ ${formatTime(d)}`;
@@ -22,9 +24,9 @@ export const formatDateForInput = (d) => {
   const date = new Date(d);
   return `${date.getFullYear()}-${padNumber(date.getMonth()+1, 2)}-${padNumber(date.getDate(), 2)}`;
 }
-export const formatDateISO = d => {
-  return `${formatDateForInput(d)}T${formatTime(d)}`;
-}
+export const formatDateISO = d => `${formatDateForInput(d)}T${formatTime(d)}`;
+export const dateAsMs = d => new Date(d).getTime();
+/*  DATE AND TIME FUNCTIONS END */
 
 export const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
 

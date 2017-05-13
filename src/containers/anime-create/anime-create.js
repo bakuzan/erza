@@ -102,7 +102,7 @@ class AnimeCreate extends Component {
                     <input type="text"
                            name="title"
                            value={this.state.title}
-                           placeholder="title"
+                           placeholder=" "
                            autoFocus
                            autoComplete="false"
                            onChange={(e) => this.handleUserInput(e)}
@@ -115,7 +115,7 @@ class AnimeCreate extends Component {
                            value={this.state.episode}
                            min="0"
                            max={this.state.series_episodes || null}
-                           placeholder="episode"
+                           placeholder=" "
                            onChange={(e) => this.handleUserInput(e)}
                      />
                     <label>episode</label>
@@ -126,7 +126,7 @@ class AnimeCreate extends Component {
                            name="start"
                            value={formatDateForInput(this.state.start)}
                            max={this.state.end}
-                           placeholder="start"
+                           placeholder=" "
                            onChange={(e) => this.handleUserInput(e)}
                      />
                     <label>start</label>
@@ -136,7 +136,7 @@ class AnimeCreate extends Component {
                            name="end"
                            value={formatDateForInput(this.state.end)}
                            min={this.state.start}
-                           placeholder="end"
+                           placeholder=" "
                            onChange={(e) => this.handleUserInput(e)}
                            disabled={this.state.status !== Enums.anime.status.completed}
                      />
@@ -181,7 +181,7 @@ class AnimeCreate extends Component {
                       name="series_episodes"
                       value={this.state.series_episodes}
                       min="0"
-                      placeholder="episodes"
+                      placeholder=" "
                       onChange={(e) => this.handleUserInput(e)}
                       />
                     <label>total episodes</label>
@@ -190,14 +190,14 @@ class AnimeCreate extends Component {
                   <FileUploader
                     name="image"
                     value={this.state.image}
-                    placeholder="upload image"
+                    placeholder=" "
                     onFileSelect={(e) => this.handleUserInput(e)}
                     />
                   <div className="has-float-label input-container">
                     <input type="url"
                       name="link"
                       value={this.state.link}
-                      placeholder="link"
+                      placeholder=" "
                       onChange={(e) => this.handleUserInput(e)}
                       />
                     <label>link</label>
@@ -206,7 +206,7 @@ class AnimeCreate extends Component {
                   <InputList
                     name="tags"
                     label="tags"
-                    placeholder="add tag..."
+                    placeholder=" "
                     list={this.state.tags}
                     typeahead={availableTags}
                     updateList={this.handleListUpdate}

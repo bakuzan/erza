@@ -99,7 +99,7 @@ class PagedAnimeList extends Component {
                   value={this.state.editItem.episode}
                   min={this.state.editItem.min}
                   max={this.state.editItem.max}
-                  placeholder="episode"
+                  placeholder=" "
                   onChange={(e) => this.handleUserInput(e)}
                   />
                 <label>episode</label>
@@ -123,7 +123,7 @@ class PagedAnimeList extends Component {
                             name={`notes.${episodeNumber}`}
                             value={this.state.editItem.notes[episodeNumber] || ''}
                             maxLength={140}
-                            placeholder="enter note"
+                            placeholder=" "
                             onChange={(e) => this.handleUserInput(e)}
                             />
                           <label>{`note for ${episodeNumber}`}</label>

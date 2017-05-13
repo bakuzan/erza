@@ -37,8 +37,8 @@ export const createEpisode = (item) => {
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingEpisodeRequest());
-    const { paging, sorting } = getState();
-    const pageSettings = constructPagingAndSorting(paging, sorting, pageChange);
+    const { paging, sorting: { sortOrder } } = getState();
+    const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder }, pageChange);
     const query = EpisodeQL.getEpisodesForDateRange(pageSettings, Object.assign({}, filters) );
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {

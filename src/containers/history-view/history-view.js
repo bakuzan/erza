@@ -1,17 +1,34 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
+import InputSearch from '../../components/input-search/input-search'
+import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
 import {mapStateToEntityList} from '../../utils/data'
+import {getEventValue, getTimeoutSeconds, debounce, dateAsMs, formatDateForInput} from '../../utils/common'
 import { loadEpisodesByDateRange } from '../../actions/episode'
 
-const loadData = (props, state) => props.loadEpisodes({ ...state });
+//   search: state.search,
+const loadData = (props, state) => props.loadEpisodes({
+  dateRange: [dateAsMs(state.from), dateAsMs(state.to)]
+});
+
+const dateRange = () => {
+  const d = new Date();
+  return [
+    new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+    new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
+  ]
+}
 
 class HistoryView extends Component {
 
   constructor(props) {
     super(props);
+    const dr = dateRange();
     this.state = {
-      search: ''
+      search: '',
+      from: formatDateForInput(dr[0]),
+      to: formatDateForInput(dr[1])
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -32,6 +49,12 @@ class HistoryView extends Component {
     }
   }
 
+  handleUserInput({ target }) {
+    const newValue = getEventValue(target);
+    this.setState({ [target.name]: newValue });
+    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
+  }
+
   render() {
     const { isFetching, items } = this.props;
 
@@ -41,9 +64,32 @@ class HistoryView extends Component {
         isFetching &&
         <LoadingSpinner size="fullscreen" />
       }
+      <div>
+        <InputSearch
+          search={this.state.search}
+          onChange={this.handleUserInput}
+        />
+        <div>
+          <div className="has-float-label input-container">
+            <input type="date"
+              name="from"
+              placeholder=" "
+              value={this.state.from}
+              onChange={this.handleUserInput}
+              />
+            <label>from</label>
+          </div>
+        </div>
+      </div>
       {
         !isFetching &&
-        <div>NEED A PAGED EPISODE LIST HERE</div>
+        <PagedHistoryList
+            filters={{
+              search: this.state.search,
+              dateRange: [dateAsMs(this.state.from), dateAsMs(this.state.to)]
+            }}
+            items={items}
+         />
       }
       </div>
     );
@@ -53,14 +99,12 @@ class HistoryView extends Component {
 
 HistoryView.propTypes = {
   isFetching: PropTypes.bool.isRequired,
-  isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadEpisodes: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
-  isAdult: state.isAdult,
   items: mapStateToEntityList(state.entities.episode)
 })
 

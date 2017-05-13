@@ -58,6 +58,7 @@ export const Strings = {
   },
   anime: 'anime',
   manga: 'manga',
+  history: 'history',
   monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   // theme
   light: 'Light',

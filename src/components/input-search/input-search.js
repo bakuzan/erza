@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react'
 import {Icons} from '../../constants/values'
 import './input-search.css'
 
-const DUMMY_EVENT = { target: { value: '' } };
+const DUMMY_EVENT = { target: { name: 'search', value: '' } };
 
 const InputSearch = ({ search, onChange }) => (
-  <div className="has-float-label input-container">
+  <div className="has-float-label input-container search">
     <input type="text"
       name="search"
-      placeholder="search"
+      placeholder=" "
       value={search}
       onChange={onChange}
       autoComplete="false"
@@ -16,7 +16,7 @@ const InputSearch = ({ search, onChange }) => (
     <label>search</label>
     {
       !!search &&
-      <button 
+      <button
         type="button"
         className="button-icon small clear-search"
         icon={Icons.cross}

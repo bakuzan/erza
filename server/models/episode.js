@@ -11,7 +11,8 @@ const EpisodeSchema = new Schema({
   },
   date: {
     type: Number,
-    default: Date.now()
+    default: Date.now(),
+    unique: true
   },
   episode: {
     type: Number,
@@ -30,6 +31,20 @@ const EpisodeSchema = new Schema({
 
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);
+
+const extendConnection = EpisodeTC
+  .getResolver('connection')
+  .addFilterArg({
+    name: 'dateRange',
+    type: [EpisodeTC.getFieldType('date')],
+    description: 'Array of 2 dates in ms creating a date range.',
+    query: (query, value, resolveParams) => {
+      query.date = { $gte: value[0], $lt: value[1] }
+    },
+  })
+
+extendConnection.name = 'connection';
+EpisodeTC.addResolver(extendConnection);
 
 module.exports = {
   Episode,

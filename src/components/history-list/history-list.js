@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react'
 import RatingControl from '../rating-control/rating-control';
-import {formatDateForDisplay, padNumber} from '../../utils/common'
+import {formatDateISO, formatDateForDisplay, padNumber} from '../../utils/common'
 
 const HistoryList = ({ items }) => (
-  <ul className="history-list">
+  <ul className="list">
     {
       items.length === 0 ? (
         <li>
@@ -15,10 +15,10 @@ const HistoryList = ({ items }) => (
           <time dateTime={formatDateISO(item.date)}>{ formatDateForDisplay(item.date) }</time>
           <span>Episode {padNumber(item.episode, 3)}</span>
           {
-            !item.rating 
+            !item.rating
             ? ( <span>Unrated</span> )
             : (
-                <RatingControl 
+                <RatingControl
                   name="rating"
                   value={item.rating}
                 />
