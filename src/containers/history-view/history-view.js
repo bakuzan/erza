@@ -79,6 +79,15 @@ class HistoryView extends Component {
               />
             <label>from</label>
           </div>
+          <div className="has-float-label input-container">
+            <input type="date"
+              name="to"
+              placeholder=" "
+              value={this.state.to}
+              onChange={this.handleUserInput}
+              />
+            <label>to</label>
+          </div>
         </div>
       </div>
       {

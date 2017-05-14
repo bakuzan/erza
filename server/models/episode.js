@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
+const {AnimeTC} = require('./anime.js');
 
 const EpisodeSchema = new Schema({
   parent: {
@@ -26,11 +27,26 @@ const EpisodeSchema = new Schema({
     type: String,
     default: '',
     trim: true
+  },
+  isAdult: {
+    type: Boolean,
+    default: false
   }
 });
 
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);
+
+EpisodeTC.addRelation(
+  'series',
+  () => ({
+    resolver: AnimeTC.getResolver('findById'),
+    args: {
+      _id: (source) => source.parent,
+    },
+    projection: { parent: 1 }
+  })
+)
 
 const extendConnection = EpisodeTC
   .getResolver('connection')

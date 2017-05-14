@@ -37,15 +37,24 @@ export const createEpisode = (item) => {
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingEpisodeRequest());
-    const { paging, sorting: { sortOrder } } = getState();
+    const { paging, sorting: { sortOrder }, isAdult } = getState();
     const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder }, pageChange);
-    const query = EpisodeQL.getEpisodesForDateRange(pageSettings, Object.assign({}, filters) );
+    const query = EpisodeQL.getEpisodesForDateRange(pageSettings, Object.assign({}, filters, { isAdult }) );
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data.episodeConnection;
         dispatch(loadEpisodeData(data.edges));
         dispatch(loadPageInfo({ pageInfo: data.pageInfo, count: data.count }));
       })
+      .then(() => dispatch(finishEpisodeRequest()) );
+  }
+}
+
+export const loadEpisodeForSeries = parent => {
+  return function(dispatch) {
+    dispatch(startingEpisodeRequest());
+    fetchFromServer(`${Paths.graphql.base}${EpisodeQL.getEpisodesForParents(parent)}`)
+      .then(response => dispatch(loadEpisodeData([{ node: response.data.episodeMany }])) )
       .then(() => dispatch(finishEpisodeRequest()) );
   }
 }

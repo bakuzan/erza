@@ -1,0 +1,22 @@
+.history-list-item {
+  display: flex;
+  flex-direction: row;
+
+  > div {
+    min-width: 210px;
+    padding: 0 5px;
+  }
+
+  .rating-control {
+    padding: 0;
+  }
+
+  &.series-title {
+    background-color: #000;
+    color: #fff;
+    padding: 2px 5px {
+      left: 15px;
+    };
+    font-weight: bold;
+  }
+}

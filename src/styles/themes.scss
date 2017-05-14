@@ -95,10 +95,21 @@
       }
     }
 
-    // Unique UI elements
-    .application-header, .site-map-list .group-title {
+    // history list
+    .history-list-item.series-title {
       background-color: $colour;
       color: $contrast;
+    }
+
+    // Unique UI elements
+    .application-header, .site-map-list {
+      li {
+        border-bottom: 1px solid $base-background;
+      }
+      .group-title {
+        background-color: $colour;
+        color: $contrast;
+      }
     }
 
   } // End of Theme block

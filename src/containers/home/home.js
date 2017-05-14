@@ -6,7 +6,7 @@ import './home.css';
 
 const Home = () => (
   <div>
-    <ul className="site-map-list">
+    <ul className="site-map-list list column one">
       <li>
         <div className="group-title">Anime</div>
         <div className="group-content">
@@ -25,13 +25,19 @@ const Home = () => (
         </div>
       </li>
       <li>
-        <div className="group-title">Episode history</div>
+        <div className="group-title">History</div>
         <div className="group-content">
           <p>
             <Link to={`${Paths.base}${Paths.history}anime`}>
               Recent anime history
             </Link>
             <span>View anime history by data range.</span>
+          </p>
+          <p>
+            <Link to={`${Paths.base}${Paths.history}manga`}>
+              Recent manga history
+            </Link>
+            <span>View manga history by data range.</span><span style={{ color: 'red' }}>NOT YET IMPLEMENTED</span>
           </p>
         </div>
       </li>

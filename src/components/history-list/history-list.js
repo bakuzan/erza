@@ -1,35 +1,29 @@
 import React, {PropTypes} from 'react'
-import RatingControl from '../rating-control/rating-control';
-import {formatDateISO, formatDateForDisplay, padNumber} from '../../utils/common'
+import HistoryListItem from './history-list-item'
+import './history-list.css'
+
+const renderHistoryListItems = items => {
+  let list = [], previousSeries = null;
+  items.forEach(item => {
+    if (item.series._id !== previousSeries) {
+      list.push(<li key={`${item.series._id}-${item._id}`} className="history-list-item series-title">{item.series.title}</li>)
+      previousSeries = item.series._id;
+    }
+
+    list.push(<HistoryListItem key={item._id} item={item} />)
+  })
+  return list;
+}
 
 const HistoryList = ({ items }) => (
-  <ul className="list">
+  <ul className="list column one">
     {
       items.length === 0 ? (
         <li>
           <p>No items to display.</p>
         </li>
       ) :
-      items.map(item => (
-        <li key={item._id}>
-          <time dateTime={formatDateISO(item.date)}>{ formatDateForDisplay(item.date) }</time>
-          <span>Episode {padNumber(item.episode, 3)}</span>
-          {
-            !item.rating
-            ? ( <span>Unrated</span> )
-            : (
-                <RatingControl
-                  name="rating"
-                  value={item.rating}
-                />
-              )
-          }
-          {
-            !!item.note &&
-            <span>{item.note}</span>
-          }
-        </li>
-      ))
+      renderHistoryListItems(items)
     }
   </ul>
 );
