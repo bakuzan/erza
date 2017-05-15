@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import RatingControl from '../rating-control/rating-control';
-import {formatDateISO, formatDateForDisplay, padNumber} from '../../utils/common'
+import {padNumber} from '../../utils/common'
+import {formatDateISO, formatDateForDisplay} from '../../utils/date'
 
 const HistoryListItem = ({ item }) => (
   <li className="history-list-item">

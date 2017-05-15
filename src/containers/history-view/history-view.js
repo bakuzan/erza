@@ -4,27 +4,22 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import InputSearch from '../../components/input-search/input-search'
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
 import {mapStateToEntityList} from '../../utils/data'
-import {getEventValue, getTimeoutSeconds, debounce, dateAsMs, formatDateForInput} from '../../utils/common'
+import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
+import {startOfDay, endOfDay, dateAsMs, formatDateForInput} from '../../utils/date'
 import { loadEpisodesByDateRange } from '../../actions/episode'
+
+const dateRangeForQuery = (from = new Date(), to = new Date()) => [dateAsMs(startOfDay(from)), dateAsMs(endOfDay(to))]
 
 //   search: state.search,
 const loadData = (props, state) => props.loadEpisodes({
-  dateRange: [dateAsMs(state.from), dateAsMs(state.to)]
+  dateRange: dateRangeForQuery(state.from, state.to)
 });
-
-const dateRange = () => {
-  const d = new Date();
-  return [
-    new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-    new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
-  ]
-}
 
 class HistoryView extends Component {
 
   constructor(props) {
     super(props);
-    const dr = dateRange();
+    const dr = dateRangeForQuery();
     this.state = {
       search: '',
       from: formatDateForInput(dr[0]),
@@ -95,7 +90,7 @@ class HistoryView extends Component {
         <PagedHistoryList
             filters={{
               search: this.state.search,
-              dateRange: [dateAsMs(this.state.from), dateAsMs(this.state.to)]
+              dateRange: dateRangeForQuery(this.state.from, this.state.to)
             }}
             items={items}
          />
@@ -108,12 +103,14 @@ class HistoryView extends Component {
 
 HistoryView.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadEpisodes: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
+  isAdult: state.isAdult,
   items: mapStateToEntityList(state.entities.episode)
 })
 

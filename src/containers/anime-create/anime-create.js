@@ -4,7 +4,8 @@ import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/anime'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
-import { capitalise, getEventValue, formatDateForInput } from '../../utils/common'
+import { capitalise, getEventValue } from '../../utils/common'
+import { formatDateForInput } from '../../utils/date'
 import AnimeValidator from '../../utils/validators/anime-creation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
@@ -190,7 +191,7 @@ class AnimeCreate extends Component {
                   <FileUploader
                     name="image"
                     value={this.state.image}
-                    placeholder=" "
+                    placeholder="Choose image"
                     onFileSelect={(e) => this.handleUserInput(e)}
                     />
                   <div className="has-float-label input-container">

@@ -26,7 +26,7 @@ const getEpisodesForDateRange = (pageParameters, filters) => (`
 
 const getEpisodesForParents = parentId => (`
   {
-    episodeMany(filter: { parent: ${parentId} }) {
+    episodeMany(filter: { parent: "${parentId}" }) {
       ${episodeFields}
     }
   }

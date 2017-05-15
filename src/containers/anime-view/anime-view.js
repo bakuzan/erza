@@ -1,21 +1,33 @@
 import React, {Component, PropTypes} from 'react'
 import {browserHistory, Link} from 'react-router'
 import { connect } from 'react-redux'
-import RatingControl from '../../components/rating-control/rating-control';
+import RatingControl from '../../components/rating-control/rating-control'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
+import HistoryList from '../../components/history-list/history-list'
 import {loadAnimeById} from '../../actions/anime'
+import {loadEpisodeForSeries} from '../../actions/episode'
 import {getKeyByValue} from '../../utils/common'
 import {Paths} from '../../constants/paths'
 import {Strings, Enums, Icons} from '../../constants/values'
 
-const loadData = props => {
-  props.loadAnimeById(props.params.id);
-}
+const loadData = props => props.loadAnimeById(props.params.id);
+const loadHistory = props => props.loadEpisodeForSeries(props.params.id);
 
 class AnimeView extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasHistory: false
+    }
+  }
+
   componentDidMount() {
     loadData(this.props);
+  }
+
+  fetchHistory() {
+    loadHistory(this.props);
   }
 
   render() {
@@ -60,6 +72,33 @@ class AnimeView extends Component {
                 <li className="label">{Strings.status}</li>
                 <li className="value">{getKeyByValue(Enums.anime.status, item.status)}</li>
               </ul>
+              <div>
+              {
+                !this.state.hasHistory &&
+                <button
+                  type="button"
+                  className="button primary ripple"
+                  onClick={() => this.fetchHistory()}
+                >
+                  View history
+                </button>
+              }
+              {
+                this.state.hasHistory &&
+                <div>
+                {
+                  !this.props.history.length &&
+                  <p>No history found.</p>
+                }
+                {
+                  !!this.props.history.length &&
+                  <HistoryList
+                    items={this.props.history}
+                  />
+                }
+                </div>
+              }
+              </div>
             </div>
           </div>
           <div className="series-image-container">
@@ -73,20 +112,24 @@ class AnimeView extends Component {
 
 AnimeView.propTypes = {
   item: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  history: PropTypes.arrayOf(PropTypes.object),
+  isFetching: PropTypes.bool.isRequired,
+  loadAnimeById: PropTypes.func.isRequired,
+  loadEpisodeForSeries: PropTypes.func.isRequired
 }
 
-const selectItemFromId = (anime, id) => {
-  return anime.byId[id] || {};
-}
+const selectItemFromId = (anime, id) => anime.byId[id] || {};
+const selectHistoryByParent = episode => episode.allIds.map(_id => episode.byId[_id]);
 
 const mapStateToProps = (state, ownProps) => ({
   item: selectItemFromId(state.entities.anime, ownProps.params.id),
+  history: selectHistoryByParent(state.entities.episode),
   isFetching: state.isFetching
 })
 
 const mapDispatchToProps = ({
-  loadAnimeById
+  loadAnimeById,
+  loadEpisodeForSeries
 })
 
 export default connect(

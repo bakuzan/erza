@@ -2,7 +2,8 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Paths} from '../../constants/paths'
 import {Enums, Icons} from '../../constants/values'
-import {formatDateForDisplay, getKeyByValue} from '../../utils/common'
+import {getKeyByValue} from '../../utils/common'
+import {formatDateForDisplay} from '../../utils/date'
 
 const AnimeListItem = ({ item, addEpisode }) => {
   const statusIcon = item.isRepeat                                ? Icons.clockwise :
