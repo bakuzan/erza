@@ -28,6 +28,7 @@ class AnimeView extends Component {
 
   fetchHistory() {
     loadHistory(this.props);
+    this.setState({ hasHistory: true });
   }
 
   render() {
