@@ -2,13 +2,11 @@ import {Enums} from '../../constants/values'
 
 const updatePrePost = anime => {
     const updates = {};
-    //update the item history.
-    //anime = ItemService.itemHistory(anime, updateHistory, 'anime', episodeRating);
 
     // END
     if (anime.episode === anime.series_episodes && anime.series_episodes !== 0) {
         if (anime.end === undefined || anime.end === null) {
-            updates.end = Date.now();
+            updates.end = new Date().toISOString();
         }
     } else if (anime.isRepeat === false) {
         //in the event the 'complete-ness' of an entry needs to be undone.
@@ -17,7 +15,7 @@ const updatePrePost = anime => {
     }
 
     // STATUS
-    if(anime.end !== undefined && anime.end !== null) {
+    if(!!anime.end || !!updates.end) {
         updates.status = Enums.anime.status.completed;
     }
 
@@ -26,7 +24,7 @@ const updatePrePost = anime => {
         updates.timesCompleted += 1;
         updates.isRepeat = false;
     }
-    
+
     return Object.assign({}, anime, updates);
 }
 

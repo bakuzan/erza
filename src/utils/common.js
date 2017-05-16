@@ -42,5 +42,5 @@ export const getTimeoutMinutes = m => getTimeoutSeconds(60) * m;
 const timers = {};
 export const debounce = (f, t) => {
   clearTimeout(timers[f]);
-  timers[f] = setTimeout(f(), t);
+  timers[f] = setTimeout(() => f(), t);
 }

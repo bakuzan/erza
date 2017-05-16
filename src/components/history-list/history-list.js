@@ -5,7 +5,7 @@ import './history-list.css'
 const renderHistoryListItems = items => {
   let list = [], previousSeries = null;
   items.forEach(item => {
-    if (item.series._id !== previousSeries) {
+    if (!!item.series && item.series._id !== previousSeries) {
       list.push(<li key={`${item.series._id}-${item._id}`} className="history-list-item series-title">{item.series.title}</li>)
       previousSeries = item.series._id;
     }
