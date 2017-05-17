@@ -37,7 +37,6 @@ export const createAnime = (item) => {
     const mutation = AnimeML.createAnime(updatedAnime);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
-        console.log(`%c Anime  created`, 'font-size: 20px; color: green')
         dispatch(finishAnimeRequest());
         toaster.success('Added!', `Successfully created '${response.data.animeCreate.title}' anime.`);
         return redirectPostAction();
@@ -80,7 +79,6 @@ export const loadAnime = (filters = {}, pageChange = null) => {
     const { isAdult, paging, sorting } = getState();
     const pageSettings = constructPagingAndSorting(paging, sorting, pageChange);
     const query = AnimeQL.getFilteredList(pageSettings, Object.assign({}, filters, { isAdult }) );
-    console.log('%c query !! > ', 'font-weight: bold; font-size: 24px; color: red', query);
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data.animeConnection;

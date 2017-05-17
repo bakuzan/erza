@@ -1,9 +1,11 @@
 import { NEXT_PAGE, PREV_PAGE, RESET_PAGE, SET_ITEMS_PER_PAGE, LOAD_PAGE_INFO } from '../constants/actions'
 import { loadAnime } from './anime'
+import { loadEpisodesByDateRange } from './episode'
 import { Strings } from '../constants/values'
 
 const FetchData = {
-  [Strings.anime] : loadAnime
+  [Strings.anime]   : loadAnime,
+  [Strings.history] : loadEpisodesByDateRange
 }
 
 export const resetPageToZero = () => ({
@@ -19,9 +21,8 @@ const fetchPrevPage = () => ({
 })
 
 const changePage = (direction, changePage, type, filters) => {
-  console.log('%c change page called with => ', 'font-size: 20px; font-weight: bold; color: red;', type, filters);
+  console.log('%c change page called with => ', 'font-size: 20px; font-weight: bold; color: red;', type, filters, direction);
   return function(dispatch) {
-    console.log(`%c change page!! => `, 'color: magenta', dispatch);
     dispatch(FetchData[type](filters, direction));
     dispatch(changePage());
   }

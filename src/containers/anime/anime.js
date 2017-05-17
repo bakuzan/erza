@@ -31,7 +31,7 @@ class Anime extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
+    // console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
@@ -54,7 +54,7 @@ class Anime extends Component {
     const filters = { ...this.state, status: Enums.anime.status[this.props.params.filter] };
     // const searchString = this.state.search.toLowerCase();
     // const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
-    console.log('props => ', items);
+    // console.log('props => ', items);
     return (
       <div className="flex-row">
         <ListFilter

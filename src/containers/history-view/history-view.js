@@ -52,6 +52,7 @@ class HistoryView extends Component {
 
   render() {
     const { isFetching, items } = this.props;
+    const filters = { dateRange: dateRangeForQuery(this.state.from, this.state.to) };
 
     return (
       <div className="flex-row">
@@ -88,10 +89,7 @@ class HistoryView extends Component {
       {
         !isFetching &&
         <PagedHistoryList
-            filters={{
-              search: this.state.search,
-              dateRange: dateRangeForQuery(this.state.from, this.state.to)
-            }}
+            filters={filters}
             items={items}
          />
       }
