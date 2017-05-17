@@ -8,6 +8,8 @@ import {Strings} from '../../constants/values'
 import {getEventValue, updateNestedProperty} from '../../utils/common'
 import {addEpisodes} from '../../actions/anime'
 
+const EMPTY_OBJECT = {};
+
 class PagedAnimeList extends Component {
 
   constructor() {
@@ -70,7 +72,7 @@ class PagedAnimeList extends Component {
   render() {
     const { filters, items } = this.props;
     // const pagedItems = this.selectPageOfItems(paging, items);
-    const editItem = items.find(x => x._id === this.state.editItem._id) || {};
+    const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
     console.log('PAGED => ', items);
     return (
       <div className="flex-column flex-grow">
@@ -100,7 +102,7 @@ class PagedAnimeList extends Component {
                   min={this.state.editItem.min}
                   max={this.state.editItem.max}
                   placeholder=" "
-                  onChange={(e) => this.handleUserInput(e)}
+                  onChange={this.handleUserInput}
                   />
                 <label>episode</label>
               </div>
@@ -124,7 +126,7 @@ class PagedAnimeList extends Component {
                             value={this.state.editItem.notes[episodeNumber] || ''}
                             maxLength={140}
                             placeholder=" "
-                            onChange={(e) => this.handleUserInput(e)}
+                            onChange={this.handleUserInput}
                             />
                           <label>{`note for ${episodeNumber}`}</label>
                         </div>
