@@ -51,6 +51,7 @@ class Anime extends Component {
 
   render() {
     const { items } = this.props;
+    const filters = { ...this.state, status: Enums.anime.status[this.props.params.filter] };
     // const searchString = this.state.search.toLowerCase();
     // const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
     console.log('props => ', items);
@@ -67,7 +68,7 @@ class Anime extends Component {
         {
           !this.props.isFetching &&
           <PagedAnimeList
-              filters={{ ...this.state, status: Enums.anime.status[this.props.params.filter] }}
+              filters={filters}
               items={items}
            />
         }
