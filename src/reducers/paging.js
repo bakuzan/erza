@@ -30,14 +30,7 @@ const setItemsPerPage = (state, action) => {
 
 const setPageInfo = (state, action) => {
   if (action.type !== LOAD_PAGE_INFO) return state;
-  const { pageInfo, count } = action.paging;
-  return {
-    totalCount: count,
-    hasNextPage: pageInfo.hasNextPage,
-    hasPrevPage: pageInfo.hasPreviousPage,
-    backFrom: pageInfo.startCursor,
-    forwardFrom: pageInfo.endCursor
-  };
+  return { totalCount: action.paging.count };
 }
 
 export const paging = (state = { itemsPerPage: getUserItemsPerPage(), page: 0, pageInfo: {} }, action) => {

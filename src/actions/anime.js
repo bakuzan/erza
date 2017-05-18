@@ -38,7 +38,7 @@ export const createAnime = (item) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishAnimeRequest());
-        toaster.success('Added!', `Successfully created '${response.data.animeCreate.title}' anime.`);
+        toaster.success('Added!', `Successfully created '${response.data.animeCreate.record.title}' anime.`);
         return redirectPostAction();
       });
   }
@@ -77,13 +77,13 @@ export const loadAnime = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
     const { isAdult, paging, sorting } = getState();
-    const pageSettings = constructPagingAndSorting(paging, sorting, pageChange);
+    const pageSettings = constructPagingAndSorting(paging, sorting);
     const query = AnimeQL.getFilteredList(pageSettings, Object.assign({}, filters, { isAdult }) );
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data.animeConnection;
         dispatch(loadAnimeData(data.edges));
-        dispatch(loadPageInfo({ pageInfo: data.pageInfo, count: data.count }));
+        dispatch(loadPageInfo({ count: data.count }));
         if (!pageChange) dispatch(resetPageToZero());
       })
       .then(() => dispatch(finishAnimeRequest()) );

@@ -2,7 +2,7 @@ import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/query/common'
 import {EPISODE_REQUEST, EPISODE_SUCCESS, EPISODE_LOAD} from '../constants/actions'
-import {loadPageInfo} from './paging'
+import {loadPageInfo, resetPageToZero} from './paging'
 import EpisodeQL from '../graphql/query/episode'
 import EpisodeML from '../graphql/mutation/episode'
 
@@ -38,13 +38,14 @@ export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingEpisodeRequest());
     const { paging, isAdult } = getState();
-    const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder: 'DESC' }, pageChange);
+    const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder: 'DESC' });
     const query = EpisodeQL.getEpisodesForDateRange(pageSettings, Object.assign({}, filters, { isAdult }) );
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data.episodeConnection;
         dispatch(loadEpisodeData(data.edges));
-        dispatch(loadPageInfo({ pageInfo: data.pageInfo, count: data.count }));
+        dispatch(loadPageInfo({ count: data.count }));
+        if (!pageChange) dispatch(resetPageToZero());
       })
       .then(() => dispatch(finishEpisodeRequest()) );
   }

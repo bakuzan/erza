@@ -1,12 +1,20 @@
 import {Enums, Properties} from '../../constants/values'
-import {formatDateForInput} from '../common'
+import {formatDateForInput} from '../date'
 
 const episodeChangeHandler = (anime) => {
   const changes = {};
   if(anime.episode === anime.series_episodes && anime.series_episodes !== 0 && !anime.isRepeat) {
     changes.end = formatDateForInput(new Date());
     changes.status = Enums.anime.status.completed;
+  } else if (
+    anime.status === Enums.anime.status.completed &&
+    anime.episode !== anime.series_episodes &&
+    anime.series_episodes !== 0 && !anime.isRepeat
+   ) {
+     changes.end = null;
+     changes.status = Enums.anime.status.ongoing;
   }
+
   if(anime.episode > anime.series_episodes && anime.series_episodes !== 0) {
     changes.episode = anime.series_episodes;
   }
@@ -41,8 +49,8 @@ const validateAnimeChanges = (model, updateProperty) => {
 
 const validateAnimeSubmission = (model) => {
   const { start, end } = model;
-  const startFormatted = !!start ? new Date(start).toISOString() : start;
-  const endFormatted = !!end ? new Date(end).toISOString() : end;
+  const startFormatted = !!start ? new Date(start).toISOString() : null;
+  const endFormatted = !!end ? new Date(end).toISOString() : null;
 
   return Object.assign({}, model, {
     tags: model.tags.map(tag => tag._id),

@@ -23,8 +23,8 @@ const fetchPrevPage = () => ({
 const changePage = (direction, changePage, type, filters) => {
   console.log('%c change page called with => ', 'font-size: 20px; font-weight: bold; color: red;', type, filters, direction);
   return function(dispatch) {
-    dispatch(FetchData[type](filters, direction));
     dispatch(changePage());
+    dispatch(FetchData[type](filters, direction));
   }
 }
 export const nextPage = (type, filters) => changePage(Strings.next, fetchNextPage, type, filters);

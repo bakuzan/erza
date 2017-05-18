@@ -60,7 +60,7 @@ class HistoryView extends Component {
         isFetching &&
         <LoadingSpinner size="fullscreen" />
       }
-      <div>
+      <div className="list-filter">
         <InputSearch
           search={this.state.search}
           onChange={this.handleUserInput}

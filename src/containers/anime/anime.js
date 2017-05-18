@@ -8,10 +8,14 @@ import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
 import {mapStateToEntityList} from '../../utils/data'
 import { loadAnime } from '../../actions/anime'
 
-const loadData = (props, state) => {
+const getStatusList = props => {
   const status = Enums.anime.status[props.params.filter];
   let statusIn = !!status.length ? status : [status];
-  statusIn = (props.params.filter === Strings.filters.ongoing) ? statusIn.concat([Enums.anime.status.onhold]) : statusIn;
+  return (props.params.filter === Strings.filters.ongoing) ? statusIn.concat([Enums.anime.status.onhold]) : statusIn;
+}
+
+const loadData = (props, state) => {
+  const statusIn = getStatusList(props);
   props.loadAnime({ statusIn, ...state });
 }
 
@@ -51,7 +55,7 @@ class Anime extends Component {
 
   render() {
     const { items } = this.props;
-    const filters = { ...this.state, status: Enums.anime.status[this.props.params.filter] };
+    const filters = { ...this.state, statusIn: getStatusList(this.props) };
     // const searchString = this.state.search.toLowerCase();
     // const items = this.props.items.filter(x => x.title.toLowerCase().indexOf(searchString) > -1 && x.isAdult === this.props.isAdult);
     // console.log('props => ', items);

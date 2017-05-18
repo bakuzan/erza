@@ -1,12 +1,10 @@
-import {Strings, Types} from '../../constants/values'
+import {Types} from '../../constants/values'
 
-export const constructPagingAndSorting = ({ itemsPerPage, pageInfo }, { sortKey, sortOrder }, pageChange) => {
-  const pageCutOff = pageChange === Strings.next ? `after: "${pageInfo.forwardFrom}",`   :
-                     pageChange === Strings.prev ? `before: "${pageInfo.backFrom}",`     :
-                                                   ' ';
+export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }) => {
+  const first = page * itemsPerPage + itemsPerPage;
   return `
-    first: ${itemsPerPage},
-    ${pageCutOff}
+    first: ${first},
+    last: ${itemsPerPage},
     sort: ${sortKey.toUpperCase()}_${sortOrder},
   `;
 }
@@ -39,16 +37,9 @@ export const constructFilterString = (filters) => {
 
 export const pagedDataWrapper = (fields) => (`
   edges {
-    cursor
     node {
       ${fields}
     }
-  }
-  pageInfo {
-    hasNextPage
-    hasPreviousPage
-    startCursor
-    endCursor
   }
   count
 `);
