@@ -33,7 +33,6 @@ class MalSearch extends Component {
           search={search}
           onChange={this.handleMalSearch}
         />
-        <div className="mal-search-results>
         {
           !!this.state.results.length &&
           <ul className="list column one">
@@ -44,7 +43,6 @@ class MalSearch extends Component {
             }))
           </ul>
         }
-        </div>
       </div>
     )
   }
@@ -52,7 +50,7 @@ class MalSearch extends Component {
 
 MalSearch.propTypes = {
   search: PropTypes.string,
-  onUserInput: PropTypes.func.isRequired
+  onUserInput: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired
 }
 
