@@ -82,6 +82,9 @@
 
 
 .autocomplete-menu {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%);
   width: 100%;
   padding: 5px;
   margin: 0;
