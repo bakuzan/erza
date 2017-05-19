@@ -6,6 +6,7 @@ import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import { capitalise, getEventValue } from '../../utils/common'
 import { formatDateForInput } from '../../utils/date'
+import { mapStateToEntityList } from '../../utils/data'
 import AnimeValidator from '../../utils/validators/anime-creation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
@@ -106,7 +107,7 @@ class AnimeCreate extends Component {
                            placeholder=" "
                            autoFocus
                            autoComplete="false"
-                           onChange={(e) => this.handleUserInput(e)}
+                           onChange={this.handleUserInput}
                      />
                     <label>title</label>
                   </div>
@@ -117,7 +118,7 @@ class AnimeCreate extends Component {
                            min="0"
                            max={this.state.series_episodes || null}
                            placeholder=" "
-                           onChange={(e) => this.handleUserInput(e)}
+                           onChange={this.handleUserInput}
                      />
                     <label>episode</label>
                   </div>
@@ -128,7 +129,7 @@ class AnimeCreate extends Component {
                            value={formatDateForInput(this.state.start)}
                            max={this.state.end}
                            placeholder=" "
-                           onChange={(e) => this.handleUserInput(e)}
+                           onChange={this.handleUserInput}
                      />
                     <label>start</label>
                   </div>
@@ -138,7 +139,7 @@ class AnimeCreate extends Component {
                            value={formatDateForInput(this.state.end)}
                            min={this.state.start}
                            placeholder=" "
-                           onChange={(e) => this.handleUserInput(e)}
+                           onChange={this.handleUserInput}
                            disabled={this.state.status !== Enums.anime.status.completed}
                      />
                     <label>end</label>
@@ -147,7 +148,7 @@ class AnimeCreate extends Component {
                   <SelectBox name="status"
                              text="status"
                              value={this.state.status}
-                             onSelect={(e) => this.handleUserInput(e)}
+                             onSelect={this.handleUserInput}
                              options={statusOptions}
                     />
 
@@ -183,7 +184,7 @@ class AnimeCreate extends Component {
                       value={this.state.series_episodes}
                       min="0"
                       placeholder=" "
-                      onChange={(e) => this.handleUserInput(e)}
+                      onChange={this.handleUserInput}
                       />
                     <label>total episodes</label>
                   </div>
@@ -192,14 +193,15 @@ class AnimeCreate extends Component {
                     name="image"
                     value={this.state.image}
                     placeholder="Choose image"
-                    onFileSelect={(e) => this.handleUserInput(e)}
+                    onFileSelect={this.handleUserInput}
                     />
                   <div className="has-float-label input-container">
-                    <input type="url"
+                    <input 
+                      type="url"
                       name="link"
                       value={this.state.link}
                       placeholder=" "
-                      onChange={(e) => this.handleUserInput(e)}
+                      onChange={this.handleUserInput}
                       />
                     <label>link</label>
                   </div>
@@ -239,10 +241,6 @@ AnimeCreate.propTypes = {
   typeaheadTags: PropTypes.arrayOf(PropTypes.object)
 };
 
-const getTypeaheadList = (state) => {
-  return state.allIds.map(item => state.byId[item]);
-}
-
 const setAnimeTags = (entities, anime) => entities.tags.allIds.length === 0 ? anime.tags : anime.tags.map(_id => entities.tags.byId[_id]);
 const getInitalItem = (entities, params) => {
   if (!params.id) return new AnimeModel();
@@ -260,7 +258,7 @@ const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.params.id,
   item: getInitalItem(state.entities, ownProps.params),
   isFetching: state.isFetching,
-  typeaheadTags: getTypeaheadList(state.entities.tags)
+  typeaheadTags: mapStateToEntityList(state.entities.tags)
 })
 
 const mapDispatchToProps = {
