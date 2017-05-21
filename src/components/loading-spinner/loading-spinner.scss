@@ -45,8 +45,9 @@ $width-sm: 30px;
 }
 .loader.control {
 	position: absolute;
-	top: 0;
+	top: 50%;
 	right: 0;
+	transform: translateY(-50%);
 	width: $width-sm;
 }
 .loader.fullscreen {

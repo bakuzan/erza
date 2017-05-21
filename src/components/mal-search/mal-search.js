@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import {fetchFromServer} from '../../graphql/fetch'
+import fetchFromServer from '../../graphql/fetch'
 import AutocompleteInput from '../autocomplete-input/autocomplete-input'
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
+import './mal-search.css'
 
 const searchMyAnimeList = type => search => fetchFromServer(`/api/mal-search/${type}?search=${search}`);
 
@@ -28,8 +29,9 @@ class MalSearch extends Component {
   handleMalSearch(event) {
     this.props.onUserInput(event);
     const search = getEventValue(event);
+    console.log('mal search for > ', search);
     debounce(() => {
-      this.setState({ isFetching: true })
+      this.setState({ isFetching: true });
       this.queryMal(search).then(response => this.setState({ results: response, isFetching: false }));
     }, getTimeoutSeconds(2))
   }
@@ -47,7 +49,7 @@ class MalSearch extends Component {
         />
         {
           this.state.isFetching &&
-          <LoadingSpinner />
+          <LoadingSpinner size="control" />
         }
       </div>
     );

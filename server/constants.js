@@ -7,9 +7,15 @@ const seasons = {
 	fall: 'Fall'
 }
 
+const type ={
+	anime: 'anime',
+	manga: 'manga'
+}
+
 const Constants = {
 	appName,
-	seasons
+	seasons,
+	type
 }
 
 module.exports = Constants;
