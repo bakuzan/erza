@@ -6,6 +6,7 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 const graffiti = require('@risingstack/graffiti');
 const GraphqlSchema = require('./graphql/schema.js');
 
+const malSearch = require('./juri-partial/mal-search.js');
 const Constants = require('./constants');
 
 // db
@@ -24,6 +25,9 @@ router.use((req, res, next) => {
 	console.log(chalk.bold.yellow('Query @ ', req.url));
 	next(); // pass to next handler.
 });
+
+//Mal route
+router.get('/api/mal-search/:type', malSearch);
 
 // Graphql route
 router.use(

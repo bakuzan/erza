@@ -1,17 +1,18 @@
 import React, {Component, PropTypes} from 'react'
+import {fetchFromServer} from '../../graphql/fetch'
 import AutocompleteInput from '../autocomplete-input/autocomplete-input'
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
 
-const searchMyAnimeList = type => search => {
-  // TODO query endpoint here
-}
+const searchMyAnimeList = type => search => fetchFromServer(`/api/mal-search/${type}?search=${search}`);
 
 class MalSearch extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      results: []
+      results: [],
+      isFetching: false
     }
 
     this.queryMal = searchMyAnimeList(props.type);
@@ -27,7 +28,10 @@ class MalSearch extends Component {
   handleMalSearch(event) {
     this.props.onUserInput(event);
     const search = getEventValue(event);
-    debounce(() => this.queryMal(search).then(response => this.setState({ results: response })), getTimeoutSeconds(2))
+    debounce(() => {
+      this.setState({ isFetching: true })
+      this.queryMal(search).then(response => this.setState({ results: response, isFetching: false }));
+    }, getTimeoutSeconds(2))
   }
 
   render() {
@@ -41,12 +45,17 @@ class MalSearch extends Component {
           onChange={this.handleMalSearch}
           onSelect={this.selectAutocompleteSuggestion}
         />
+        {
+          this.state.isFetching &&
+          <LoadingSpinner />
+        }
       </div>
     );
   }
 }
 
 MalSearch.propTypes = {
+  type: PropTypes.string.isRequired,
   search: PropTypes.string,
   onUserInput: PropTypes.func.isRequired,
   selectMalItem: PropTypes.func.isRequired

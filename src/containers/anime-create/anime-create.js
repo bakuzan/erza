@@ -106,22 +106,12 @@ class AnimeCreate extends Component {
               <TabView name="Required">
                 <div className="flex-column">
                   <MalSearch
+                    type={Strings.anime}
                     search={this.state.title}
-                    onChange={this.handleUserInput}
+                    onUserInput={this.handleUserInput}
                     selectMalItem={this.handleMalSelect}
                   />
 
-                  <div className="has-float-label input-container">
-                    <input type="text"
-                           name="title"
-                           value={this.state.title}
-                           placeholder=" "
-                           autoFocus
-                           autoComplete="false"
-                           onChange={this.handleUserInput}
-                     />
-                    <label>title</label>
-                  </div>
                   <div className="has-float-label input-container">
                     <input type="number"
                            name="episode"
@@ -207,7 +197,7 @@ class AnimeCreate extends Component {
                     onFileSelect={this.handleUserInput}
                     />
                   <div className="has-float-label input-container">
-                    <input 
+                    <input
                       type="url"
                       name="link"
                       value={this.state.link}
@@ -283,3 +273,15 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(AnimeCreate)
+
+// <div className="has-float-label input-container">
+//   <input type="text"
+//          name="title"
+//          value={this.state.title}
+//          placeholder=" "
+//          autoFocus
+//          autoComplete="false"
+//          onChange={this.handleUserInput}
+//    />
+//   <label>title</label>
+// </div>
