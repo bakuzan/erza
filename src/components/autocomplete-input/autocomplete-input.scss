@@ -1,0 +1,13 @@
+.autocomplete-menu {
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  list-style-type: none;
+
+  .autocomplete-suggestion .button {
+    width: 100%;
+  }
+  .highlight {
+    font-weight: bold;
+  }
+}

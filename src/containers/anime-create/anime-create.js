@@ -6,6 +6,7 @@ import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import { capitalise, getEventValue } from '../../utils/common'
 import { formatDateForInput } from '../../utils/date'
+import { mapStateToEntityList } from '../../utils/data'
 import AnimeValidator from '../../utils/validators/anime-creation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
@@ -16,6 +17,7 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import TabContainer from '../../components/tab-container/tab-container'
 import TabView from '../../components/tab-view/tab-view'
 import FileUploader from '../../components/file-uploader/file-uploader'
+import MalSearch from '../../components/mal-search/mal-search'
 import {loadAnimeById} from '../../actions/anime'
 import { loadTags } from '../../actions/tags'
 
@@ -43,6 +45,10 @@ class AnimeCreate extends Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && typeof x === 'object')) return;
     this.setState(nextProps.item);
+  }
+
+  handleMalSelect(malItem) {
+    console.log('MAL > ', malItem);
   }
 
   handleUserInput({ target }) {
@@ -99,6 +105,12 @@ class AnimeCreate extends Component {
             <TabContainer>
               <TabView name="Required">
                 <div className="flex-column">
+                  <MalSearch
+                    search={this.state.title}
+                    onChange={this.handleUserInput}
+                    selectMalItem={this.handleMalSelect}
+                  />
+
                   <div className="has-float-label input-container">
                     <input type="text"
                            name="title"
@@ -239,10 +251,6 @@ AnimeCreate.propTypes = {
   typeaheadTags: PropTypes.arrayOf(PropTypes.object)
 };
 
-const getTypeaheadList = (state) => {
-  return state.allIds.map(item => state.byId[item]);
-}
-
 const setAnimeTags = (entities, anime) => entities.tags.allIds.length === 0 ? anime.tags : anime.tags.map(_id => entities.tags.byId[_id]);
 const getInitalItem = (entities, params) => {
   if (!params.id) return new AnimeModel();
@@ -260,7 +268,7 @@ const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.params.id,
   item: getInitalItem(state.entities, ownProps.params),
   isFetching: state.isFetching,
-  typeaheadTags: getTypeaheadList(state.entities.tags)
+  typeaheadTags: mapStateToEntityList(state.entities.tags)
 })
 
 const mapDispatchToProps = {

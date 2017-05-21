@@ -1,0 +1,11 @@
+.clearable-input {
+  > input {
+    display: flex;
+    flex: 1 0 100%;
+    padding-right: 1.5em !important;
+  }
+}
+.clear-input {
+  position: relative;
+  right: 30px;
+}

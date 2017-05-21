@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import FilterLink from '../filter-link/filter-link'
 import RadioButton from '../../components/radio-button/radio-button'
-import InputSearch from '../../components/input-search/input-search'
+import ClearableInput from '../../components/clearable-input/clearable-input'
 import {toggleSortOrder, setSortKey} from '../../actions/sorting'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
@@ -15,8 +15,8 @@ const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
 
 const ListFilter = ({ search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
   <div className="list-filter">
-    
-    <InputSearch
+
+    <ClearableInput
       search={search}
       onChange={onChange}
     />

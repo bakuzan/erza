@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
-import InputSearch from '../../components/input-search/input-search'
+import ClearableInput from '../../components/clearable-input/clearable-input'
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
 import {mapStateToEntityList} from '../../utils/data'
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
@@ -61,7 +61,7 @@ class HistoryView extends Component {
         <LoadingSpinner size="fullscreen" />
       }
       <div className="list-filter">
-        <InputSearch
+        <ClearableInput
           search={this.state.search}
           onChange={this.handleUserInput}
         />
