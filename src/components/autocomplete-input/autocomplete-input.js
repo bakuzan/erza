@@ -97,6 +97,7 @@ class AutocompleteInput extends Component {
                     <button
                       type="button"
                       className="button ripple"
+                      title={item[attr]}
                       onClick={() => this.selectAutocompleteSuggestion(item.id)}>
                       { this.highlightMatch(item[attr]) }
                     </button>

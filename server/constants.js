@@ -7,7 +7,7 @@ const seasons = {
 	fall: 'Fall'
 }
 
-const type ={
+const type = {
 	anime: 'anime',
 	manga: 'manga'
 }

@@ -48,7 +48,7 @@ class AnimeCreate extends Component {
   }
 
   handleMalSelect(malItem) {
-    console.log('MAL > ', malItem);
+    console.log('MAL Select > ', malItem);
   }
 
   handleUserInput({ target }) {

@@ -1,36 +1,27 @@
-const constants = require('../constants');
+const Constants = require('../constants');
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
 
-const helperFunctions = {
-	removeNullOnEmpty: (result) => {
-		if (result[0] === null) return [];
-		return result;
-	}
-}
+const removeNullOnEmpty = result => (result[0] === null) ? [] : result;
 
 const animeSearch = (res, search) => {
-		client.searchAnimes(search).then((result) => {
-			res.jsonp(helperFunctions.removeNullOnEmpty(result));
-		}).catch((err) => {
-			return err;
-		});
+		client.searchAnimes(search)
+			.then(result => res.jsonp(removeNullOnEmpty(result)))
+			.catch(err => err);
 }
 
 const mangaSearch = (res, search) => {
-		client.searchMangas(search).then((result) => {
-			res.jsonp(helperFunctions.removeNullOnEmpty(result));
-		}).catch((err) => {
-			return err;
-		});
+		client.searchMangas(search)
+			.then(result => res.jsonp(removeNullOnEmpty(result)))
+			.catch(err => err);
 }
 
 const search = (req, res) => {
-	const type = req.params.type;
-	const search = req.query.search;
-
-	if (type === constants.type.anime) animeSearch(res, search);
-	if (type === constants.type.manga) mangaSearch(res, search);
+	const { params: { type }, query: { search } } = req;
+	switch (type) {
+		case Constants.type.anime: return animeSearch(res, search)
+		case Constants.type.manga: return mangaSearch(res, search)
+	}
 }
 
 module.exports = search;

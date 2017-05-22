@@ -25,5 +25,6 @@ export const Paths = {
   graphql: {
     base: '/graphql?query='
   },
+  malSearch: '/api/mal-search/:type',
   sunrise_sunset: 'https://api.sunrise-sunset.org/json?lat=51.9451597&lng=-0.6565607&formatted=0'
 }
