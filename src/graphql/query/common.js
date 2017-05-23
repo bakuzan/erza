@@ -52,23 +52,23 @@ export const animeKeyFields = `
   end
   status
   isAdult
+  isRepeat
   owned
   image
   malId
   series_episodes
+  timesCompleted
   updatedDate
 `;
 
 export const animeEditFields = `
   ${animeKeyFields}
-  isRepeat
   link
   rating
   series_end
   series_start
   series_type
   tags
-  timesCompleted
 `;
 
 export const tagFields = `

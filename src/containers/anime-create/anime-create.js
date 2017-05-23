@@ -49,6 +49,7 @@ class AnimeCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
+    this.setState(prevState => (AnimeValidator.intergrateMalEntry(prevState, malItem)));
   }
 
   handleUserInput({ target }) {

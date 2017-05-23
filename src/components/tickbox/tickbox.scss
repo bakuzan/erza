@@ -19,7 +19,7 @@
   }
 }
 
-.tickbox input:before, 
+.tickbox input:before,
 .tickbox input:checked:before {
   color: #000;
   transition: all 0.3s;
@@ -34,8 +34,8 @@
 
 .tickbox input:disabled:before {
   content: "\274c";
-  font-size: 1em;
   color: #666;
+  cursor: default;
 }
 
 .tickbox input:checked:before {

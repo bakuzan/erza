@@ -1,3 +1,4 @@
+import updatePrePost from './anime-post'
 import {Enums, Properties} from '../../constants/values'
 import {formatDateForInput} from '../date'
 
@@ -43,25 +44,38 @@ const processValidatorChanges = (anime, property) => {
   }
 }
 
-const validateAnimeChanges = (model, updateProperty) => {
-  return Object.assign({}, model, processValidatorChanges(model, updateProperty));
-}
+const validateAnimeChanges = (model, updateProperty) => Object.assign({}, model, processValidatorChanges(model, updateProperty));
 
-const validateAnimeSubmission = (model) => {
+const validateAnimeSubmission = model => {
   const { start, end } = model;
   const startFormatted = !!start ? new Date(start).toISOString() : null;
   const endFormatted = !!end ? new Date(end).toISOString() : null;
 
+  return updatePrePost(
+     Object.assign({}, model, {
+      tags: model.tags.map(tag => tag._id),
+      start: startFormatted,
+      end: endFormatted
+    })
+  );
+}
+
+const intergrateMalEntry = (model, malItem) => {
+  if (!malItem) return Object.assign({}, model, { malId: null });
   return Object.assign({}, model, {
-    tags: model.tags.map(tag => tag._id),
-    start: startFormatted,
-    end: endFormatted
+    image: malItem.image,
+    malId: malItem.id,
+    series_type: Enums.anime.type[malItem.type.toLowerCase()], // 0 = Unknown, 1 = TV, 2 = OVA, 3 = Movie, 4 = Special, 5 = ONA, 6 = Music
+    series_episodes: malItem.episodes,
+    series_start: malItem.start_date,
+    series_end: malItem.end_date
   });
 }
 
 const AnimeValidator = {
   validateAnimeChanges,
-  validateAnimeSubmission
+  validateAnimeSubmission,
+  intergrateMalEntry
 }
 
 export default AnimeValidator

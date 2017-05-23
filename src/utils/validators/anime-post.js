@@ -21,7 +21,7 @@ const updatePrePost = anime => {
 
     // IS REPEAT
     if (anime.isRepeat && anime.episode === anime.series_episodes) {
-        updates.timesCompleted += 1;
+        updates.timesCompleted = anime.timesCompleted + 1;
         updates.isRepeat = false;
     }
 

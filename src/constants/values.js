@@ -77,7 +77,7 @@ export const Icons = {
   tick: '\u2713', //10003, //'\u2713',
   cross: '\u274C',
   pause: '\u23F8', //9208, //'\u23F8',
-  clockwise: '\u27F3', // 10227, //'\u27F3'
+  clockwise: '\uD83D\uDD01', // 10227, //'\u27F3'
 }
 
 export const Types = {
