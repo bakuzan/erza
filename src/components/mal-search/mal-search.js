@@ -25,6 +25,14 @@ class MalSearch extends Component {
     this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(this);
   }
 
+  componentDidMount() {
+    if (!this.props.id) return;
+    this.queryMal(this.props.search).then(response => {
+      const item = response.find(x => x.id === this.props.id);
+      this.props.selectMalItem(item);
+    });
+  }
+
   fetchMalResults() {
     debounce(() => {
       this.setState({ isFetching: true });
@@ -76,6 +84,7 @@ class MalSearch extends Component {
 }
 
 MalSearch.propTypes = {
+  id: PropTypes.number,
   type: PropTypes.string.isRequired,
   search: PropTypes.string,
   onUserInput: PropTypes.func.isRequired,

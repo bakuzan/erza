@@ -34,7 +34,9 @@ class AnimeCreate extends Component {
     super(props);
     this.state = Object.assign({}, props.item); // yes, i know i'm assigning a prop to state.
 
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleMalSelect = this.handleMalSelect.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
   }
 
@@ -49,7 +51,7 @@ class AnimeCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
-    this.setState(prevState => (AnimeValidator.intergrateMalEntry(prevState, malItem)));
+    this.setState((prevState) => AnimeValidator.intergrateMalEntry(prevState, malItem));
   }
 
   handleUserInput({ target }) {
@@ -101,12 +103,13 @@ class AnimeCreate extends Component {
                 className="center-contents flex-column"
                 autoComplete="false"
                 noValidate=""
-                onSubmit={e => this.handleSubmit(e)}
+                onSubmit={this.handleSubmit}
                 >
             <TabContainer>
               <TabView name="Required">
                 <div className="flex-column">
                   <MalSearch
+                    id={this.state.malId}
                     type={Strings.anime}
                     search={this.state.title}
                     onUserInput={this.handleUserInput}
@@ -274,15 +277,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(AnimeCreate)
-
-// <div className="has-float-label input-container">
-//   <input type="text"
-//          name="title"
-//          value={this.state.title}
-//          placeholder=" "
-//          autoFocus
-//          autoComplete="false"
-//          onChange={this.handleUserInput}
-//    />
-//   <label>title</label>
-// </div>

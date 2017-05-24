@@ -20,3 +20,5 @@ const setTimeForDate = (h, m, s) => date => {
 }
 export const startOfDay = setTimeForDate(0, 0, 0)
 export const endOfDay = setTimeForDate(23, 59, 59)
+
+export const dateStringToISOString = s => !!s ? new Date(s).toISOString() : null;

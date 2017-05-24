@@ -1,6 +1,6 @@
 import updatePrePost from './anime-post'
 import {Enums, Properties} from '../../constants/values'
-import {formatDateForInput} from '../date'
+import {formatDateForInput, dateStringToISOString} from '../date'
 
 const episodeChangeHandler = (anime) => {
   const changes = {};
@@ -47,15 +47,15 @@ const processValidatorChanges = (anime, property) => {
 const validateAnimeChanges = (model, updateProperty) => Object.assign({}, model, processValidatorChanges(model, updateProperty));
 
 const validateAnimeSubmission = model => {
-  const { start, end } = model;
-  const startFormatted = !!start ? new Date(start).toISOString() : null;
-  const endFormatted = !!end ? new Date(end).toISOString() : null;
+  const { start, end, series_start, series_end } = model;
 
   return updatePrePost(
      Object.assign({}, model, {
       tags: model.tags.map(tag => tag._id),
-      start: startFormatted,
-      end: endFormatted
+      start: dateStringToISOString(start),
+      end: dateStringToISOString(end),
+      series_start: dateStringToISOString(series_start),
+      series_end: dateStringToISOString(series_end)
     })
   );
 }
