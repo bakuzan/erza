@@ -1,7 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Strings} from '../../constants/values';
-import {Paths} from '../../constants/paths';
 import Menu from '../../constants/menu';
 import './home.css';
 
@@ -20,7 +18,7 @@ const Home = () => (
                       { child.title }
                     </Link>
                     <span>{ child.description }</span>
-                  </p> 
+                  </p>
                 ))
               }
             </div>

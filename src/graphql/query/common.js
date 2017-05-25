@@ -13,9 +13,10 @@ const appendCharacter = t => (a, i) => (a.length === i + 1) ? ` ${t}` : ', ';
 const appendArrayBreak = appendCharacter(']');
 const appendKeyBreak = appendCharacter('}');
 
+const processArray = v => v.length > 0 ? v.reduce((ac, cu, i) => `${ac} ${processType(cu)}${appendArrayBreak(v, i)}`, '[') : '[]';
 const processType = (v) =>
   ((v || v === "") && typeof(v) === Types.string) ? `"${v}"` :
-                (v instanceof Array)              ? v.reduce((ac, cu, i) => `${ac} ${processType(cu)}${appendArrayBreak(v, i)}`, '[') :
+                             (v instanceof Array) ? processArray(v) :
                                                     v;
 
 export const constructRecordForPost = (record) => {
