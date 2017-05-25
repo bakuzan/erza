@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
-import ClearableInput from '../../components/clearable-input/clearable-input'
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
 import {mapStateToEntityList} from '../../utils/data'
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
@@ -9,11 +8,7 @@ import {startOfDay, endOfDay, dateAsMs, formatDateForInput} from '../../utils/da
 import { loadEpisodesByDateRange } from '../../actions/episode'
 
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [dateAsMs(startOfDay(from)), dateAsMs(endOfDay(to))]
-
-//   search: state.search,
-const loadData = (props, state) => props.loadEpisodes({
-  dateRange: dateRangeForQuery(state.from, state.to)
-});
+const loadData = (props, state) => props.loadEpisodes({ dateRange: dateRangeForQuery(state.from, state.to) });
 
 class HistoryView extends Component {
 
@@ -21,7 +16,6 @@ class HistoryView extends Component {
     super(props);
     const dr = dateRangeForQuery();
     this.state = {
-      search: '',
       from: formatDateForInput(dr[0]),
       to: formatDateForInput(dr[1])
     };
@@ -61,10 +55,6 @@ class HistoryView extends Component {
         <LoadingSpinner size="fullscreen" />
       }
       <div className="list-filter">
-        <ClearableInput
-          search={this.state.search}
-          onChange={this.handleUserInput}
-        />
         <div>
           <div className="has-float-label input-container">
             <input type="date"
