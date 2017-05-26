@@ -29,6 +29,7 @@ class MalSearch extends Component {
     if (!this.props.id) return;
     this.queryMal(this.props.search).then(response => {
       const item = response.find(x => x.id === this.props.id);
+      if (!item) return; // TODO Present warning message that the search couldnt find the entry id you have saved...
       this.props.selectMalItem(item);
     });
   }
