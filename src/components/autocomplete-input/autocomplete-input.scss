@@ -17,3 +17,8 @@
     font-weight: bold;
   }
 }
+
+// specific to: component/shortcuts
+form[name="shortcuts"] .autocomplete-menu {
+  box-shadow: none;
+}
