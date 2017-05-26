@@ -4,6 +4,14 @@ import './dialog.css'
 
 class Dialog extends Component {
 
+  constructor() {
+    super();
+    
+    this.handleRef = this.handleRef.bind(this);
+    this.handleAction = this.handleAction.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+  
   handleRef(element) {
     this.self = element;
     this.props.getDialogRef(element);
@@ -15,41 +23,51 @@ class Dialog extends Component {
 
   handleAction(event) {
     event.preventDefault();
-    this.props.action(event);
+    if (this.props.action) this.props.action(event);
   }
 
   render() {
     const dialogStyle = { 'top': `calc(${window.scrollY}px + 50vh)` };
+    const hasTitle = !!this.props.title;
+    const hasAction = !!this.props.action;
+    
     return (
-      <dialog ref={(el) => this.handleRef(el)}
+      <dialog ref={this.handleRef}
               style={dialogStyle}
               className="dialog backdrop"
         >
         <div className="dialog-content">
-          <form name={this.props.name}
-                onSubmit={(e) => this.handleAction(e)}
-                noValidate=""
-                autoComplete="false">
-            <h4 className="dialog-title">{ this.props.title }</h4>
+          <form 
+            name={this.props.name}
+            onSubmit={this.handleAction}
+            noValidate=""
+            autoComplete="false"
+            >
+            {
+              hasTitle &&
+              <h4 className="dialog-title">{ this.props.title }</h4>
+            }
             <div className="dialog-content-custom">
-             { this.props.children }
+              { this.props.children }
             </div>
-
-            <div className="button-group">
-              <button
-                type="submit"
-                className="button ripple"
-                >
-                { this.props.actionText }
-              </button>
-              <button
-                type="button"
-                className="button ripple"
-                onClick={() => this.handleClose()}
-                >
-                { Strings.cancel }
-              </button>
-            </div>
+            {
+              hasAction &&
+              <div className="button-group">
+                <button
+                  type="submit"
+                  className="button ripple"
+                  >
+                  { this.props.actionText }
+                </button>
+                <button
+                  type="button"
+                  className="button ripple"
+                  onClick={this.handleClose}
+                  >
+                  { Strings.cancel }
+                </button>
+              </div>
+            }
           </form>
         </div>
       </dialog>
