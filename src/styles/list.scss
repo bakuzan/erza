@@ -15,6 +15,11 @@ $columns: (
   margin: 5px 0;
   list-style-type: none;
 
+  .formatting-container {
+    display: flex;
+    width: 100%;
+  }
+
   &.column {
     flex-direction: row;
     flex-wrap: wrap;

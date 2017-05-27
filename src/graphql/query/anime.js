@@ -14,6 +14,8 @@ const getById = (id) => (`
       ${animeKeyFields}
       rating
       isRepeat
+      series_start
+      season
     }
   }
 `);

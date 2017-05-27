@@ -6,12 +6,12 @@ class Dialog extends Component {
 
   constructor() {
     super();
-    
+
     this.handleRef = this.handleRef.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
-  
+
   handleRef(element) {
     this.self = element;
     this.props.getDialogRef(element);
@@ -30,14 +30,14 @@ class Dialog extends Component {
     const dialogStyle = { 'top': `calc(${window.scrollY}px + 50vh)` };
     const hasTitle = !!this.props.title;
     const hasAction = !!this.props.action;
-    
+
     return (
       <dialog ref={this.handleRef}
               style={dialogStyle}
               className="dialog backdrop"
         >
         <div className="dialog-content">
-          <form 
+          <form
             name={this.props.name}
             onSubmit={this.handleAction}
             noValidate=""
@@ -83,8 +83,8 @@ Dialog.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]).isRequired,
-  actionText: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired
+  actionText: PropTypes.string,
+  action: PropTypes.func
 }
 
 export default Dialog

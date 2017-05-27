@@ -100,13 +100,12 @@ AnimeTC.addFields({
     type: 'Json', // String, Int, Float, Boolean, ID, Json
     description: 'Seasonal anime information',
     resolve: (source, args, context, info) => {
-      console.log(source, args, context, info);
       const item = source;
       const start = Common.getDateParts(item.start);
       const seriesStart = Common.getDateParts(item.series_start);
 
       return Object.assign({}, {
-        inSeason: (start.year === seriesStart.year || start.month === seriesStart.month) && !!Common.getSeasonText(start.month),
+        inSeason: start.year === seriesStart.year && start.month === seriesStart.month && !!Common.getSeasonText(start.month),
         year: start.year,
         season: Common.getSeasonText(start.month),
         seasonName: function() {

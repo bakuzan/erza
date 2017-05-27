@@ -37,6 +37,7 @@ export const createEpisode = (item) => {
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingEpisodeRequest());
+    if (!pageChange) dispatch(resetPageToZero());
     const { paging, isAdult } = getState();
     const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder: 'DESC' });
     const query = EpisodeQL.getEpisodesForDateRange(pageSettings, Object.assign({}, filters, { isAdult }) );
@@ -45,7 +46,6 @@ export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
         const data = response.data.episodeConnection;
         dispatch(loadEpisodeData(data.edges));
         dispatch(loadPageInfo({ count: data.count }));
-        if (!pageChange) dispatch(resetPageToZero());
       })
       .then(() => dispatch(finishEpisodeRequest()) );
   }

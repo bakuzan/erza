@@ -76,6 +76,7 @@ export const addEpisodes = (updateValues) => {
 export const loadAnime = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     dispatch(startingAnimeRequest());
+    if (!pageChange) dispatch(resetPageToZero());
     const { isAdult, paging, sorting } = getState();
     const pageSettings = constructPagingAndSorting(paging, sorting);
     const query = AnimeQL.getFilteredList(pageSettings, Object.assign({}, filters, { isAdult }) );
@@ -84,7 +85,6 @@ export const loadAnime = (filters = {}, pageChange = null) => {
         const data = response.data.animeConnection;
         dispatch(loadAnimeData(data.edges));
         dispatch(loadPageInfo({ count: data.count }));
-        if (!pageChange) dispatch(resetPageToZero());
       })
       .then(() => dispatch(finishAnimeRequest()) );
   }

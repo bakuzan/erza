@@ -20,6 +20,7 @@ export const Enums = {
     }
   },
   keyCode: {
+    q: 81,
     backspace: 8,
     enter: 13,
     up: 38,
@@ -35,17 +36,21 @@ export const Strings = {
   date: 'date',
   text: 'text',
   // labels
+  start: 'start',
+  end: 'end',
   episode: 'episode',
   isAdult: 'is adult',
   isRepeat: 'is repeat',
   owned: 'owned',
   status: 'status',
+  season: 'season',
   // directions
   ascending: 'ASC',
   descending: 'DESC',
   next: 'next',
   prev: 'prev',
   // page text
+  unfinished: 'Unfinished',
   create: 'Create',
   edit: 'Edit',
   back: 'Back',
@@ -70,7 +75,8 @@ export const Properties = {
   episode: 'episode',
   isAdult: 'isAdult',
   isRepeat: 'isRepeat',
-  status: 'status'
+  status: 'status',
+  season: 'season'
 }
 
 export const Icons = {

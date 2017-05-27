@@ -8,12 +8,12 @@ const Home = () => (
     <ul className="site-map-list list column one">
       {
         Menu.map(item => (
-          <li>
+          <li key={item.id}>
             <div className="group-title">{ item.title }</div>
             <div className="group-content">
               {
                 item.children.map(child => (
-                  <p>
+                  <p key={child.id}>
                     <Link to={child.link}>
                       { child.title }
                     </Link>

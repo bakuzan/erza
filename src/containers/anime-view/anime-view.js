@@ -7,6 +7,7 @@ import HistoryList from '../../components/history-list/history-list'
 import {loadAnimeById} from '../../actions/anime'
 import {loadEpisodeForSeries} from '../../actions/episode'
 import {getKeyByValue} from '../../utils/common'
+import {formatDateForDisplay} from '../../utils/date'
 import {Paths} from '../../constants/paths'
 import {Strings, Enums, Icons} from '../../constants/values'
 
@@ -61,6 +62,12 @@ class AnimeView extends Component {
                 value={item.rating || 0}
                 />
               <ul className="list column two">
+                <li className="label">{Strings.start}</li>
+                <li className="value">{formatDateForDisplay(item.start)}</li>
+
+                <li className="label">{Strings.end}</li>
+                <li className="value">{formatDateForDisplay(item.end) || Strings.unfinished}</li>
+
                 <li className="label">{Strings.isAdult}</li>
                 <li className="value" icon={item.isAdult ? Icons.tick : Icons.cross}></li>
 
@@ -72,6 +79,13 @@ class AnimeView extends Component {
 
                 <li className="label">{Strings.status}</li>
                 <li className="value">{getKeyByValue(Enums.anime.status, item.status)}</li>
+                {
+                  item.season && item.season.inSeason &&
+                  <div className="formatting-container">
+                    <li className="label">{Strings.season}</li>
+                    <li className="value">{`${item.season.season} ${item.season.year}`}</li>
+                  </div>
+                }
               </ul>
               <div>
               {
