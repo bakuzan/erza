@@ -91,7 +91,7 @@ class PagedAnimeList extends Component {
           actionText={Strings.edit}
           action={this.handleEdit}
           >
-          <div>
+          <div className="paged-list-edit">
           {
             !!this.state.editItem._id &&
             <div>

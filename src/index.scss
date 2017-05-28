@@ -78,3 +78,10 @@ button:focus + .dropdown-menu {
     padding: 5px;
   }
 }
+
+
+// custom lists
+.paged-list-edit .list {
+  max-height: 250px;
+  overflow: auto;
+}

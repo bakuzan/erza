@@ -6,6 +6,8 @@ import {getKeyByValue} from '../../utils/common'
 import {formatDateForDisplay} from '../../utils/date'
 
 const AnimeListItem = ({ item, addEpisode }) => {
+  const hasMalId = !!item.malId;
+  const hasLink = !!item.link;
   const statusIcon = item.isRepeat                                ? Icons.clockwise :
                      item.status === Enums.anime.status.onhold    ? Icons.pause     :
                      item.status === Enums.anime.status.completed ? Icons.tick      :
@@ -49,8 +51,10 @@ const AnimeListItem = ({ item, addEpisode }) => {
       </div>
       <div className="flex-spacer"></div>
       {
-        !!item.malId &&
+        (hasMalId || hasLink) &&
         <div className="mal-image">
+        {
+          hasMalId &&
           <a
            href={`https://myanimelist.net/anime/${item.malId}`}
            target="_blank"
@@ -61,6 +65,18 @@ const AnimeListItem = ({ item, addEpisode }) => {
               alt="MyAnimelist icon"
             />
           </a>
+        }
+        {
+          hasLink &&
+          <a
+           href={item.link}
+           className="button-icon small"
+           icon={Icons.link}
+           target="_blank"
+           title="Open content link"
+          >
+          </a>
+        }
         </div>
       }
       <div className="series-image-container">

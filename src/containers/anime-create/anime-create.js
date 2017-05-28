@@ -44,8 +44,9 @@ class AnimeCreate extends Component {
     loadData(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps, nextState) {
     if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && typeof x === 'object')) return;
+    console.log('will get props >> ', nextProps, nextState);
     this.setState(nextProps.item);
   }
 
@@ -76,10 +77,9 @@ class AnimeCreate extends Component {
   render() {
     if (this.props.isFetching) return ( <LoadingSpinner size="fullscreen" /> );
     console.log('render anime create :: ', this.state, this.props);
-    const statusOptions = Object.keys(Enums.anime.status).filter(x => x !== 'all').map(item => ({
-      text: capitalise(item),
-      value: Enums.anime.status[item]
-    }));
+    const statusOptions = Object.keys(Enums.anime.status)
+                                .filter(x => x !== 'all')
+                                .map(item => ({ text: capitalise(item), value: Enums.anime.status[item] }));
     const availableTags = this.props.typeaheadTags.filter(x => x.isAdult === this.state.isAdult);
 
     return (

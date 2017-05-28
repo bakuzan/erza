@@ -80,6 +80,13 @@ class AnimeView extends Component {
                 <li className="label">{Strings.status}</li>
                 <li className="value">{getKeyByValue(Enums.anime.status, item.status)}</li>
                 {
+                  item.status === Enums.anime.status.completed &&
+                  <div className="formatting-container">
+                    <li className="label">{Strings.timesCompleted}</li>
+                    <li className="value">{item.timesCompleted}</li>
+                  </div>
+                }
+                {
                   item.season && item.season.inSeason &&
                   <div className="formatting-container">
                     <li className="label">{Strings.season}</li>
@@ -118,6 +125,23 @@ class AnimeView extends Component {
           </div>
           <div className="series-image-container">
             <img src={item.image} alt={`Cover for ${item.title}`} />
+            <h4>Series tags</h4>
+            <ul className="list column one">
+            {
+              !item.tagList &&
+              <li>
+                <p>{Strings.noItemsAvailable}</p>
+              </li>
+            }
+            {
+              !!item.tagList &&
+              item.tagList.map(item => (
+                <li key={item._id}>
+                  { item.name }
+                </li>
+              ))
+            }
+            </ul>
           </div>
         </div>
       </section>

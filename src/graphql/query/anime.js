@@ -16,6 +16,10 @@ const getById = (id) => (`
       isRepeat
       series_start
       season
+      tagList {
+        _id
+        name
+      }
     }
   }
 `);

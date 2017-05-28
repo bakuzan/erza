@@ -1,5 +1,4 @@
 import EpisodeModel from '../models/episode-model'
-import debounce from './common'
 
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
   return Array(episode - anime.episode)
