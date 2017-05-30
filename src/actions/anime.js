@@ -58,18 +58,21 @@ export const editAnime = (item) => {
   }
 }
 
-export const addEpisodes = (updateValues) => {
+export const addEpisodes = updateValues => {
   return function(dispatch, getState) {
     const anime = getState().entities.anime.byId[updateValues._id];
     const history = mapEpisodeData(anime, updateValues);
     console.log('add episode => ', anime, updateValues, history)
     history.forEach(item => dispatch(createEpisode(item)) );
-    const editItem = updatePrePost(
+    return updatePrePost(
       update(anime, {
         episode: { $set: updateValues.episode }
       })
-    );
-    dispatch(editAnime(editItem));
+    )
+    .then(editItem => {
+      console.log('edit anime => ', editItem);
+      dispatch(editAnime(editItem));
+    });
   }
 }
 

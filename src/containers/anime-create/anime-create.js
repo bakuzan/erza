@@ -52,6 +52,7 @@ class AnimeCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
+    // Check Mal values vs current values... only setState if they have changed!
     this.setState((prevState) => AnimeValidator.intergrateMalEntry(prevState, malItem));
   }
 
@@ -69,9 +70,10 @@ class AnimeCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const animeItem = AnimeValidator.validateAnimeSubmission(this.state);
-    if (this.props.isCreate) return this.props.createAnime(animeItem);
-    return this.props.editAnime(animeItem);
+    AnimeValidator.validateAnimeSubmission(this.state).then(animeItem => {
+      if (this.props.isCreate) return this.props.createAnime(animeItem);
+      return this.props.editAnime(animeItem);
+    })
   }
 
   render() {

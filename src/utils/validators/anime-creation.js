@@ -48,7 +48,6 @@ const validateAnimeChanges = (model, updateProperty) => Object.assign({}, model,
 
 const validateAnimeSubmission = model => {
   const { start, end, series_start, series_end } = model;
-
   return updatePrePost(
      Object.assign({}, model, {
       tags: model.tags.map(tag => tag._id),
@@ -67,8 +66,8 @@ const intergrateMalEntry = (model, malItem) => {
     malId: malItem.id,
     series_type: Enums.anime.type[malItem.type.toLowerCase()], // 0 = Unknown, 1 = TV, 2 = OVA, 3 = Movie, 4 = Special, 5 = ONA, 6 = Music
     series_episodes: malItem.episodes,
-    series_start: malItem.start_date,
-    series_end: malItem.end_date
+    series_start: dateStringToISOString(malItem.start_date),
+    series_end: dateStringToISOString(malItem.end_date)
   });
 }
 

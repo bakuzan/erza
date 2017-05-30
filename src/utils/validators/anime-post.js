@@ -12,13 +12,8 @@ const malResponseGenerator = anime => response => {
   return AnimeValidator.intergrateMalEntry({}, item);
 }
 
-const checkMal = (anime, cb) => searchMyAnimeList(anime.title)
-                          .then(malResponseGenerator(anime))
-                          .then(cb);
-
-const updatePrePost = anime => {
-  let updates = {};
-  const holder = checkMal(anime, malUpdates => { updates = malUpdates });
+const applyUpdates = (anime, malItem) => {
+  const updates = malItem;
 
   // END
   if (anime.episode === anime.series_episodes && anime.series_episodes !== 0) {
@@ -45,5 +40,9 @@ const updatePrePost = anime => {
   console.log('%c pre post updates >> ', 'color: blue', updates);
   return Object.assign({}, anime, updates);
 }
+
+const updatePrePost = anime => searchMyAnimeList(anime.title)
+                                      .then(malResponseGenerator(anime))
+                                      .then(malItem => applyUpdates(anime, malItem));
 
 export default updatePrePost

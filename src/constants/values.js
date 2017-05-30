@@ -78,8 +78,14 @@ export const Properties = {
   isAdult: 'isAdult',
   isRepeat: 'isRepeat',
   status: 'status',
-  season: 'season'
+  season: 'season',
+  tagList: 'tagList'
 }
+
+export const NonPostableProperties = [
+  Properties.season,
+  Properties.tagList
+];
 
 export const Icons = {
   tick: '\u2713', //10003, //'\u2713',

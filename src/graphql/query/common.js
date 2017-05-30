@@ -1,4 +1,4 @@
-import {Types, Properties} from '../../constants/values'
+import {Types, NonPostableProperties} from '../../constants/values'
 
 export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }) => {
   const first = page * itemsPerPage + itemsPerPage;
@@ -22,7 +22,7 @@ const processType = (v) =>
 
 export const constructRecordForPost = (record) => {
   return Object.keys(record)
-    .filter(x => x !== Properties.season)
+    .filter(x => !NonPostableProperties.some(y => y === x))
     .reduce((acc, curr, i, arr) => {
       const value = processType(record[curr]);
       return `${acc} ${curr}: ${value}${appendKeyBreak(arr, i)}`;
