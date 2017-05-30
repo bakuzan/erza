@@ -3,25 +3,22 @@ import {Enums, Strings} from '../../constants/values'
 import fetchFromServer from '../../graphql/fetch'
 import AnimeValidator from './anime-creation'
 
-var GENERATOR_VALUE;
-
 const searchMyAnimeList = search => fetchFromServer(Paths.build(Paths.malSearch, { type: Strings.anime, search }));
 
-const malResponseGenerator = anime => function* (response) {
+const malResponseGenerator = anime => response => {
   const item = response.find(x => x.id === anime.malId);
 
   if (!item)  return {};
-  yield AnimeValidator.intergrateMalEntry({}, item);
+  return AnimeValidator.intergrateMalEntry({}, item);
 }
 
-const checkMal = anime => searchMyAnimeList(anime.title)
+const checkMal = (anime, cb) => searchMyAnimeList(anime.title)
                           .then(malResponseGenerator(anime))
-                          .then(generator => GENERATOR_VALUE = generator.next().value);
+                          .then(cb);
 
 const updatePrePost = anime => {
-  const holder = checkMal(anime);
-  console.log('my gen > ', holder, GENERATOR_VALUE)
-  const updates = GENERATOR_VALUE;
+  let updates = {};
+  const holder = checkMal(anime, malUpdates => { updates = malUpdates });
 
   // END
   if (anime.episode === anime.series_episodes && anime.series_episodes !== 0) {
