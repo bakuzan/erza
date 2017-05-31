@@ -65,7 +65,7 @@ class MalSearch extends Component {
                               : ''
                             )
                           : FETCHING_CLASS;
-
+    console.log('%c mal search >> ', 'color: red', this.state);
     return (
       <div className={`mal-search-container${variableClass}`}>
         <AutocompleteInput

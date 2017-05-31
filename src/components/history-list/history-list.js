@@ -4,7 +4,11 @@ import './history-list.css'
 
 const renderHistoryListItems = items => {
   let list = [], previousSeries = null;
-  items.forEach(item => {
+  items.sort((x, y) => {
+    const z = y.date - x.date;
+    return z === 0 ? y.episode - x.episode : z;
+  })
+  .forEach(item => {
     if (!!item.series && item.series._id !== previousSeries) {
       list.push(<li key={`${item.series._id}-${item._id}`} className="history-list-item series-title">{item.series.title}</li>)
       previousSeries = item.series._id;

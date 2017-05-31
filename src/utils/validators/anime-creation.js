@@ -51,7 +51,7 @@ const validateAnimeSubmission = model => {
   return updatePrePost(
      Object.assign({}, model, {
       tags: model.tags.map(tag => tag._id),
-      start: dateStringToISOString(start),
+      start: !!model._id ? dateStringToISOString(start) : dateStringToISOString(new Date()),
       end: dateStringToISOString(end),
       series_start: dateStringToISOString(series_start),
       series_end: dateStringToISOString(series_end)

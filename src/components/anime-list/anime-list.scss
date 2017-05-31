@@ -1,7 +1,4 @@
 .anime-list {
-  // display: flex;
-  // flex-direction: column;
-  // flex: 1 1 80%;
   width: 75%;
   min-width: 50%;
   padding: 5px;
@@ -17,6 +14,14 @@
   h4 {
     margin: 5px 0;
   }
+
+  .mal-link {
+    padding: 3px 6px;
+    margin: 2px 5px {
+      left: 0
+    };
+  }
+
   .button-icon {
     margin-left: 0;
   }

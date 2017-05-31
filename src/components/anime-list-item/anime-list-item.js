@@ -57,6 +57,7 @@ const AnimeListItem = ({ item, addEpisode }) => {
           hasMalId &&
           <a
            href={`https://myanimelist.net/anime/${item.malId}`}
+           className="mal-link"
            target="_blank"
            title="Open MAL entry in new tab."
           >

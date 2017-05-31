@@ -59,6 +59,7 @@ export const animeKeyFields = `
   isRepeat
   owned
   image
+  link
   malId
   series_episodes
   timesCompleted
@@ -67,7 +68,6 @@ export const animeKeyFields = `
 
 export const animeEditFields = `
   ${animeKeyFields}
-  link
   rating
   series_end
   series_start
