@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/anime'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
-import { capitalise, getEventValue } from '../../utils/common'
+import { capitalise, getEventValue, updateSameAsObject } from '../../utils/common'
 import { formatDateForInput } from '../../utils/date'
 import { mapStateToEntityList } from '../../utils/data'
 import AnimeValidator from '../../utils/validators/anime-creation'
@@ -52,7 +52,7 @@ class AnimeCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
-    // Check Mal values vs current values... only setState if they have changed!
+    if (updateSameAsObject(this.state, malItem)) return;
     this.setState((prevState) => AnimeValidator.intergrateMalEntry(prevState, malItem));
   }
 
