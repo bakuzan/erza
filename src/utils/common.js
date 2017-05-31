@@ -44,3 +44,5 @@ export const debounce = (f, t) => {
   clearTimeout(timers[f]);
   timers[f] = setTimeout(() => f(), t);
 }
+
+export const updateSameAsObject = (o, u) => Object.keys(u).map(k => o[k] === u[k]).every(x => x === true);
