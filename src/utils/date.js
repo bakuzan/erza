@@ -3,12 +3,15 @@ import {padNumber} from './common'
 
 const BAD_MAL_DATE = '0000-00-00';
 
-const formatTime = date => `${padNumber(new Date(date).getHours(), 2)}:${padNumber(new Date(date).getMinutes(), 2)}`;
+const formatTime = date => date ? `${padNumber(new Date(date).getHours(), 2)}:${padNumber(new Date(date).getMinutes(), 2)}` : '';
 export const formatDateForDisplay = date => {
   if (!date) return '';
   const d = new Date(date);
-  return `${padNumber(d.getDate(), 2)} ${Strings.monthNames[d.getMonth()]} ${d.getFullYear()} @ ${formatTime(d)}`;
+  return `${padNumber(d.getDate(), 2)} ${Strings.monthNames[d.getMonth()]} ${d.getFullYear()}`;
 }
+
+export const formatDateTimeForDisplay = date => `${formatDateForDisplay(date)} @ ${formatTime(date)}`;
+
 export const formatDateForInput = d => {
   if (!d) return '';
   const date = new Date(d);

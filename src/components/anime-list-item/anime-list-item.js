@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import {Paths} from '../../constants/paths'
 import {Enums, Icons} from '../../constants/values'
 import {getKeyByValue} from '../../utils/common'
-import {formatDateForDisplay} from '../../utils/date'
+import {formatDateTimeForDisplay} from '../../utils/date'
 
 const AnimeListItem = ({ item, addEpisode }) => {
   const hasMalId = !!item.malId;
@@ -16,7 +16,7 @@ const AnimeListItem = ({ item, addEpisode }) => {
   return (
     <li className="anime-item">
       <div>
-        <time dateTime={item.updatedDate}>{ formatDateForDisplay(item.updatedDate) }</time>
+        <time dateTime={item.updatedDate}>{ formatDateTimeForDisplay(item.updatedDate) }</time>
         <h4>{ item.title }</h4>
         <div className="flex-row start-center-contents">
             {
