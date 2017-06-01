@@ -63,8 +63,9 @@ button:focus + .dropdown-menu {
 
 .series-image-container {
   height: auto;
-  max-width: 300px;
-  padding: 5px;
+  max-height: 150px;
+  max-width: 235px;
+  padding: 0 5px;
   overflow: hidden;
 
   p {
@@ -75,7 +76,14 @@ button:focus + .dropdown-menu {
   img {
     width: 100%;
     height: auto;
+  }
+
+  &.full {
+    max-height: none;
     padding: 5px;
+    img {
+      padding: 5px;
+    }
   }
 }
 

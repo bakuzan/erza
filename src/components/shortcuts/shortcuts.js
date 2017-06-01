@@ -55,7 +55,6 @@ class Shortcuts extends Component {
   }
 
   render() {
-    console.log('SHORTCUTS >> ', this.state);
     return (
       <Dialog name="shortcuts" getDialogRef={this.assignRef}>
         <AutocompleteInput

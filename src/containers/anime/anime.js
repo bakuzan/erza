@@ -41,7 +41,8 @@ class Anime extends Component {
       nextProps.sortKey !== this.props.sortKey ||
       nextProps.sortOrder !== this.props.sortOrder ||
       nextProps.params.filter !== this.props.params.filter ||
-      nextProps.location.key !== this.props.location.key
+      nextProps.location.key !== this.props.location.key ||
+      nextProps.itemsPerPage !== this.props.itemsPerPage
     ) {
       loadData(nextProps, this.state)
     }
@@ -85,7 +86,8 @@ Anime.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   sortOrder: PropTypes.string.isRequired,
-  sortKey: PropTypes.string.isRequired
+  sortKey: PropTypes.string.isRequired,
+  itemsPerPage: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -93,7 +95,8 @@ const mapStateToProps = (state, ownProps) => ({
   isAdult: state.isAdult,
   items: mapStateToEntityList(state.entities.anime), //sortVisibleAnime(state.sorting, getVisibleAnime(state.entities.anime, ownProps.params.filter)),
   sortOrder: state.sorting.sortOrder,
-  sortKey: state.sorting.sortKey
+  sortKey: state.sorting.sortKey,
+  itemsPerPage: state.paging.itemsPerPage
 })
 
 const mapDispatchToProps = {

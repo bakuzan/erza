@@ -32,7 +32,8 @@ class HistoryView extends Component {
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.params.type !== this.props.params.type ||
-      nextProps.location.key !== this.props.location.key
+      nextProps.location.key !== this.props.location.key ||
+      nextProps.itemsPerPage !== this.props.itemsPerPage
     ) {
       loadData(nextProps, this.state)
     }
@@ -93,13 +94,15 @@ HistoryView.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
-  loadEpisodes: PropTypes.func.isRequired
+  loadEpisodes: PropTypes.func.isRequired,
+  itemsPerPage: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  items: mapStateToEntityList(state.entities.episode)
+  items: mapStateToEntityList(state.entities.episode),
+  itemsPerPage: state.paging.itemsPerPage
 })
 
 const mapDispatchToProps = {

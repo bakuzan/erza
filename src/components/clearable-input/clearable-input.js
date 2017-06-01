@@ -12,7 +12,7 @@ const ClearableInput = ({ name = "search", search, onChange, onKeyDown }) => (
       value={search}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      autoComplete="false"
+      autoComplete="off"
       />
     <label>search</label>
     {

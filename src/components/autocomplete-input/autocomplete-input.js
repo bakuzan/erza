@@ -27,8 +27,10 @@ class AutocompleteInput extends Component {
 
   filterAutoComplete() {
     const { items, attr, filter } = this.props;
-    if (!(items && filter)) return Array(0);
-    return items.filter(x => x[attr].indexOf(filter) > -1);
+    if (!(items && filter)) return [];
+
+    const filterLowerCase = filter.toLowerCase();
+    return items.filter(x => x[attr].toLowerCase().indexOf(filterLowerCase) > -1);
   }
 
   updateActiveSuggestion(value) {
@@ -40,7 +42,7 @@ class AutocompleteInput extends Component {
   }
 
   highlightMatch(value) {
-    const match = value.match(this.props.filter);
+    const match = value.match(new RegExp(this.props.filter, 'i'));
     if (!match) return value;
 
     const length = this.props.filter.length;

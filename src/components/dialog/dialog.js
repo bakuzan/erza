@@ -41,7 +41,7 @@ class Dialog extends Component {
             name={this.props.name}
             onSubmit={this.handleAction}
             noValidate=""
-            autoComplete="false"
+            autoComplete="off"
             >
             {
               hasTitle &&

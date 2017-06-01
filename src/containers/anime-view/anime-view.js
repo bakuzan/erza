@@ -123,7 +123,7 @@ class AnimeView extends Component {
               </div>
             </div>
           </div>
-          <div className="series-image-container">
+          <div className="series-image-container full">
             <img src={item.image} alt={`Cover for ${item.title}`} />
             <h4>Series tags</h4>
             <ul className="list column one">
