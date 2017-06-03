@@ -1,4 +1,8 @@
-import { tagFields } from './common'
+const tagFields = `
+  _id
+  name
+  isAdult
+`;
 
 const getAll = `
   {

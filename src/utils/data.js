@@ -16,3 +16,5 @@ export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
 };
 
 export const mapStateToEntityList = state => state.allIds.map(id => state.byId[id]);
+
+export const getConnectionPropertyName = o => Object.keys(o)[0];

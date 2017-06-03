@@ -48,10 +48,9 @@ export const pagedDataWrapper = (fields) => (`
   count
 `);
 
-export const animeKeyFields = `
+export const itemKeyFields = uniqueFields => (`
   _id
   title
-  episode
   start
   end
   status
@@ -61,22 +60,16 @@ export const animeKeyFields = `
   image
   link
   malId
-  series_episodes
   timesCompleted
   updatedDate
-`;
+  ${uniqueFields}
+`);
 
-export const animeEditFields = `
-  ${animeKeyFields}
+export const itemEditFields = uniqueFields => (`
+  ${itemKeyFields(uniqueFields)}
   rating
   series_end
   series_start
   series_type
   tags
-`;
-
-export const tagFields = `
-  _id
-  name
-  isAdult
-`;
+`);

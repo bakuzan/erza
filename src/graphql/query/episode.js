@@ -1,4 +1,4 @@
-import { pagedDataWrapper, constructFilterString } from './common'
+import { pagedDataWrapper, constructFilterString } from '../common'
 
 const episodeFields = `
   _id

@@ -1,5 +1,5 @@
 import update from 'immutability-helper'
-import { ANIME_REQUEST, ANIME_SUCCESS } from '../constants/actions'
+import { ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
 import { browserHistory } from 'react-router'
 import toaster from '../utils/toaster'
 import updatePrePost from '../utils/validators/anime-post'
@@ -8,11 +8,10 @@ import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import AnimeQL from '../graphql/query/anime'
 import AnimeML from '../graphql/mutation/anime'
-import {constructRecordForPost} from '../graphql/common'
+import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
 import {createEpisode} from './episode'
+import {resetPageToZero, loadPageInfo} from './paging'
 import {Strings} from '../constants/values'
-
-import {loadItems, loadItemsById} from './list-items'
 
 const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
@@ -21,10 +20,10 @@ const startingAnimeRequest = () => ({
   isFetching: true
 })
 
-// const loadAnimeData = (data) => ({
-//   type: ANIME_LOAD,
-//   data
-// })
+const loadAnimeData = (data) => ({
+  type: ANIME_LOAD,
+  data
+})
 
 const finishAnimeRequest = () => ({
   type: ANIME_SUCCESS,
@@ -77,7 +76,7 @@ export const addEpisodes = updateValues => {
   }
 }
 
-export const loadAnime = (filters = {}, pageChange = null) => {
+export const loadManga = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
     const { isAdult, paging, sorting } = getState();
     dispatch(
@@ -89,15 +88,15 @@ export const loadAnime = (filters = {}, pageChange = null) => {
           pageChange,
           filters: Object.assign({}, filters, isAdult)
         },
-        AnimeQL.getFilteredList
+        MangaQL.getFilteredList
       )
     )
   }
 }
 
-export const loadAnimeById = (id, type = 'getById') => {
+export const loadMangaById = (id, type = 'getById') => {
   return function(dispatch) {
-    const queryString = AnimeQL[type](id);
+    const queryString = MangaQL[type](id);
     dispatch(loadItemsById(dispatch, queryString));
   }
 }

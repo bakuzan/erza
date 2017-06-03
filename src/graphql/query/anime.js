@@ -1,4 +1,11 @@
-import { animeKeyFields, animeEditFields, pagedDataWrapper, constructFilterString } from './common'
+import { itemKeyFields, itemEditFields, pagedDataWrapper, constructFilterString } from '../common'
+
+const animeSpecificKeyFields = `
+  episode
+  series_episodes
+`;
+export const animeKeyFields = itemKeyFields(animeSpecificKeyFields);
+export const animeEditFields = itemEditFields(animeSpecificKeyFields);
 
 const getFilteredList = (pageParameters, filters) => (`
   {
@@ -13,7 +20,6 @@ const getById = (id) => (`
     animeById(_id: "${id}") {
       ${animeKeyFields}
       rating
-      isRepeat
       series_start
       season
       tagList {

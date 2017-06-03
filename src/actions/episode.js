@@ -1,6 +1,6 @@
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
-import {constructPagingAndSorting, constructRecordForPost} from '../graphql/query/common'
+import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
 import {EPISODE_REQUEST, EPISODE_SUCCESS, EPISODE_LOAD} from '../constants/actions'
 import {loadPageInfo, resetPageToZero} from './paging'
 import EpisodeQL from '../graphql/query/episode'
