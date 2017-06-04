@@ -73,7 +73,7 @@ class PagedAnimeList extends Component {
     const { filters, items } = this.props;
     // const pagedItems = this.selectPageOfItems(paging, items);
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
-    console.log('PAGED => ', items);
+    console.log('PAGED ANIME LIST => ', filters, items);
     return (
       <div className="flex-column flex-grow">
         <PagingControls

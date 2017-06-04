@@ -3,9 +3,13 @@ import {Router, Route, IndexRoute, Redirect} from 'react-router';
 import {Paths} from './constants/paths'
 import App from './containers/app/app'
 import Home from './containers/home/home'
-import Anime from './containers/anime/anime'
+
+import Anime from './views/anime/anime'
 import AnimeView from './containers/anime-view/anime-view'
 import AnimeCreate from './containers/anime-create/anime-create'
+
+import Manga from './views/manga/manga'
+
 import HistoryView from './containers/history-view/history-view'
 
 const Routes = ({ history }) => (
@@ -18,6 +22,8 @@ const Routes = ({ history }) => (
       <Route path={`${Paths.anime.view}(:id)`} component={AnimeView} />
       <Route path={Paths.anime.create} component={AnimeCreate} />
       <Route path={`${Paths.anime.edit}(:id)`} component={AnimeCreate} />
+
+      <Route path={`${Paths.manga.list}(:filter)`} component={Manga} />
 
       <Route path={`${Paths.history}(:type)`} component={HistoryView} />
     </Route>

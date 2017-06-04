@@ -13,6 +13,7 @@ export const padNumber = (n, width, z = 0) => {
 }
 
 export const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
+export const getSingleObjectProperty = o => !!o ? Object.keys(o)[0] : null;
 
 const buildUpdateSkeleton = (o, s, v) => {
   s.split('.').forEach((k, i, a) => {

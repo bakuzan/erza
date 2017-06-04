@@ -1,4 +1,4 @@
-import {Types, NonPostableProperties} from '../../constants/values'
+import {Types, NonPostableProperties} from '../constants/values'
 
 export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }) => {
   const first = page * itemsPerPage + itemsPerPage;

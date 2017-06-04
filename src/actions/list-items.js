@@ -3,7 +3,7 @@ import { GRAPHQL_REQUEST, GRAPHQL_LOAD, GRAPHQL_SUCCESS } from '../constants/act
 // import { browserHistory } from 'react-router'
 // import toaster from '../utils/toaster'
 // import updatePrePost from '../utils/validators/anime-post'
-import {getConnectionPropertyName} from '../utils/data'
+import {getSingleObjectProperty} from '../utils/common'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 // import AnimeML from '../graphql/mutation/anime'
@@ -75,23 +75,26 @@ const finishGraphqlRequest = () => ({
 //   }
 // }
 
-export const loadItems = (dispatch, { filters, paging, sorting, pageChange }, queryBuilder) => {
-  dispatch(startingGraphqlRequest());
-  if (!pageChange) dispatch(resetPageToZero());
-  const pageSettings = constructPagingAndSorting(paging, sorting);
-  const query = queryBuilder(pageSettings, filters);
-  fetchFromServer(`${Paths.graphql.base}${query}`)
-    .then(response => {
-      const data = response.data[getConnectionPropertyName(response.data)];
-      dispatch(loadItemsToState(data.edges));
-      dispatch(loadPageInfo({ count: data.count }));
-    })
-    .then(() => dispatch(finishGraphqlRequest()) );
+export const loadItems = ({ filters, pageChange }, queryBuilder) => {
+  return function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+    if (!pageChange) dispatch(resetPageToZero());
+    const { isAdult, paging, sorting } = getState();
+    const pageSettings = constructPagingAndSorting(paging, sorting);
+    const query = queryBuilder(pageSettings, Object.assign({}, filters, { isAdult }));
+    fetchFromServer(`${Paths.graphql.base}${query}`)
+      .then(response => {
+        const data = response.data[getSingleObjectProperty(response.data)];
+        dispatch(loadItemsToState(data.edges));
+        dispatch(loadPageInfo({ count: data.count }));
+      })
+      .then(() => dispatch(finishGraphqlRequest()) );
+  }
 }
 
 export const loadItemsById = (dispatch, queryString) => {
   dispatch(startingGraphqlRequest());
   fetchFromServer(`${Paths.graphql.base}${queryString}`)
-    .then(response => dispatch(loadItemsToState([{ node: response.data[getConnectionPropertyName(response.data)] }])) )
+    .then(response => dispatch(loadItemsToState([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
     .then(() => dispatch(finishGraphqlRequest()) );
 }

@@ -35,7 +35,7 @@ class Anime extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
+    // console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||

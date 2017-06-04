@@ -1,4 +1,13 @@
 export const Enums = {
+  status: {
+    ongoing: 1,
+    completed: 2,
+    onhold: 3,
+    dropped: 4,
+    planned: 6,
+    // all for status filter
+    all: [1,2,3,4,6]
+  },
   anime: {
     status: {
       ongoing: 1,

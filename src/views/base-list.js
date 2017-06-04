@@ -1,17 +1,18 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
-import ListFilter from '../../containers/list-filter/list-filter'
-import PagedAnimeList from '../../containers/paged-anime-list/paged-anime-list'
-import PagedMangaList from '../../containers/paged-manga-list/paged-manga-list'
-import {Strings, Enums} from '../../constants/values'
-import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
-import {mapStateToEntityList} from '../../utils/data'
+import LoadingSpinner from '../components/loading-spinner/loading-spinner'
+import ListFilter from '../containers/list-filter/list-filter'
+import PagedAnimeList from '../containers/paged-anime-list/paged-anime-list'
+// import PagedMangaList from '../containers/paged-manga-list/paged-manga-list'
+import {Strings, Enums} from '../constants/values'
+import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
+// import {mapStateToEntityList} from '../utils/data'
 
 const getStatusList = props => {
-  const status = Enums.anime.status[props.params.filter];
-  let statusIn = !!status.length ? status : [status];
-  return (props.params.filter === Strings.filters.ongoing) ? statusIn.concat([Enums.anime.status.onhold]) : statusIn;
+  const { name, value } = props.statusFilter;
+  console.log(name, value);
+  let statusIn = !!value && !!value.length ? value : [value];
+  return (name === Strings.filters.ongoing) ? statusIn.concat([Enums.status.onhold]) : statusIn;
 }
 
 const loadData = (props, state) => {
@@ -22,7 +23,7 @@ const loadData = (props, state) => {
 const fetchPagedListForType = type => type === Strings.anime
                                       ? PagedAnimeList
                                       : type === Strings.manga
-                                        ? PagedMangaList
+                                        ? "PagedMangaList"
                                         : null;
 
 class BaseListView extends Component {
@@ -41,13 +42,13 @@ class BaseListView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
+    console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
+    // nextProps.params.filter !== this.props.params.filter ||
+          // nextProps.location.key !== this.props.location.key ||
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
       nextProps.sortOrder !== this.props.sortOrder ||
-      nextProps.params.filter !== this.props.params.filter ||
-      nextProps.location.key !== this.props.location.key ||
       nextProps.itemsPerPage !== this.props.itemsPerPage
     ) {
       loadData(nextProps, this.state)
@@ -93,7 +94,8 @@ BaseListView.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired,
-  itemsPerPage: PropTypes.number.isRequired
+  itemsPerPage: PropTypes.number.isRequired,
+  statusFilter: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

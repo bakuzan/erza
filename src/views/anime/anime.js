@@ -1,23 +1,28 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
+
+import BaseListView from '../base-list'
 import {Strings} from '../../constants/values'
-import {mapStateToEntityList} from '../../utils/data'
+import {mapStateToEntityList, mapUrlFilterToEntityObject} from '../../utils/data'
 import {loadAnime} from '../../actions/anime'
 
-const Anime = ({ items, loadAnime }) => (
+const Anime = ({ filter, items, loadAnime }) => (
   <BaseListView
     type={Strings.anime}
     loadDataForTypedList={loadAnime}
     items={items}
+    statusFilter={filter}
   />
 )
 
 Anime.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object)
+  items: PropTypes.arrayOf(PropTypes.object),
+  filter: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  items: mapStateToEntityList(state.entities.anime)
+  items: mapStateToEntityList(state.entities.anime),
+  filter: mapUrlFilterToEntityObject(ownProps.params)
 })
 
 const mapDispatchToProps = {

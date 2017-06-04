@@ -1,4 +1,5 @@
 import EpisodeModel from '../models/episode-model'
+import {Enums} from '../constants/values'
 
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
   return Array(episode - anime.episode)
@@ -16,5 +17,7 @@ export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
 };
 
 export const mapStateToEntityList = state => state.allIds.map(id => state.byId[id]);
-
-export const getConnectionPropertyName = o => Object.keys(o)[0];
+export const mapUrlFilterToEntityObject = ({ filter }) => ({
+  name: filter,
+  value: Enums.status[filter]
+})
