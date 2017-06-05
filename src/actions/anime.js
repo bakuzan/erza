@@ -1,5 +1,5 @@
 // import update from 'immutability-helper'
-// import { ANIME_REQUEST, ANIME_SUCCESS } from '../constants/actions'
+import { ANIME_LOAD } from '../constants/actions'
 // import { browserHistory } from 'react-router'
 // import toaster from '../utils/toaster'
 // import updatePrePost from '../utils/validators/anime-post'
@@ -21,10 +21,10 @@ import {loadItems, loadItemsById} from './list-items'
 //   isFetching: true
 // })
 //
-// const loadAnimeData = (data) => ({
-//   type: ANIME_LOAD,
-//   data
-// })
+export const loadAnimeData = (data) => ({
+  type: ANIME_LOAD,
+  data
+})
 //
 // const finishAnimeRequest = () => ({
 //   type: ANIME_SUCCESS,
