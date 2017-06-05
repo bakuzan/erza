@@ -2,13 +2,15 @@ export const ADD_ANIME = 'ADD_ANIME'
 export const UPDATE_ANIME = 'UPDATE_ANIME'
 
 export const GRAPHQL_REQUEST = 'GRAPHQL_REQUEST'
-export const GRAPHQL_LOAD = 'GRAPHQL_LOAD'
+// export const GRAPHQL_LOAD = 'GRAPHQL_LOAD'
 export const GRAPHQL_SUCCESS = 'GRAPHQL_SUCCESS'
 
 export const ANIME_REQUEST = 'ANIME_REQUEST'
 export const ANIME_LOAD = 'ANIME_LOAD'
 export const ANIME_SUCCESS = 'ANIME_SUCCESS'
 export const ANIME_FAILURE = 'ANIME_FAILURE'
+
+export const MANGA_LOAD = 'MANGA_LOAD'
 
 export const ADD_TAG = 'ADD_TAG'
 
