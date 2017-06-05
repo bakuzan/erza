@@ -93,8 +93,10 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
 }
 
 export const loadItemsById = (type, queryString) => {
-  dispatch(startingGraphqlRequest());
-  fetchFromServer(`${Paths.graphql.base}${queryString}`)
-    .then(response => dispatch(loadItemsToState[type]([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
-    .then(() => dispatch(finishGraphqlRequest()) );
+  return function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+    fetchFromServer(`${Paths.graphql.base}${queryString}`)
+      .then(response => dispatch(loadItemsToState[type]([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
+      .then(() => dispatch(finishGraphqlRequest()) );
+  }
 }
