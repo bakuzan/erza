@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import ListFilter from '../containers/list-filter/list-filter'
 import PagedAnimeList from '../containers/paged-anime-list/paged-anime-list'
-// import PagedMangaList from '../containers/paged-manga-list/paged-manga-list'
+import PagedMangaList from '../containers/paged-manga-list/paged-manga-list'
 import {Strings, Enums} from '../constants/values'
 import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
 // import {mapStateToEntityList} from '../utils/data'
@@ -23,7 +23,7 @@ const loadData = (props, state) => {
 const fetchPagedListForType = type => type === Strings.anime
                                       ? PagedAnimeList
                                       : type === Strings.manga
-                                        ? "PagedMangaList"
+                                        ? PagedMangaList
                                         : null;
 
 class BaseListView extends Component {

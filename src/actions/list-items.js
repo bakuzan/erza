@@ -15,8 +15,8 @@ import {resetPageToZero, loadPageInfo} from './paging'
 import { Strings } from '../constants/values'
 
 const loadItemsToState = {
-  [Strings.anime]   : loadAnimeData,
-  [Strings.manga]   : loadMangaData
+  [Strings.anime]: loadAnimeData,
+  [Strings.manga]: loadMangaData
 }
 
 // const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
@@ -87,6 +87,7 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data[getSingleObjectProperty(response.data)];
+        console.log('load items >> ', type, loadItemsToState);
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })

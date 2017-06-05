@@ -1,4 +1,4 @@
-.anime-list {
+.item-list {
   width: 75%;
   min-width: 50%;
   padding: 5px;
@@ -6,7 +6,7 @@
   list-style-type: none;
 }
 
-.anime-item {
+li {
   display: flex;
   flex: 1 0 100%;
   padding: 2px;

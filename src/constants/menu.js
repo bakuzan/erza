@@ -22,6 +22,24 @@ const Menu = [
   },
   {
     id: 1,
+    title: 'Manga',
+    children: [
+      {
+        id: 0,
+        link: `${Paths.base}${Paths.manga.create}`,
+        title: 'Create an Manga',
+        description: 'Enter details about a new manga entry.'
+      },
+      {
+        id: 1,
+        link: `${Paths.base}${Paths.manga.list}${Strings.filters.ongoing}`,
+        title: 'Browse Manga',
+        description: 'Search manga with a variable of filters and conditions'
+      }
+    ]
+  },
+  {
+    id: 2,
     title: 'History',
     children: [
       {

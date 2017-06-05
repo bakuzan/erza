@@ -1,23 +1,23 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import PagingControls from '../../containers/paging-controls/paging-controls'
-import AnimeList from '../../components/list-components/anime-list/anime-list'
+import MangaList from '../../components/list-components/manga-list/manga-list'
 import Dialog from '../../components/dialog/dialog'
 import RatingControl from '../../components/rating-control/rating-control'
 import {Strings} from '../../constants/values'
 import {getEventValue, updateNestedProperty} from '../../utils/common'
-import {addEpisodes} from '../../actions/anime'
+import {addChapters} from '../../actions/manga'
 
 const EMPTY_OBJECT = {};
 
-class PagedAnimeList extends Component {
+class PagedMangaList extends Component {
 
   constructor() {
     super();
     this.state = {
       editItem: {
         _id: null,
-        episode: 0,
+        chapter: 0,
         min: 0,
         max: null,
         ratings: {},
@@ -37,9 +37,9 @@ class PagedAnimeList extends Component {
       return {
         editItem: Object.assign({}, prevState.editItem, {
           _id,
-          episode: editItem.episode || 0,
-          min: editItem.episode || 0,
-          max: editItem.series_episodes || null,
+          chapter: editItem.chapter || 0,
+          min: editItem.chapter || 0,
+          max: editItem.series_chapters || null,
         })
       };
     });
@@ -47,7 +47,7 @@ class PagedAnimeList extends Component {
   }
 
   handleEdit(event) {
-    this.props.addEpisodesToAnime(this.state.editItem);
+    this.props.addChaptersToManga(this.state.editItem);
     this.dialog.close();
   }
 
@@ -70,15 +70,15 @@ class PagedAnimeList extends Component {
     return (
       <div className="flex-column flex-grow">
         <PagingControls
-          listType={Strings.anime}
+          listType={Strings.manga}
           filters={filters}
         />
-        <AnimeList
+        <MangaList
             items={items}
-            addEpisode={this.openEditDialog}
+            addChapter={this.openEditDialog}
         />
         <Dialog
-          name="animeEdit"
+          name="mangaEdit"
           title={`Edit ${editItem.title}`}
           getDialogRef={this.assignDialogRef}
           actionText={Strings.edit}
@@ -90,38 +90,38 @@ class PagedAnimeList extends Component {
             <div>
               <div className="has-float-label input-container">
                 <input type="number"
-                  name="episode"
-                  value={this.state.editItem.episode}
+                  name="chapter"
+                  value={this.state.editItem.chapter}
                   min={this.state.editItem.min}
                   max={this.state.editItem.max}
                   placeholder=" "
                   onChange={this.handleUserInput}
                   />
-                <label>episode</label>
+                <label>chapter</label>
               </div>
               <ul className="list column one">
                 {
-                  !!this.state.editItem.episode &&
-                  Array(this.state.editItem.episode - this.state.editItem.min).fill(null).map((item, index) => {
-                    const episodeNumber = this.state.editItem.min + 1 + index;
+                  !!this.state.editItem.chapter &&
+                  Array(this.state.editItem.chapter - this.state.editItem.min).fill(null).map((item, index) => {
+                    const chapterNumber = this.state.editItem.min + 1 + index;
                     return (
                       <li key={index}
                           className="flex-row">
                         <RatingControl
-                          name={`ratings.${episodeNumber}`}
-                          label={`rating for episode ${episodeNumber}`}
-                          value={this.state.editItem.ratings[episodeNumber] || 0}
+                          name={`ratings.${chapterNumber}`}
+                          label={`rating for chapter ${chapterNumber}`}
+                          value={this.state.editItem.ratings[chapterNumber] || 0}
                           onChange={this.handleUserInput}
                           />
                         <div className="has-float-label input-container">
                           <input type="text"
-                            name={`notes.${episodeNumber}`}
-                            value={this.state.editItem.notes[episodeNumber] || ''}
+                            name={`notes.${chapterNumber}`}
+                            value={this.state.editItem.notes[chapterNumber] || ''}
                             maxLength={140}
                             placeholder=" "
                             onChange={this.handleUserInput}
                             />
-                          <label>{`note for ${episodeNumber}`}</label>
+                          <label>{`note for ${chapterNumber}`}</label>
                         </div>
                       </li>
                     );
@@ -138,7 +138,7 @@ class PagedAnimeList extends Component {
 
 }
 
-PagedAnimeList.propTypes = {
+PagedMangaList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
   paging: PropTypes.object.isRequired
@@ -149,10 +149,10 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = {
-  addEpisodesToAnime: addEpisodes
+  addChaptersToManga: addChapters
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PagedAnimeList)
+)(PagedMangaList)

@@ -1,15 +1,10 @@
 import React, {PropTypes} from 'react'
-import AnimeListItem from '../anime-list-item/anime-list-item'
-import './anime-list.css'
+import ItemList from '../item-list/item-list'
+import AnimeListItem from './anime-list-item'
 
 const AnimeList = ({ items, addEpisode }) => (
-  <ul className="anime-list">
-    {
-      items.length === 0 ? (
-        <li>
-          <p>No items to display.</p>
-        </li>
-      ) :
+  <ItemList
+    items={
       items.map(item => (
         <AnimeListItem
           key={item._id}
@@ -18,7 +13,7 @@ const AnimeList = ({ items, addEpisode }) => (
         />
       ))
     }
-  </ul>
+  />
 );
 
 AnimeList.propTypes = {
