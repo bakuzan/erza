@@ -10,7 +10,7 @@ import AnimeQL from '../graphql/query/anime'
 // import AnimeML from '../graphql/mutation/anime'
 // import {constructRecordForPost} from '../graphql/common'
 // import {createEpisode} from './episode'
-// import {Strings} from '../constants/values'
+import {Strings} from '../constants/values'
 
 import {loadItems, loadItemsById} from './list-items'
 
@@ -79,14 +79,13 @@ import {loadItems, loadItemsById} from './list-items'
 
 export const loadAnime = (filters = {}, pageChange = null) => loadItems({
     pageChange,
-    filters
+    filters,
+    type: Strings.anime
   },
   AnimeQL.getFilteredList
 )
 
-export const loadAnimeById = (id, type = 'getById') => {
-  return function(dispatch) {
-    const queryString = AnimeQL[type](id);
-    dispatch(loadItemsById(dispatch, queryString));
-  }
-}
+export const loadAnimeById = (id, type = 'getById') => loadItemsById(
+    Strings.anime,
+    AnimeQL[type](id)
+)
