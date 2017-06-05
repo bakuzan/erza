@@ -1,5 +1,5 @@
 // import update from 'immutability-helper'
-import { GRAPHQL_REQUEST, GRAPHQL_LOAD, GRAPHQL_SUCCESS } from '../constants/actions'
+import { GRAPHQL_REQUEST, GRAPHQL_SUCCESS } from '../constants/actions'
 // import { browserHistory } from 'react-router'
 // import toaster from '../utils/toaster'
 // import updatePrePost from '../utils/validators/anime-post'
@@ -10,18 +10,18 @@ import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting} from '../graphql/common'
 // import {createEpisode} from './episode'
 import {resetPageToZero, loadPageInfo} from './paging'
-// import {Strings} from '../constants/values'
+import { Strings } from '../constants/values'
+
+const loadItemsToState = {
+  [Strings.anime]   : loadAnime,
+  [Strings.manga]   : loadManga
+}
 
 // const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
 const startingGraphqlRequest = () => ({
   type: GRAPHQL_REQUEST,
   isFetching: true
-})
-
-const loadItemsToState = (data) => ({
-  type: GRAPHQL_LOAD,
-  data
 })
 
 const finishGraphqlRequest = () => ({
@@ -75,7 +75,7 @@ const finishGraphqlRequest = () => ({
 //   }
 // }
 
-export const loadItems = ({ filters, pageChange }, queryBuilder) => {
+export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
   return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     if (!pageChange) dispatch(resetPageToZero());
@@ -85,16 +85,16 @@ export const loadItems = ({ filters, pageChange }, queryBuilder) => {
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data[getSingleObjectProperty(response.data)];
-        dispatch(loadItemsToState(data.edges));
+        dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
       .then(() => dispatch(finishGraphqlRequest()) );
   }
 }
 
-export const loadItemsById = (dispatch, queryString) => {
+export const loadItemsById = (type, queryString) => {
   dispatch(startingGraphqlRequest());
   fetchFromServer(`${Paths.graphql.base}${queryString}`)
-    .then(response => dispatch(loadItemsToState([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
+    .then(response => dispatch(loadItemsToState[type]([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
     .then(() => dispatch(finishGraphqlRequest()) );
 }
