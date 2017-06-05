@@ -1,5 +1,5 @@
 // import update from 'immutability-helper'
-// import { ANIME_REQUEST, ANIME_LOAD, ANIME_SUCCESS } from '../constants/actions'
+import { MANGA_LOAD } from '../constants/actions'
 // import { browserHistory } from 'react-router'
 // import toaster from '../utils/toaster'
 // import updatePrePost from '../utils/validators/anime-post'
@@ -11,33 +11,26 @@ import MangaQL from '../graphql/query/manga'
 // import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
 // import {createEpisode} from './episode'
 // import {resetPageToZero, loadPageInfo} from './paging'
-// import {Strings} from '../constants/values'
+import {Strings} from '../constants/values'
 import {loadItems, loadItemsById} from './list-items'
 
 
 // const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
 
-export const loadManga = (filters = {}, pageChange = null) => {
-  return function(dispatch, getState) {
-    const { isAdult, paging, sorting } = getState();
-    dispatch(
-      loadItems(
-        dispatch,
-        {
-          paging,
-          sorting,
-          pageChange,
-          filters: Object.assign({}, filters, isAdult)
-        },
-        MangaQL.getFilteredList
-      )
-    )
-  }
-}
+export const loadMangaData = (data) => ({
+  type: MANGA_LOAD,
+  data
+})
 
-export const loadMangaById = (id, type = 'getById') => {
-  return function(dispatch) {
-    const queryString = MangaQL[type](id);
-    dispatch(loadItemsById(dispatch, queryString));
-  }
-}
+export const loadManga = (filters = {}, pageChange = null) => loadItems({
+    pageChange,
+    filters,
+    type: Strings.manga
+  },
+  MangaQL.getFilteredList
+)
+
+export const loadMangaById = (id, type = 'getById') => loadItemsById(
+    Strings.manga,
+    MangaQL[type](id)
+)
