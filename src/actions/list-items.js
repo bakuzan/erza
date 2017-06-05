@@ -9,12 +9,14 @@ import fetchFromServer from '../graphql/fetch'
 // import AnimeML from '../graphql/mutation/anime'
 import {constructPagingAndSorting} from '../graphql/common'
 // import {createEpisode} from './episode'
+import {loadAnimeData} from './anime'
+import {loadMangaData} from './manga'
 import {resetPageToZero, loadPageInfo} from './paging'
 import { Strings } from '../constants/values'
 
 const loadItemsToState = {
-  [Strings.anime]   : loadAnime,
-  [Strings.manga]   : loadManga
+  [Strings.anime]   : loadAnimeData,
+  [Strings.manga]   : loadMangaData
 }
 
 // const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
