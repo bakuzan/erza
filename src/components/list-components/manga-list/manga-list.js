@@ -1,15 +1,17 @@
 import React, {PropTypes} from 'react'
 import ItemList from '../item-list/item-list'
-import MangaListItem from './manga-list-item'
+import ItemListItem from '../item-list/item-list-item'
+import {Strings} from '../../../constants/values'
 
 const MangaList = ({ items, addChapter }) => (
   <ItemList
     items={
       items.map(item => (
-        <MangaListItem
+        <ItemListItem
           key={item._id}
+          type={Strings.anime}
           item={item}
-          addChapter={addChapter}
+          addAction={addChapter}
         />
       ))
     }
