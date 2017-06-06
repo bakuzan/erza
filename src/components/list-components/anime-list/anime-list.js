@@ -7,7 +7,7 @@ const AnimeList = ({ items, addEpisode }) => (
   <ItemList
     items={
       items.map(item => (
-        <AnimeListItem
+        <ItemListItem
           key={item._id}
           type={Strings.anime}
           item={item}

@@ -9,7 +9,7 @@ const MangaList = ({ items, addChapter }) => (
       items.map(item => (
         <ItemListItem
           key={item._id}
-          type={Strings.anime}
+          type={Strings.manga}
           item={item}
           addAction={addChapter}
         />

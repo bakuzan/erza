@@ -41,11 +41,11 @@ const ItemListItem = ({ type, item, addAction }) => {
           }
         </div>
         <div className="button-group">
-          <Link to={`${Paths.base}${Paths[type]view}${item._id}`}
+          <Link to={`${Paths.base}${Paths[type].view}${item._id}`}
                 className="button ripple">
             View
           </Link>
-          <Link to={`${Paths.base}${Paths[type]edit}${item._id}`}
+          <Link to={`${Paths.base}${Paths[type].edit}${item._id}`}
                 className="button ripple">
             Edit
           </Link>

@@ -2,12 +2,11 @@ import { ANIME_LOAD } from '../constants/actions'
 import AnimeQL from '../graphql/query/anime'
 import AnimeML from '../graphql/mutation/anime'
 import {
-  loadItems, 
+  loadItems,
   loadItemsById,
   mutateItem
 } from './list-items'
 import {Strings} from '../constants/values'
-
 
 export const loadAnimeData = (data) => ({
   type: ANIME_LOAD,
@@ -23,7 +22,7 @@ export const createAnime = (item) => mutateItem(
 export const editAnime = (item) => mutateItem(
   Strings.anime,
   item,
-  AnimeML.updateAnimeById  
+  AnimeML.updateAnimeById
 )
 
 // export const addEpisodes = updateValues => {

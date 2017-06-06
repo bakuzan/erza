@@ -84,11 +84,14 @@ export const Strings = {
 
 export const Properties = {
   episode: 'episode',
+  seriesEpisodes: 'series_episodes',
   isAdult: 'isAdult',
   isRepeat: 'isRepeat',
   status: 'status',
   season: 'season',
-  tagList: 'tagList'
+  tagList: 'tagList',
+  chapter: 'chapter',
+  seriesChapters: 'series_chapters'
 }
 
 export const NonPostableProperties = [

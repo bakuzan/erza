@@ -6,13 +6,14 @@ import toaster from '../utils/toaster'
 import {getSingleObjectProperty} from '../utils/common'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
-import {constructPagingAndSorting} from '../graphql/common'
+import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
 // import {createEpisode} from './episode'
-import {loadAnimeData} from './anime'
-import {loadMangaData} from './manga'
+import { loadAnimeData } from './anime'
+import { loadMangaData } from './manga'
 import {resetPageToZero, loadPageInfo} from './paging'
 import { Strings } from '../constants/values'
 
+console.log('LOAD FUNCTIONS => ', loadAnimeData, loadMangaData);
 const loadItemsToState = {
   [Strings.anime]: loadAnimeData,
   [Strings.manga]: loadMangaData

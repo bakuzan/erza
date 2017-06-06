@@ -1,5 +1,5 @@
 import EpisodeModel from '../models/episode-model'
-import {Enums} from '../constants/values'
+import {Enums, Strings, Properties} from '../constants/values'
 
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
   return Array(episode - anime.episode)
@@ -21,3 +21,7 @@ export const mapUrlFilterToEntityObject = ({ filter }) => ({
   name: filter,
   value: Enums.status[filter]
 })
+
+export const getUniquePropertiesForItemType = t => t === Strings.anime
+  ? { current: Properties.episode, total: Properties.seriesEpisodes }
+  : { current: Properties.chapter, total: Properties.seriesChapters };
