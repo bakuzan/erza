@@ -1,12 +1,11 @@
 // import update from 'immutability-helper'
 import { GRAPHQL_REQUEST, GRAPHQL_SUCCESS } from '../constants/actions'
-// import { browserHistory } from 'react-router'
-// import toaster from '../utils/toaster'
+import { browserHistory } from 'react-router'
+import toaster from '../utils/toaster'
 // import updatePrePost from '../utils/validators/anime-post'
 import {getSingleObjectProperty} from '../utils/common'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
-// import AnimeML from '../graphql/mutation/anime'
 import {constructPagingAndSorting} from '../graphql/common'
 // import {createEpisode} from './episode'
 import {loadAnimeData} from './anime'
@@ -19,7 +18,7 @@ const loadItemsToState = {
   [Strings.manga]: loadMangaData
 }
 
-// const redirectPostAction = () => browserHistory.push(`${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`);
+const redirectPostAction = type => browserHistory.push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);
 
 const startingGraphqlRequest = () => ({
   type: GRAPHQL_REQUEST,
@@ -31,34 +30,36 @@ const finishGraphqlRequest = () => ({
   isFetching: false
 })
 
-// export const createAnime = (item) => {
-//   return function(dispatch) {
-//     dispatch(startingGraphqlRequest());
-//     const updatedAnime = constructRecordForPost(item);
-//     const mutation = AnimeML.createAnime(updatedAnime);
-//     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
-//       .then(response => {
-//         dispatch(finishAnimeRequest());
-//         toaster.success('Added!', `Successfully created '${response.data.animeCreate.record.title}' anime.`);
-//         return redirectPostAction();
-//       });
-//   }
-// }
-//
-// export const editAnime = (item) => {
-//   return function(dispatch) {
-//     dispatch(startingGraphqlRequest());
-//     const updatedAnime = constructRecordForPost(item);
-//     const mutation = AnimeML.updateAnimeById(updatedAnime);
-//     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
-//       .then(response => {
-//         dispatch(finishAnimeRequest());
-//         toaster.success('Saved!', `Successfully edited '${response.data.animeUpdateById.record.title}' anime.`);
-//         return redirectPostAction();
-//       });
-//   }
-// }
-//
+export const createItem = (type, item, queryBuilder) => {
+  return function(dispatch) {
+    dispatch(startingGraphqlRequest());
+    const itemForCreation = constructRecordForPost(item);
+    const mutation = queryBuilder(itemForCreation);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
+      .then(response => {
+        dispatch(finishGraphqlRequest());
+        const data = response.data[getSingleObjectProperty(response.data)];
+        toaster.success('Added!', `Successfully created '${data.record.title}' ${type}.`);
+        return redirectPostAction(type);
+      });
+  }
+}
+
+export const editItem = (type, item, queryBuilder) => {
+  return function(dispatch) {
+    dispatch(startingGraphqlRequest());
+    const updatedItem = constructRecordForPost(item);
+    const mutation = queryBuilder(updatedItem);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
+      .then(response => {
+        dispatch(finishGraphqlRequest());
+        const data = response.data[getSingleObjectProperty(response.data)];
+        toaster.success('Saved!', `Successfully edited '${data.record.title}' ${type}.`);
+        return redirectPostAction(type);
+      });
+  }
+}
+
 // export const addEpisodes = updateValues => {
 //   return function(dispatch, getState) {
 //     const anime = getState().entities.anime.byId[updateValues._id];
