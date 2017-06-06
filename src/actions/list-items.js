@@ -30,7 +30,7 @@ const finishGraphqlRequest = () => ({
   isFetching: false
 })
 
-export const createItem = (type, item, queryBuilder) => {
+export const mutateItem = (type, item, queryBuilder) => {
   return function(dispatch) {
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
@@ -39,22 +39,7 @@ export const createItem = (type, item, queryBuilder) => {
       .then(response => {
         dispatch(finishGraphqlRequest());
         const data = response.data[getSingleObjectProperty(response.data)];
-        toaster.success('Added!', `Successfully created '${data.record.title}' ${type}.`);
-        return redirectPostAction(type);
-      });
-  }
-}
-
-export const editItem = (type, item, queryBuilder) => {
-  return function(dispatch) {
-    dispatch(startingGraphqlRequest());
-    const updatedItem = constructRecordForPost(item);
-    const mutation = queryBuilder(updatedItem);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
-      .then(response => {
-        dispatch(finishGraphqlRequest());
-        const data = response.data[getSingleObjectProperty(response.data)];
-        toaster.success('Saved!', `Successfully edited '${data.record.title}' ${type}.`);
+        toaster.success('Saved!', `Successfully saved '${data.record.title}' ${type}.`);
         return redirectPostAction(type);
       });
   }
