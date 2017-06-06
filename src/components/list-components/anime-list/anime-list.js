@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import ItemList from '../item-list/item-list'
-import AnimeListItem from './anime-list-item'
+import ItemListItem from '../item-list/item-list-item'
+import {Strings} from '../../../constants/values'
 
 const AnimeList = ({ items, addEpisode }) => (
   <ItemList
@@ -8,8 +9,9 @@ const AnimeList = ({ items, addEpisode }) => (
       items.map(item => (
         <AnimeListItem
           key={item._id}
+          type={Strings.anime}
           item={item}
-          addEpisode={addEpisode}
+          addAction={addEpisode}
         />
       ))
     }
