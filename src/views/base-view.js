@@ -6,7 +6,7 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import HistoryList from '../../components/history-list/history-list'
 import {getKeyByValue} from '../../utils/common'
 import {formatDateForDisplay} from '../../utils/date'
-import {getUniquePropertiesForItemType} from '../../utils/data'
+import {getUniquePropertiesForItemType, getHistoryNameForItemType} from '../../utils/data'
 import {Paths} from '../../constants/paths'
 import {Strings, Enums, Icons} from '../../constants/values'
 
@@ -162,12 +162,12 @@ BaseView.propTypes = {
   loadHistoryForSeries: PropTypes.func.isRequired
 }
 
-const selectItemFromId = (anime, id) => anime.byId[id] || {};
-const selectHistoryByParent = episode => episode.allIds.map(_id => episode.byId[_id]);
+const selectItemFromId = (item, id) => item.byId[id] || {};
+const selectHistoryByParent = history => history.allIds.map(_id => history.byId[_id]);
 
 const mapStateToProps = (state, ownProps) => ({
-  item: selectItemFromId(state.entities.anime, ownProps.params.id),
-  history: selectHistoryByParent(state.entities.episode),
+  item: selectItemFromId(state.entities[ownProps.type], ownProps.params.id),
+  history: selectHistoryByParent(state.entities[getHistoryNameForItemType(ownProps.type)]),
   isFetching: state.isFetching
 })
 
