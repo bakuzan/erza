@@ -25,3 +25,7 @@ export const mapUrlFilterToEntityObject = ({ filter }) => ({
 export const getUniquePropertiesForItemType = t => t === Strings.anime
   ? { current: Properties.episode, total: Properties.seriesEpisodes }
   : { current: Properties.chapter, total: Properties.seriesChapters };
+
+export const getHistoryNameForItemType = t => t === Strings.anime
+  ? Properties.episode
+  : Properties.chapter;
