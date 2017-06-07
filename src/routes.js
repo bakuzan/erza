@@ -9,6 +9,7 @@ import AnimeView from './containers/anime-view/anime-view'
 import AnimeCreate from './containers/anime-create/anime-create'
 
 import Manga from './views/manga/manga'
+import MangaView from './views/manga/manga-view'
 
 import HistoryView from './containers/history-view/history-view'
 
@@ -24,6 +25,7 @@ const Routes = ({ history }) => (
       <Route path={`${Paths.anime.edit}(:id)`} component={AnimeCreate} />
 
       <Route path={`${Paths.manga.list}(:filter)`} component={Manga} />
+      <Route path={`${Paths.manga.view}(:id)`} component={MangaView} />
 
       <Route path={`${Paths.history}(:type)`} component={HistoryView} />
     </Route>

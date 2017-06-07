@@ -1,20 +1,8 @@
-import { pagedDataWrapper, constructFilterString } from '../common'
+import { pagedDataWrapper, constructFilterString, historyKeyFields, historyKeyFieldsWithSeries } from '../common'
 
-const episodeFields = `
-  _id
-  date
-  episode
-  rating
-  note
-`;
+const episodeFields = historyKeyFields('episode');
+const episodeFieldsWithSeries = historyKeyFieldsWithSeries('episode');
 
-const episodeFieldsWithSeries = `
-  ${episodeFields}
-  series {
-    _id
-    title
-  }
-`;
 
 const getEpisodesForDateRange = (pageParameters, filters) => (`
   {

@@ -1,17 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import {browserHistory, Link} from 'react-router'
 import { connect } from 'react-redux'
-import RatingControl from '../../components/rating-control/rating-control'
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
-import HistoryList from '../../components/history-list/history-list'
-import {getKeyByValue} from '../../utils/common'
-import {formatDateForDisplay} from '../../utils/date'
-import {getUniquePropertiesForItemType, getHistoryNameForItemType} from '../../utils/data'
-import {Paths} from '../../constants/paths'
-import {Strings, Enums, Icons} from '../../constants/values'
+import RatingControl from '../components/rating-control/rating-control'
+import LoadingSpinner from '../components/loading-spinner/loading-spinner'
+import HistoryList from '../components/history-list/history-list'
+import {getKeyByValue} from '../utils/common'
+import {formatDateForDisplay} from '../utils/date'
+import {getUniquePropertiesForItemType} from '../utils/data'
+import {Paths} from '../constants/paths'
+import {Strings, Enums, Icons} from '../constants/values'
 
-const loadData = props => props.loadItemById(props.params.id);
-const loadHistory = props => props.loadHistoryForSeries(props.params.id);
+const loadData = props => props.loadItemById(props.itemId);
+const loadHistory = props => props.loadHistoryForSeries(props.itemId);
 
 class BaseView extends Component {
 
@@ -155,6 +155,7 @@ class BaseView extends Component {
 
 BaseView.propTypes = {
   type: PropTypes.string.isRequired,
+  itemId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
   history: PropTypes.arrayOf(PropTypes.object),
   isFetching: PropTypes.bool.isRequired,
@@ -162,12 +163,7 @@ BaseView.propTypes = {
   loadHistoryForSeries: PropTypes.func.isRequired
 }
 
-const selectItemFromId = (item, id) => item.byId[id] || {};
-const selectHistoryByParent = history => history.allIds.map(_id => history.byId[_id]);
-
-const mapStateToProps = (state, ownProps) => ({
-  item: selectItemFromId(state.entities[ownProps.type], ownProps.params.id),
-  history: selectHistoryByParent(state.entities[getHistoryNameForItemType(ownProps.type)]),
+const mapStateToProps = (state) => ({
   isFetching: state.isFetching
 })
 

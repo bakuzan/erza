@@ -5,13 +5,15 @@ import {EPISODE_REQUEST, EPISODE_SUCCESS, EPISODE_LOAD} from '../constants/actio
 import {loadPageInfo, resetPageToZero} from './paging'
 import EpisodeQL from '../graphql/query/episode'
 import EpisodeML from '../graphql/mutation/episode'
+import {loadHistoryForSeries} from './list-items'
+import {Strings} from '../constants/values'
 
 const startingEpisodeRequest = () => ({
   type: EPISODE_REQUEST,
   isFetching: true
 })
 
-const loadEpisodeData = (data) => ({
+export const loadEpisodeData = (data) => ({
   type: EPISODE_LOAD,
   data
 })
@@ -51,11 +53,7 @@ export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
   }
 }
 
-export const loadEpisodeForSeries = parent => {
-  return function(dispatch) {
-    dispatch(startingEpisodeRequest());
-    fetchFromServer(`${Paths.graphql.base}${EpisodeQL.getEpisodesForParents(parent)}`)
-      .then(response => dispatch(loadEpisodeData(response.data.episodeMany)) )
-      .then(() => dispatch(finishEpisodeRequest()) );
-  }
-}
+export const loadEpisodeForSeries = parent => loadHistoryForSeries(
+  Strings.episode,
+  EpisodeQL.getEpisodesForParents(parent)
+)

@@ -48,6 +48,7 @@ export const Strings = {
   start: 'start',
   end: 'end',
   episode: 'episode',
+  chapter: 'chapter',
   isAdult: 'is adult',
   isRepeat: 'is repeat',
   owned: 'owned',

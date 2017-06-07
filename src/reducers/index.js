@@ -3,6 +3,7 @@ import { routerReducer as routing } from 'react-router-redux'
 import anime from './anime'
 import manga from './manga'
 import episode from './episode'
+import chapter from './chapter'
 import tags from './tags'
 import {isFetching} from './loading'
 import {isAdult} from './is-adult'
@@ -14,6 +15,7 @@ const entities = combineReducers({
   anime,
   manga,
   episode,
+  chapter,
   tags
 })
 

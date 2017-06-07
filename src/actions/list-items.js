@@ -10,10 +10,13 @@ import {constructPagingAndSorting, constructRecordForPost} from '../graphql/comm
 // import {createEpisode} from './episode'
 import { loadAnimeData } from './anime'
 import { loadMangaData } from './manga'
+import { loadEpisodeData } from './episode'
+import { loadChapterData } from './chapter'
 import {resetPageToZero, loadPageInfo} from './paging'
 import { Strings } from '../constants/values'
 
 console.log('LOAD FUNCTIONS => ', loadAnimeData, loadMangaData);
+
 const loadItemsToState = {
   [Strings.anime]: loadAnimeData,
   [Strings.manga]: loadMangaData
@@ -87,6 +90,22 @@ export const loadItemsById = (type, queryString) => {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
       .then(response => dispatch(loadItemsToState[type]([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
+      .then(() => dispatch(finishGraphqlRequest()) );
+  }
+}
+
+
+// HISTORY ACTION CREATORS
+const loadHistoryToState = {
+  [Strings.episode]: loadEpisodeData,
+  [Strings.chapter]: loadChapterData
+}
+
+export const loadHistoryForSeries = (type, queryString) => {
+  return function(dispatch) {
+    dispatch(startingGraphqlRequest());
+    fetchFromServer(`${Paths.graphql.base}${queryString}`)
+      .then(response => dispatch(loadHistoryToState[type](response.data[getSingleObjectProperty(response.data)])) )
       .then(() => dispatch(finishGraphqlRequest()) );
   }
 }

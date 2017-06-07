@@ -73,3 +73,20 @@ export const itemEditFields = uniqueFields => (`
   series_type
   tags
 `);
+
+export const historyKeyFields = uniqueField => (`
+  _id
+  parent
+  date
+  rating
+  note
+  ${uniqueField}
+`)
+
+export const historyKeyFieldsWithSeries = uniqueField => (`
+  ${historyKeyFields(uniqueField)}
+  series {
+    _id
+    title
+  }
+`)
