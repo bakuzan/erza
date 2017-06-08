@@ -3,32 +3,32 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const {AnimeTC} = require('./anime.js');
+const {MangaTC} = require('./manga.js');
 const {
   historySharedSchema,
   dateRangeSearch
 } = require('./history-shared.js');
 
-const EpisodeSchema = new Schema(
+const ChapterSchema = new Schema(
   Object.assign({}, historySharedSchema, {
     parent: {
       type: ObjectId,
-      ref: 'Anime'
+      ref: 'Manga'
     },
-    episode: {
+    chapter: {
       type: Number,
-      required: 'Episode is a required field'
+      required: 'Chapter is a required field'
     }
   })
 );
 
-const Episode = mongoose.model('Episode', EpisodeSchema);
-const EpisodeTC = composeWithMongoose(Episode);
+const Chapter = mongoose.model('Chapter', ChapterSchema);
+const ChapterTC = composeWithMongoose(Chapter);
 
-EpisodeTC.addRelation(
+ChapterTC.addRelation(
   'series',
   () => ({
-    resolver: AnimeTC.getResolver('findById'),
+    resolver: MangaTC.getResolver('findById'),
     args: {
       _id: (source) => source.parent,
     },
@@ -36,14 +36,14 @@ EpisodeTC.addRelation(
   })
 )
 
-const extendConnection = EpisodeTC
+const extendConnection = ChapterTC
   .getResolver('connection')
-  .addFilterArg(dateRangeSearch(AnimeTC));
+  .addFilterArg(dateRangeSearch(MangaTC));
 
 extendConnection.name = 'connection';
-EpisodeTC.addResolver(extendConnection);
+ChapterTC.addResolver(extendConnection);
 
 module.exports = {
-  Episode,
-  EpisodeTC
+  Chapter,
+  ChapterTC
 }

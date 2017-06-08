@@ -6,16 +6,21 @@ const { AnimeTC } = require('../models/anime');
 const { MangaTC } = require('../models/manga');
 const { TagTC } = require('../models/tag');
 const { EpisodeTC } = require('../models/episode');
+const { ChapterTC } = require('../models/chapter');
 
 const arrayOfModels = [
   { prefix: 'anime', type: AnimeTC },
   { prefix: 'manga', type: MangaTC },
   { prefix: 'tag', type: TagTC },
-  { prefix: 'episode', type: EpisodeTC }
+  { prefix: 'episode', type: EpisodeTC },
+  { prefix: 'chapter', type: ChapterTC }
 ];
 
-const queries = arrayOfModels.map(constructQueryFields).reduce(combineArrayOfObjects);
-const mutations = arrayOfModels.map(constructMutationFields).reduce(combineArrayOfObjects);
+const queries = arrayOfModels.map(constructQueryFields)
+                             .reduce(combineArrayOfObjects);
+                             
+const mutations = arrayOfModels.map(constructMutationFields)
+                               .reduce(combineArrayOfObjects);
 
 GQC.rootQuery().addFields(queries);
 GQC.rootMutation().addFields(mutations);
