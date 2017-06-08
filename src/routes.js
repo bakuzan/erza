@@ -5,7 +5,7 @@ import App from './containers/app/app'
 import Home from './containers/home/home'
 
 import Anime from './views/anime/anime'
-import AnimeView from './containers/anime-view/anime-view'
+import AnimeView from './views/anime/anime-view'
 import AnimeCreate from './containers/anime-create/anime-create'
 
 import Manga from './views/manga/manga'
