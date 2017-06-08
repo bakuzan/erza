@@ -1,16 +1,15 @@
-class EpisodeModel {
+import BaseHistoryModel from './base-history-model.js'
+
+class EpisodeModel extends BaseHistoryModel {
   constructor(props = {}) {
+    super();
     Object.assign(this, this.initaliseDefaults(), props);
   }
 
   initaliseDefaults() {
-    return {
-      parent: null,
-      date: Date.now(),
-      note: '',
-      rating: null,
+    return Object.assign({}, super.initaliseDefaults(), {
       episode: 0
-    }
+    });
   }
 }
 
