@@ -7,7 +7,6 @@ import {getSingleObjectProperty} from '../utils/common'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
-// import {createEpisode} from './episode'
 import { loadAnimeData } from './anime'
 import { loadMangaData } from './manga'
 import { loadEpisodeData } from './episode'
@@ -49,24 +48,6 @@ export const mutateItem = (type, item, queryBuilder) => {
   }
 }
 
-// export const addEpisodes = updateValues => {
-//   return function(dispatch, getState) {
-//     const anime = getState().entities.anime.byId[updateValues._id];
-//     const history = mapEpisodeData(anime, updateValues);
-//     console.log('add episode => ', anime, updateValues, history)
-//     history.forEach(item => dispatch(createEpisode(item)) );
-//     return updatePrePost(
-//       update(anime, {
-//         episode: { $set: updateValues.episode }
-//       })
-//     )
-//     .then(editItem => {
-//       console.log('edit anime => ', editItem);
-//       dispatch(editAnime(editItem));
-//     });
-//   }
-// }
-
 export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
   return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
@@ -99,6 +80,19 @@ export const loadItemsById = (type, queryString) => {
 const loadHistoryToState = {
   [Strings.episode]: loadEpisodeData,
   [Strings.chapter]: loadChapterData
+}
+
+export const mutateHistoryItem = (item, queryBuilder) => {
+  return function(dispatch) {
+    dispatch(startingGraphqlRequest());
+    const itemForCreation = constructRecordForPost(item);
+    const mutation = queryBuilder(itemForCreation);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
+      .then(response => {
+        console.log(`%c History  created`, 'font-size: 20px; color: indigo')
+        dispatch(finishGraphqlRequest());
+      });
+  }
 }
 
 export const loadHistoryForSeries = (type, queryString) => {

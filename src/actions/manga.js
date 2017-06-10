@@ -1,12 +1,16 @@
+import update from 'immutability-helper'
 import { MANGA_LOAD } from '../constants/actions'
 import MangaQL from '../graphql/query/manga'
 import MangaML from '../graphql/mutation/manga'
 import {
-  loadItems, 
+  loadItems,
   loadItemsById,
   mutateItem
 } from './list-items'
+import {createChapter} from './chapter'
 import {Strings} from '../constants/values'
+import updatePrePost from '../utils/validators/manga-post'
+import {mapChapterData} from '../utils/data'
 
 export const loadMangaData = (data) => ({
   type: MANGA_LOAD,
@@ -24,6 +28,25 @@ export const editManga = (item) => mutateItem(
   item,
   MangaML.updateMangaById
 )
+
+export const addChapters = updateValues => {
+  return function(dispatch, getState) {
+    const manga = getState().entities.anime.byId[updateValues._id];
+    const history = mapChapterData(manga, updateValues);
+    console.log('add chapter => ', manga, updateValues, history)
+    history.forEach(item => dispatch(createChapter(item)) );
+    return updatePrePost(
+      update(manga, {
+        chapter: { $set: updateValues.chapter },
+        volume: { $set: updateValues.volume }
+      })
+    )
+    .then(editItem => {
+      console.log('edit manga => ', editItem);
+      dispatch(editManga(editItem));
+    });
+  }
+}
 
 export const loadManga = (filters = {}, pageChange = null) => loadItems({
     pageChange,

@@ -36,9 +36,10 @@ EpisodeTC.addRelation(
   })
 )
 
+console.log();
 const extendConnection = EpisodeTC
   .getResolver('connection')
-  .addFilterArg(dateRangeSearch(AnimeTC));
+  .addFilterArg(dateRangeSearch(EpisodeTC));
 
 extendConnection.name = 'connection';
 EpisodeTC.addResolver(extendConnection);

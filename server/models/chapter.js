@@ -38,7 +38,7 @@ ChapterTC.addRelation(
 
 const extendConnection = ChapterTC
   .getResolver('connection')
-  .addFilterArg(dateRangeSearch(MangaTC));
+  .addFilterArg(dateRangeSearch(ChapterTC));
 
 extendConnection.name = 'connection';
 ChapterTC.addResolver(extendConnection);

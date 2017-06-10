@@ -57,10 +57,10 @@ class BaseView extends Component {
             </header>
             <div className="view-content">
 
-              <span>{ `${item[current]} / ${item[total] || '??'}` }</span>
+              <div>{ `${item[current]} / ${item[total] || '??'}` }</div>
               {
                 type === Strings.manga &&
-                <span>{ `${item.volume} / ${item.series_volumes || '??'}` }</span>
+                <div>{ `${item.volume} / ${item.series_volumes || '??'}` }</div>
               }
               <RatingControl name="rating"
                 value={item.rating || 0}

@@ -12,7 +12,7 @@ const getChaptersForDateRange = (pageParameters, filters) => (`
   }
 `);
 
-const getChaptersForParents = parentId => (`
+const getChaptersForParent = parentId => (`
   {
     chapterMany(sort: DATE_DESC, filter: { parent: "${parentId}" }) {
       ${chapterFields}
@@ -22,7 +22,7 @@ const getChaptersForParents = parentId => (`
 
 const ChapterQl = {
   getChaptersForDateRange,
-  getChaptersForParents
+  getChaptersForParent
 };
 
 export default ChapterQl

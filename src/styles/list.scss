@@ -33,6 +33,7 @@ $columns: (
 
     @each $number, $percentage in $columns {
       &.#{$number} li {
+        flex-basis: $percentage;
         width: $percentage;
       }
     }

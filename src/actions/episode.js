@@ -5,7 +5,7 @@ import {EPISODE_REQUEST, EPISODE_SUCCESS, EPISODE_LOAD} from '../constants/actio
 import {loadPageInfo, resetPageToZero} from './paging'
 import EpisodeQL from '../graphql/query/episode'
 import EpisodeML from '../graphql/mutation/episode'
-import {loadHistoryForSeries} from './list-items'
+import {loadHistoryForSeries, mutateHistoryItem} from './list-items'
 import {Strings} from '../constants/values'
 
 const startingEpisodeRequest = () => ({
@@ -23,18 +23,10 @@ const finishEpisodeRequest = () => ({
   isFetching: false
 })
 
-export const createEpisode = (item) => {
-  return function(dispatch) {
-    dispatch(startingEpisodeRequest());
-    const newEpisode = constructRecordForPost(item);
-    const mutation = EpisodeML.createEpisode(newEpisode);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
-      .then(response => {
-        console.log(`%c Episode  created`, 'font-size: 20px; color: indigo')
-        dispatch(finishEpisodeRequest());
-      });
-  }
-}
+export const createEpisode = (item) => mutateHistoryItem(
+  item,
+  EpisodeML.createEpisode
+)
 
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
   return function(dispatch, getState) {
@@ -55,5 +47,5 @@ export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => {
 
 export const loadEpisodeForSeries = parent => loadHistoryForSeries(
   Strings.episode,
-  EpisodeQL.getEpisodesForParents(parent)
+  EpisodeQL.getEpisodesForParent(parent)
 )

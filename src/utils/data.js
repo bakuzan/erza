@@ -1,4 +1,5 @@
 import EpisodeModel from '../models/episode-model'
+import ChapterModel from '../models/chapter-model'
 import {Enums, Strings, Properties} from '../constants/values'
 
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
@@ -14,7 +15,22 @@ export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
         isAdult: anime.isAdult
       });
     });
-};
+}
+
+export const mapChapterData = (manga, { _id, chapter, ratings, notes }) => {
+  return Array(chapter - manga.chapter)
+    .fill(null)
+    .map((item, index) => {
+      const chapterNumber = manga.chapter + 1 + index;
+      return new ChapterModel({
+        parent: _id,
+        rating: ratings[chapterNumber] || 0,
+        note: notes[chapterNumber] || '',
+        chapter: chapterNumber,
+        isAdult: manga.isAdult
+      });
+    });
+}
 
 export const mapStateToEntity = (state, id) => state.byId[id] || {};
 export const mapStateToEntityList = state => state.allIds.map(id => state.byId[id]);

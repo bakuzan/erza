@@ -12,7 +12,7 @@ const getEpisodesForDateRange = (pageParameters, filters) => (`
   }
 `);
 
-const getEpisodesForParents = parentId => (`
+const getEpisodesForParent = parentId => (`
   {
     episodeMany(sort: DATE_DESC, filter: { parent: "${parentId}" }) {
       ${episodeFields}
@@ -22,7 +22,7 @@ const getEpisodesForParents = parentId => (`
 
 const EpisodeQl = {
   getEpisodesForDateRange,
-  getEpisodesForParents
+  getEpisodesForParent
 };
 
 export default EpisodeQl
