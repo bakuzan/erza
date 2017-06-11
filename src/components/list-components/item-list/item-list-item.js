@@ -11,8 +11,8 @@ const ItemListItem = ({ type, item, addAction }) => {
   const hasMalId = !!item.malId;
   const hasLink = !!item.link;
   const statusIcon = item.isRepeat                                ? Icons.clockwise :
-                     item.status === Enums.anime.status.onhold    ? Icons.pause     :
-                     item.status === Enums.anime.status.completed ? Icons.tick      :
+                     item.status === Enums.status.onhold    ? Icons.pause     :
+                     item.status === Enums.status.completed ? Icons.tick      :
                                                                     null;
 
   return (
@@ -28,7 +28,7 @@ const ItemListItem = ({ type, item, addAction }) => {
                 className="button-icon small rounded primary"
                 icon="+"
                 onClick={() => addAction(item._id)}
-                disabled={item.status === Enums.anime.status.completed && !item.isRepeat}
+                disabled={item.status === Enums.status.completed && !item.isRepeat}
                 ></button>
             }
           <span>{ `${item[current]}/${item[total] || '??'}` }</span>
@@ -36,7 +36,7 @@ const ItemListItem = ({ type, item, addAction }) => {
             !!statusIcon &&
             <span className="button-icon small bold"
                   icon={statusIcon}
-                  title={getKeyByValue(Enums.anime.status, item.status)}
+                  title={getKeyByValue(Enums.status, item.status)}
                   ></span>
           }
         </div>

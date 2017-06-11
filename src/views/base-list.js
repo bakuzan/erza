@@ -43,9 +43,9 @@ class BaseListView extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
-    // nextProps.params.filter !== this.props.params.filter ||
           // nextProps.location.key !== this.props.location.key ||
     if (
+      nextProps.statusFilter.value !== this.props.statusFilter.value ||
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
       nextProps.sortOrder !== this.props.sortOrder ||

@@ -95,6 +95,24 @@ export const mutateHistoryItem = (item, queryBuilder) => {
   }
 }
 
+export const loadHistoryByDateRange = ({ type, filters, pageChange }, queryBuilder) => {
+  return function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+    if (!pageChange) dispatch(resetPageToZero());
+    const { paging, isAdult } = getState();
+    const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder: 'DESC' });
+    const query = queryBuilder(pageSettings, Object.assign({}, filters, { isAdult }) );
+    fetchFromServer(`${Paths.graphql.base}${query}`)
+      .then(response => {
+        const data = response.data[getSingleObjectProperty(response.data)];
+        console.log('load items >> ', type, loadItemsToState);
+        dispatch(loadHistoryToState[type](data.edges));
+        dispatch(loadPageInfo({ count: data.count }));
+      })
+      .then(() => dispatch(finishGraphqlRequest()) );
+  }
+}
+
 export const loadHistoryForSeries = (type, queryString) => {
   return function(dispatch) {
     dispatch(startingGraphqlRequest());

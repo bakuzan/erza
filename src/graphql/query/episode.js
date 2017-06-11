@@ -1,7 +1,8 @@
+import {Strings} from '../../constants/values'
 import { pagedDataWrapper, constructFilterString, historyKeyFields, historyKeyFieldsWithSeries } from '../common'
 
-const episodeFields = historyKeyFields('episode');
-const episodeFieldsWithSeries = historyKeyFieldsWithSeries('episode');
+const episodeFields = historyKeyFields(Strings.episode);
+const episodeFieldsWithSeries = historyKeyFieldsWithSeries(Strings.episode);
 
 
 const getEpisodesForDateRange = (pageParameters, filters) => (`

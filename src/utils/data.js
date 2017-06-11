@@ -1,5 +1,6 @@
 import EpisodeModel from '../models/episode-model'
 import ChapterModel from '../models/chapter-model'
+import {dateStringToISOString} from './date'
 import {Enums, Strings, Properties} from '../constants/values'
 
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
@@ -46,3 +47,18 @@ export const getUniquePropertiesForItemType = t => t === Strings.anime
 export const getHistoryNameForItemType = t => t === Strings.anime
   ? Properties.episode
   : Properties.chapter;
+
+
+export const intergrateMalEntry = type => (model, malItem) => {
+  if (!malItem) return Object.assign({}, model, { malId: null });
+  
+  const {current, total} = getUniquePropertiesForItemType(type);
+  return Object.assign({}, model, {
+    image: malItem.image,
+    malId: malItem.id,
+    series_type: Enums[type].type[malItem.type.toLowerCase()],
+    [total]: malItem[`${current}s`],
+    series_start: dateStringToISOString(malItem.start_date),
+    series_end: dateStringToISOString(malItem.end_date)
+  });
+}

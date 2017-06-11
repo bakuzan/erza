@@ -4,19 +4,21 @@ import PagingControls from '../../containers/paging-controls/paging-controls'
 import HistoryList from '../../components/history-list/history-list'
 import {Strings} from '../../constants/values'
 
-const PagedHistoryList = ({ filters, items }) => (
+const PagedHistoryList = ({ filters, items, type }) => (
   <div className="flex-column flex-grow">
     <PagingControls
       listType={Strings.history}
       filters={filters}
     />
     <HistoryList
+        type={type}
         items={items}
     />
   </div>
 );
 
 PagedHistoryList.propTypes = {
+  type: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
   paging: PropTypes.object.isRequired

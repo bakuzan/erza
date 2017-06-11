@@ -6,7 +6,7 @@ import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
 import { capitalise, getEventValue, updateSameAsObject } from '../../utils/common'
 import { formatDateForInput } from '../../utils/date'
-import { mapStateToEntityList } from '../../utils/data'
+import { mapStateToEntityList, intergrateMalEntry } from '../../utils/data'
 import AnimeValidator from '../../utils/validators/anime-creation'
 import AnimeModel from '../../models/anime-model';
 import RatingControl from '../../components/rating-control/rating-control';
@@ -53,7 +53,7 @@ class AnimeCreate extends Component {
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
     if (updateSameAsObject(this.state, malItem)) return;
-    this.setState((prevState) => AnimeValidator.intergrateMalEntry(prevState, malItem));
+    this.setState((prevState) => intergrateMalEntry(Strings.anime)(prevState, malItem));
   }
 
   handleUserInput({ target }) {

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import HistoryListItem from './history-list-item'
 import './history-list.css'
 
-const renderHistoryListItems = items => {
+const renderHistoryListItems = (type, items) => {
   let list = [], previousSeries = null;
   items.sort((x, y) => {
     const z = y.date - x.date;
@@ -14,12 +14,12 @@ const renderHistoryListItems = items => {
       previousSeries = item.series._id;
     }
 
-    list.push(<HistoryListItem key={item._id} item={item} />)
+    list.push(<HistoryListItem key={item._id} type={type} item={item} />)
   })
   return list;
 }
 
-const HistoryList = ({ items }) => (
+const HistoryList = ({ items, type }) => (
   <ul className="list column one">
     {
       items.length === 0 ? (
@@ -27,12 +27,13 @@ const HistoryList = ({ items }) => (
           <p>No items to display.</p>
         </li>
       ) :
-      renderHistoryListItems(items)
+      renderHistoryListItems(type, items)
     }
   </ul>
 );
 
 HistoryList.propTypes = {
+  type: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 

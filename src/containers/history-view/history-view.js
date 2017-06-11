@@ -46,7 +46,7 @@ class HistoryView extends Component {
   }
 
   render() {
-    const { isFetching, items } = this.props;
+    const { isFetching, items, type } = this.props;
     const filters = { dateRange: dateRangeForQuery(this.state.from, this.state.to) };
 
     return (
@@ -80,6 +80,7 @@ class HistoryView extends Component {
       {
         !isFetching &&
         <PagedHistoryList
+            type={type}
             filters={filters}
             items={items}
          />
@@ -91,6 +92,7 @@ class HistoryView extends Component {
 }
 
 HistoryView.propTypes = {
+  type: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
@@ -99,9 +101,10 @@ HistoryView.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  type: ownProps.params.type,
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  items: mapStateToEntityList(state.entities.episode),
+  items: mapStateToEntityList(state.entities[ownProps.params.type]),
   itemsPerPage: state.paging.itemsPerPage
 })
 

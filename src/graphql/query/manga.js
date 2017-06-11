@@ -6,8 +6,8 @@ const mangaSpecificKeyFields = `
   series_chapters
   series_volumes
 `;
-const mangaKeyFields = itemKeyFields(mangaSpecificKeyFields);
-const mangaEditFields = itemEditFields(mangaSpecificKeyFields);
+export const mangaKeyFields = itemKeyFields(mangaSpecificKeyFields);
+export const mangaEditFields = itemEditFields(mangaSpecificKeyFields);
 
 const getFilteredList = (pageParameters, filters) => (`
   {

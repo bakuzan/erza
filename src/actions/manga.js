@@ -31,14 +31,14 @@ export const editManga = (item) => mutateItem(
 
 export const addChapters = updateValues => {
   return function(dispatch, getState) {
-    const manga = getState().entities.anime.byId[updateValues._id];
+    const manga = getState().entities.manga.byId[updateValues._id];
     const history = mapChapterData(manga, updateValues);
     console.log('add chapter => ', manga, updateValues, history)
     history.forEach(item => dispatch(createChapter(item)) );
     return updatePrePost(
       update(manga, {
         chapter: { $set: updateValues.chapter },
-        volume: { $set: updateValues.volume }
+        volume: { $set: updateValues.volume || manga.volume }
       })
     )
     .then(editItem => {

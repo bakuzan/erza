@@ -1,7 +1,8 @@
+import {Strings} from '../../constants/values'
 import { pagedDataWrapper, constructFilterString, historyKeyFields, historyKeyFieldsWithSeries } from '../common'
 
-const chapterFields = historyKeyFields('chapter');
-const chapterFieldsWithSeries = historyKeyFieldsWithSeries('chapter');
+const chapterFields = historyKeyFields(Strings.chapter);
+const chapterFieldsWithSeries = historyKeyFieldsWithSeries(Strings.chapter);
 
 
 const getChaptersForDateRange = (pageParameters, filters) => (`

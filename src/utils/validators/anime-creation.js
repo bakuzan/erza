@@ -59,22 +59,9 @@ const validateAnimeSubmission = model => {
   );
 }
 
-const intergrateMalEntry = (model, malItem) => {
-  if (!malItem) return Object.assign({}, model, { malId: null });
-  return Object.assign({}, model, {
-    image: malItem.image,
-    malId: malItem.id,
-    series_type: Enums.anime.type[malItem.type.toLowerCase()], // 0 = Unknown, 1 = TV, 2 = OVA, 3 = Movie, 4 = Special, 5 = ONA, 6 = Music
-    series_episodes: malItem.episodes,
-    series_start: dateStringToISOString(malItem.start_date),
-    series_end: dateStringToISOString(malItem.end_date)
-  });
-}
-
 const AnimeValidator = {
   validateAnimeChanges,
-  validateAnimeSubmission,
-  intergrateMalEntry
+  validateAnimeSubmission
 }
 
 export default AnimeValidator
