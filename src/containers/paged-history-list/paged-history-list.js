@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import PagingControls from '../../containers/paging-controls/paging-controls'
-import HistoryList from '../../components/history-list/history-list'
+import HistoryList from '../../components/list-components/history-list/history-list'
 import {Strings} from '../../constants/values'
 
 const PagedHistoryList = ({ filters, items, type }) => (

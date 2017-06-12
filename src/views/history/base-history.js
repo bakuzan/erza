@@ -2,15 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
-import {mapStateToEntityList} from '../../utils/data'
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
 import {startOfDay, endOfDay, dateAsMs, formatDateForInput} from '../../utils/date'
-import { loadEpisodesByDateRange } from '../../actions/episode'
 
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [dateAsMs(startOfDay(from)), dateAsMs(endOfDay(to))]
-const loadData = (props, state) => props.loadEpisodes({ dateRange: dateRangeForQuery(state.from, state.to) });
+const loadData = (props, state) => props.loadHistory({ dateRange: dateRangeForQuery(state.from, state.to) });
 
-class HistoryView extends Component {
+class BaseHistoryView extends Component {
 
   constructor(props) {
     super(props);
@@ -29,10 +27,10 @@ class HistoryView extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
+    // nextProps.location.key !== this.props.location.key ||
     if (
       nextProps.isAdult !== this.props.isAdult ||
-      nextProps.params.type !== this.props.params.type ||
-      nextProps.location.key !== this.props.location.key ||
+      nextProps.type !== this.props.type ||
       nextProps.itemsPerPage !== this.props.itemsPerPage
     ) {
       loadData(nextProps, this.state)
@@ -91,28 +89,21 @@ class HistoryView extends Component {
 
 }
 
-HistoryView.propTypes = {
+BaseHistoryView.propTypes = {
   type: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
-  loadEpisodes: PropTypes.func.isRequired,
+  loadHistory: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.number.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  type: ownProps.params.type,
+const mapStateToProps = state => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  items: mapStateToEntityList(state.entities[ownProps.params.type]),
   itemsPerPage: state.paging.itemsPerPage
 })
 
-const mapDispatchToProps = {
-  loadEpisodes: loadEpisodesByDateRange
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HistoryView)
+  mapStateToProps
+)(BaseHistoryView)

@@ -3,7 +3,7 @@ import {browserHistory, Link} from 'react-router'
 import { connect } from 'react-redux'
 import RatingControl from '../components/rating-control/rating-control'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
-import HistoryList from '../components/history-list/history-list'
+import HistoryList from '../components/list-components/history-list/history-list'
 import {getKeyByValue} from '../utils/common'
 import {formatDateForDisplay} from '../utils/date'
 import {getUniquePropertiesForItemType} from '../utils/data'
@@ -119,6 +119,7 @@ class BaseView extends Component {
                 {
                   !!this.props.history.length &&
                   <HistoryList
+                    type={type}
                     items={this.props.history}
                   />
                 }

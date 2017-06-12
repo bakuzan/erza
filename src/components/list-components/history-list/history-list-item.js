@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
-import RatingControl from '../rating-control/rating-control';
-import {padNumber} from '../../utils/common'
-import {getUniquePropertiesForItemType} from '../../utils/data'
-import {formatDateISO, formatDateTimeForDisplay} from '../../utils/date'
+import RatingControl from '../../rating-control/rating-control';
+import {padNumber} from '../../../utils/common'
+import {getUniquePropertiesForItemType} from '../../../utils/data'
+import {formatDateISO, formatDateTimeForDisplay} from '../../../utils/date'
 
 const HistoryListItem = ({ item, type }) => {
   const {current} = getUniquePropertiesForItemType(type);

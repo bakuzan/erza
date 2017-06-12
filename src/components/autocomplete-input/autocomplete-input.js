@@ -21,7 +21,7 @@ class AutocompleteInput extends Component {
   }
 
   selectActiveSuggestion() {
-    const item = this.props.items[this.state.activeSuggestion];
+    const item = this.filterAutoComplete()[this.state.activeSuggestion];
     this.selectAutocompleteSuggestion(item.id);
   }
 

@@ -8,12 +8,12 @@ import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
 import './list-filter.css'
 
-const FILTER_BASE = `${Paths.base}${Paths.anime.list}`;
-const ALL_FILTER = `${FILTER_BASE}${Strings.filters.all}`;
-const COMPLETED_FILTER = `${FILTER_BASE}${Strings.filters.completed}`;
-const ONGOING_FILTER = `${FILTER_BASE}${Strings.filters.ongoing}`;
+const FILTER_BASE = type => `${Paths.base}${Paths[type].list}`;
+const ALL_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.all}`;
+const COMPLETED_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.completed}`;
+const ONGOING_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.ongoing}`;
 
-const ListFilter = ({ search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
+const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
   <div className="list-filter">
 
     <ClearableInput
@@ -22,13 +22,13 @@ const ListFilter = ({ search, isAdult, onChange, sortOrder, onSortOrderToggle, s
     />
 
     <div className="button-group">
-      <FilterLink filter={ALL_FILTER}>
+      <FilterLink filter={ALL_FILTER(type)}>
       { Strings.filters.all }
       </FilterLink>
-      <FilterLink filter={COMPLETED_FILTER}>
+      <FilterLink filter={COMPLETED_FILTER(type)}>
       { Strings.filters.completed }
       </FilterLink>
-      <FilterLink filter={ONGOING_FILTER}>
+      <FilterLink filter={ONGOING_FILTER(type)}>
       { Strings.filters.ongoing }
       </FilterLink>
     </div>
@@ -74,6 +74,7 @@ const ListFilter = ({ search, isAdult, onChange, sortOrder, onSortOrderToggle, s
 );
 
 ListFilter.propTypes = {
+  type: PropTypes.string.isRequired,
   search: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   sortOrder: PropTypes.string.isRequired,
