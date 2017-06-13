@@ -1,5 +1,4 @@
 import update from 'immutability-helper'
-import { ANIME_LOAD } from '../constants/actions'
 import AnimeQL from '../graphql/query/anime'
 import AnimeML from '../graphql/mutation/anime'
 import {
@@ -12,12 +11,6 @@ import {Strings} from '../constants/values'
 import updatePrePost from '../utils/validators/anime-post'
 import {mapEpisodeData} from '../utils/data'
 
-console.log('ANIME LOAD => ', loadAnimeData);
-
-export const loadAnimeData = (data) => ({
-  type: ANIME_LOAD,
-  data
-})
 
 export const createAnime = (item) => mutateItem(
   Strings.anime,

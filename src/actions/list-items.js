@@ -1,24 +1,23 @@
-// import update from 'immutability-helper'
-import { GRAPHQL_REQUEST, GRAPHQL_SUCCESS } from '../constants/actions'
+import {
+  GRAPHQL_REQUEST, GRAPHQL_SUCCESS,
+  ANIME_LOAD, MANGA_LOAD
+} from '../constants/actions'
 import { browserHistory } from 'react-router'
+import { loadEpisodeData } from './episode'
+import { loadChapterData } from './chapter'
+import {resetPageToZero, loadPageInfo} from './paging'
+
 import toaster from '../utils/toaster'
-// import updatePrePost from '../utils/validators/anime-post'
 import {getSingleObjectProperty} from '../utils/common'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
-import { loadAnimeData } from './anime'
-import { loadMangaData } from './manga'
-import { loadEpisodeData } from './episode'
-import { loadChapterData } from './chapter'
-import {resetPageToZero, loadPageInfo} from './paging'
 import { Strings } from '../constants/values'
 
-console.log('LOAD FUNCTIONS => ', loadAnimeData, loadMangaData);
-
+const hydrateState = type => data => ({ type, data })
 const loadItemsToState = {
-  [Strings.anime]: loadAnimeData,
-  [Strings.manga]: loadMangaData
+  [Strings.anime]: hydrateState(ANIME_LOAD),
+  [Strings.manga]: hydrateState(MANGA_LOAD)
 }
 
 const redirectPostAction = type => browserHistory.push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);

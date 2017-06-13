@@ -1,5 +1,4 @@
 import update from 'immutability-helper'
-import { MANGA_LOAD } from '../constants/actions'
 import MangaQL from '../graphql/query/manga'
 import MangaML from '../graphql/mutation/manga'
 import {
@@ -12,10 +11,6 @@ import {Strings} from '../constants/values'
 import updatePrePost from '../utils/validators/manga-post'
 import {mapChapterData} from '../utils/data'
 
-export const loadMangaData = (data) => ({
-  type: MANGA_LOAD,
-  data
-})
 
 export const createManga = (item) => mutateItem(
   Strings.manga,

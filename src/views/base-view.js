@@ -82,7 +82,7 @@ class BaseView extends Component {
                 <li className="value" icon={item.owned ? Icons.tick : Icons.cross}></li>
 
                 <li className="label">{Strings.status}</li>
-                <li className="value">{getKeyByValue(Enums.anime.status, item.status)}</li>
+                <li className="value">{getKeyByValue(Enums.status, item.status)}</li>
                 {
                   item.status === Enums.status.completed &&
                   <div className="formatting-container">

@@ -14,7 +14,6 @@ const MangaHistoryView = ({ items, loadHistory }) => (
 )
 
 MangaHistoryView.propTypes = {
-  type: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadHistory: PropTypes.func.isRequired,
 }

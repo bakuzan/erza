@@ -43,8 +43,8 @@ class BaseListView extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
-          // nextProps.location.key !== this.props.location.key ||
     if (
+      nextProps.routeKey !== this.props.routeKey ||
       nextProps.statusFilter.value !== this.props.statusFilter.value ||
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
@@ -58,7 +58,7 @@ class BaseListView extends Component {
   handleUserInput({ target }) {
     const newValue = getEventValue(target);
     this.setState({ [target.name]: newValue });
-    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
+    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(0.5));
   }
 
   render() {
@@ -91,6 +91,7 @@ class BaseListView extends Component {
 }
 
 BaseListView.propTypes = {
+  routeKey: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
