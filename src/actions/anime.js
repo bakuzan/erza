@@ -12,6 +12,8 @@ import {Strings} from '../constants/values'
 import updatePrePost from '../utils/validators/anime-post'
 import {mapEpisodeData} from '../utils/data'
 
+console.log('ANIME LOAD => ', loadAnimeData);
+
 export const loadAnimeData = (data) => ({
   type: ANIME_LOAD,
   data
