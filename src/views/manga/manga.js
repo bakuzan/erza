@@ -6,9 +6,9 @@ import {Strings} from '../../constants/values'
 import {mapStateToEntityList, mapUrlFilterToEntityObject} from '../../utils/data'
 import {loadManga} from '../../actions/manga'
 
-const Manga = ({ routeKey, filter, items, loadManga }) => (
+const Manga = ({ location, filter, items, loadManga }) => (
   <BaseListView
-    routeKey={routeKey}
+    routeKey={location.key}
     type={Strings.manga}
     loadDataForTypedList={loadManga}
     items={items}
@@ -17,13 +17,11 @@ const Manga = ({ routeKey, filter, items, loadManga }) => (
 )
 
 Manga.propTypes = {
-  routeKey: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   filter: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  routeKey: ownProps.location.key,
   items: mapStateToEntityList(state.entities.manga),
   filter: mapUrlFilterToEntityObject(ownProps.params)
 })

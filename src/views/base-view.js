@@ -20,6 +20,8 @@ class BaseView extends Component {
     this.state = {
       hasHistory: false
     }
+
+    this.handleHistoryDelete = this.handleHistoryDelete.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +31,11 @@ class BaseView extends Component {
   fetchHistory() {
     loadHistory(this.props);
     this.setState({ hasHistory: true });
+  }
+
+  handleHistoryDelete(historyId) {
+    console.log('delete history > ', historyId);
+    // this.props.deleteAction(historyId);
   }
 
   render() {
@@ -121,6 +128,7 @@ class BaseView extends Component {
                   <HistoryList
                     type={type}
                     items={this.props.history}
+                    deleteAction={this.handleHistoryDelete}
                   />
                 }
                 </div>
@@ -161,7 +169,8 @@ BaseView.propTypes = {
   history: PropTypes.arrayOf(PropTypes.object),
   isFetching: PropTypes.bool.isRequired,
   loadItemById: PropTypes.func.isRequired,
-  loadHistoryForSeries: PropTypes.func.isRequired
+  loadHistoryForSeries: PropTypes.func.isRequired,
+  deleteAction: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({

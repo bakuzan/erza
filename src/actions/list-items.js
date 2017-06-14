@@ -87,6 +87,8 @@ export const mutateHistoryItem = (item, queryBuilder) => {
       .then(response => {
         console.log(`%c History  created`, 'font-size: 20px; color: indigo')
         dispatch(finishGraphqlRequest());
+        const data = response.data[getSingleObjectProperty(response.data)];
+        toaster.success('Saved!', `Successfully saved '${data.record.series.title}'.`);
       });
   }
 }

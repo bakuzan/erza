@@ -9,6 +9,11 @@ export const createChapter = item => mutateHistoryItem(
   ChapterML.createChapter
 )
 
+export const deleteChapter = id => mutateHistoryItem(
+  id,
+  ChapterML.removeChapter
+)
+
 export const loadChaptersByDateRange = (filters = {}, pageChange = null) => loadHistoryByDateRange({
     pageChange,
     filters,

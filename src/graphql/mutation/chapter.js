@@ -11,8 +11,22 @@ const createChapter = chapter => (`
   }
 `)
 
+const removeChapter = id => (`
+  mutation {
+    chapterRemoveById(_id: "${id}") {
+      record {
+        chapter
+        series {
+          title
+        }
+      }
+    }
+  }
+`)
+
 const ChapterML = {
-  createChapter
+  createChapter,
+  removeChapter
 }
 
 export default ChapterML

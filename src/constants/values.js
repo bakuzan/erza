@@ -67,6 +67,7 @@ export const Strings = {
   noItemsAvailable: 'No items were found.',
   create: 'Create',
   edit: 'Edit',
+  delete: 'Delete',
   back: 'Back',
   cancel: 'cancel',
   filters: {
@@ -79,6 +80,7 @@ export const Strings = {
   manga: 'manga',
   history: 'history',
   monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  deleteConfirmation: 'Are you sure you want to delete this entry?',
   // theme
   light: 'Light',
   dark: 'Dark',

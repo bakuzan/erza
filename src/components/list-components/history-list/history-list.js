@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import HistoryListItem from './history-list-item'
 import './history-list.css'
 
-const renderHistoryListItems = (type, items) => {
+const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
   let list = [], previousSeries = null;
   items.sort((x, y) => {
     const z = y.date - x.date;
@@ -14,12 +14,20 @@ const renderHistoryListItems = (type, items) => {
       previousSeries = item.series._id;
     }
 
-    list.push(<HistoryListItem key={item._id} type={type} item={item} />)
+    list.push(
+      <HistoryListItem
+        key={item._id}
+        type={type}
+        item={item}
+        editAction={editAction}
+        deleteAction={deleteAction}
+      />
+    )
   })
   return list;
 }
 
-const HistoryList = ({ items, type }) => (
+const HistoryList = ({ items, type, editAction, deleteAction }) => (
   <ul className="list column one">
     {
       items.length === 0 ? (
@@ -27,14 +35,16 @@ const HistoryList = ({ items, type }) => (
           <p>No items to display.</p>
         </li>
       ) :
-      renderHistoryListItems(type, items)
+      renderHistoryListItems(type, items, { editAction, deleteAction })
     }
   </ul>
 );
 
 HistoryList.propTypes = {
   type: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  editAction: PropTypes.func,
+  deleteAction: PropTypes.func
 }
 
 export default HistoryList
