@@ -1,23 +1,24 @@
-import {
-  GRAPHQL_REQUEST, GRAPHQL_SUCCESS,
-  ANIME_LOAD, MANGA_LOAD
-} from '../constants/actions'
 import { browserHistory } from 'react-router'
-import { loadEpisodeData } from './episode'
-import { loadChapterData } from './chapter'
-import {resetPageToZero, loadPageInfo} from './paging'
 
-import toaster from '../utils/toaster'
-import {getSingleObjectProperty} from '../utils/common'
-import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
+import {resetPageToZero, loadPageInfo} from './paging'
+import toaster from '../utils/toaster'
+import {getSingleObjectProperty} from '../utils/common'
+import {
+  GRAPHQL_REQUEST, GRAPHQL_SUCCESS,
+  ANIME_LOAD, MANGA_LOAD, EPISODE_LOAD, CHAPTER_LOAD
+} from '../constants/actions'
+import {Paths} from '../constants/paths'
 import { Strings } from '../constants/values'
+
 
 const hydrateState = type => data => ({ type, data })
 const loadItemsToState = {
   [Strings.anime]: hydrateState(ANIME_LOAD),
-  [Strings.manga]: hydrateState(MANGA_LOAD)
+  [Strings.manga]: hydrateState(MANGA_LOAD),
+  [Strings.episode]: hydrateState(EPISODE_LOAD),
+  [Strings.chapter]: hydrateState(CHAPTER_LOAD)
 }
 
 const redirectPostAction = type => browserHistory.push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);
@@ -76,10 +77,6 @@ export const loadItemsById = (type, queryString) => {
 
 
 // HISTORY ACTION CREATORS
-const loadHistoryToState = {
-  [Strings.episode]: loadEpisodeData,
-  [Strings.chapter]: loadChapterData
-}
 
 export const mutateHistoryItem = (item, queryBuilder) => {
   return function(dispatch) {
@@ -105,7 +102,7 @@ export const loadHistoryByDateRange = ({ type, filters, pageChange }, queryBuild
       .then(response => {
         const data = response.data[getSingleObjectProperty(response.data)];
         console.log('load items >> ', type, loadItemsToState);
-        dispatch(loadHistoryToState[type](data.edges));
+        dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
       .then(() => dispatch(finishGraphqlRequest()) );
@@ -116,7 +113,7 @@ export const loadHistoryForSeries = (type, queryString) => {
   return function(dispatch) {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
-      .then(response => dispatch(loadHistoryToState[type](response.data[getSingleObjectProperty(response.data)])) )
+      .then(response => dispatch(loadItemsToState[type](response.data[getSingleObjectProperty(response.data)])) )
       .then(() => dispatch(finishGraphqlRequest()) );
   }
 }
