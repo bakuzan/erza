@@ -3,6 +3,7 @@ import RatingControl from '../../rating-control/rating-control';
 import {padNumber} from '../../../utils/common'
 import {getUniquePropertiesForItemType} from '../../../utils/data'
 import {formatDateISO, formatDateTimeForDisplay} from '../../../utils/date'
+import {Icons} from '../../../constants/values'
 
 const HistoryListItem = ({ item, type }) => {
   const {current} = getUniquePropertiesForItemType(type);
@@ -25,6 +26,29 @@ const HistoryListItem = ({ item, type }) => {
       {
         !!item.note &&
         <span>{item.note}</span>
+      }
+      {
+          (!!editAction || !!deleteAction) &&
+          <div className="list-item-actions">
+          {
+            !!editAction &&
+            <button 
+              type="button"
+              className="button-icon small"
+              icon={Icons.editable}
+              onClick={editAction}
+            ></button>
+          }
+          {
+            !!deleteAction &&
+            <button 
+              type="button"
+              className="button-icon small"
+              icon={Icon.cross}
+              onClick={deleteAction}
+            ></button>
+          }
+          </div>
       }
     </li>
   )
