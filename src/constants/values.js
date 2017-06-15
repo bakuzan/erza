@@ -113,5 +113,7 @@ export const Icons = {
 }
 
 export const Types = {
-  string: 'string'
+  string: 'string',
+  object: 'object',
+  boolean: 'boolean'
 }
