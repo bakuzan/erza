@@ -30,12 +30,9 @@ const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
 const HistoryList = ({ items, type, editAction, deleteAction }) => (
   <ul className="list column one">
     {
-      items.length === 0 ? (
-        <li>
-          <p>No items to display.</p>
-        </li>
-      ) :
-      renderHistoryListItems(type, items, { editAction, deleteAction })
+      items.length === 0
+      ? ( <li> <p>No items to display.</p> </li> )
+      : renderHistoryListItems(type, items, { editAction, deleteAction })
     }
   </ul>
 );

@@ -27,7 +27,7 @@ class Dialog extends Component {
   }
 
   render() {
-    const dialogStyle = { 'top': `calc(${window.scrollY}px + 50vh)` };
+    const dialogStyle = { 'top': !!this.props.localised ? '0' : `calc(${window.scrollY}px + 50vh)` };
     const hasTitle = !!this.props.title;
     const hasAction = !!this.props.action;
 

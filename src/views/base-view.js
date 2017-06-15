@@ -34,8 +34,7 @@ class BaseView extends Component {
   }
 
   handleHistoryDelete(historyId) {
-    console.log('delete history > ', historyId);
-    // this.props.deleteAction(historyId);
+    this.props.deleteAction(historyId);
   }
 
   render() {

@@ -1,12 +1,18 @@
 import EpisodeQL from '../graphql/query/episode'
 import EpisodeML from '../graphql/mutation/episode'
-import {loadHistoryForSeries, mutateHistoryItem, loadHistoryByDateRange} from './list-items'
+import {loadHistoryForSeries, mutateHistoryItem, removeHistoryItem, loadHistoryByDateRange} from './list-items'
 import {Strings} from '../constants/values'
 
 
 export const createEpisode = (item) => mutateHistoryItem(
   item,
   EpisodeML.createEpisode
+)
+
+export const deleteEpisode = id => removeHistoryItem(
+  Strings.episode,
+  id,
+  EpisodeML.removeChapter
 )
 
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => loadHistoryByDateRange({

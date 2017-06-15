@@ -1,6 +1,6 @@
 import ChapterQL from '../graphql/query/chapter'
 import ChapterML from '../graphql/mutation/chapter'
-import {loadHistoryForSeries, mutateHistoryItem, loadHistoryByDateRange} from './list-items'
+import {loadHistoryForSeries, mutateHistoryItem, removeHistoryItem, loadHistoryByDateRange} from './list-items'
 import {Strings} from '../constants/values'
 
 
@@ -9,7 +9,8 @@ export const createChapter = item => mutateHistoryItem(
   ChapterML.createChapter
 )
 
-export const deleteChapter = id => mutateHistoryItem(
+export const deleteChapter = id => removeHistoryItem(
+  Strings.chapter,
   id,
   ChapterML.removeChapter
 )

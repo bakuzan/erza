@@ -54,3 +54,10 @@ export function createReducer(initialState, handlers) {
     }
   }
 }
+
+export function removeEntityById(state, action) {
+  return update(state, {
+    allIds: { $set: state.allIds.filter(x => x !== action.id) },
+    byId: { $unset: state.byId[action.id] }
+  })
+}

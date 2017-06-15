@@ -7,18 +7,25 @@ import toaster from '../utils/toaster'
 import {getSingleObjectProperty} from '../utils/common'
 import {
   GRAPHQL_REQUEST, GRAPHQL_SUCCESS,
-  ANIME_LOAD, MANGA_LOAD, EPISODE_LOAD, CHAPTER_LOAD
+  ANIME_LOAD, MANGA_LOAD, EPISODE_LOAD, CHAPTER_LOAD,
+  EPISODE_REMOVE, CHAPTER_REMOVE
 } from '../constants/actions'
 import {Paths} from '../constants/paths'
 import { Strings } from '../constants/values'
 
 
 const hydrateState = type => data => ({ type, data })
+const dehydrateState = type => id => ({ type, id })
 const loadItemsToState = {
   [Strings.anime]: hydrateState(ANIME_LOAD),
   [Strings.manga]: hydrateState(MANGA_LOAD),
   [Strings.episode]: hydrateState(EPISODE_LOAD),
   [Strings.chapter]: hydrateState(CHAPTER_LOAD)
+}
+
+const removeItemFromState = {
+  [Strings.episode]: dehydrateState(EPISODE_REMOVE),
+  [Strings.chapter]: dehydrateState(CHAPTER_REMOVE)
 }
 
 const redirectPostAction = type => browserHistory.push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);
@@ -89,6 +96,21 @@ export const mutateHistoryItem = (item, queryBuilder) => {
         dispatch(finishGraphqlRequest());
         const data = response.data[getSingleObjectProperty(response.data)];
         toaster.success('Saved!', `Successfully saved '${data.record.series.title}'.`);
+      });
+  }
+}
+
+export const removeHistoryItem = (type, id, queryBuilder) => {
+  return function(dispatch) {
+    dispatch(startingGraphqlRequest());
+    const mutation = queryBuilder(id);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
+      .then(response => {
+        console.log(`%c History  created`, 'font-size: 20px; color: indigo')
+        dispatch(removeItemFromState[type](id));
+        dispatch(finishGraphqlRequest());
+        const data = response.data[getSingleObjectProperty(response.data)];
+        toaster.success('Deleted!', `Successfully deleted '${data.record.series.title}' history entry.`);
       });
   }
 }

@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 
 import BaseView from '../base-view'
 import {loadAnimeById} from '../../actions/anime'
-import {loadEpisodeForSeries} from '../../actions/episode'
+import {loadEpisodeForSeries, deleteEpisode} from '../../actions/episode'
 import {mapStateToEntity, mapStateToEntityList} from '../../utils/data'
 import {Strings} from '../../constants/values'
 
-const AnimeView = ({ itemId, item, history, loadAnimeById, loadEpisodeForSeries }) => (
+const AnimeView = ({ itemId, item, history, loadAnimeById, loadEpisodeForSeries, deleteEpisode }) => (
   <BaseView
     type={Strings.anime}
     itemId={itemId}
@@ -15,6 +15,7 @@ const AnimeView = ({ itemId, item, history, loadAnimeById, loadEpisodeForSeries 
     history={history}
     loadItemById={loadAnimeById}
     loadHistoryForSeries={loadEpisodeForSeries}
+    deleteAction={deleteEpisode}
   />
 )
 
@@ -23,7 +24,8 @@ AnimeView.propTypes = {
   item: PropTypes.object.isRequired,
   history: PropTypes.arrayOf(PropTypes.object),
   loadAnimeById: PropTypes.func.isRequired,
-  loadEpisodeForSeries: PropTypes.func.isRequired
+  loadEpisodeForSeries: PropTypes.func.isRequired,
+  deleteEpisode: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -34,7 +36,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   loadAnimeById,
-  loadEpisodeForSeries
+  loadEpisodeForSeries,
+  deleteEpisode
 }
 
 export default connect(

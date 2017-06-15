@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import RatingControl from '../../rating-control/rating-control';
 import Dialog from '../../dialog/dialog';
+import ClearableInput from '../../clearable-input/clearable-input';
 import {padNumber, capitalise} from '../../../utils/common'
 import {getUniquePropertiesForItemType} from '../../../utils/data'
 import {formatDateISO, formatDateTimeForDisplay} from '../../../utils/date'
@@ -9,14 +10,17 @@ import {Strings, Icons} from '../../../constants/values'
 
 class HistoryListItem extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      isEditing: false
+      isEditing: false,
+      note: props.note
     }
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
     this.showDeleteDialog = this.showDeleteDialog.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
@@ -27,15 +31,23 @@ class HistoryListItem extends Component {
   showDeleteDialog() {
     this.deleteDialog.show();
   }
-  
+
+  confirmDelete() {
+    this.props.deleteAction(this.props.item._id);
+    this.deleteDialog.close();
+  }
+
+  toggleEdit() {
+    this.setState(prev => ({ isEditing: !prev.isEditing }));
+  }
+
+  confirmEdit() {
+    this.props.editAction(this.props.item._id, this.state.note);
+    this.toggleEdit();
+  }
+
   handleUserInput(event) {
-    const {name, value} = event.target;
-    
-    this.setState(prevState => {
-      const prevValue = prevState[name];
-      const isBool = typeof(prevValue) === "boolean";
-      return { [name]: isBool ? !prevValue : value }
-    });
+    this.setState({ note: event.target.value });
   }
 
   render() {
@@ -65,7 +77,9 @@ class HistoryListItem extends Component {
           ? ( <span>{ item.note }</span> )
           : (
               <ClearableInput
-
+                name="note"
+                search={this.state.note}
+                onChange={this.handleUserInput}
               />
             )
         }
@@ -79,7 +93,7 @@ class HistoryListItem extends Component {
                 className="button-icon small"
                 title="Save entry"
                 icon={Icons.editable}
-                onClick={() => editAction(item._id, noteValue)}
+                onClick={this.confirmEdit}
               ></button>
             }
             {
@@ -90,7 +104,7 @@ class HistoryListItem extends Component {
                 className="button-icon small"
                 title="Edit entry"
                 icon={Icons.editable}
-                onClick={this.handleUserInput}
+                onClick={this.toggleEdit}
               ></button>
             }
             {
@@ -106,9 +120,10 @@ class HistoryListItem extends Component {
               <Dialog
                 name="historyDelete"
                 title={`Delete ${capitalisedCurrent} ${number}`}
+                localised="true"
                 getDialogRef={this.assignDialogRef}
                 actionText={Strings.delete}
-                action={() => deleteAction(item._id)}
+                action={this.confirmDelete}
                 >
                   <p>{ Strings.deleteConfirmation }</p>
                 </Dialog>
