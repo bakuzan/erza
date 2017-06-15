@@ -11,9 +11,13 @@ class HistoryListItem extends Component {
 
   constructor() {
     super();
+    this.state = {
+      isEditing: false
+    }
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
     this.showDeleteDialog = this.showDeleteDialog.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
   }
 
   assignDialogRef(element) {
@@ -22,6 +26,16 @@ class HistoryListItem extends Component {
 
   showDeleteDialog() {
     this.deleteDialog.show();
+  }
+  
+  handleUserInput(event) {
+    const {name, value} = event.target;
+    
+    this.setState(prevState => {
+      const prevValue = prevState[name];
+      const isBool = typeof(prevValue) === "boolean";
+      return { [name]: isBool ? !prevValue : value }
+    });
   }
 
   render() {
@@ -47,20 +61,36 @@ class HistoryListItem extends Component {
           }
         </div>
         {
-          !!item.note &&
-          <span>{item.note}</span>
+          !this.state.isEditing
+          ? ( <span>{ item.note }</span> )
+          : (
+              <ClearableInput
+
+              />
+            )
         }
         {
             (!!editAction || !!deleteAction) &&
             <div className="list-item-actions">
             {
-              !!editAction &&
+              this.state.isEditing &&
               <button
                 type="button"
                 className="button-icon small"
+                title="Save entry"
+                icon={Icons.editable}
+                onClick={() => editAction(item._id, noteValue)}
+              ></button>
+            }
+            {
+              !!editAction &&
+              <button
+                type="button"
+                name="isEditing"
+                className="button-icon small"
                 title="Edit entry"
                 icon={Icons.editable}
-                onClick={editAction}
+                onClick={this.handleUserInput}
               ></button>
             }
             {
