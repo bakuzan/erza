@@ -1,5 +1,5 @@
 import update from 'immutability-helper'
-import {Strings} from '../constants/values'
+import {Strings, Types} from '../constants/values'
 
 export const capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 export const parseIfInt = (val) => parseInt(val, 10) || val;
@@ -47,3 +47,8 @@ export const debounce = (f, t) => {
 }
 
 export const updateSameAsObject = (o, u) => u && Object.keys(u).map(k => o[k] === u[k]).every(x => x === true);
+
+const isTypeOf = t => v => typeof(v) === t;
+export const isObject = v => isTypeOf(Types.object);
+export const isString = v => isTypeOf(Types.string);
+export const isArray = v => v instanceof Array;
