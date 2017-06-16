@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import { createAnime, editAnime } from '../../actions/anime'
 import { Strings, Enums } from '../../constants/values'
 import { Paths } from '../../constants/paths'
-import { capitalise, getEventValue, updateSameAsObject } from '../../utils/common'
+import { capitalise, getEventValue, updateSameAsObject, isObject } from '../../utils/common'
 import { formatDateForInput } from '../../utils/date'
 import { mapStateToEntityList, intergrateMalEntry } from '../../utils/data'
 import AnimeValidator from '../../utils/validators/anime-creation'
@@ -45,7 +45,7 @@ class AnimeCreate extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && typeof x === 'object')) return;
+    if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && isObject(x))) return;
     console.log('will get props >> ', nextProps, nextState);
     this.setState(nextProps.item);
   }
