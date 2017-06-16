@@ -1,4 +1,5 @@
 import {Types, NonPostableProperties} from '../constants/values'
+import {isString, isArray} from '../utils/common'
 
 export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }) => {
   const first = page * itemsPerPage + itemsPerPage;
@@ -15,10 +16,11 @@ const appendKeyBreak = appendCharacter('}');
 
 // eslint-disable-next-line
 const processArray = v => v.length > 0 ? v.reduce((ac, cu, i) => `${ac} ${processType(cu)}${appendArrayBreak(v, i)}`, '[') : '[]';
-const processType = (v) =>
-  ((v || v === "") && typeof(v) === Types.string) ? `"${v}"` :
-                             (v instanceof Array) ? processArray(v) :
-                                                    v;
+const processType = (v) => ((v || v === "") && isString(v)) 
+  ? `"${v}"` 
+  : isArray(v) 
+      ? processArray(v) 
+      : v;
 
 export const constructRecordForPost = (record) => {
   return Object.keys(record)
