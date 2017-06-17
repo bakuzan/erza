@@ -21,6 +21,7 @@ class BaseView extends Component {
       hasHistory: false
     }
 
+    this.handleHistoryEdit = this.handleHistoryEdit.bind(this);
     this.handleHistoryDelete = this.handleHistoryDelete.bind(this);
   }
 
@@ -31,6 +32,10 @@ class BaseView extends Component {
   fetchHistory() {
     loadHistory(this.props);
     this.setState({ hasHistory: true });
+  }
+
+  handleHistoryEdit(item) {
+    this.props.editAction(item);
   }
 
   handleHistoryDelete(historyId) {
@@ -127,6 +132,7 @@ class BaseView extends Component {
                   <HistoryList
                     type={type}
                     items={this.props.history}
+                    editAction={this.handleHistoryEdit}
                     deleteAction={this.handleHistoryDelete}
                   />
                 }
@@ -169,6 +175,7 @@ BaseView.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   loadItemById: PropTypes.func.isRequired,
   loadHistoryForSeries: PropTypes.func.isRequired,
+  editAction: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired
 }
 

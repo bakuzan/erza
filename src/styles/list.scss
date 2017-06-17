@@ -52,3 +52,8 @@ $columns: (
     font-weight: bold;
   }
 }
+
+.list-item-actions {
+  display: flex;
+  align-items: center;
+}

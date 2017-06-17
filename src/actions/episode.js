@@ -9,6 +9,12 @@ export const createEpisode = (item) => mutateHistoryItem(
   EpisodeML.createEpisode
 )
 
+export const editEpisode = item => mutateHistoryItem(
+  item,
+  EpisodeML.updateEpisodeById,
+  Strings.episode
+)
+
 export const deleteEpisode = id => removeHistoryItem(
   Strings.episode,
   id,

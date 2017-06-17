@@ -1,11 +1,21 @@
 import {Strings} from '../../constants/values'
-import {historyKeyFields} from '../common'
+import {historyKeyFieldsWithSeries} from '../common'
 
 const createChapter = chapter => (`
   mutation {
     chapterCreate(record: ${chapter}) {
       record: record {
-        ${historyKeyFields(Strings.chapter)}
+        ${historyKeyFieldsWithSeries(Strings.chapter)}
+      }
+    }
+  }
+`)
+
+const updateChapterById = chapter => (`
+  mutation {
+    chapterUpdateById(record: ${chapter}) {
+      record: record {
+        ${historyKeyFieldsWithSeries(Strings.chapter)}
       }
     }
   }
@@ -26,6 +36,7 @@ const removeChapter = id => (`
 
 const ChapterML = {
   createChapter,
+  updateChapterById,
   removeChapter
 }
 

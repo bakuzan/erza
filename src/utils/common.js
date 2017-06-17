@@ -49,6 +49,6 @@ export const debounce = (f, t) => {
 export const updateSameAsObject = (o, u) => u && Object.keys(u).map(k => o[k] === u[k]).every(x => x === true);
 
 const isTypeOf = t => v => typeof(v) === t;
-export const isObject = v => isTypeOf(Types.object);
-export const isString = v => isTypeOf(Types.string);
+export const isObject = isTypeOf(Types.object);
+export const isString = isTypeOf(Types.string);
 export const isArray = v => v instanceof Array;

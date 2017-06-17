@@ -110,7 +110,8 @@ export const Icons = {
   pause: '\u2223\u2223', //'\u23F8', //9208, //'\u23F8',
   clockwise: '\uD83D\uDD01', // 10227, //'\u27F3'
   link: '\uD83D\uDD17',
-  editable: '\uD83D\uDD89'
+  editable: '\u270E', //'\uD83D\uDD89',
+  save: '\uD83D\uDCBE'
 }
 
 export const Types = {

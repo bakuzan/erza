@@ -8,6 +8,7 @@ import {getSingleObjectProperty} from '../utils/common'
 import {
   GRAPHQL_REQUEST, GRAPHQL_SUCCESS,
   ANIME_LOAD, MANGA_LOAD, EPISODE_LOAD, CHAPTER_LOAD,
+  EPISODE_REFRESH, CHAPTER_REFRESH,
   EPISODE_REMOVE, CHAPTER_REMOVE
 } from '../constants/actions'
 import {Paths} from '../constants/paths'
@@ -15,12 +16,18 @@ import { Strings } from '../constants/values'
 
 
 const hydrateState = type => data => ({ type, data })
+const refreshState = type => item => ({ type, item })
 const dehydrateState = type => id => ({ type, id })
 const loadItemsToState = {
   [Strings.anime]: hydrateState(ANIME_LOAD),
   [Strings.manga]: hydrateState(MANGA_LOAD),
   [Strings.episode]: hydrateState(EPISODE_LOAD),
   [Strings.chapter]: hydrateState(CHAPTER_LOAD)
+}
+
+const refreshItemInState = {
+  [Strings.episode]: refreshState(EPISODE_REFRESH),
+  [Strings.chapter]: refreshState(CHAPTER_REFRESH)
 }
 
 const removeItemFromState = {
@@ -85,7 +92,7 @@ export const loadItemsById = (type, queryString) => {
 
 // HISTORY ACTION CREATORS
 
-export const mutateHistoryItem = (item, queryBuilder) => {
+export const mutateHistoryItem = (item, queryBuilder, type = null) => {
   return function(dispatch) {
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
@@ -93,8 +100,9 @@ export const mutateHistoryItem = (item, queryBuilder) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         console.log(`%c History  created`, 'font-size: 20px; color: indigo')
-        dispatch(finishGraphqlRequest());
         const data = response.data[getSingleObjectProperty(response.data)];
+        if (type) dispatch(refreshItemInState[type](data.record));
+        dispatch(finishGraphqlRequest());
         toaster.success('Saved!', `Successfully saved '${data.record.series.title}'.`);
       });
   }

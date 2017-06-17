@@ -14,13 +14,14 @@ class HistoryListItem extends Component {
     super(props);
     this.state = {
       isEditing: false,
-      note: props.note
+      note: props.item.note || ''
     }
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
     this.showDeleteDialog = this.showDeleteDialog.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.confirmEdit = this.confirmEdit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
@@ -42,7 +43,8 @@ class HistoryListItem extends Component {
   }
 
   confirmEdit() {
-    this.props.editAction(this.props.item._id, this.state.note);
+    const updateObject = Object.assign({}, this.props.item, { note: this.state.note });
+    this.props.editAction(updateObject);
     this.toggleEdit();
   }
 
@@ -56,6 +58,7 @@ class HistoryListItem extends Component {
     const capitalisedCurrent = capitalise(current);
     const number = padNumber(item[current], 3);
 
+    console.log(`history-list-item > ${item[current]} => `, this.state);
     return (
       <li className="history-list-item">
         <time dateTime={formatDateISO(item.date)}>{ formatDateTimeForDisplay(item.date) }</time>
@@ -92,7 +95,7 @@ class HistoryListItem extends Component {
                 type="button"
                 className="button-icon small"
                 title="Save entry"
-                icon={Icons.editable}
+                icon={Icons.save}
                 onClick={this.confirmEdit}
               ></button>
             }
@@ -102,13 +105,13 @@ class HistoryListItem extends Component {
                 type="button"
                 name="isEditing"
                 className="button-icon small"
-                title="Edit entry"
-                icon={Icons.editable}
+                title={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
+                icon={this.state.isEditing ? Icons.cross : Icons.editable}
                 onClick={this.toggleEdit}
               ></button>
             }
             {
-              !!deleteAction &&
+              !!deleteAction && !this.state.isEditing &&
               <span className="delete-action">
                 <button
                   type="button"

@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 
 import BaseView from '../base-view'
 import {loadMangaById} from '../../actions/manga'
-import {loadChapterForSeries, deleteChapter} from '../../actions/chapter'
+import {loadChapterForSeries, editChapter, deleteChapter} from '../../actions/chapter'
 import {mapStateToEntity, mapStateToEntityList} from '../../utils/data'
 import {Strings} from '../../constants/values'
 
-const MangaView = ({ itemId, item, history, loadMangaById, loadChapterForSeries, deleteChapter }) => (
+const MangaView = ({ itemId, item, history, loadMangaById, loadChapterForSeries, deleteChapter, editChapter }) => (
   <BaseView
     type={Strings.manga}
     itemId={itemId}
@@ -15,6 +15,7 @@ const MangaView = ({ itemId, item, history, loadMangaById, loadChapterForSeries,
     history={history}
     loadItemById={loadMangaById}
     loadHistoryForSeries={loadChapterForSeries}
+    editAction={editChapter}
     deleteAction={deleteChapter}
   />
 )
@@ -25,6 +26,7 @@ MangaView.propTypes = {
   history: PropTypes.arrayOf(PropTypes.object),
   loadMangaById: PropTypes.func.isRequired,
   loadChapterForSeries: PropTypes.func.isRequired,
+  editChapter: PropTypes.func.isRequired,
   deleteChapter: PropTypes.func.isRequired
 }
 
@@ -37,6 +39,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = {
   loadMangaById,
   loadChapterForSeries,
+  editChapter,
   deleteChapter
 }
 
