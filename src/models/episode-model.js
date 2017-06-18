@@ -8,7 +8,8 @@ class EpisodeModel extends BaseHistoryModel {
 
   initaliseDefaults() {
     return Object.assign({}, super.initaliseDefaults(), {
-      episode: 0
+      episode: 0,
+      date: Date.now()
     });
   }
 }

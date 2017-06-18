@@ -9,7 +9,7 @@ class BaseHistoryModel {
       date: Date.now(),
       note: '',
       rating: null
-    }
+    };
   }
 }
 

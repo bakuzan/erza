@@ -10,7 +10,6 @@ import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
 
 const getStatusList = props => {
   const { name, value } = props.statusFilter;
-  console.log(name, value);
   let statusIn = !!value && !!value.length ? value : [value];
   return (name === Strings.filters.ongoing) ? statusIn.concat([Enums.status.onhold]) : statusIn;
 }
@@ -42,7 +41,7 @@ class BaseListView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
+    // console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
     if (
       nextProps.routeKey !== this.props.routeKey ||
       nextProps.statusFilter.value !== this.props.statusFilter.value ||

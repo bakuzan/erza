@@ -1,11 +1,11 @@
 import {Strings} from '../../constants/values'
-import {historyKeyFieldsWithSeries} from '../common'
+import {historyKeyFields} from '../common'
 
 const createEpisode = episode => (`
   mutation {
     episodeCreate(record: ${episode}) {
       record: record {
-        ${historyKeyFieldsWithSeries(Strings.episode)}
+        ${historyKeyFields(Strings.episode)}
       }
     }
   }
@@ -15,7 +15,7 @@ const updateEpisodeById = episode => (`
   mutation {
     episodeUpdateById(record: ${episode}) {
       record: record {
-        ${historyKeyFieldsWithSeries(Strings.episode)}
+        ${historyKeyFields(Strings.episode)}
       }
     }
   }

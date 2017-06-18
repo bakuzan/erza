@@ -72,7 +72,6 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data[getSingleObjectProperty(response.data)];
-        console.log('load items >> ', type, loadItemsToState);
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
@@ -103,7 +102,7 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
         const data = response.data[getSingleObjectProperty(response.data)];
         if (type) dispatch(refreshItemInState[type](data.record));
         dispatch(finishGraphqlRequest());
-        toaster.success('Saved!', `Successfully saved '${data.record.series.title}'.`);
+        toaster.success('Saved!', `Successfully saved '${data.record[type] || 'history'}'.`);
       });
   }
 }

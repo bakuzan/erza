@@ -8,7 +8,8 @@ class ChapterModel extends BaseHistoryModel {
 
   initaliseDefaults() {
     return Object.assign({}, super.initaliseDefaults(), {
-      chapter: 0
+      chapter: 0,
+      date: Date.now()
     });
   }
 }

@@ -18,7 +18,7 @@ export const editEpisode = item => mutateHistoryItem(
 export const deleteEpisode = id => removeHistoryItem(
   Strings.episode,
   id,
-  EpisodeML.removeChapter
+  EpisodeML.removeEpisode
 )
 
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) => loadHistoryByDateRange({
