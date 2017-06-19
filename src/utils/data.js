@@ -1,3 +1,5 @@
+import AnimeModel from '../models/anime-model'
+import MangaModel from '../models/manga-model'
 import EpisodeModel from '../models/episode-model'
 import ChapterModel from '../models/chapter-model'
 import {dateStringToISOString} from './date'
@@ -48,10 +50,11 @@ export const getHistoryNameForItemType = t => t === Strings.anime
   ? Properties.episode
   : Properties.chapter;
 
+export const itemModelForType = t => obj => t === Strings.anime ? new AnimeModel(obj) : new MangaModel(obj);
 
 export const intergrateMalEntry = type => (model, malItem) => {
   if (!malItem) return Object.assign({}, model, { malId: null });
-  
+
   const {current, total} = getUniquePropertiesForItemType(type);
   return Object.assign({}, model, {
     image: malItem.image,

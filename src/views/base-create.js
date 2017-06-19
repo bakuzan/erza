@@ -1,23 +1,23 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router'
-import { Strings, Enums } from '../../constants/values'
-import { Paths } from '../../constants/paths'
-import { capitalise, getEventValue, updateSameAsObject, isObject } from '../../utils/common'
-import { formatDateForInput } from '../../utils/date'
-import { mapStateToEntityList, intergrateMalEntry, getUniquePropertiesForItemType } from '../../utils/data'
-import AnimeValidator from '../../utils/validators/anime-creation'
-import AnimeModel from '../../models/anime-model';
-import RatingControl from '../../components/rating-control/rating-control';
-import Tickbox from '../../components/tickbox/tickbox';
-import SelectBox from '../../components/select-box/select-box';
-import InputList from '../../components/input-list/input-list';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import TabContainer from '../../components/tab-container/tab-container'
-import TabView from '../../components/tab-view/tab-view'
-import FileUploader from '../../components/file-uploader/file-uploader'
-import MalSearch from '../../components/mal-search/mal-search'
-import { loadTags } from '../../actions/tags'
+import { Strings, Enums } from '../constants/values'
+import { Paths } from '../constants/paths'
+import { capitalise, getEventValue, updateSameAsObject, isObject } from '../utils/common'
+import { formatDateForInput } from '../utils/date'
+import { mapStateToEntityList, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
+import AnimeValidator from '../utils/validators/anime-creation'
+import MangaValidator from '../utils/validators/manga-creation'
+import RatingControl from '../components/rating-control/rating-control';
+import Tickbox from '../components/tickbox/tickbox';
+import SelectBox from '../components/select-box/select-box';
+import InputList from '../components/input-list/input-list';
+import LoadingSpinner from '../components/loading-spinner/loading-spinner';
+import TabContainer from '../components/tab-container/tab-container'
+import TabView from '../components/tab-view/tab-view'
+import FileUploader from '../components/file-uploader/file-uploader'
+import MalSearch from '../components/mal-search/mal-search'
+import { loadTags } from '../actions/tags'
 
 const loadData = props => {
   props.loadTags();
@@ -41,6 +41,7 @@ class BaseCreate extends Component {
   componentDidMount() {
     loadData(this.props);
     this.hydrateMalFields = intergrateMalEntry(this.props.type);
+    this.validator = this.props.type === Strings.anime ? AnimeValidator : MangaValidator;
   }
 
   componentWillReceiveProps(nextProps, nextState) {
@@ -59,7 +60,7 @@ class BaseCreate extends Component {
     const updatedValue = getEventValue(target);
     this.setState((prevState) => {
       const updatedState = Object.assign({}, prevState, { [target.name]: updatedValue });
-      return AnimeValidator.validateAnimeChanges(updatedState, target.name);
+      return this.validator.validateChanges(updatedState, target.name);
     });
   }
 
@@ -69,7 +70,7 @@ class BaseCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    AnimeValidator.validateAnimeSubmission(this.state).then(item => {
+    this.validator.validateSubmission(this.state).then(item => {
       if (this.props.isCreate) return this.props.create(item);
       return this.props.edit(item);
     })
@@ -93,7 +94,7 @@ class BaseCreate extends Component {
           </h4>
         </header>
         <div className="width-100 flex-row">
-          <div className="series-image-container">
+          <div className="series-image-container full">
           {
             this.state.image && this.state.image.startsWith('blob:') &&
             <div>
@@ -102,7 +103,7 @@ class BaseCreate extends Component {
           }
             <img src={this.state.image} alt={`Cover for ${this.state.title || `${type} under creation.`}`} />
           </div>
-          <form name="animeForm"
+          <form name={`${type}Form`}
                 className="center-contents flex-column"
                 autoComplete="false"
                 noValidate=""
@@ -113,7 +114,7 @@ class BaseCreate extends Component {
                 <div className="flex-column">
                   <MalSearch
                     id={this.state.malId}
-                    type={Strings[type]}
+                    type={type}
                     search={this.state.title}
                     onUserInput={this.handleUserInput}
                     selectMalItem={this.handleMalSelect}
@@ -128,8 +129,23 @@ class BaseCreate extends Component {
                            placeholder=" "
                            onChange={this.handleUserInput}
                      />
-                    <label>episode</label>
+                    <label>{ current }</label>
                   </div>
+
+                  {
+                    type === Strings.manga &&
+                    <div className="has-float-label input-container">
+                      <input type="number"
+                             name="volume"
+                             value={this.state.volume}
+                             min="0"
+                             max={this.state.series_volumes || null}
+                             placeholder=" "
+                             onChange={this.handleUserInput}
+                       />
+                      <label>volume</label>
+                    </div>
+                  }
 
                   <div className="has-float-label input-container">
                     <input type="date"
@@ -194,9 +210,22 @@ class BaseCreate extends Component {
                       placeholder=" "
                       onChange={this.handleUserInput}
                       />
-                    <label>total episodes</label>
+                    <label>{`total ${current}s`}</label>
                   </div>
 
+                  {
+                    type === Strings.manga &&
+                    <div className="has-float-label input-container">
+                      <input type="number"
+                        name="series_volumes"
+                        value={this.state.series_volumes}
+                        min="0"
+                        placeholder=" "
+                        onChange={this.handleUserInput}
+                        />
+                      <label>total volumes</label>
+                    </div>
+                  }
                   <FileUploader
                     name="image"
                     value={this.state.image}
@@ -254,15 +283,15 @@ BaseCreate.propTypes = {
 
 const setEntityTags = (entities, item) => entities.tags.allIds.length === 0 ? item.tags : item.tags.map(_id => entities.tags.byId[_id]);
 const getInitalItem = (entities, props) => {
-  if (!props.itemId) return itemModelForType(props.type);
+  if (!props.itemId) return itemModelForType(props.type)();
   const item = entities[props.type].byId[props.itemId];
 
-  if (!anime) return new AnimeModel();
+  if (!item) return itemModelForType(props.type)();
   const itemForEdit = Object.assign({}, item, {
     tags: !!item.tags ? setEntityTags(entities, item) : []
   });
   console.log('%c get inital !! ', 'color: magenta;', itemForEdit);
-  return itemModelForType(props.type, itemForEdit);
+  return itemModelForType(props.type)(itemForEdit);
 }
 
 const mapStateToProps = (state, ownProps) => ({

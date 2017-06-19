@@ -7,10 +7,11 @@ import Home from './containers/home/home'
 
 import Anime from './views/anime/anime'
 import AnimeView from './views/anime/anime-view'
-import AnimeCreate from './containers/anime-create/anime-create'
+import AnimeCreate from './views/anime/anime-create'
 
 import Manga from './views/manga/manga'
 import MangaView from './views/manga/manga-view'
+import MangaCreate from './views/manga/manga-create'
 
 import AnimeHistoryView from './views/history/anime-history'
 import MangaHistoryView from './views/history/manga-history'
@@ -28,6 +29,8 @@ const Routes = ({ history }) => (
 
       <Route path={`${Paths.manga.list}(:filter)`} component={Manga} />
       <Route path={`${Paths.manga.view}(:id)`} component={MangaView} />
+      <Route path={Paths.manga.create} component={MangaCreate} />
+      <Route path={`${Paths.manga.edit}(:id)`} component={MangaCreate} />
 
       <Route path={`${Paths.history}${Strings.anime}`} component={AnimeHistoryView} />
       <Route path={`${Paths.history}${Strings.manga}`} component={MangaHistoryView} />

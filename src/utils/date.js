@@ -1,7 +1,6 @@
 import {Strings} from '../constants/values'
 import {padNumber} from './common'
 
-const BAD_MAL_DATE = '0000-00-00';
 
 const formatTime = date => date ? `${padNumber(new Date(date).getHours(), 2)}:${padNumber(new Date(date).getMinutes(), 2)}` : '';
 export const formatDateForDisplay = date => {
@@ -27,4 +26,9 @@ const setTimeForDate = (h, m, s) => date => {
 export const startOfDay = setTimeForDate(0, 0, 0)
 export const endOfDay = setTimeForDate(23, 59, 59)
 
-export const dateStringToISOString = s => !!s && s !== BAD_MAL_DATE ? new Date(s).toISOString() : null;
+
+const BAD_BLANK_MAL_DATE = '0000-00-00';
+const BAD_ONLY_YEAR_MAL_DATE = '-00-00';
+
+const isNotBadMalDate = s => s !== BAD_BLANK_MAL_DATE && s.indexOf(BAD_ONLY_YEAR_MAL_DATE) === -1;
+export const dateStringToISOString = s => !!s && isNotBadMalDate(s) ? new Date(s).toISOString() : null;
