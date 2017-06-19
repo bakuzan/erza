@@ -252,6 +252,19 @@ BaseCreate.propTypes = {
   typeaheadTags: PropTypes.arrayOf(PropTypes.object)
 }
 
+const setEntityTags = (entities, item) => entities.tags.allIds.length === 0 ? item.tags : item.tags.map(_id => entities.tags.byId[_id]);
+const getInitalItem = (entities, props) => {
+  if (!props.itemId) return itemModelForType(props.type);
+  const item = entities[props.type].byId[props.itemId];
+
+  if (!anime) return new AnimeModel();
+  const itemForEdit = Object.assign({}, item, {
+    tags: !!item.tags ? setEntityTags(entities, item) : []
+  });
+  console.log('%c get inital !! ', 'color: magenta;', itemForEdit);
+  return itemModelForType(props.type, itemForEdit);
+}
+
 const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.itemId,
   item: getInitalItem(state.entities, ownProps),
