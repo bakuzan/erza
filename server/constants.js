@@ -7,6 +7,8 @@ const seasons = {
 	fall: 'Fall'
 }
 
+const seasonalTypes = [1, 5] // tv, ona
+
 const type = {
 	anime: 'anime',
 	manga: 'manga'
@@ -15,6 +17,7 @@ const type = {
 const Constants = {
 	appName,
 	seasons,
+  seasonalTypes,
 	type
 }
 
