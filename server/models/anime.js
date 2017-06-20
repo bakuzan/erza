@@ -7,7 +7,7 @@ const {TagTC} = require('./tag.js');
 
 const {updateDateBeforeSave} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
-const Constants = require('../utils/constants.js');
+const Constants = require('../constants.js');
 const {
   itemSharedFields,
   searchFilterArg,
@@ -58,8 +58,8 @@ AnimeTC.addFields({
 
       return Object.assign({}, {
         inSeason: item._legacyIsSeason || (
-          start.year === seriesStart.year && 
-          start.month === seriesStart.month && 
+          start.year === seriesStart.year &&
+          start.month === seriesStart.month &&
           !!Common.getSeasonText(start.month) &&
           Constants.seasonalTypes.indexOf(item.series_type) !== -1
         ),

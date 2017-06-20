@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import { Strings, Enums } from '../constants/values'
 import { Paths } from '../constants/paths'
 import { capitalise, getEventValue, updateSameAsObject, isObject } from '../utils/common'
-import { formatDateForInput } from '../utils/date'
+import { formatDateForInput, dateStringToISOString } from '../utils/date'
 import { mapStateToEntityList, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
 import animeValidator from '../utils/validators/anime-creation'
 import mangaValidator from '../utils/validators/manga-creation'
@@ -56,7 +56,12 @@ class BaseCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
-    if (updateSameAsObject(this.state, malItem)) return;
+    const checkableMalItem = Object.assign({}, malItem, {
+      series_start: dateStringToISOString(malItem.series_start),
+      series_end: dateStringToISOString(malItem.series_end)
+    });
+
+    if (updateSameAsObject(this.state, checkableMalItem)) return;
     this.setState((prevState) => this.hydrateMalFields(prevState, malItem));
   }
 
@@ -75,8 +80,8 @@ class BaseCreate extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.validator.validateSubmission(this.state).then(item => {
-      if (this.props.isCreate) return this.props.create(item);
-      return this.props.edit(item);
+      if (this.props.isCreate) return this.props.actions.create(item);
+      return this.props.actions.edit(item);
     })
   }
 

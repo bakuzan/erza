@@ -60,7 +60,7 @@ class BaseView extends Component {
                         className="button ripple">
                   { Strings.back }
                 </button>
-                <Link to={`${Paths.base}${Paths.anime.edit}${item._id}`}
+                <Link to={`${Paths.base}${Paths[type].edit}${item._id}`}
                       className="button ripple">
                   { Strings.edit }
                 </Link>

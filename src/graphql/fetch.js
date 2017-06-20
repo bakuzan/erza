@@ -1,10 +1,13 @@
 import toaster from '../utils/toaster'
 
 const handleErrorResponse = error => {
-  const message = error.message ? error.message :
-                  error.error   ? error.error   :
-                        error   ? error         :
-                         'Something went wrong!';
+  const message = error.message
+                    ? error.message
+                    : error.error
+                      ? error.error
+                      : error
+                        ? error
+                        : 'Something went wrong!';
   toaster.error('Fetch error!', message);
   console.error(error);
 }

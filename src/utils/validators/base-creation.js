@@ -31,7 +31,7 @@ const statusChangeHandler = item => {
   }
 }
 
-const repeatChangeHandler = ({ current, total }) => item => { [current]: item.isRepeat ? 0 : item[total] };
+const repeatChangeHandler = ({ current, total }) => item => ({ [current]: item.isRepeat ? 0 : item[total] });
 
 const processValidatorChanges = ({ history, uniqueProperties }) => (item, property) => {
   switch(property) {
@@ -63,10 +63,10 @@ const validateSubmission = updateFunction => model => {
 const baseValidator = (type, updateFunction) => {
   const uniqueProperties = getUniquePropertiesForItemType(type);
   const history = getHistoryNameForItemType(type);
-  
+
   return {
     validateChanges: validateChanges({ uniqueProperties, history }),
-    validateSubmission: validationSubmission(updateFunction)
+    validateSubmission: validateSubmission(updateFunction)
   }
 }
 
