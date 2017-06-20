@@ -52,9 +52,11 @@ export const getHistoryNameForItemType = t => t === Strings.anime
 
 export const itemModelForType = t => obj => t === Strings.anime ? new AnimeModel(obj) : new MangaModel(obj);
 
+const intergrateMalEntryOptionalFields = (t, { series_volumes }) => t === Strings.manga ? { series_volumes } : {};
 export const intergrateMalEntry = type => (model, malItem) => {
   if (!malItem) return Object.assign({}, model, { malId: null });
-
+  
+  const optionalFields = intergrateMalEntryOptionalFields(type, malItem);
   const {current, total} = getUniquePropertiesForItemType(type);
   return Object.assign({}, model, {
     image: malItem.image,
@@ -63,5 +65,5 @@ export const intergrateMalEntry = type => (model, malItem) => {
     [total]: malItem[`${current}s`],
     series_start: dateStringToISOString(malItem.start_date),
     series_end: dateStringToISOString(malItem.end_date)
-  });
+  }, optionalFields);
 }
