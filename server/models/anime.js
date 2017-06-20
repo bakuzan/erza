@@ -7,6 +7,7 @@ const {TagTC} = require('./tag.js');
 
 const {updateDateBeforeSave} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
+const Constants = require('../utils/constants.js');
 const {
   itemSharedFields,
   searchFilterArg,
@@ -24,6 +25,10 @@ const AnimeSchema = new Schema(
     series_episodes: {
       type: Number,
       default: 0
+    },
+    _legacyIsSeason: {
+      type: Boolean,
+      default: false
     }
   })
 );
@@ -52,12 +57,14 @@ AnimeTC.addFields({
       const seriesStart = Common.getDateParts(item.series_start);
 
       return Object.assign({}, {
-        inSeason: start.year === seriesStart.year && start.month === seriesStart.month && !!Common.getSeasonText(start.month),
+        inSeason: item._legacyIsSeason || (
+          start.year === seriesStart.year && 
+          start.month === seriesStart.month && 
+          !!Common.getSeasonText(start.month) &&
+          Constants.seasonalTypes.indexOf(item.series_type) !== -1
+        ),
         year: start.year,
-        season: Common.getSeasonText(start.month),
-        seasonName: function() {
-          return `${this.season} ${this.year}`;
-        }
+        season: Common.getSeasonText(start.month)
       });
     }
   }
