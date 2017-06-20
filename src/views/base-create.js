@@ -6,8 +6,8 @@ import { Paths } from '../constants/paths'
 import { capitalise, getEventValue, updateSameAsObject, isObject } from '../utils/common'
 import { formatDateForInput } from '../utils/date'
 import { mapStateToEntityList, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
-import AnimeValidator from '../utils/validators/anime-creation'
-import MangaValidator from '../utils/validators/manga-creation'
+import animeValidator from '../utils/validators/anime-creation'
+import mangaValidator from '../utils/validators/manga-creation'
 import RatingControl from '../components/rating-control/rating-control';
 import Tickbox from '../components/tickbox/tickbox';
 import SelectBox from '../components/select-box/select-box';
@@ -26,6 +26,10 @@ const loadData = props => {
   }
 }
 
+const STATUS_OPTIONS = Object.keys(Enums.status)
+                             .filter(x => x !== 'all')
+                             .map(item => ({ text: capitalise(item), value: Enums.status[item] }));
+
 class BaseCreate extends Component {
 
   constructor(props) {
@@ -41,7 +45,7 @@ class BaseCreate extends Component {
   componentDidMount() {
     loadData(this.props);
     this.hydrateMalFields = intergrateMalEntry(this.props.type);
-    this.validator = this.props.type === Strings.anime ? AnimeValidator : MangaValidator;
+    this.validator = this.props.type === Strings.anime ? animeValidator : mangaValidator;
   }
 
   componentWillReceiveProps(nextProps, nextState) {
@@ -81,9 +85,6 @@ class BaseCreate extends Component {
     console.log('render base create :: ', this.state, this.props);
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
-    const statusOptions = Object.keys(Enums.status)
-                                .filter(x => x !== 'all')
-                                .map(item => ({ text: capitalise(item), value: Enums.status[item] }));
     const availableTags = this.props.typeaheadTags.filter(x => x.isAdult === this.state.isAdult);
 
     return (
@@ -173,7 +174,7 @@ class BaseCreate extends Component {
                              text="status"
                              value={this.state.status}
                              onSelect={this.handleUserInput}
-                             options={statusOptions}
+                             options={STATUS_OPTIONS}
                     />
 
                   <RatingControl name="rating"
@@ -182,22 +183,14 @@ class BaseCreate extends Component {
                                  onChange={this.handleUserInput}
                   />
 
-                  <Tickbox text="owned"
-                           name="owned"
-                           checked={this.state.owned}
-                           onChange={this.handleUserInput}
+                  <InputList
+                    name="tags"
+                    label="tags"
+                    placeholder=" "
+                    list={this.state.tags}
+                    typeahead={availableTags}
+                    updateList={this.handleListUpdate}
                    />
-                  <Tickbox text="is adult"
-                           name="isAdult"
-                           checked={this.state.isAdult}
-                           onChange={this.handleUserInput}
-                  />
-                  <Tickbox text="is repeat"
-                           name="isRepeat"
-                           checked={this.state.isRepeat}
-                           onChange={this.handleUserInput}
-                           disabled={(this.state.status !== Enums.status.completed) || (this.state.isRepeat && this.state[current] !== 0)}
-                  />
                 </div>
               </TabView>
               <TabView name="Additional">
@@ -243,14 +236,22 @@ class BaseCreate extends Component {
                     <label>link</label>
                   </div>
 
-                  <InputList
-                    name="tags"
-                    label="tags"
-                    placeholder=" "
-                    list={this.state.tags}
-                    typeahead={availableTags}
-                    updateList={this.handleListUpdate}
+                  <Tickbox text="owned"
+                           name="owned"
+                           checked={this.state.owned}
+                           onChange={this.handleUserInput}
                    />
+                  <Tickbox text="is adult"
+                           name="isAdult"
+                           checked={this.state.isAdult}
+                           onChange={this.handleUserInput}
+                  />
+                  <Tickbox text="is repeat"
+                           name="isRepeat"
+                           checked={this.state.isRepeat}
+                           onChange={this.handleUserInput}
+                           disabled={(this.state.status !== Enums.status.completed) || (this.state.isRepeat && this.state[current] !== 0)}
+                  />
                 </div>
               </TabView>
             </TabContainer>
