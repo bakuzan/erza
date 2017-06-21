@@ -5,13 +5,21 @@ import ChapterModel from '../models/chapter-model'
 import {dateStringToISOString} from './date'
 import {Enums, Strings, Properties} from '../constants/values'
 
+const delayedDateNow = () => {
+  let time;
+  setTimeout(() => time = Date.now(), 10);
+  return time;
+}
+
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
+  const happened = Date.now();
   return Array(episode - anime.episode)
     .fill(null)
     .map((item, index) => {
       const episodeNumber = anime.episode + 1 + index;
       return new EpisodeModel({
         parent: _id,
+        date: happened + index,
         rating: ratings[episodeNumber] || 0,
         note: notes[episodeNumber] || '',
         episode: episodeNumber,
@@ -21,12 +29,14 @@ export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
 }
 
 export const mapChapterData = (manga, { _id, chapter, ratings, notes }) => {
+  const happened = Date.now();
   return Array(chapter - manga.chapter)
     .fill(null)
     .map((item, index) => {
       const chapterNumber = manga.chapter + 1 + index;
       return new ChapterModel({
         parent: _id,
+        date: happened + index,
         rating: ratings[chapterNumber] || 0,
         note: notes[chapterNumber] || '',
         chapter: chapterNumber,
