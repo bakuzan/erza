@@ -113,16 +113,13 @@ class PagedAnimeList extends Component {
                           value={this.state.editItem.ratings[episodeNumber] || 0}
                           onChange={this.handleUserInput}
                           />
-                        <div className="has-float-label input-container">
-                          <input type="text"
-                            name={`notes.${episodeNumber}`}
-                            value={this.state.editItem.notes[episodeNumber] || ''}
-                            maxLength={140}
-                            placeholder=" "
-                            onChange={this.handleUserInput}
-                            />
-                          <label>{`note for ${episodeNumber}`}</label>
-                        </div>
+                        <ClearableInput
+                          name={`notes.${episodeNumber}`}
+                          label={`note for ${episodeNumber}`}
+                          value={this.state.editItem.notes[episodeNumber] || ''}
+                          maxLength={140}
+                          onChange={this.handleUserInput}
+                        />
                       </li>
                     );
                   })
