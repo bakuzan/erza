@@ -17,7 +17,7 @@ const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderTog
   <div className="list-filter">
 
     <ClearableInput
-      search={search}
+      value={search}
       onChange={onChange}
     />
 

@@ -5,11 +5,6 @@ import ChapterModel from '../models/chapter-model'
 import {dateStringToISOString} from './date'
 import {Enums, Strings, Properties} from '../constants/values'
 
-const delayedDateNow = () => {
-  let time;
-  setTimeout(() => time = Date.now(), 10);
-  return time;
-}
 
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
   const happened = Date.now();
@@ -76,4 +71,19 @@ export const intergrateMalEntry = type => (model, malItem) => {
     series_start: dateStringToISOString(malItem.start_date),
     series_end: dateStringToISOString(malItem.end_date)
   }, optionalFields);
+}
+
+export const shouldIntergrateMalEntry = (model, malItem) => {
+  if (!model || !malItem) return false;
+  const { image, malId, series_type, series_start, series_end, series_episodes, series_chapters, series_volumes } = model
+  return !(
+    image === malItem.image &&
+    malId === malItem.id &&
+    series_type === Enums[type].type[malItem.type.toLowerCase()] &&
+    series_chapters === malItem.chapters &&
+    series_episodes === malItem.episodes &&
+    series_volumes === malItem.volumes &&
+    series_start === dateStringToISOString(malItem.start_date) &&
+    series_end === dateStringToISOString(malItem.end_date)
+  );
 }

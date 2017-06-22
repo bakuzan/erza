@@ -4,7 +4,12 @@ import {getUniquePropertiesForItemType, getHistoryNameForItemType} from '../data
 
 const historyChangeHandler = ({ current, total }) => item => {
   const changes = {};
-  if(item[current] === item[total] && item[total] !== 0 && !item.isRepeat) {
+  console.log('history > ', item);
+  if(item[current] > item[total] && item[total] !== 0) {
+    changes[current] = item[total];
+  }
+
+  if(item[current] >= item[total] && item[total] !== 0 && !item.isRepeat) {
     changes.end = formatDateForInput(new Date());
     changes.status = Enums.status.completed;
   } else if (
@@ -16,9 +21,6 @@ const historyChangeHandler = ({ current, total }) => item => {
      changes.status = Enums.status.ongoing;
   }
 
-  if(item[current] > item[total] && item[total] !== 0) {
-    changes[current] = item[total];
-  }
   return Object.assign({}, changes);
 }
 

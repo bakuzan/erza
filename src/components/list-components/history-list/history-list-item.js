@@ -81,7 +81,8 @@ class HistoryListItem extends Component {
           : (
               <ClearableInput
                 name="note"
-                search={this.state.note}
+                label="note"
+                value={this.state.note}
                 onChange={this.handleUserInput}
               />
             )

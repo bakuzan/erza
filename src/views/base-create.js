@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import {Link} from 'react-router'
 import { Strings, Enums } from '../constants/values'
 import { Paths } from '../constants/paths'
-import { capitalise, getEventValue, updateSameAsObject, isObject } from '../utils/common'
+import { capitalise, getEventValue, isObject } from '../utils/common'
 import { formatDateForInput, dateStringToISOString } from '../utils/date'
-import { mapStateToEntityList, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
+import { mapStateToEntityList, shouldIntergrateMalEntry, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
 import animeValidator from '../utils/validators/anime-creation'
 import mangaValidator from '../utils/validators/manga-creation'
 import RatingControl from '../components/rating-control/rating-control';
@@ -56,12 +56,7 @@ class BaseCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
-    const checkableMalItem = Object.assign({}, malItem, {
-      series_start: dateStringToISOString(malItem.series_start),
-      series_end: dateStringToISOString(malItem.series_end)
-    });
-
-    if (updateSameAsObject(this.state, checkableMalItem)) return;
+    if (!shouldIntergrateMalEntry(this.state, malItem)) return;
     this.setState((prevState) => this.hydrateMalFields(prevState, malItem));
   }
 

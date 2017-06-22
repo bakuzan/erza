@@ -82,7 +82,7 @@ class AutocompleteInput extends Component {
       <div className="autocomplete">
         <ClearableInput
           name={attr}
-          search={filter}
+          value={filter}
           onChange={this.handleInputFilter}
           onKeyDown={this.handleKeyDown}
         />
