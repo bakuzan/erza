@@ -113,16 +113,14 @@ class PagedMangaList extends Component {
                           value={this.state.editItem.ratings[chapterNumber] || 0}
                           onChange={this.handleUserInput}
                           />
-                        <div className="has-float-label input-container">
-                          <input type="text"
-                            name={`notes.${chapterNumber}`}
-                            value={this.state.editItem.notes[chapterNumber] || ''}
-                            maxLength={140}
-                            placeholder=" "
-                            onChange={this.handleUserInput}
-                            />
-                          <label>{`note for ${chapterNumber}`}</label>
-                        </div>
+                        <ClearableInput
+                          name={`notes.${chapterNumber}`}
+                          label={`note for ${chapterNumber}`}
+                          value={this.state.editItem.notes[chapterNumber] || ''}
+                          maxLength={140}
+                          placeholder=" "
+                          onChange={this.handleUserInput}
+                        />
                       </li>
                     );
                   })
