@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Icons} from '../../constants/values'
 import './clearable-input.css'
 
-const ClearableInput = ({ name = "search", search, maxLength, onChange, onKeyDown }) => (
+const ClearableInput = ({ name = "search", label, search, maxLength, onChange, onKeyDown }) => (
   <div className="has-float-label input-container clearable-input">
     <input
       type="text"
@@ -15,7 +15,7 @@ const ClearableInput = ({ name = "search", search, maxLength, onChange, onKeyDow
       onKeyDown={onKeyDown}
       autoComplete="off"
       />
-    <label>search</label>
+    <label>{ label || 'search' }</label>
     {
       !!search &&
       <button
@@ -37,6 +37,7 @@ const ClearableInput = ({ name = "search", search, maxLength, onChange, onKeyDow
 
 ClearableInput.propTypes = {
   name: PropTypes.string,
+  label: PropTypes.string,
   search: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
   onChange: PropTypes.func.isRequired,
