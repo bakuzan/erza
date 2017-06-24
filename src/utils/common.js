@@ -46,14 +46,7 @@ export const debounce = (f, t) => {
   timers[f] = setTimeout(() => f(), t);
 }
 
-export const updateSameAsObject = (o, u) => {
-  const hasEvery = Object.keys(u).map(k => {
-    const val = o[k] === u[k];
-    console.log(val, o[k], u[k]);
-    return val;
-  }).every(x => x === true)
-  return !!u && hasEvery;
-};
+export const updateSameAsObject = (o, u) => u && Object.keys(u).map(k => o[k] === u[k]).every(x => x === true);
 
 const isTypeOf = t => v => typeof(v) === t;
 export const isObject = isTypeOf(Types.object);
