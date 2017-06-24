@@ -24,6 +24,17 @@ const updateDateBeforeSave = property => next => resolveParams => {
   return next(resolveParams);
 }
 
+// TODO Intergrate myanmelist update
+// const addToMal = type => next => resolveParams => {
+//   // send mal an add request
+//   return next(resolveParams);
+// }
+//
+// const updateMal = type => next => resolveParams => {
+//   // send mal an update request
+//   return next(resolveParams);
+// }
+
 module.exports = {
   updateDateBeforeSave,
   combineArrayOfObjects,

@@ -63,6 +63,9 @@ export const Strings = {
   next: 'next',
   prev: 'prev',
   // page text
+  loading: 'loading',
+  success: 'success',
+  error: 'error',
   unfinished: 'Unfinished',
   noItemsAvailable: 'No items were found.',
   create: 'Create',
@@ -81,6 +84,11 @@ export const Strings = {
   history: 'history',
   monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   deleteConfirmation: 'Are you sure you want to delete this entry?',
+  // mal update messages
+  fetchingMalEntry: 'fetching mal entry',
+  noLinkedMalEntry: 'no related mal entry',
+  updatedMalEntry: 'updated mal values',
+  malEntryUpToDate: 'mal already up to date',
   // theme
   light: 'Light',
   dark: 'Dark',

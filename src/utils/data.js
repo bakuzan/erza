@@ -73,7 +73,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
   }, optionalFields);
 }
 
-export const shouldIntergrateMalEntry = (model, malItem) => {
+export const shouldIntergrateMalEntry = type => (model, malItem) => {
   if (!model || !malItem) return false;
   const { image, malId, series_type, series_start, series_end, series_episodes, series_chapters, series_volumes } = model
   return !(

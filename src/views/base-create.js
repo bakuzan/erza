@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import { Strings, Enums } from '../constants/values'
 import { Paths } from '../constants/paths'
 import { capitalise, getEventValue, isObject } from '../utils/common'
-import { formatDateForInput, dateStringToISOString } from '../utils/date'
+import { formatDateForInput } from '../utils/date'
 import { mapStateToEntityList, shouldIntergrateMalEntry, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
 import animeValidator from '../utils/validators/anime-creation'
 import mangaValidator from '../utils/validators/manga-creation'
@@ -45,6 +45,7 @@ class BaseCreate extends Component {
   componentDidMount() {
     loadData(this.props);
     this.hydrateMalFields = intergrateMalEntry(this.props.type);
+    this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
     this.validator = this.props.type === Strings.anime ? animeValidator : mangaValidator;
   }
 
@@ -56,7 +57,7 @@ class BaseCreate extends Component {
 
   handleMalSelect(malItem) {
     console.log('MAL Select > ', malItem);
-    if (!shouldIntergrateMalEntry(this.state, malItem)) return;
+    if (!this.shouldHydrateMal(this.state, malItem)) return;
     this.setState((prevState) => this.hydrateMalFields(prevState, malItem));
   }
 
@@ -126,7 +127,7 @@ class BaseCreate extends Component {
                            name={current}
                            value={this.state[current]}
                            min="0"
-                           max={this.state[total] || null}
+                           max={!!Number(this.state[total]) ? this.state[total] : null}
                            placeholder=" "
                            onChange={this.handleUserInput}
                      />
@@ -140,7 +141,7 @@ class BaseCreate extends Component {
                              name="volume"
                              value={this.state.volume}
                              min="0"
-                             max={this.state.series_volumes || null}
+                             max={!!Number(this.state.series_volumes) ? this.state.series_volumes : null}
                              placeholder=" "
                              onChange={this.handleUserInput}
                        />

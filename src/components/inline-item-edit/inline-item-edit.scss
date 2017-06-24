@@ -1,0 +1,19 @@
+$base-message-colour: #aaa;
+$loading-message-colour: #ffa500;
+$success-message-colour: #228b22;
+
+.mal-update-message {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 0.6rem;
+  color: $base-message-colour;
+
+  &.loading {
+    color: $loading-message-colour;
+  }
+
+  &.success {
+    color: $success-message-colour;
+  }
+}

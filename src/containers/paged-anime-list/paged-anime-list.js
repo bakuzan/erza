@@ -1,15 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import fetchFromServer from '../../graphql/fetch'
 import PagingControls from '../../containers/paging-controls/paging-controls'
 import AnimeList from '../../components/list-components/anime-list/anime-list'
 import Dialog from '../../components/dialog/dialog'
 import ClearableInput from '../../components/clearable-input/clearable-input'
 import RatingControl from '../../components/rating-control/rating-control'
+import {Paths} from '../../constants/paths'
 import {Strings} from '../../constants/values'
 import {getEventValue, updateNestedProperty} from '../../utils/common'
+import { shouldIntergrateMalEntry } from '../../utils/data'
 import {addEpisodes} from '../../actions/anime'
 
+import '../../components/inline-item-edit/inline-item-edit.css'
+
 const EMPTY_OBJECT = {};
+const getMalEntry = search => fetchFromServer(Paths.build(Paths.malSearch, { type: Strings.anime, search }));
 
 class PagedAnimeList extends Component {
 
@@ -23,6 +29,11 @@ class PagedAnimeList extends Component {
         max: null,
         ratings: {},
         notes: {}
+      },
+      malUpdates: {
+        values: null,
+        message: null,
+        status: ''
       }
     };
 
@@ -32,19 +43,41 @@ class PagedAnimeList extends Component {
     this.assignDialogRef = this.assignDialogRef.bind(this);
   }
 
+  componentDidMount() {
+    this.shouldHydrateMal = shouldIntergrateMalEntry(Strings.anime);
+  }
+
   openEditDialog(_id) {
     const editItem = this.props.items.find(x => x._id === _id);
-    this.setState((prevState) => {
-      return {
-        editItem: Object.assign({}, prevState.editItem, {
-          _id,
-          episode: editItem.episode || 0,
-          min: editItem.episode || 0,
-          max: editItem.series_episodes || null,
-        })
-      };
-    });
+    if (editItem.malId) this.refreshMalValues(editItem);
+    this.setState((prevState) => ({
+      editItem: Object.assign({}, prevState.editItem, {
+        _id,
+        episode: editItem.episode || 0,
+        min: editItem.episode || 0,
+        max: editItem.series_episodes || null,
+      }),
+      malUpdates: {
+        values: null,
+        message: editItem.malId ? Strings.fetchingMalEntry : Strings.noLinkedMalEntry,
+        status: editItem.malId ? Strings.loading : ''
+      }
+    }));
     this.dialog.showModal();
+  }
+
+  refreshMalValues(editItem) {
+    getMalEntry(editItem.name).then(response => {
+      const malItem = response.find(x => x.id === editItem.malId);
+      const shouldUpdateMalEntry = this.shouldHydrateMal(editItem, malItem) && !!malItem;
+      this.setState({
+        malUpdates: {
+          values: shouldUpdateMalEntry ? malItem : null,
+          message: shouldUpdateMalEntry ? Strings.updatedMalEntry : Strings.malEntryUpToDate,
+          status: shouldUpdateMalEntry ? Strings.success : ''
+        }
+      });
+    })
   }
 
   handleEdit(event) {
@@ -86,6 +119,9 @@ class PagedAnimeList extends Component {
           action={this.handleEdit}
           >
           <div className="paged-list-edit">
+            <span className={`mal-update-message ${this.state.malUpdates.status}`}>
+              { this.state.malUpdates.message }
+            </span>
           {
             !!this.state.editItem._id &&
             <div>

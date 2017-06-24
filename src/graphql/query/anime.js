@@ -21,6 +21,7 @@ const getById = (id) => (`
       ${animeKeyFields}
       rating
       series_start
+      series_type
       season
       tagList {
         _id
