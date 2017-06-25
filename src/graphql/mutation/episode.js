@@ -27,6 +27,7 @@ const removeEpisode = id => (`
       record {
         episode
         series {
+          _id
           title
         }
       }

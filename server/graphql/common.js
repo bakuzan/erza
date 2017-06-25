@@ -1,3 +1,5 @@
+const { addOnMal, updateOnMal } = require('../myanimelist/mal-update');
+
 const combineArrayOfObjects = (prev, curr) => Object.assign({}, prev, curr);
 
 const constructQueryFields = ({ prefix, type }) => ({
@@ -24,19 +26,21 @@ const updateDateBeforeSave = property => next => resolveParams => {
   return next(resolveParams);
 }
 
-// TODO Intergrate myanmelist update
-// const addToMal = type => next => resolveParams => {
-//   // send mal an add request
-//   return next(resolveParams);
-// }
-//
-// const updateMal = type => next => resolveParams => {
-//   // send mal an update request
-//   return next(resolveParams);
-// }
+
+const addMalEntry = type => next => resolveParams => {
+  addOnMal(type, resolveParams.args.record);
+  return next(resolveParams);
+}
+
+const updateMalEntry = type => next => resolveParams => {
+  updateOnMal(type, resolveParams.args.record);
+  return next(resolveParams);
+}
 
 module.exports = {
   updateDateBeforeSave,
+  addMalEntry,
+  updateMalEntry,
   combineArrayOfObjects,
   constructQueryFields,
   constructMutationFields

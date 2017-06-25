@@ -56,8 +56,13 @@ export function createReducer(initialState, handlers) {
 }
 
 export function removeEntityById(state, action) {
+  console.log('remove : ', state, action);
   return update(state, {
     allIds: { $set: state.allIds.filter(x => x !== action.id) },
-    byId: { $unset: state.byId[action.id] }
+    byId: { $set: Object.keys(state.byId).reduce((o, k) => {
+                      if (k !== action.id) o[k] = state.ById[k];
+                      return o;
+                  }, {})
+          }
   })
 }

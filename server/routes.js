@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 const graffiti = require('@risingstack/graffiti');
 const GraphqlSchema = require('./graphql/schema.js');
 
-const malSearch = require('./juri-partial/mal-search.js');
+const malSearch = require('./myanimelist/mal-search.js');
 const Constants = require('./constants');
 
 // db

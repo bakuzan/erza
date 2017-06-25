@@ -24,10 +24,13 @@ const handleErrorResponse = (err, res) => {
   return res ? res.status(400).send(error) : error;
 }
 
+const capitalise = str => str.charAt(0).toUpperCase() + str.slice(1);
+
 const Common = {
   handleErrorResponse,
   getDateParts,
-  getSeasonText
+  getSeasonText,
+  capitalise
 }
 
 module.exports = Common;

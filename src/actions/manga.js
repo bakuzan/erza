@@ -24,21 +24,22 @@ export const editManga = (item) => mutateItem(
   MangaML.updateMangaById
 )
 
-export const addChapters = updateValues => {
+export const addChapters = ({ editItem }) => {
   return function(dispatch, getState) {
-    const manga = getState().entities.manga.byId[updateValues._id];
-    const history = mapChapterData(manga, updateValues);
-    console.log('add chapter => ', manga, updateValues, history)
+    const manga = getState().entities.manga.byId[editItem._id];
+    const history = mapChapterData(manga, editItem);
+    console.log('add chapter => ', manga, editItem, history)
     history.forEach(item => dispatch(createChapter(item)) );
     return updatePrePost(
       update(manga, {
-        chapter: { $set: updateValues.chapter },
-        volume: { $set: updateValues.volume || manga.volume }
+        chapter: { $set: editItem.chapter },
+        volume: { $set: editItem.volume || manga.volume },
+        rating: { $set: editItem.overallRating || manga.rating }
       })
     )
-    .then(editItem => {
-      console.log('edit manga => ', editItem);
-      dispatch(editManga(editItem));
+    .then(updatedItem => {
+      console.log('edit manga => ', updatedItem);
+      dispatch(editManga(updatedItem));
     });
   }
 }

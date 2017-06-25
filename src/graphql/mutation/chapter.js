@@ -27,6 +27,7 @@ const removeChapter = id => (`
       record {
         chapter
         series {
+          _id
           title
         }
       }

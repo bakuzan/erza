@@ -5,9 +5,10 @@ const ObjectId = Schema.ObjectId;
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const {TagTC} = require('./tag.js');
 
-const {updateDateBeforeSave} = require('../graphql/common.js');
+const {updateDateBeforeSave, addMalEntry, updateMalEntry} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
+
 const {
   itemSharedFields,
   searchFilterArg,
@@ -75,8 +76,13 @@ const extendConnection = AnimeTC
   .addFilterArg(searchFilterArg)
   .addFilterArg(statusInFilterArg(AnimeTC));
 
-const extendCreate = AnimeTC.getResolver('createOne').wrapResolve(updateDateBeforeSave('createdDate'));
-const extendUpdate = AnimeTC.getResolver('updateById').wrapResolve(updateDateBeforeSave('updatedDate'));
+const extendCreate = AnimeTC.getResolver('createOne')
+                            .wrapResolve(updateDateBeforeSave('createdDate'))
+                            .wrapResolve(addMalEntry(Constants.type.anime));
+
+const extendUpdate = AnimeTC.getResolver('updateById')
+                            .wrapResolve(updateDateBeforeSave('updatedDate'))
+                            .wrapResolve(updateMalEntry(Constants.type.anime));
 
 extendConnection.name = 'connection';
 extendCreate.name = 'createOne';

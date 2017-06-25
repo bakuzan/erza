@@ -27,6 +27,7 @@ class PagedMangaList extends Component {
         chapter: 0,
         min: 0,
         max: null,
+        overallRating: 0,
         ratings: {},
         notes: {}
       },
@@ -56,6 +57,7 @@ class PagedMangaList extends Component {
           chapter: editItem.chapter || 0,
           min: editItem.chapter || 0,
           max: editItem.series_chapters || null,
+          overallRating: editItem.rating
         }),
         malUpdates: {
           values: null,
@@ -67,12 +69,12 @@ class PagedMangaList extends Component {
   }
 
   refreshMalValues(editItem) {
-    getMalEntry(editItem.name).then(response => {
+    getMalEntry(editItem.title).then(response => {
       const malItem = response.find(x => x.id === editItem.malId);
       const shouldUpdateMalEntry = this.shouldHydrateMal(editItem, malItem) && !!malItem;
       this.setState({
         malUpdates: {
-          values: shouldUpdateMalEntry ? malItem : null,
+          values: malItem,
           message: shouldUpdateMalEntry ? Strings.updatedMalEntry : Strings.malEntryUpToDate,
           status: shouldUpdateMalEntry ? Strings.success : ''
         }
@@ -81,7 +83,7 @@ class PagedMangaList extends Component {
   }
 
   handleEdit(event) {
-    this.props.addChaptersToManga(this.state.editItem);
+    this.props.addChaptersToManga(this.state);
     this.dialog.close();
   }
 
@@ -99,7 +101,8 @@ class PagedMangaList extends Component {
   render() {
     const { filters, items } = this.props;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
-    // console.log('PAGED ANIME LIST => ', filters, items);
+    console.log('PAGED MANGA LIST => ', editItem, this.state.malUpdates, !!this.state.malUpdates.values &&
+    this.state.editItem.chapter === this.state.malUpdates.values.series_chapters);
 
     return (
       <div className="flex-column flex-grow">
@@ -136,6 +139,16 @@ class PagedMangaList extends Component {
                   />
                 <label>chapter</label>
               </div>
+              {
+                !!this.state.malUpdates.values &&
+                this.state.editItem.chapter === this.state.malUpdates.values.chapters &&
+                <RatingControl
+                  name="overallRating"
+                  label="Rating"
+                  value={this.state.editItem.overallRating || 0}
+                  onChange={this.handleUserInput}
+                  />
+              }
               <ul className="list column one">
                 {
                   !!this.state.editItem.chapter &&

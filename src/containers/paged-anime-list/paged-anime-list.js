@@ -27,6 +27,7 @@ class PagedAnimeList extends Component {
         episode: 0,
         min: 0,
         max: null,
+        overallRating: 0,
         ratings: {},
         notes: {}
       },
@@ -56,6 +57,7 @@ class PagedAnimeList extends Component {
         episode: editItem.episode || 0,
         min: editItem.episode || 0,
         max: editItem.series_episodes || null,
+        overallRating: editItem.rating
       }),
       malUpdates: {
         values: null,
@@ -67,12 +69,12 @@ class PagedAnimeList extends Component {
   }
 
   refreshMalValues(editItem) {
-    getMalEntry(editItem.name).then(response => {
+    getMalEntry(editItem.title).then(response => {
       const malItem = response.find(x => x.id === editItem.malId);
       const shouldUpdateMalEntry = this.shouldHydrateMal(editItem, malItem) && !!malItem;
       this.setState({
         malUpdates: {
-          values: shouldUpdateMalEntry ? malItem : null,
+          values: malItem,
           message: shouldUpdateMalEntry ? Strings.updatedMalEntry : Strings.malEntryUpToDate,
           status: shouldUpdateMalEntry ? Strings.success : ''
         }
@@ -81,7 +83,7 @@ class PagedAnimeList extends Component {
   }
 
   handleEdit(event) {
-    this.props.addEpisodesToAnime(this.state.editItem);
+    this.props.addEpisodesToAnime(this.state);
     this.dialog.close();
   }
 
@@ -136,6 +138,16 @@ class PagedAnimeList extends Component {
                   />
                 <label>episode</label>
               </div>
+              {
+                !!this.state.malUpdates.values &&
+                this.state.editItem.episode === this.state.malUpdates.values.episodes &&
+                <RatingControl
+                  name="overallRating"
+                  label="Rating"
+                  value={this.state.editItem.overallRating || 0}
+                  onChange={this.handleUserInput}
+                  />
+              }
               <ul className="list column one">
                 {
                   !!this.state.editItem.episode &&

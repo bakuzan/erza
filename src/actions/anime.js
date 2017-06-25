@@ -24,20 +24,21 @@ export const editAnime = (item) => mutateItem(
   AnimeML.updateAnimeById
 )
 
-export const addEpisodes = updateValues => {
+export const addEpisodes = ({ editItem }) => {
   return function(dispatch, getState) {
-    const anime = getState().entities.anime.byId[updateValues._id];
-    const history = mapEpisodeData(anime, updateValues);
-    console.log('add episode => ', anime, updateValues, history)
+    const anime = getState().entities.anime.byId[editItem._id];
+    const history = mapEpisodeData(anime, editItem);
+    console.log('add episode => ', anime, editItem, history)
     history.forEach(item => dispatch(createEpisode(item)) );
     return updatePrePost(
       update(anime, {
-        episode: { $set: updateValues.episode }
+        episode: { $set: editItem.episode },
+        rating: { $set: editItem.overallRating || anime.rating }
       })
     )
-    .then(editItem => {
-      console.log('edit anime => ', editItem);
-      dispatch(editAnime(editItem));
+    .then(updatedItem => {
+      console.log('edit anime => ', updatedItem);
+      dispatch(editAnime(updatedItem));
     });
   }
 }

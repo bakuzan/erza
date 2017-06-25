@@ -56,12 +56,16 @@ export const itemKeyFields = uniqueFields => (`
   start
   end
   status
+  rating
   isAdult
   isRepeat
   owned
   image
   link
   malId
+  series_type
+  series_start
+  series_end
   timesCompleted
   updatedDate
   ${uniqueFields}
@@ -69,10 +73,6 @@ export const itemKeyFields = uniqueFields => (`
 
 export const itemEditFields = uniqueFields => (`
   ${itemKeyFields(uniqueFields)}
-  rating
-  series_end
-  series_start
-  series_type
   tags
 `);
 
