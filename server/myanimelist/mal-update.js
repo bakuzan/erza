@@ -4,7 +4,7 @@ const { capitalise } = require('../utils/common');
 
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
-
+const clientAdult = popura(process.env.MAL_USER_ADULT, process.env.MAL_PASSWORD_ADULT);
 
 const convertUSDateFormat = date => date.getMonth() + 1 + '' + date.getDate() + '' + date.getFullYear();
 
@@ -35,8 +35,9 @@ const getMalUpdateObject = {
 const successMalEntry = t => result => console.log(chalk.cyan.bold(`${t}ed mal entry`));
 const failedEntry = err => console.log(chalk.bgWhite.red.bold('Mal entry error : '), err);
 
-const addEntity = (type, id, values) => client[`add${capitalise(type)}`](id, values);
-const updateEntity = (type, id, values) => client[`update${capitalise(type)}`](id, values);
+cosnt getMalClient = isAdult => isAdult ? clientAdult : client;
+const addEntity = (type, id, values) => getMalClient(values.isAdult)[`add${capitalise(type)}`](id, values);
+const updateEntity = (type, id, values) => getMalClient(value.isAdult)[`update${capitalise(type)}`](id, values);
 
 exports.addOnMal = (type, item) => {
 	const malValues = getMalUpdateObject[type](item);
