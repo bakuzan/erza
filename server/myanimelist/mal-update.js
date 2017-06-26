@@ -35,13 +35,13 @@ const getMalUpdateObject = {
 const successMalEntry = t => result => console.log(chalk.cyan.bold(`${t}ed mal entry`));
 const failedEntry = err => console.log(chalk.bgWhite.red.bold('Mal entry error : '), err);
 
-cosnt getMalClient = isAdult => isAdult ? clientAdult : client;
-const addEntity = (type, id, values) => getMalClient(values.isAdult)[`add${capitalise(type)}`](id, values);
-const updateEntity = (type, id, values) => getMalClient(value.isAdult)[`update${capitalise(type)}`](id, values);
+const getMalClient = isAdult => isAdult ? clientAdult : client;
+const addEntity = (type, isAdult, { id, values }) => getMalClient(isAdult)[`add${capitalise(type)}`](id, values);
+const updateEntity = (type, isAdult, { id, values }) => getMalClient(isAdult)[`update${capitalise(type)}`](id, values);
 
 exports.addOnMal = (type, item) => {
 	const malValues = getMalUpdateObject[type](item);
-	addEntity(type, item.malId, malValues)
+	addEntity(type, item.isAdult, { id: item.malId, values: malValues })
 		.then(successMalEntry('Add'))
 		.catch(err => {
 			failedEntry(err);
@@ -51,7 +51,10 @@ exports.addOnMal = (type, item) => {
 
 exports.updateOnMal = (type, item) => {
 	const malValues = getMalUpdateObject[type](item);
-	updateEntity(type, item.malId, malValues)
-		.then(successMalEntry('Update'))
-		.catch(failedEntry);
+	updateEntity(type, item.isAdult, { id: item.malId, values: malValues })
+		.then(successMalEntry('Updat'))
+		.catch(err => {
+			failedEntry(err);
+			module.exports.addOnMal(type, item);
+		});
 }

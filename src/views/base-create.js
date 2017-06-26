@@ -52,7 +52,7 @@ class BaseCreate extends Component {
   componentWillReceiveProps(nextProps, nextState) {
     if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && isObject(x))) return;
     console.log('will get props >> ', nextProps, nextState);
-    this.setState(nextProps.item);
+    this.setState(Object.assign({}, nextProps.item, { isAdult: nextProps.isAdult }));
   }
 
   handleMalSelect(malItem) {
@@ -280,7 +280,8 @@ BaseCreate.propTypes = {
   itemId: PropTypes.string,
   item: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  typeaheadTags: PropTypes.arrayOf(PropTypes.object)
+  typeaheadTags: PropTypes.arrayOf(PropTypes.object),
+  isAdult: PropTypes.bool.isRequired
 }
 
 const setEntityTags = (entities, item) => entities.tags.allIds.length === 0 ? item.tags : item.tags.map(_id => entities.tags.byId[_id]);
@@ -300,7 +301,8 @@ const mapStateToProps = (state, ownProps) => ({
   isCreate: !ownProps.itemId,
   item: getInitalItem(state.entities, ownProps),
   isFetching: state.isFetching,
-  typeaheadTags: mapStateToEntityList(state.entities.tags)
+  typeaheadTags: mapStateToEntityList(state.entities.tags),
+  isAdult: state.isAdult
 })
 
 const mapDispatchToProps = {
