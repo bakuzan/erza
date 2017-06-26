@@ -12,10 +12,9 @@ const Constants = require('./constants');
 // db
 const environment = process.env.NODE_ENV || 'development';
 const db = mongoose.connect(`mongodb://localhost/${Constants.appName}-${environment}`, (err) => {
-	if (err) {
-		console.error(chalk.bgRed.white.bold('Could not connect to MongoDB!'));
-		console.log(chalk.bgRed.white.bold(err));
-	}
+	if (!err) return console.log(chalk.magenta.bold(`Connected to ${Constants.appName}-${environment}`));
+  console.error(chalk.bgRed.white.bold(`Could not connect to ${Constants.appName}-${environment}!`));
+  console.log(chalk.bgRed.white.bold(err));
 });
 
 const router = express.Router();
