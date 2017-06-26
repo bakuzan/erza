@@ -102,7 +102,7 @@ class BasePagedList extends Component {
   }
 
   render() {
-    const { type, filters, items, children } = this.props;
+    const { type, filters, list, items } = this.props;
     const { current, total } = this.itemProperties;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
     // console.log('BASE PAGED LIST => ', filters, items);
@@ -113,9 +113,10 @@ class BasePagedList extends Component {
           listType={type}
           filters={filters}
         />
-        {
-          children.map(list => (<list items={items} [`add${capitalise(current)}`]={this.openEditDialog} />))
-        }
+        <list 
+          items={items} 
+          [`add${capitalise(current)}`]={this.openEditDialog} 
+        />
         <Dialog
           name={`${type}Edit`}
           title={`Edit ${editItem.title}`}
@@ -189,7 +190,7 @@ class BasePagedList extends Component {
 
 BasePagedList.propTypes = {
   type: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
+  list: PropTypes.element.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
   paging: PropTypes.object.isRequired,
