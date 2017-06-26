@@ -32,8 +32,8 @@ const getMalUpdateObject = {
 	[Constants.type.manga] : getMalManga,
 }
 
-const successMalEntry = t => result => console.log(chalk.green.bold(`${t}ed mal entry`));
-const failedEntry = err => console.log(chalk.bgWhite.red('Mal entry error : '), err);
+const successMalEntry = t => result => console.log(chalk.cyan.bold(`${t}ed mal entry`));
+const failedEntry = err => console.log(chalk.bgWhite.red.bold('Mal entry error : '), err);
 
 const addEntity = (type, id, values) => client[`add${capitalise(type)}`](id, values);
 const updateEntity = (type, id, values) => client[`update${capitalise(type)}`](id, values);
