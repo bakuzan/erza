@@ -1,12 +1,14 @@
 import React, {PropTypes} from 'react'
 import HistoryListItem from './history-list-item'
+import {getHistoryNameForItemType} from '../../../utils/data'
 import './history-list.css'
 
 const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
+  const valueProperty = getHistoryNameForItemType(type);
   let list = [], previousSeries = null;
   items.sort((x, y) => {
     const z = y.date - x.date;
-    return z === 0 ? y.episode - x.episode : z;
+    return z === 0 ? y[valueProperty] - x[valueProperty] : z;
   })
   .forEach(item => {
     if (!!item.series && item.series._id !== previousSeries) {

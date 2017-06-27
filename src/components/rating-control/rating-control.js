@@ -11,6 +11,10 @@ class RatingControl extends Component {
     this.isReadOnly = !props.onChange;
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.isReadOnly = !nextProps.onChange;
+  }
+
   handleChange(event) {
     if (this.isReadOnly) return;
     const { value, type } = event.target;

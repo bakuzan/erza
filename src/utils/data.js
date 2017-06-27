@@ -64,6 +64,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
   const optionalFields = intergrateMalEntryOptionalFields(type, malItem);
   const {current, total} = getUniquePropertiesForItemType(type);
   return Object.assign({}, model, {
+    title: !!model._id ? model.title : malItem.title,
     image: malItem.image,
     malId: malItem.id,
     series_type: Enums[type].type[malItem.type.toLowerCase()],

@@ -14,7 +14,8 @@ class HistoryListItem extends Component {
     super(props);
     this.state = {
       isEditing: false,
-      note: props.item.note || ''
+      note: props.item.note || '',
+      rating: props.item.rating || 0
     }
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
@@ -43,13 +44,17 @@ class HistoryListItem extends Component {
   }
 
   confirmEdit() {
-    const updateObject = Object.assign({}, this.props.item, { note: this.state.note });
+    const updateObject = Object.assign({}, this.props.item, {
+      note: this.state.note,
+      rating: Number(this.state.rating) || Number(this.props.item.rating)
+    });
     this.props.editAction(updateObject);
     this.toggleEdit();
   }
 
   handleUserInput(event) {
-    this.setState({ note: event.target.value });
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   render() {
@@ -65,12 +70,13 @@ class HistoryListItem extends Component {
         <div className="flex-column">
           <span>{ `${capitalisedCurrent} ${number}` }</span>
           {
-            !item.rating
+            !item.rating && !this.state.isEditing
             ? ( <span>Unrated</span> )
             : (
                 <RatingControl
                   name="rating"
-                  value={item.rating}
+                  value={this.state.rating}
+                  onChange={this.state.isEditing ? this.handleUserInput : null}
                 />
               )
           }
