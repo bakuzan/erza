@@ -11,10 +11,10 @@ const getDateParts = (date) => {
 }
 
 const getSeasonText = (month) => {
-  return month === 0 ? Constants.seasons.winter :
-         month === 3 ? Constants.seasons.spring :
-         month === 6 ? Constants.seasons.summer :
-         month === 9 ? Constants.seasons.fall   :
+  return month < 3  ? Constants.seasons.winter :
+         month < 6  ? Constants.seasons.spring :
+         month < 9  ? Constants.seasons.summer :
+         month < 12 ? Constants.seasons.fall   :
          null;
 }
 

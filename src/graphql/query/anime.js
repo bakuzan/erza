@@ -22,6 +22,7 @@ const getById = (id) => (`
       rating
       series_start
       series_type
+	  _legacyIsSeason
       season
       tagList {
         _id

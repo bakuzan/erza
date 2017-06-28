@@ -61,11 +61,10 @@ AnimeTC.addFields({
         inSeason: item._legacyIsSeason || (
           start.year === seriesStart.year &&
           start.month === seriesStart.month &&
-          !!Common.getSeasonText(start.month) &&
           Constants.seasonalTypes.indexOf(item.series_type) !== -1
         ),
         year: start.year,
-        season: Common.getSeasonText(start.month)
+        season: Common.getSeasonText(seriesStart.month || start.month)
       });
     }
   }
