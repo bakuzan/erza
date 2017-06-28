@@ -39,22 +39,22 @@ const getMalClient = isAdult => isAdult ? clientAdult : client;
 const addEntity = (type, isAdult, { id, values }) => getMalClient(isAdult)[`add${capitalise(type)}`](id, values);
 const updateEntity = (type, isAdult, { id, values }) => getMalClient(isAdult)[`update${capitalise(type)}`](id, values);
 
-exports.addOnMal = (type, item) => {
+exports.addOnMal = (type, item, secondFailure = false) => {
 	const malValues = getMalUpdateObject[type](item);
 	addEntity(type, item.isAdult, { id: item.malId, values: malValues })
 		.then(successMalEntry('Add'))
 		.catch(err => {
 			failedEntry(err);
-			module.exports.updateOnMal(type, item);
+			if (!secondFailure) module.exports.updateOnMal(type, item, true);
 		});
 }
 
-exports.updateOnMal = (type, item) => {
+exports.updateOnMal = (type, item, secondFailure = false) => {
 	const malValues = getMalUpdateObject[type](item);
 	updateEntity(type, item.isAdult, { id: item.malId, values: malValues })
 		.then(successMalEntry('Updat'))
 		.catch(err => {
 			failedEntry(err);
-			module.exports.addOnMal(type, item);
+			if (!secondFailure) module.exports.addOnMal(type, item, true);
 		});
 }
