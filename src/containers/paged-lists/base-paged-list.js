@@ -2,13 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import fetchFromServer from '../../graphql/fetch'
 import PagingControls from '../../containers/paging-controls/paging-controls'
-import AnimeList from '../../components/list-components/anime-list/anime-list'
 import Dialog from '../../components/dialog/dialog'
 import ClearableInput from '../../components/clearable-input/clearable-input'
 import RatingControl from '../../components/rating-control/rating-control'
 import {Paths} from '../../constants/paths'
 import {Strings} from '../../constants/values'
-import {getEventValue, updateNestedProperty} from '../../utils/common'
+import {capitalise, getEventValue, updateNestedProperty} from '../../utils/common'
 import { shouldIntergrateMalEntry, getUniquePropertiesForItemType } from '../../utils/data'
 
 import '../../components/inline-item-edit/inline-item-edit.css'
@@ -52,7 +51,7 @@ class BasePagedList extends Component {
   openEditDialog(_id) {
     const { current, total } = this.itemProperties;
     const editItem = this.props.items.find(x => x._id === _id);
-    
+
     if (editItem.malId) this.refreshMalValues(editItem);
     this.setState((prevState) => ({
       editItem: Object.assign({}, prevState.editItem, {
@@ -103,8 +102,9 @@ class BasePagedList extends Component {
 
   render() {
     const { type, filters, list, items } = this.props;
-    const { current, total } = this.itemProperties;
+    const { current } = this.itemProperties;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
+    const dynamicListProps = { [`add${capitalise(current)}`]: this.openEditDialog }
     // console.log('BASE PAGED LIST => ', filters, items);
 
     return (
@@ -113,9 +113,9 @@ class BasePagedList extends Component {
           listType={type}
           filters={filters}
         />
-        <list 
-          items={items} 
-          [`add${capitalise(current)}`]={this.openEditDialog} 
+        <list
+          items={items}
+          {...dynamicListProps}
         />
         <Dialog
           name={`${type}Edit`}

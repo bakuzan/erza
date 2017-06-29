@@ -7,7 +7,7 @@ import {addChapters} from '../../actions/manga'
 
 const PagedMangaList = ({ items, filters, addChapters }) => (
   <BasePagedList
-    type={String.manga}
+    type={Strings.manga}
     list={MangaList}
     items={items}
     filter={filters}

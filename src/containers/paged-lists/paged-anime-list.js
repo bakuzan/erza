@@ -7,7 +7,7 @@ import {addEpisodes} from '../../actions/anime'
 
 const PagedAnimeList = ({ items, filters, addEpisodes }) => (
   <BasePagedList
-    type={String.anime}
+    type={Strings.anime}
     list={AnimeList}
     items={items}
     filter={filters}
