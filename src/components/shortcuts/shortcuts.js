@@ -24,7 +24,7 @@ class Shortcuts extends Component {
 
     this.assignRef = this.assignRef.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.navigateTo = this.navigateTo.bind(this);
+    this.performAction = this.performAction.bind(this);
   }
 
   componentDidMount() {
@@ -48,10 +48,11 @@ class Shortcuts extends Component {
     this.setState({ filter: event.target.value });
   }
 
-  navigateTo(id) {
-    const { link } = this.items.find(x => x.id === id);
+  performAction(id) {
+    const { link, action } = this.items.find(x => x.id === id);
     this.toggleVisible();
-    browserHistory.push(link);
+    if (!!link) return browserHistory.push(link);
+    return action();
   }
 
   render() {
@@ -62,7 +63,7 @@ class Shortcuts extends Component {
           items={this.items}
           filter={this.state.filter}
           onChange={this.handleFilter}
-          onSelect={this.navigateTo}
+          onSelect={this.performAction}
           />
       </Dialog>
     );
