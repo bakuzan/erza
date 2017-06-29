@@ -2,12 +2,14 @@ import { NEXT_PAGE, PREV_PAGE, RESET_PAGE, SET_ITEMS_PER_PAGE, LOAD_PAGE_INFO } 
 import { loadAnime } from './anime'
 import { loadManga } from './manga'
 import { loadEpisodesByDateRange } from './episode'
+import { loadChaptersByDateRange } from './chapter'
 import { Strings } from '../constants/values'
 
 const FetchData = {
   [Strings.anime]   : loadAnime,
   [Strings.manga]   : loadManga,
-  [Strings.history] : loadEpisodesByDateRange
+  [Strings.episode] : loadEpisodesByDateRange,
+  [Strings.chapter] : loadChaptersByDateRange
 }
 
 export const resetPageToZero = () => ({
