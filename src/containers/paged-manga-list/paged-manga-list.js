@@ -103,7 +103,7 @@ class PagedMangaList extends Component {
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
     const limitByTotal = this.state.editItem.max
                           ? this.state.editItem.max
-                          : this.state.malUpdates.values
+                          : this.state.malUpdates.values && !!this.state.malUpdates.values.chapters
                               ? this.state.malUpdates.values.chapters
                               : null;
     // console.log('PAGED MANGA LIST => ', editItem, this.state.malUpdates, !!this.state.malUpdates.values &&

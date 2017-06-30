@@ -103,7 +103,7 @@ class PagedAnimeList extends Component {
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
     const limitByTotal = this.state.editItem.max
                           ? this.state.editItem.max
-                          : this.state.malUpdates.values
+                          : this.state.malUpdates.values && !!this.state.malUpdates.values.episodes
                               ? this.state.malUpdates.values.episodes
                               : null;
     // console.log('PAGED ANIME LIST => ', filters, items);
