@@ -101,6 +101,11 @@ class PagedAnimeList extends Component {
   render() {
     const { filters, items } = this.props;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
+    const limitByTotal = this.state.editItem.max
+                          ? this.state.editItem.max
+                          : this.state.malUpdates.values
+                              ? this.state.malUpdates.values.episodes
+                              : null;
     // console.log('PAGED ANIME LIST => ', filters, items);
 
     return (
@@ -132,7 +137,7 @@ class PagedAnimeList extends Component {
                   name="episode"
                   value={this.state.editItem.episode}
                   min={this.state.editItem.min}
-                  max={this.state.editItem.max}
+                  max={limitByTotal}
                   placeholder=" "
                   onChange={this.handleUserInput}
                   />

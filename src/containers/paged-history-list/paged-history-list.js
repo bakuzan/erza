@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PagingControls from '../../containers/paging-controls/paging-controls'
 import HistoryList from '../../components/list-components/history-list/history-list'
 import {getHistoryNameForItemType} from '../../utils/data'
-import {Strings} from '../../constants/values'
 
 const PagedHistoryList = ({ filters, items, type }) => (
   <div className="flex-column flex-grow">

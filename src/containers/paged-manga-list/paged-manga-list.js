@@ -101,8 +101,13 @@ class PagedMangaList extends Component {
   render() {
     const { filters, items } = this.props;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
-    console.log('PAGED MANGA LIST => ', editItem, this.state.malUpdates, !!this.state.malUpdates.values &&
-    this.state.editItem.chapter === this.state.malUpdates.values.series_chapters);
+    const limitByTotal = this.state.editItem.max
+                          ? this.state.editItem.max
+                          : this.state.malUpdates.values
+                              ? this.state.malUpdates.values.chapters
+                              : null;
+    // console.log('PAGED MANGA LIST => ', editItem, this.state.malUpdates, !!this.state.malUpdates.values &&
+    // this.state.editItem.chapter === this.state.malUpdates.values.series_chapters);
 
     return (
       <div className="flex-column flex-grow">
@@ -133,7 +138,7 @@ class PagedMangaList extends Component {
                   name="chapter"
                   value={this.state.editItem.chapter}
                   min={this.state.editItem.min}
-                  max={this.state.editItem.max}
+                  max={limitByTotal}
                   placeholder=" "
                   onChange={this.handleUserInput}
                   />
