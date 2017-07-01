@@ -2,29 +2,29 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import fetchFromServer from '../../graphql/fetch'
 import PagingControls from '../../containers/paging-controls/paging-controls'
-import AnimeList from '../../components/list-components/anime-list/anime-list'
 import Dialog from '../../components/dialog/dialog'
 import ClearableInput from '../../components/clearable-input/clearable-input'
 import RatingControl from '../../components/rating-control/rating-control'
 import {Paths} from '../../constants/paths'
 import {Strings} from '../../constants/values'
-import {getEventValue, updateNestedProperty} from '../../utils/common'
-import { shouldIntergrateMalEntry } from '../../utils/data'
-import {addEpisodes} from '../../actions/anime'
+import {capitalise, getEventValue, updateNestedProperty} from '../../utils/common'
+import { shouldIntergrateMalEntry, getUniquePropertiesForItemType } from '../../utils/data'
 
 import '../../components/inline-item-edit/inline-item-edit.css'
 
 const EMPTY_OBJECT = {};
-const getMalEntry = search => fetchFromServer(Paths.build(Paths.malSearch, { type: Strings.anime, search }));
+const fetchMalEntry = type => search => fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
-class PagedAnimeList extends Component {
+class BasePagedList extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.itemProperties = getUniquePropertiesForItemType(props.type);
+    this.getMalEntry = fetchMalEntry(props.type);
     this.state = {
       editItem: {
         _id: null,
-        episode: 0,
+        [this.itemProperties.current]: 0,
         min: 0,
         max: null,
         overallRating: 0,
@@ -45,18 +45,28 @@ class PagedAnimeList extends Component {
   }
 
   componentDidMount() {
-    this.shouldHydrateMal = shouldIntergrateMalEntry(Strings.anime);
+    this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(
+      '%c BASE PAGED LIST (will receive props) >> ',
+      'font-size: 18px; font-weight: bold; color: indigo',
+      nextProps, this.props
+    );
   }
 
   openEditDialog(_id) {
+    const { current, total } = this.itemProperties;
     const editItem = this.props.items.find(x => x._id === _id);
+
     if (editItem.malId) this.refreshMalValues(editItem);
     this.setState((prevState) => ({
       editItem: Object.assign({}, prevState.editItem, {
         _id,
-        episode: editItem.episode || 0,
-        min: editItem.episode || 0,
-        max: editItem.series_episodes || null,
+        [current]: editItem[current] || 0,
+        min: editItem[current] || 0,
+        max: editItem[total] || null,
         overallRating: editItem.rating
       }),
       malUpdates: {
@@ -69,7 +79,7 @@ class PagedAnimeList extends Component {
   }
 
   refreshMalValues(editItem) {
-    getMalEntry(editItem.title).then(response => {
+    this.getMalEntry(editItem.title).then(response => {
       const malItem = response.find(x => x.id === editItem.malId);
       const shouldUpdateMalEntry = this.shouldHydrateMal(editItem, malItem) && !!malItem;
       this.setState({
@@ -83,7 +93,7 @@ class PagedAnimeList extends Component {
   }
 
   handleEdit(event) {
-    this.props.addEpisodesToAnime(this.state);
+    this.props.addHistoryToItem(this.state);
     this.dialog.close();
   }
 
@@ -99,27 +109,30 @@ class PagedAnimeList extends Component {
   }
 
   render() {
-    const { filters, items } = this.props;
+    const { type, filters, list, items } = this.props;
+    const PagedList = list;
+    const { current } = this.itemProperties;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
     const limitByTotal = this.state.editItem.max
                           ? this.state.editItem.max
-                          : this.state.malUpdates.values && !!this.state.malUpdates.values.episodes
-                              ? this.state.malUpdates.values.episodes
+                          : this.state.malUpdates.values && !!this.state.malUpdates.values[`${current}s`]
+                              ? this.state.malUpdates.values[`${current}s`]
                               : null;
-    // console.log('PAGED ANIME LIST => ', filters, items);
+    const dynamicListProps = { [`add${capitalise(current)}`]: this.openEditDialog }
+    console.log('PAGED ANIME LIST => ', filters, items);
 
     return (
       <div className="flex-column flex-grow">
         <PagingControls
-          listType={Strings.anime}
+          listType={type}
           filters={filters}
         />
-        <AnimeList
-            items={items}
-            addEpisode={this.openEditDialog}
+        <PagedList
+          items={items}
+          {...dynamicListProps}
         />
         <Dialog
-          name="animeEdit"
+          name={`${type}Edit`}
           title={`Edit ${editItem.title}`}
           getDialogRef={this.assignDialogRef}
           actionText={Strings.edit}
@@ -134,18 +147,18 @@ class PagedAnimeList extends Component {
             <div>
               <div className="has-float-label input-container">
                 <input type="number"
-                  name="episode"
-                  value={this.state.editItem.episode}
+                  name={current}
+                  value={this.state.editItem[current]}
                   min={this.state.editItem.min}
                   max={limitByTotal}
                   placeholder=" "
                   onChange={this.handleUserInput}
                   />
-                <label>episode</label>
+                <label>{ current }</label>
               </div>
               {
                 !!this.state.malUpdates.values &&
-                this.state.editItem.episode === this.state.malUpdates.values.episodes &&
+                this.state.editItem[current] === this.state.malUpdates.values[`${current}s`] &&
                 <RatingControl
                   name="overallRating"
                   label="Rating"
@@ -155,22 +168,22 @@ class PagedAnimeList extends Component {
               }
               <ul className="list column one">
                 {
-                  !!this.state.editItem.episode &&
-                  Array(this.state.editItem.episode - this.state.editItem.min).fill(null).map((item, index) => {
-                    const episodeNumber = this.state.editItem.min + 1 + index;
+                  !!this.state.editItem[current] &&
+                  Array(this.state.editItem[current] - this.state.editItem.min).fill(null).map((item, index) => {
+                    const historyNumber = this.state.editItem.min + 1 + index;
                     return (
                       <li key={index}
                           className="flex-row">
                         <RatingControl
-                          name={`ratings.${episodeNumber}`}
-                          label={`rating for episode ${episodeNumber}`}
-                          value={this.state.editItem.ratings[episodeNumber] || 0}
+                          name={`ratings.${historyNumber}`}
+                          label={`rating for ${current} ${historyNumber}`}
+                          value={this.state.editItem.ratings[historyNumber] || 0}
                           onChange={this.handleUserInput}
                           />
                         <ClearableInput
-                          name={`notes.${episodeNumber}`}
-                          label={`note for ${episodeNumber}`}
-                          value={this.state.editItem.notes[episodeNumber] || ''}
+                          name={`notes.${historyNumber}`}
+                          label={`note for ${historyNumber}`}
+                          value={this.state.editItem.notes[historyNumber] || ''}
                           maxLength={140}
                           onChange={this.handleUserInput}
                         />
@@ -189,21 +202,16 @@ class PagedAnimeList extends Component {
 
 }
 
-PagedAnimeList.propTypes = {
+BasePagedList.propTypes = {
+  type: PropTypes.string.isRequired,
+  list: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
   paging: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  paging: state.paging
-})
-
-const mapDispatchToProps = {
-  addEpisodesToAnime: addEpisodes
-}
+const mapStateToProps = state => ({ paging: state.paging })
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PagedAnimeList)
+  mapStateToProps
+)(BasePagedList)

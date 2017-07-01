@@ -2,11 +2,10 @@ import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import ListFilter from '../containers/list-filter/list-filter'
-import PagedAnimeList from '../containers/paged-anime-list/paged-anime-list'
-import PagedMangaList from '../containers/paged-manga-list/paged-manga-list'
+import PagedAnimeList from '../containers/paged-lists/paged-anime-list'
+import PagedMangaList from '../containers/paged-lists/paged-manga-list'
 import {Strings, Enums} from '../constants/values'
 import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
-// import {mapStateToEntityList} from '../utils/data'
 
 const getStatusList = props => {
   const { name, value } = props.statusFilter;
@@ -41,7 +40,6 @@ class BaseListView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('%c BASE LIST (will receive props) >> ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
     if (
       nextProps.routeKey !== this.props.routeKey ||
       nextProps.statusFilter.value !== this.props.statusFilter.value ||
