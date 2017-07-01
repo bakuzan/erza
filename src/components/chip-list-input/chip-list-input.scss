@@ -1,0 +1,91 @@
+@import "../../styles/partials/_colours";
+
+
+.chip-list-input-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 1em !important;
+
+  .list {
+    align-self: stretch;
+    padding: 0;
+    margin: 0;
+  }
+
+  input:focus ~ .list {
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .chip-list-inner {
+    height: 36px;
+    padding: 0 2px;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+}
+
+.input-chip {
+    height: 32px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    line-height: 32px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 16px;
+    background-color: #dedede;
+    display: inline-block;
+    color: rgba(0,0,0,.87);
+    margin: 2px 0;
+    font-size: 0;
+    white-space: nowrap;
+    &.active, &.active .input-chip-delete {
+      background-color: $primary-background;
+      color: $primary-colour-contrast;
+    }
+}
+.input-chip-deletable {
+    padding-right: 4px;
+}
+
+.input-chip-text {
+    font-size: 13px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.input-chip-delete {
+    display: inline-block !important;
+    vertical-align: middle;
+    overflow: hidden;
+    text-align: center;
+    height: 24px;
+    width: 24px;
+    background: 0 0;
+    opacity: .54;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 0 0 4px;
+    font-size: 13px;
+    text-decoration: none;
+    color: rgba(0,0,0,.87);
+    border: none;
+    outline: none;
+}
+
+
+.autocomplete-menu {
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  list-style-type: none;
+
+  .autocomplete-suggestion .button {
+    width: 100%;
+  }
+  .highlight {
+    font-weight: bold;
+  }
+}
