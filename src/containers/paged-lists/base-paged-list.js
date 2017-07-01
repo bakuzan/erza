@@ -102,10 +102,10 @@ class BasePagedList extends Component {
 
   render() {
     const { type, filters, list, items } = this.props;
+    const PagedList = list;
     const { current } = this.itemProperties;
     const editItem = items.find(x => x._id === this.state.editItem._id) || EMPTY_OBJECT;
     const dynamicListProps = { [`add${capitalise(current)}`]: this.openEditDialog }
-    // console.log('BASE PAGED LIST => ', filters, items);
 
     return (
       <div className="flex-column flex-grow">
@@ -113,7 +113,7 @@ class BasePagedList extends Component {
           listType={type}
           filters={filters}
         />
-        <list
+        <PagedList
           items={items}
           {...dynamicListProps}
         />
@@ -190,11 +190,10 @@ class BasePagedList extends Component {
 
 BasePagedList.propTypes = {
   type: PropTypes.string.isRequired,
-  list: PropTypes.element.isRequired,
+  list: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
-  paging: PropTypes.object.isRequired,
-  addHistoryToItem: PropTypes.func.isRequried
+  paging: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({ paging: state.paging })

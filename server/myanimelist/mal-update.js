@@ -35,7 +35,7 @@ const getMalUpdateObject = {
 const successMalEntry = t => result => console.log(chalk.cyan.bold(`${t}ed mal entry`));
 const failedEntry = err => console.log(chalk.bgWhite.red.bold('Mal entry error : '), err);
 
-cosnt getMalClient = isAdult => isAdult ? clientAdult : client;
+const getMalClient = isAdult => isAdult ? clientAdult : client;
 const addEntity = (type, id, values) => getMalClient(values.isAdult)[`add${capitalise(type)}`](id, values);
 const updateEntity = (type, id, values) => getMalClient(value.isAdult)[`update${capitalise(type)}`](id, values);
 

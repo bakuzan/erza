@@ -17,8 +17,7 @@ const PagedAnimeList = ({ items, filters, addEpisodes }) => (
 
 PagedAnimeList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filters: PropTypes.object,
-  addHistoryToItem: PropTypes.func.isRequried
+  filters: PropTypes.object
 }
 
 const mapDispatchToProps = {
@@ -26,5 +25,6 @@ const mapDispatchToProps = {
 }
 
 export default connect(
+  () => ({}),
   mapDispatchToProps
 )(PagedAnimeList)
