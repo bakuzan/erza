@@ -1,7 +1,15 @@
 @import "../../styles/partials/_variables";
 
+.autocomplete {
+  display: flex;
+  flex: 1 1 100%;
+}
+
 .autocomplete-menu {
+  position: absolute;
+  bottom: 0;
   width: 100%;
+  background: #fff;
   max-height: 250px;
   padding: 5px;
   margin: 0;
@@ -9,6 +17,7 @@
   list-style-type: none;
   z-index: map-get($z-index, menu);
   box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.5);
+  transform: translateY(100%);
 
   .autocomplete-suggestion .button {
     width: 100%;
@@ -19,8 +28,15 @@
 }
 
 // specific to: component/shortcuts
-form[name="shortcuts"] .autocomplete-menu {
-  position: relative;
-  transform: none;
-  box-shadow: none;
+form[name="shortcuts"] {
+
+  .autocomplete {
+    flex-direction: column;
+  }
+
+  .autocomplete-menu {
+    position: relative;
+    transform: none;
+    box-shadow: none;
+  }
 }

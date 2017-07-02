@@ -21,6 +21,11 @@ class ChipListInput extends Component {
   selectAutocompleteSuggestion(id) {
     console.log('selected id > ', id);
     const item = this.props.chipOptions.find(x => x._id === id);
+	   if (!item) return;
+  	/*	TODO Check for null items
+  		- Add logic here to create a new tag if the item is null.
+  		(?) Pass in a optional function that should be called if item is null
+  	*/
     this.updateList(item);
     this.setState({ [this.props.attr]: '' });
   }
@@ -41,13 +46,12 @@ class ChipListInput extends Component {
   }
 
   removeLastInputItem() {
-    console.log('remove last');
     const list = this.props.chipsSelected.slice(0, this.props.chipsSelected.length - 1);
+    console.log('remove > ', list);
     this.persistListState(list);
   }
 
   setStateRemoval(value) {
-    console.log('set removal');
     this.setState({ readyRemoval: value });
   }
 
@@ -58,9 +62,9 @@ class ChipListInput extends Component {
 
   handleKeyDown(event) {
     const { keyCode } = event;
-    console.log('chip key down! > ', keyCode);
     if (keyCode === Enums.keyCode.backspace && !this.state[this.props.attr]) {
       event.preventDefault();
+      console.log('backspace remove? > ', this.state.readyRemoval);
       if (!this.state.readyRemoval) return this.setStateRemoval(true);
       if (this.state.readyRemoval) return this.removeLastInputItem();
     }
@@ -68,7 +72,6 @@ class ChipListInput extends Component {
 
   render() {
     const { attr, chipOptions, chipsSelected } = this.props;
-    console.log('%c input list => ', 'font-weight: bold; font-size: 18px', chipOptions);
     const chips = chipsSelected.filter(x => x !== undefined).map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (
@@ -84,11 +87,11 @@ class ChipListInput extends Component {
       )
     });
     const hasChips = chips.length > 0;
-    // const hasAutoComplete = chipOptions.length > 0;
 
     return (
       <div className="chip-list-input-container">
         <AutocompleteInput
+          label="tags"
           attr={attr}
           items={chipOptions}
           filter={this.state[attr]}
@@ -98,7 +101,7 @@ class ChipListInput extends Component {
         />
         {
           !!hasChips &&
-          <div className="list">
+          <div className="chip-list-wrapper">
               <div className="chip-list-inner">
               { chips }
               </div>

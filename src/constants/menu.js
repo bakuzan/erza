@@ -45,13 +45,13 @@ const Menu = [
       {
         id: 4,
         link: `${Paths.base}${Paths.history}anime`,
-        title: 'Recent anime history',
+        title: 'View episodes watched',
         description: 'View anime history by data range.'
       },
       {
         id: 5,
         link: `${Paths.base}${Paths.history}manga`,
-        title: 'Recent manga history',
+        title: 'View chapters read',
         description: 'View manga history by data range.'
       }
     ]

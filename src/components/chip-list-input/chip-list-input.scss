@@ -8,17 +8,16 @@
   align-items: center;
   padding-top: 1em !important;
 
-  .list {
-    align-self: stretch;
-    padding: 0;
-    margin: 0;
+  .clearable-input {
+    padding-left: 0;
   }
 
-  input:focus ~ .list {
-    border-color: rgba(0, 0, 0, 0.5);
+  .chip-list-wrapper {
+    margin-bottom: 1px;
   }
 
   .chip-list-inner {
+    display: inline-flex;
     height: 36px;
     padding: 0 2px;
     border: 0;
@@ -38,7 +37,7 @@
     background-color: #dedede;
     display: inline-block;
     color: rgba(0,0,0,.87);
-    margin: 2px 0;
+    margin: 1px 0;
     font-size: 0;
     white-space: nowrap;
     &.active, &.active .input-chip-delete {
@@ -73,19 +72,4 @@
     color: rgba(0,0,0,.87);
     border: none;
     outline: none;
-}
-
-
-.autocomplete-menu {
-  width: 100%;
-  padding: 5px;
-  margin: 0;
-  list-style-type: none;
-
-  .autocomplete-suggestion .button {
-    width: 100%;
-  }
-  .highlight {
-    font-weight: bold;
-  }
 }

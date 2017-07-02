@@ -22,7 +22,7 @@ class AutocompleteInput extends Component {
 
   selectActiveSuggestion() {
     const item = this.filterAutoComplete()[this.state.activeSuggestion];
-    this.selectAutocompleteSuggestion(item.id);
+    this.selectAutocompleteSuggestion(item.id || item._id);
   }
 
   filterAutoComplete() {
@@ -71,16 +71,19 @@ class AutocompleteInput extends Component {
       this.updateActiveSuggestion(1);
     } else if (keyCode === Enums.keyCode.up) {
       this.updateActiveSuggestion(-1);
+    } else if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
     }
   }
 
   render() {
-    const { filter, attr } = this.props;
+    const { filter, attr, label } = this.props;
     const autocomplete = this.filterAutoComplete();
 
     return (
       <div className="autocomplete">
         <ClearableInput
+          label={label}
           name={attr}
           value={filter}
           onChange={this.handleInputFilter}
@@ -91,16 +94,17 @@ class AutocompleteInput extends Component {
           <ul className="autocomplete-menu list column one">
             {
               autocomplete.map((item, index) => {
+                const itemId = item.id || item._id;
                 const activeSuggestion = this.state.activeSuggestion === index ? ' active' : '';
                 return (
                   <li
-                    key={item.id}
+                    key={itemId}
                     className={`autocomplete-suggestion${activeSuggestion}`}>
                     <button
                       type="button"
                       className="button ripple"
                       title={item[attr]}
-                      onClick={() => this.selectAutocompleteSuggestion(item.id)}>
+                      onClick={() => this.selectAutocompleteSuggestion(itemId)}>
                       { this.highlightMatch(item[attr]) }
                     </button>
                   </li>
@@ -115,11 +119,13 @@ class AutocompleteInput extends Component {
 }
 
 AutocompleteInput.propTypes = {
+  label: PropTypes.string,
   attr: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filter: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func
 }
 
 export default AutocompleteInput

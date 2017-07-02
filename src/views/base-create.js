@@ -11,7 +11,7 @@ import mangaValidator from '../utils/validators/manga-creation'
 import RatingControl from '../components/rating-control/rating-control';
 import Tickbox from '../components/tickbox/tickbox';
 import SelectBox from '../components/select-box/select-box';
-import InputList from '../components/input-list/input-list';
+import ChipListInput from '../components/chip-list-input/chip-list-input';
 import LoadingSpinner from '../components/loading-spinner/loading-spinner';
 import TabContainer from '../components/tab-container/tab-container'
 import TabView from '../components/tab-view/tab-view'
@@ -34,7 +34,7 @@ class BaseCreate extends Component {
 
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, props.item); // yes, i know i'm assigning a prop to state.
+    this.state = Object.assign({}, props.item, { isAdult: props.isAdult }); // yes, i know i'm assigning a prop to state.
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -70,6 +70,7 @@ class BaseCreate extends Component {
   }
 
   handleListUpdate(name, newList) {
+    console.log('list update :: ', name, newList);
     this.setState({ [name]: newList });
   }
 
@@ -184,13 +185,12 @@ class BaseCreate extends Component {
                                  onChange={this.handleUserInput}
                   />
 
-                  <InputList
-                    name="tags"
-                    label="tags"
-                    placeholder=" "
-                    list={this.state.tags}
-                    typeahead={availableTags}
-                    updateList={this.handleListUpdate}
+                   <ChipListInput
+                     attr="name"
+                     name="tags"
+                     chipsSelected={this.state.tags}
+                     chipOptions={availableTags}
+                     updateChipList={this.handleListUpdate}
                    />
                 </div>
               </TabView>
