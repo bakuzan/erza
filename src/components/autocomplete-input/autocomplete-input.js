@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import ClearableInput from '../clearable-input/clearable-input'
 import {Enums} from '../../constants/values'
+import {isNumber} from '../../utils/common'
 import './autocomplete-input.css'
 
 class AutocompleteInput extends Component {
@@ -22,7 +23,10 @@ class AutocompleteInput extends Component {
 
   selectActiveSuggestion() {
     const item = this.filterAutoComplete()[this.state.activeSuggestion];
-    this.selectAutocompleteSuggestion(item.id || item._id);
+    const id = isNumber(item.id)
+                ? item.id
+                : item._id;
+    this.selectAutocompleteSuggestion(id);
   }
 
   filterAutoComplete() {
@@ -94,7 +98,9 @@ class AutocompleteInput extends Component {
           <ul className="autocomplete-menu list column one">
             {
               autocomplete.map((item, index) => {
-                const itemId = item.id || item._id;
+                const itemId = isNumber(item.id)
+                                ? item.id
+                                : item._id;
                 const activeSuggestion = this.state.activeSuggestion === index ? ' active' : '';
                 return (
                   <li
