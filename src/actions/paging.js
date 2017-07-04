@@ -25,7 +25,6 @@ const fetchPrevPage = () => ({
 })
 
 const changePage = (direction, changePage, type, filters) => {
-  console.log('%c change page called with => ', 'font-size: 20px; font-weight: bold; color: red;', type, filters, FetchData);
   return function(dispatch) {
     dispatch(changePage());
     dispatch(FetchData[type](filters, direction));

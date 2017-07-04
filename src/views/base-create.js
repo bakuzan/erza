@@ -51,12 +51,10 @@ class BaseCreate extends Component {
 
   componentWillReceiveProps(nextProps, nextState) {
     if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && isObject(x))) return;
-    console.log('will get props >> ', nextProps, nextState);
     this.setState(Object.assign({}, nextProps.item, { isAdult: nextProps.isAdult }));
   }
 
   handleMalSelect(malItem) {
-    console.log('MAL Select > ', malItem);
     if (!this.shouldHydrateMal(this.state, malItem)) return;
     this.setState((prevState) => this.hydrateMalFields(prevState, malItem));
   }
@@ -70,7 +68,6 @@ class BaseCreate extends Component {
   }
 
   handleListUpdate(name, newList) {
-    console.log('list update :: ', name, newList);
     this.setState({ [name]: newList });
   }
 
@@ -84,7 +81,6 @@ class BaseCreate extends Component {
 
   render() {
     if (this.props.isFetching) return ( <LoadingSpinner size="fullscreen" /> );
-    console.log('render base create :: ', this.state, this.props);
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags.filter(x => x.isAdult === this.state.isAdult);
@@ -293,7 +289,6 @@ const getInitalItem = (entities, props) => {
   const itemForEdit = Object.assign({}, item, {
     tags: !!item.tags ? setEntityTags(entities, item) : []
   });
-  console.log('%c get inital !! ', 'color: magenta;', itemForEdit);
   return itemModelForType(props.type)(itemForEdit);
 }
 

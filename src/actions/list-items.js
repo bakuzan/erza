@@ -98,7 +98,6 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
-        console.log(`%c History  created`, 'font-size: 20px; color: indigo')
         const data = response.data[getSingleObjectProperty(response.data)];
         if (type) dispatch(refreshItemInState[type](data.record));
         dispatch(finishGraphqlRequest());
@@ -113,7 +112,6 @@ export const removeHistoryItem = (type, id, queryBuilder) => {
     const mutation = queryBuilder(id);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
-        console.log(`%c History  created`, 'font-size: 20px; color: indigo')
         dispatch(removeItemFromState[type](id));
         dispatch(finishGraphqlRequest());
         const data = response.data[getSingleObjectProperty(response.data)];
@@ -132,7 +130,6 @@ export const loadHistoryByDateRange = ({ type, filters, pageChange }, queryBuild
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = response.data[getSingleObjectProperty(response.data)];
-        console.log('load items >> ', type, loadItemsToState);
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })

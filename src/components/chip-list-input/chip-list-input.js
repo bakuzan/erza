@@ -19,7 +19,6 @@ class ChipListInput extends Component {
   }
 
   selectAutocompleteSuggestion(id) {
-    console.log('selected id > ', id);
     const item = this.props.chipOptions.find(x => x._id === id);
 	   if (!item) return;
   	/*	TODO Check for null items
@@ -47,7 +46,6 @@ class ChipListInput extends Component {
 
   removeLastInputItem() {
     const list = this.props.chipsSelected.slice(0, this.props.chipsSelected.length - 1);
-    console.log('remove > ', list);
     this.persistListState(list);
   }
 
@@ -64,7 +62,6 @@ class ChipListInput extends Component {
     const { keyCode } = event;
     if (keyCode === Enums.keyCode.backspace && !this.state[this.props.attr]) {
       event.preventDefault();
-      console.log('backspace remove? > ', this.state.readyRemoval);
       if (!this.state.readyRemoval) return this.setStateRemoval(true);
       if (this.state.readyRemoval) return this.removeLastInputItem();
     }

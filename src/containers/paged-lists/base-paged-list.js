@@ -48,14 +48,6 @@ class BasePagedList extends Component {
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(
-      '%c BASE PAGED LIST (will receive props) >> ',
-      'font-size: 18px; font-weight: bold; color: indigo',
-      nextProps, this.props
-    );
-  }
-
   openEditDialog(_id) {
     const { current, total } = this.itemProperties;
     const editItem = this.props.items.find(x => x._id === _id);
@@ -119,7 +111,7 @@ class BasePagedList extends Component {
                               ? this.state.malUpdates.values[`${current}s`]
                               : null;
     const dynamicListProps = { [`add${capitalise(current)}`]: this.openEditDialog }
-    console.log('PAGED ANIME LIST => ', filters, items);
+    // console.log('PAGED ANIME LIST => ', filters, items);
 
     return (
       <div className="flex-column flex-grow">

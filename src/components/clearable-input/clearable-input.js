@@ -3,9 +3,16 @@ import PropTypes from 'prop-types'
 import {Icons} from '../../constants/values'
 import './clearable-input.css'
 
+let inputField;
+const clearAndFocusInput = (name, clearInput) => () => {
+  clearInput({ target: { name, value: '' } });
+  inputField.focus();
+}
+
 const ClearableInput = ({ name = "search", label = "search", value, maxLength, onChange, onKeyDown }) => (
   <div className="has-float-label input-container clearable-input">
     <input
+      ref={(input) => inputField = input}
       type="text"
       name={name}
       placeholder=" "
@@ -22,7 +29,7 @@ const ClearableInput = ({ name = "search", label = "search", value, maxLength, o
         type="button"
         className="button-icon small clear-input"
         icon={Icons.cross}
-        onClick={() => onChange({ target: { name, value: '' } })}
+        onClick={clearAndFocusInput(name, onChange)}
         >
       </button>
     }

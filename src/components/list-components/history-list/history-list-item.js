@@ -63,7 +63,6 @@ class HistoryListItem extends Component {
     const capitalisedCurrent = capitalise(current);
     const number = padNumber(item[current], 3);
 
-    console.log(`history-list-item > ${item[current]} => `, this.state);
     return (
       <li className="history-list-item">
         <time dateTime={formatDateISO(item.date)}>{ formatDateTimeForDisplay(item.date) }</time>
