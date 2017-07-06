@@ -150,6 +150,7 @@ class BasePagedList extends Component {
               </div>
               {
                 !!this.state.malUpdates.values &&
+				this.state.editItem[current] > 0 &&
                 this.state.editItem[current] === this.state.malUpdates.values[`${current}s`] &&
                 <RatingControl
                   name="overallRating"
