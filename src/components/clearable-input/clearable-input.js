@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Icons} from '../../constants/values'
+import {debounce} from '../../utils/common'
 import './clearable-input.css'
 
 let inputField;
 const clearAndFocusInput = (name, clearInput) => () => {
   clearInput({ target: { name, value: '' } });
-  inputField.focus();
+  debounce(() => inputField.focus(), 100);
 }
 
 const ClearableInput = ({ name = "search", label = "search", value, maxLength, onChange, onKeyDown }) => (
