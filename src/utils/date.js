@@ -28,7 +28,7 @@ export const endOfDay = setTimeForDate(23, 59, 59)
 
 
 const BAD_BLANK_MAL_DATE = '0000-00-00';
-const BAD_ONLY_YEAR_MAL_DATE = '-00-00';
+const BAD_MAL_DATE_PART = '-00';
 
-const isNotBadMalDate = s => s !== BAD_BLANK_MAL_DATE && s.indexOf(BAD_ONLY_YEAR_MAL_DATE) === -1;
+const isNotBadMalDate = s => s !== BAD_BLANK_MAL_DATE && s.indexOf(BAD_MAL_DATE_PART) === -1;
 export const dateStringToISOString = s => !!s && isNotBadMalDate(s) ? new Date(s).toISOString() : null;
