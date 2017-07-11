@@ -20,11 +20,11 @@ class ChipListInput extends Component {
 
   selectAutocompleteSuggestion(id) {
     const item = this.props.chipOptions.find(x => x._id === id);
-	   if (!item) return;
-  	/*	TODO Check for null items
-  		- Add logic here to create a new tag if the item is null.
-  		(?) Pass in a optional function that should be called if item is null
-  	*/
+	  if (!item) return;
+    
+    const alreadyExists = this.props.chipsSelected.find(x => x._id === item._id);
+    if (alreadyExists) return;
+
     this.updateList(item);
     this.setState({ [this.props.attr]: '' });
   }
