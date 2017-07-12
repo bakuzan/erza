@@ -67,7 +67,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
     title: !!model._id ? model.title : malItem.title,
     image: malItem.image,
     malId: malItem.id,
-    series_type: Enums[type].type[malItem.type.toLowerCase()],
+    series_type: Enums[type].type[malItem.type.replace(/\W/g, '').toLowerCase()],
     [total]: malItem[`${current}s`],
     series_start: dateStringToISOString(malItem.start_date),
     series_end: dateStringToISOString(malItem.end_date)
