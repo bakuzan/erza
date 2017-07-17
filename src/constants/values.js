@@ -25,7 +25,7 @@ export const Enums = {
       manga: 1,
       novel: 2,
       oneshot: 3,
-      doujin: 4,
+      doujinshi: 4,
       manhwa: 5,
       manhua: 6
     }
