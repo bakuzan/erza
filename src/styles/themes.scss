@@ -66,7 +66,7 @@
         @include shiftColourLightness($base-background, $darken-amount);
       }
     }
-    .button-link {
+    .button-link:not(.active) {
       color: $anchor-colour;
       &:focus, &:active, &:visited {
         color: $anchor-colour;

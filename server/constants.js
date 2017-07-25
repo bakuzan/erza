@@ -14,11 +14,17 @@ const type = {
 	manga: 'manga'
 }
 
+const environment = {
+	development: 'development',
+	production: 'production'
+}
+
 const Constants = {
 	appName,
 	seasons,
   seasonalTypes,
-	type
+	type,
+	environment
 }
 
 module.exports = Constants;
