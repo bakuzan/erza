@@ -26,11 +26,14 @@ const handleErrorResponse = (err, res) => {
 
 const capitalise = str => str.charAt(0).toUpperCase() + str.slice(1);
 
+const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
+
 const Common = {
   handleErrorResponse,
   getDateParts,
   getSeasonText,
-  capitalise
+  capitalise,
+  getKeyByValue
 }
 
 module.exports = Common;

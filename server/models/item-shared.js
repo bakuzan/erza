@@ -81,7 +81,7 @@ const searchFilterArg = {
   name: 'search',
   type: 'String',
   description: 'Search by regExp on title',
-  query: (query, value, resolveParams) => { 
+  query: (query, value, resolveParams) => {
     const str = value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape all regex special characters
     query.title = new RegExp(str, 'gi');
   },
@@ -98,8 +98,17 @@ const statusInFilterArg = type => ({
   },
 })
 
+const groupedCount = (groupBy, sort, match) => {
+  return [
+  	{ $match: match },
+  	{ $group: { _id: `$${groupBy}`, total: { $sum: 1 } } },
+    { $sort : { _id: sort } }
+  ];
+}
+
 module.exports = {
   itemSharedFields,
   searchFilterArg,
-  statusInFilterArg
+  statusInFilterArg,
+  groupedCount
 }

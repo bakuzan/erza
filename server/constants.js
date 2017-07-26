@@ -14,6 +14,14 @@ const type = {
 	manga: 'manga'
 }
 
+const status = {
+	ongoing: 1,
+	completed: 2,
+	onhold: 3,
+	dropped: 4,
+	planned: 6,
+}
+
 const environment = {
 	development: 'development',
 	production: 'production'
@@ -24,6 +32,7 @@ const Constants = {
 	seasons,
   seasonalTypes,
 	type,
+	status,
 	environment
 }
 

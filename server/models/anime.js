@@ -12,7 +12,8 @@ const Constants = require('../constants.js');
 const {
   itemSharedFields,
   searchFilterArg,
-  statusInFilterArg
+  statusInFilterArg,
+  groupedCount
 } = require('./item-shared.js');
 
 const AnimeSchema = new Schema(
@@ -34,8 +35,13 @@ const AnimeSchema = new Schema(
   })
 );
 
+AnimeSchema.statics.getGroupedCount = function(groupBy, sort, match) {
+  return this.aggregate(groupedCount(groupBy, sort, match));
+}
+
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
+
 
 AnimeTC.addRelation(
   'tagList',

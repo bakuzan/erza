@@ -11,7 +11,8 @@ const {type} = require('../constants.js');
 const {
   itemSharedFields,
   searchFilterArg,
-  statusInFilterArg
+  statusInFilterArg,
+  groupedCount
 } = require('./item-shared.js');
 
 const MangaSchema = new Schema(
@@ -39,8 +40,14 @@ const MangaSchema = new Schema(
   })
 );
 
+
+MangaSchema.statics.getGroupedCount = function(groupBy, sort, match) {
+  return this.aggregate(groupedCount(groupBy, sort, match));
+}
+
 const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
+
 
 MangaTC.addRelation(
   'tagList',
