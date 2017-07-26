@@ -81,8 +81,9 @@ const searchFilterArg = {
   name: 'search',
   type: 'String',
   description: 'Search by regExp on title',
-  query: (query, value, resolveParams) => { // eslint-disable-line
-    query.title = new RegExp(value, 'gi'); // eslint-disable-line
+  query: (query, value, resolveParams) => { 
+    const str = value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Escape all regex special characters
+    query.title = new RegExp(str, 'gi');
   },
 }
 
