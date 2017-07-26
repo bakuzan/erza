@@ -30,8 +30,9 @@ class AutocompleteInput extends Component {
   }
 
   filterAutoComplete() {
-    const { items, attr, filter } = this.props;
+    const { items, attr, filter, disableLocalFilter } = this.props;
     if (!(items && filter)) return [];
+    if (disableLocalFilter) return items;
 
     const filterLowerCase = filter.toLowerCase();
     return items.filter(x => x[attr].toLowerCase().indexOf(filterLowerCase) > -1);
@@ -124,6 +125,10 @@ class AutocompleteInput extends Component {
   }
 }
 
+AutocompleteInput.defaultProps = {
+  disableLocalFilter: false
+}
+
 AutocompleteInput.propTypes = {
   label: PropTypes.string,
   attr: PropTypes.string.isRequired,
@@ -131,7 +136,8 @@ AutocompleteInput.propTypes = {
   filter: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func
+  onKeyDown: PropTypes.func,
+  disableLocalFilter: PropTypes.bool
 }
 
 export default AutocompleteInput
