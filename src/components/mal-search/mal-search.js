@@ -74,6 +74,7 @@ class MalSearch extends Component {
           filter={search}
           onChange={this.handleMalSearch}
           onSelect={this.selectAutocompleteSuggestion}
+          disableLocalFilter="true"
         />
         {
           this.state.isFetching &&
