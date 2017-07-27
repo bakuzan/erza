@@ -35,8 +35,8 @@ const AnimeSchema = new Schema(
   })
 );
 
-AnimeSchema.statics.getGroupedCount = function(groupBy, sort, match) {
-  return this.aggregate(groupedCount(groupBy, sort, match));
+AnimeSchema.statics.getGroupedCount = function(groupBy, sort, match, callback) {
+  return this.aggregate(groupedCount(groupBy, sort, match), callback);
 }
 
 const Anime = mongoose.model('Anime', AnimeSchema);
