@@ -12,22 +12,22 @@ const getQueryModelForType = t => t === Constants.type.anime ? Anime : Manga;
 const getStatusCounts = (req, res) => {
 	const { params: { type, isAdult } } = req;
   const model = getQueryModelForType(type);
-	console.log(model);
-  res.jsonp(
-		model.getGroupedCount("status", 1, { isAdult }, (err, arr) => {
-      return arr.map(({ _id, total }) => ({ key: getKeyByValue(Constants.status, _id), value: total }));
-    })
-	);
+	model.getGroupedCount("$status", 1, { isAdult: isAdult }, function(err, arr) {
+		console.log(arr);
+    res.jsonp(
+			arr.map(({ _id, value }) => ({ key: getKeyByValue(Constants.status, _id), value }))
+		);
+  })
 }
 
 const getRatingCounts = (req, res) => {
 	const { params: { type, isAdult } } = req;
   const model = getQueryModelForType(type);
-	res.jsonp(
-		model.getGroupedCount("rating", -1, { isAdult }, (err, arr) => {
-      return arr.map(({ _id, total }) => ({ key: `${_id}`, value: total }));
-    })
-	);
+	model.getGroupedCount("$rating", -1, { isAdult: isAdult }, function(err, arr) {
+    res.jsonp(
+			arr.map(({ _id, value }) => ({ key: `${_id}`, value }))
+		);
+  })
 }
 
 module.exports = {

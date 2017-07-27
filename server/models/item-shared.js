@@ -98,12 +98,14 @@ const statusInFilterArg = type => ({
   },
 })
 
-const groupedCount = (groupBy, sort, match) => {
-  return [
-  	{ $match: match },
-  	{ $group: { _id: `$${groupBy}`, total: { $sum: 1 } } },
-    { $sort : { _id: sort } }
-  ];
+const groupedCount = function() {
+  return function (groupBy, sort, match, callback) {
+    return this.aggregate([
+    	{ $match: match },
+    	{ $group: { _id: groupBy, value: { $sum: 1 } } },
+      { $sort : { _id: sort } }
+    ]).exec(callback);
+  }
 }
 
 module.exports = {
