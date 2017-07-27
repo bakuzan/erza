@@ -14,7 +14,9 @@ const getStatusCounts = (req, res) => {
   const model = getQueryModelForType(type);
 	console.log(model);
   res.jsonp(
-		model.getGroupedCount("status", 1, { isAdult }).map(({ _id, total }) => ({ key: getKeyByValue(Constants.status, _id), value: total }))
+		model.getGroupedCount("status", 1, { isAdult }, (err, arr) => {
+      return arr.map(({ _id, total }) => ({ key: getKeyByValue(Constants.status, _id), value: total }));
+    })
 	);
 }
 
@@ -22,7 +24,9 @@ const getRatingCounts = (req, res) => {
 	const { params: { type, isAdult } } = req;
   const model = getQueryModelForType(type);
 	res.jsonp(
-		model.getGroupedCount("rating", -1, { isAdult }).map(({ _id, total }) => ({ key: _id, value: total }))
+		model.getGroupedCount("rating", -1, { isAdult }, (err, arr) => {
+      return arr.map(({ _id, total }) => ({ key: `${_id}`, value: total }));
+    })
 	);
 }
 
