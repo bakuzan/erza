@@ -41,8 +41,8 @@ const MangaSchema = new Schema(
 );
 
 
-MangaSchema.statics.getGroupedCount = function(groupBy, sort, match) {
-  return this.aggregate(groupedCount(groupBy, sort, match));
+MangaSchema.statics.getGroupedCount = function(groupBy, sort, match, callback) {
+  return this.aggregate(groupedCount(groupBy, sort, match), callback);
 }
 
 const Manga = mongoose.model('Manga', MangaSchema);
