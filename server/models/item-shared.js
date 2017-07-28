@@ -99,10 +99,11 @@ const statusInFilterArg = type => ({
 })
 
 const groupedCount = function() {
-  return function (groupBy, sort, match, callback) {
+  return function ({ groupBy, sort, match = {}, project = {} }, callback) {
     return this.aggregate([
-    	{ $match: match },
-    	{ $group: { _id: groupBy, value: { $sum: 1 } } },
+      { $match: match },
+      { $project: project },
+      { $group: { _id: groupBy, value: { $sum: 1 } } },
       { $sort : { _id: sort } }
     ]).exec(callback);
   }
