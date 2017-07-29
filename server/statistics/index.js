@@ -16,9 +16,7 @@ const getStatusCounts = (req, res) => {
     groupBy: "$status", 
     sort: 1, 
     match: { isAdult: stringToBool(isAdult) } 
-  }, 
-  function(err, arr) {
-    console.log(arr);
+  }).then(function(arr) {
     res.jsonp(
       arr.map(({ _id, value }) => ({ key: getKeyByValue(Constants.status, _id), value }))
     );
@@ -32,8 +30,7 @@ const getRatingCounts = (req, res) => {
     groupBy: "$rating", 
     sort: -1, 
     match: { isAdult: stringToBool(isAdult) } 
-  }, 
-  function(err, arr) {
+  }).then(function(arr) {
     res.jsonp(
       arr.map(({ _id, value }) => ({ key: `${_id}`, value }))
     );
@@ -48,8 +45,7 @@ const getHistoryCounts = (req, res) => {
     sort: -1, 
     match: { isAdult: stringToBool(isAdult) }, 
     project: { month: { $substr: ["$start", 0, 7] } } 
-  }, 
-  function(err, arr) {
+  }).then(function(arr) {
     res.jsonp(
       arr.map(({ _id, value }) => ({ key: `${_id}`, value }))
     );
@@ -59,5 +55,5 @@ const getHistoryCounts = (req, res) => {
 module.exports = {
 	getStatusCounts,
 	getRatingCounts,
-  getHistoryCounts
+	getHistoryCounts
 };

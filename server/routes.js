@@ -34,6 +34,7 @@ router.get('/api/mal-search/:type', malSearch);
 //Statistic routes
 router.get('/api/statistics/status-counts/:type/:isAdult', statistics.getStatusCounts);
 router.get('/api/statistics/rating-counts/:type/:isAdult', statistics.getRatingCounts);
+router.get('/api/statistics/history-counts/:type/:isAdult', statistics.getHistoryCounts);
 
 // Graphql route
 router.use(
