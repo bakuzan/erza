@@ -28,6 +28,7 @@ export const Paths = {
     edit: 'manga/edit/',
   },
   history: 'history/',
+  statistics: 'statistics/',
   graphql: {
     base: '/graphql?query='
   },

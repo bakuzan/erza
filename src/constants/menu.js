@@ -44,15 +44,33 @@ const Menu = [
     children: [
       {
         id: 4,
-        link: `${Paths.base}${Paths.history}anime`,
+        link: `${Paths.base}${Paths.history}${Strings.anime}`,
         title: 'View episodes watched',
         description: 'View anime history by data range.'
       },
       {
         id: 5,
-        link: `${Paths.base}${Paths.history}manga`,
+        link: `${Paths.base}${Paths.history}${Strings.manga}`,
         title: 'View chapters read',
         description: 'View manga history by data range.'
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Statistics',
+    children: [
+      {
+        id: 6,
+        link: `${Paths.base}${Paths.statistics}${Strings.anime}`,
+        title: 'Explore anime statistics',
+        description: 'Investigate the aggregation on anime entries'
+      },
+      {
+        id: 7,
+        link: `${Paths.base}${Paths.statistics}${Strings.manga}`,
+        title: 'Explore manga statistics',
+        description: 'Investigate the aggregation on manga entries'
       }
     ]
   }
