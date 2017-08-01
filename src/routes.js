@@ -16,6 +16,8 @@ import MangaCreate from './views/manga/manga-create'
 import AnimeHistoryView from './views/history/anime-history'
 import MangaHistoryView from './views/history/manga-history'
 
+import Statistics from './views/statistics'
+
 const Routes = ({ history }) => (
   <Router history={history}>
     <Redirect from="/" to={Paths.base} />
@@ -34,6 +36,8 @@ const Routes = ({ history }) => (
 
       <Route path={`${Paths.history}${Strings.anime}`} component={AnimeHistoryView} />
       <Route path={`${Paths.history}${Strings.manga}`} component={MangaHistoryView} />
+
+      <Route path={`${Paths.statistics}(:type)`} component={Statistics} />
     </Route>
   </Router>
 )
