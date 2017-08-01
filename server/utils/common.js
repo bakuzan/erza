@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const Constants = require('../constants.js');
 
 const getDateParts = (date) => {
+  if (!date) return {};
   const d = new Date(date);
   return {
     year: d.getFullYear(),

@@ -6,7 +6,7 @@ const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
 const clientAdult = popura(process.env.MAL_USER_ADULT, process.env.MAL_PASSWORD_ADULT);
 
-const convertUSDateFormat = date => date.getMonth() + 1 + '' + date.getDate() + '' + date.getFullYear();
+const convertUSDateFormat = date => date ? date.getMonth() + 1 + '' + date.getDate() + '' + date.getFullYear() : null;
 
 const getMalAnime = animeitem => ({
 	episode: animeitem.episode,

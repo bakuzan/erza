@@ -23,10 +23,10 @@ const router = express.Router();
 router.use(cors());
 
 // middleware to use for all requests
-router.use((req, res, next) => {
+/*router.use((req, res, next) => {
 	console.log(chalk.bold.yellow('Query @ ', req.url));
 	next(); // pass to next handler.
-});
+});*/
 
 //Mal route
 router.get('/api/mal-search/:type', malSearch);
