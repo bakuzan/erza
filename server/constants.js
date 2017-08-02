@@ -14,6 +14,11 @@ const type = {
 	manga: 'manga'
 }
 
+const breakdown = {
+	months: 'months',
+	season: 'season'
+}
+
 const status = {
 	ongoing: 1,
 	completed: 2,
@@ -33,7 +38,8 @@ const Constants = {
   seasonalTypes,
 	type,
 	status,
-	environment
+	environment,
+	breakdown
 }
 
 module.exports = Constants;

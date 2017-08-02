@@ -22,19 +22,13 @@ const db = mongoose.connect(`mongodb://localhost/${Constants.appName}-${environm
 const router = express.Router();
 router.use(cors());
 
-// middleware to use for all requests
-/*router.use((req, res, next) => {
-	console.log(chalk.bold.yellow('Query @ ', req.url));
-	next(); // pass to next handler.
-});*/
-
 //Mal route
 router.get('/api/mal-search/:type', malSearch);
 
 //Statistic routes
 router.get('/api/statistics/status-counts/:type/:isAdult', statistics.getStatusCounts);
 router.get('/api/statistics/rating-counts/:type/:isAdult', statistics.getRatingCounts);
-router.get('/api/statistics/history-counts/:type/:isAdult', statistics.getHistoryCounts);
+router.get('/api/statistics/history-counts/:type/:isAdult/:breakdown', statistics.getHistoryCounts);
 
 // Graphql route
 router.use(

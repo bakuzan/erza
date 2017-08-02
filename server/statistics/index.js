@@ -12,10 +12,10 @@ const getQueryModelForType = t => t === Constants.type.anime ? Anime : Manga;
 const getStatusCounts = (req, res) => {
   const { params: { type, isAdult } } = req;
   const model = getQueryModelForType(type);
-  model.getGroupedCount({ 
-    groupBy: "$status", 
-    sort: 1, 
-    match: { isAdult: stringToBool(isAdult) } 
+  model.getGroupedCount({
+    groupBy: "$status",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult) }
   }).then(function(arr) {
     res.jsonp(
       arr.map(({ _id, value }) => ({ key: getKeyByValue(Constants.status, _id), value }))
@@ -26,10 +26,10 @@ const getStatusCounts = (req, res) => {
 const getRatingCounts = (req, res) => {
   const { params: { type, isAdult } } = req;
   const model = getQueryModelForType(type);
-  model.getGroupedCount({ 
-    groupBy: "$rating", 
-    sort: -1, 
-    match: { isAdult: stringToBool(isAdult) } 
+  model.getGroupedCount({
+    groupBy: "$rating",
+    sort: -1,
+    match: { isAdult: stringToBool(isAdult) }
   }).then(function(arr) {
     res.jsonp(
       arr.map(({ _id, value }) => ({ key: `${_id}`, value }))
@@ -37,19 +37,25 @@ const getRatingCounts = (req, res) => {
   })
 }
 
+const historyBreakdownIsMonths = val => val === Constants.breakdown.months;
 const getHistoryCounts = (req, res) => {
-  const { params: { type, isAdult } } = req;
+  const { params: { type, isAdult, breakdown } } = req;
   const model = getQueryModelForType(type);
-  model.getGroupedCount({ 
-    groupBy: "$month", 
-    sort: -1, 
-    match: { isAdult: stringToBool(isAdult) }, 
-    project: { month: { $substr: ["$start", 0, 7] } } 
+  model.getGroupedCount({
+    groupBy: "$month",
+    sort: -1,
+    match: { isAdult: stringToBool(isAdult) },
+    project: { month: { $substr: ["$start", 0, 7] } }
   }).then(function(arr) {
     res.jsonp(
-      arr.map(({ _id, value }) => ({ key: `${_id}`, value }))
+      currateHistoryBreakdown(breakdown, arr)
     );
   })
+}
+
+const currateHistoryBreakdown = (breakdown, arr) => {
+  if (historyBreakdownIsMonths(breakdown)) return arr.map(({ _id, value }) => ({ key: `${_id}`, value }));
+  return [];
 }
 
 module.exports = {

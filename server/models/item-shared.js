@@ -102,7 +102,7 @@ const groupedCount = function() {
   return function ({ groupBy, sort, match = {}, project = {} }) {
     return this.aggregate([
       { $match: match },
-      { $project: Object.assign({}, project, { _id: 1, status: 1, rating: 1, start: 1 }) },
+      { $project: Object.assign({}, project, { _id: 1, status: 1, rating: 1, start: 1, series_start: 1, series_type: 1, _legacyIsSeason: 1 }) },
       { $group: { _id: groupBy, value: { $sum: 1 } } },
       { $sort : { _id: sort } }
     ]);
