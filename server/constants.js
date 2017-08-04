@@ -7,6 +7,8 @@ const seasons = {
 	fall: 'Fall'
 }
 
+const seasonMonths = ["01", "04", "07", "10"];
+
 const seasonalTypes = [1, 5] // tv, ona
 
 const type = {
@@ -35,6 +37,7 @@ const environment = {
 const Constants = {
 	appName,
 	seasons,
+  seasonMonths,
   seasonalTypes,
 	type,
 	status,
