@@ -76,7 +76,7 @@ const getHistoryCounts = (req, res) => {
   })
 }
 
-const aggregateIsSeasonStart = o => ["01", "04", "07", "10"].some(y => y === o._id.split("-")[1]));
+const aggregateIsSeasonStart = o => ["01", "04", "07", "10"].some(y => y === o._id.split("-")[1]);
 const getSeasonStartMonth = month => Constants.seasonMonths[Math.floor(Number(month) / 4)];
 const currateHistoryBreakdown = (breakdown, arr) => {
   if (historyBreakdownIsMonths(breakdown)) return arr.map(({ _id, value }) => ({ key: `${_id}`, value }));
@@ -88,7 +88,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
       const [year, month] = _id.split("-");
       const seasonText = `${year}-${getSeasonStartMonth(month)}`;
       const index = p.findIndex(x => x._id === seasonText);
-    
+
       if (index === -1) return [...p, { _id: seasonText, value }];
       const season = p[index];
       return Object.assign([...p], { [index]: { _id: season._id, value: season.value + value } });
