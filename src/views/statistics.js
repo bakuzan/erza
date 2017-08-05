@@ -1,9 +1,19 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
+import Elm from 'react-elm-components'
+import {Main} from '../../satellizer/build/static/js/main.d8f183c8.js'
 
+function setupPorts(ports) {
+}
 
-const Statistics = ({ isFetching, isAdult, type }) => (
-
+const Statistics = (props) => (
+  <div>
+    <div id="satellizer"></div>
+    <script>
+      var node = document.getElementById('satellizer');
+      Elm.Main.embed(node, props)
+    </script>
+  </div>
 )
 
 Statistics.propTypes = {

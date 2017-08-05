@@ -1,0 +1,3 @@
+[submodule "satellizer"]
+	path = satellizer
+	url = https://github.com/bakuzan/satellizer.git
