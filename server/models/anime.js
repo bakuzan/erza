@@ -13,7 +13,8 @@ const {
   itemSharedFields,
   searchFilterArg,
   statusInFilterArg,
-  groupedCount
+  groupedCount,
+  findIn
 } = require('./item-shared.js');
 
 const AnimeSchema = new Schema(
@@ -36,6 +37,7 @@ const AnimeSchema = new Schema(
 );
 
 AnimeSchema.statics.getGroupedCount = groupedCount();
+AnimeSchema.statics.findIn = findIn();
 
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);

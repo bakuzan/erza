@@ -96,10 +96,28 @@ const currateHistoryBreakdown = (breakdown, arr) => {
     .map(({ _id, value }) => ({ key: `${_id}`, value }));
 }
 
+const getHistoryCountsPartition = (req, res) => {
+  const { params: { type, isAdult, breakdown, partition } } = req;
+  const model = getQueryModelForType(type);
+  const breakdownObj = fetchBreakdownObject(breakdown);
+  model.getGroupedCount({
+    groupBy: "$_id",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult) },
+    project: Object.assign({}, { month: { $substr: ["$start", 0, 7] } }, breakdownObj.project),
+    postMatch: Object.assign({}, { $and: [{ month: { $eq: partition } }, breakdownObj.match] })
+  }).then(function(arr) {
+    const list = arr.map(({ _id }) => _id);
+    return model.findIn(list);
+  }).then(function(docs) {
+    res.jsonp(docs);
+  });
+}
 
 
 module.exports = {
 	getStatusCounts,
 	getRatingCounts,
-	getHistoryCounts
+	getHistoryCounts,
+  getHistoryCountsPartition
 };
