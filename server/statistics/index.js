@@ -1,5 +1,5 @@
 const Constants = require('../constants');
-const { handleErrorResponse, getKeyByValue, stringToBool } = require('../utils/common');
+const { handleErrorResponse, getKeyByValue, stringToBool, padNumber } = require('../utils/common');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 
@@ -96,6 +96,14 @@ const currateHistoryBreakdown = (breakdown, arr) => {
     .map(({ _id, value }) => ({ key: `${_id}`, value }));
 }
 
+const listOfMonths = (breakdown, partition) => {
+  const isMonths = historyBreakdownIsMonths(breakdown);
+  const [year,month] = partition.split("-");
+  const monthNum = Number(month);
+  return isMonths
+    ? [partition]
+    : [partition, `${year}-${padNumber(monthNum+1, 2)}`, `${year}-${padNumber(monthNum+2, 2)}`];
+}
 const getHistoryCountsPartition = (req, res) => {
   const { params: { type, isAdult, breakdown, partition } } = req;
   const model = getQueryModelForType(type);
@@ -105,7 +113,7 @@ const getHistoryCountsPartition = (req, res) => {
     sort: 1,
     match: { isAdult: stringToBool(isAdult) },
     project: Object.assign({}, { month: { $substr: ["$start", 0, 7] } }, breakdownObj.project),
-    postMatch: Object.assign({}, { $and: [{ month: { $eq: partition } }, breakdownObj.match] })
+    postMatch: Object.assign({}, { $and: [{ month: { $in: listOfMonths(breakdown, partition) } }, breakdownObj.match] })
   }).then(function(arr) {
     const list = arr.map(({ _id }) => _id);
     return model.findIn(list);

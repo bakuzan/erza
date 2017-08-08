@@ -112,7 +112,7 @@ const groupedCount = function() {
 
 const findIn = function() {
   return function(arr) {
-    return this.find({ _id: { $in: arr } }, { _id: 1, title: 1, rating: 1 });
+    return this.find({ _id: { $in: arr } }, { id: 1, title: 1, rating: 1 });
   }
 }
 
