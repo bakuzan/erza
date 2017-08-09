@@ -96,6 +96,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
     .map(({ _id, value }) => ({ key: `${_id}`, value }));
 }
 
+const getDatePropertyString = b => historyBreakdownIsMonths(b) ? "$end" : "$start";
 const listOfMonths = (breakdown, partition) => {
   const isMonths = historyBreakdownIsMonths(breakdown);
   const [year,month] = partition.split("-");
@@ -112,7 +113,7 @@ const getHistoryCountsPartition = (req, res) => {
     groupBy: "$_id",
     sort: 1,
     match: { isAdult: stringToBool(isAdult) },
-    project: Object.assign({}, { month: { $substr: ["$start", 0, 7] } }, breakdownObj.project),
+    project: Object.assign({}, { month: { $substr: [getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
     postMatch: Object.assign({}, { $and: [{ month: { $in: listOfMonths(breakdown, partition) } }, breakdownObj.match] })
   }).then(function(arr) {
     const list = arr.map(({ _id }) => _id);
