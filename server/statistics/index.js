@@ -59,6 +59,7 @@ const fetchBreakdownObject = (v) => historyBreakdownIsMonths(v)
     };
 
 const historyBreakdownIsMonths = val => val === Constants.breakdown.months;
+const getDatePropertyString = b => historyBreakdownIsMonths(b) ? "$end" : "$start";
 const getHistoryCounts = (req, res) => {
   const { params: { type, isAdult, breakdown } } = req;
   const model = getQueryModelForType(type);
@@ -66,8 +67,8 @@ const getHistoryCounts = (req, res) => {
   model.getGroupedCount({
     groupBy: "$month",
     sort: -1,
-    match: { isAdult: stringToBool(isAdult) },
-    project: Object.assign({}, { month: { $substr: ["$start", 0, 7] } }, breakdownObj.project),
+    match: { isAdult: stringToBool(isAdult), status: 2 },
+    project: Object.assign({}, { month: { $substr: [getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
     postMatch: breakdownObj.match
   }).then(function(arr) {
     res.jsonp(
@@ -96,7 +97,6 @@ const currateHistoryBreakdown = (breakdown, arr) => {
     .map(({ _id, value }) => ({ key: `${_id}`, value }));
 }
 
-const getDatePropertyString = b => historyBreakdownIsMonths(b) ? "$end" : "$start";
 const listOfMonths = (breakdown, partition) => {
   const isMonths = historyBreakdownIsMonths(breakdown);
   const [year,month] = partition.split("-");
@@ -112,7 +112,7 @@ const getHistoryCountsPartition = (req, res) => {
   model.getGroupedCount({
     groupBy: "$_id",
     sort: 1,
-    match: { isAdult: stringToBool(isAdult) },
+    match: { isAdult: stringToBool(isAdult), status: 2 },
     project: Object.assign({}, { month: { $substr: [getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
     postMatch: Object.assign({}, { $and: [{ month: { $in: listOfMonths(breakdown, partition) } }, breakdownObj.match] })
   }).then(function(arr) {
