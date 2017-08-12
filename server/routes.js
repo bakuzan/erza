@@ -30,6 +30,7 @@ router.get('/api/statistics/status-counts/:type/:isAdult', statistics.getStatusC
 router.get('/api/statistics/rating-counts/:type/:isAdult', statistics.getRatingCounts);
 router.get('/api/statistics/history-counts/:type/:isAdult/:breakdown', statistics.getHistoryCounts);
 router.get('/api/statistics/history-detail/:type/:isAdult/:breakdown/:partition', statistics.getHistoryCountsPartition);
+router.get('/api/statistics/history-years/:type/:isAdult/:breakdown/:partition', statistics.getHistoryCountsByYears);
 
 // Graphql route
 router.use(
