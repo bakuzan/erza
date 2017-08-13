@@ -37,11 +37,33 @@ const listOfMonths = (breakdown, partition) => {
     : [partition, `${year}-${padNumber(monthNum+1, 2)}`, `${year}-${padNumber(monthNum+2, 2)}`];
 }
 
+
+const getModeRating = arr => {
+	const nested = buildNestedList(arr);
+	const { number } = nested.reduce((p, c) => {
+		const length = c.length;
+		return length > p.length
+		 ? { length, number: c[0] }
+		 : p;
+	}, { length: 0, number: 0 });
+	return number;
+}
+
+const buildNestedList = arr => {
+	const first = arr[0];
+	if (!first) return [];
+	return [arr.filter(x => x === first)]
+	          .concat(
+			    buildNestedList(arr.filter(x => x !== first))
+			  );
+}
+
 module.exports = {
   fetchBreakdownObject,
   historyBreakdownIsMonths,
   getDatePropertyString,
   aggregateIsSeasonStart,
   getSeasonStartMonth,
-  listOfMonths
+  listOfMonths,
+  getModeRating
 }

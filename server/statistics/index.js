@@ -107,7 +107,14 @@ const getHistoryCountsByYears = (req, res) => {
     postMatch: Object.assign({}, { year: { $in: [partition] } }, breakdownObj.match),
     grouping: { average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" } }
   }).then(function(arr) {
-    res.jsonp(arr);
+	  const data = arr.map(item => {
+		  const ratings = item.ratings.slice(0);
+		  delete item.ratings;
+		  return Object.assign({}, item, { 
+		    mode: Functions.getModeRating(ratings)
+		  });
+	  });
+	  res.jsonp(data);
   });
 }
 
@@ -116,6 +123,6 @@ module.exports = {
 	getStatusCounts,
 	getRatingCounts,
 	getHistoryCounts,
-  getHistoryCountsPartition,
-  getHistoryCountsByYears
+	getHistoryCountsPartition,
+	getHistoryCountsByYears
 };
