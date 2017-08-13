@@ -110,14 +110,41 @@ const getHistoryCountsByYears = (req, res) => {
 	  const data = arr.map(item => {
 		  const ratings = item.ratings.slice(0);
 		  delete item.ratings;
-		  return Object.assign({}, item, { 
+		  return Object.assign({}, item, {
 		    mode: Functions.getModeRating(ratings)
 		  });
 	  });
-	  res.jsonp(data);
+	  res.jsonp(
+      fixSeasonalResults(breakdown, data)
+    );
   });
 }
 
+const isASeasonStartMonth = obj => ["01", "04", "07", "10"].some(y => y === obj._id)
+const fixSeasonalResults = (breakdown, data) => {
+  if (Functions.historyBreakdownIsMonths(breakdown)) return data;
+
+  return data
+    .filter(x => !isASeasonStartMonth(x))
+    .reduce((p, c) => {
+      const {_id, value, average, highest, lowest, mode} = c;
+      const seasonNumber = `${Functions.getSeasonStartMonth(_id)}`;
+      const index = p.findIndex(x => x._id === seasonNumber);
+
+      if (index === -1) return [...p, { _id: seasonNumber, value, average, highest, lowest, mode }];
+      const season = p[index];
+      return Object.assign([...p], {
+        [index]: {
+          _id: season._id,
+          value: season.value + value,
+          average: season.average + average,
+          highest: season.highest + highest,
+          lowest: season.lowest + lowest,
+          mode: season.mode + mode
+        }
+      });
+    }, data.filter(isASeasonStartMonth))
+}
 
 module.exports = {
 	getStatusCounts,
