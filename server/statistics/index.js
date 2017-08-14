@@ -107,7 +107,7 @@ const getHistoryCountsByYears = (req, res) => {
     postMatch: Object.assign({}, { year: { $in: [partition] } }, breakdownObj.match),
     grouping: { average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" } }
   }).then(function(arr) {
-	  const data = fixSeasonalResults(breakdown, data).map(item => {
+	  const data = fixSeasonalResults(breakdown, arr).map(item => {
 		  const ratings = item.ratings.slice(0);
 		  delete item.ratings;
 		  return Object.assign({}, item, {
@@ -125,13 +125,13 @@ const fixSeasonalResults = (breakdown, data) => {
   return data
     .filter(x => !isASeasonStartMonth(x))
     .reduce((p, c) => {
-      const {_id, value, average, highest, lowest, mode} = c;
+      const {_id, value, average, highest, lowest, ratings} = c;
       const seasonNumber = `${Functions.getSeasonStartMonth(_id)}`;
       const index = p.findIndex(x => x._id === seasonNumber);
 
       if (index === -1) return [...p, { _id: seasonNumber, value, average, highest, lowest, ratings }];
       const season = p[index];
-      const orderedArray = [...orderArray, ...ratings].sort();
+      const orderedArray = [...season.ratings, ...ratings].sort();
       const length = orderedArray.length;
       return Object.assign([...p], {
         [index]: {
