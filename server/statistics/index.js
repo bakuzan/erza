@@ -90,6 +90,7 @@ const getHistoryCountsPartition = (req, res) => {
     const list = arr.map(({ _id }) => _id);
     return model.findIn(list);
   }).then(function(docs) {
+    
     res.jsonp(docs);
   });
 }

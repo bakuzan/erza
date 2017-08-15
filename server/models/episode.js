@@ -6,7 +6,8 @@ const { composeWithMongoose } = require('graphql-compose-mongoose');
 const {AnimeTC} = require('./anime.js');
 const {
   historySharedSchema,
-  dateRangeSearch
+  dateRangeSearch,
+  groupedAggregation
 } = require('./history-shared.js');
 
 const EpisodeSchema = new Schema(
@@ -21,6 +22,9 @@ const EpisodeSchema = new Schema(
     }
   })
 );
+
+
+EpisodeSchema.statics.getGroupedAggregation = groupedAggregation();
 
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);

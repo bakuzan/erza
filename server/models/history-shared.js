@@ -30,7 +30,22 @@ const dateRangeSearch = type => ({
   },
 })
 
+
+const groupedAggregation = function() {
+  return function ({ groupBy, sort, match = {}, project = {}, postMatch = {}, grouping = {} }) {
+    return this.aggregate([
+      { $match: match },
+      { $project: Object.assign({}, project, { _id: 1, rating: 1, isAdult: 1, parent: 1 }) },
+      { $match: postMatch },
+      { $group: Object.assign({}, { _id: groupBy, average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" } }, grouping) },
+      { $sort : { _id: sort } }
+    ]);
+  }
+}
+
+
 module.exports = {
   historySharedSchema,
-  dateRangeSearch
+  dateRangeSearch,
+  groupedAggregation
 }
