@@ -31,13 +31,19 @@ const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
 
 const stringToBool = s => (s == "true");
 
+const padNumber = (n, width, z = 0) => {
+   n += '';
+   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+
 const Common = {
   handleErrorResponse,
   getDateParts,
   getSeasonText,
   capitalise,
   getKeyByValue,
-  stringToBool
+  stringToBool,
+  padNumber
 }
 
 module.exports = Common;

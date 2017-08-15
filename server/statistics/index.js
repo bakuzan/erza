@@ -1,5 +1,6 @@
 const Constants = require('../constants');
 const { handleErrorResponse, getKeyByValue, stringToBool } = require('../utils/common');
+const Functions = require('./common.js');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 
@@ -37,37 +38,16 @@ const getRatingCounts = (req, res) => {
   })
 }
 
-const fetchBreakdownObject = (v) => historyBreakdownIsMonths(v)
-  ? { project: {}, match: {} }
-  : {
-      project: {
-        monthMatches: { $eq: [{ $substr: ["$start", 0, 7] }, { $substr: ["$series_start", 0, 7] }] },
-        monthPart: { $substr: ["$start", 5, 7] }
-      },
-      match: {
-        $or: [
-          { _legacyIsSeason: true },
-          {
-            $and: [
-              { "monthMatches": true },
-              { "series_type": { $in: Constants.seasonalTypes } },
-              { "monthPart": { $in: ["01", "04", "07", "10"] } }
-            ]
-          }
-        ]
-      }
-    };
 
-const historyBreakdownIsMonths = val => val === Constants.breakdown.months;
 const getHistoryCounts = (req, res) => {
   const { params: { type, isAdult, breakdown } } = req;
   const model = getQueryModelForType(type);
-  const breakdownObj = fetchBreakdownObject(breakdown);
+  const breakdownObj = Functions.fetchBreakdownObject(breakdown);
   model.getGroupedCount({
     groupBy: "$month",
     sort: -1,
-    match: { isAdult: stringToBool(isAdult) },
-    project: Object.assign({}, { month: { $substr: ["$start", 0, 7] } }, breakdownObj.project),
+    match: { isAdult: stringToBool(isAdult), status: 2 },
+    project: Object.assign({}, { month: { $substr: [Functions.getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
     postMatch: breakdownObj.match
   }).then(function(arr) {
     res.jsonp(
@@ -76,30 +56,100 @@ const getHistoryCounts = (req, res) => {
   })
 }
 
-const aggregateIsSeasonStart = o => ["01", "04", "07", "10"].some(y => y === o._id.split("-")[1]);
-const getSeasonStartMonth = month => Constants.seasonMonths[Math.floor(Number(month) / 4)];
+
 const currateHistoryBreakdown = (breakdown, arr) => {
-  if (historyBreakdownIsMonths(breakdown)) return arr.map(({ _id, value }) => ({ key: `${_id}`, value }));
+  if (Functions.historyBreakdownIsMonths(breakdown)) return arr.map(({ _id, value }) => ({ key: `${_id}`, value }));
 
   return arr
-    .filter(x => !aggregateIsSeasonStart(x))
+    .filter(x => !Functions.aggregateIsSeasonStart(x))
     .reduce((p, c) => {
       const {_id, value} = c;
       const [year, month] = _id.split("-");
-      const seasonText = `${year}-${getSeasonStartMonth(month)}`;
+      const seasonText = `${year}-${Functions.getSeasonStartMonth(month)}`;
       const index = p.findIndex(x => x._id === seasonText);
 
       if (index === -1) return [...p, { _id: seasonText, value }];
       const season = p[index];
       return Object.assign([...p], { [index]: { _id: season._id, value: season.value + value } });
-    }, arr.filter(aggregateIsSeasonStart))
+    }, arr.filter(Functions.aggregateIsSeasonStart))
     .map(({ _id, value }) => ({ key: `${_id}`, value }));
 }
 
 
+const getHistoryCountsPartition = (req, res) => {
+  const { params: { type, isAdult, breakdown, partition } } = req;
+  const model = getQueryModelForType(type);
+  const breakdownObj = Functions.fetchBreakdownObject(breakdown);
+  model.getGroupedCount({
+    groupBy: "$_id",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult), status: 2 },
+    project: Object.assign({}, { month: { $substr: [Functions.getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
+    postMatch: Object.assign({}, { $and: [{ month: { $in: Functions.listOfMonths(breakdown, partition) } }, breakdownObj.match] })
+  }).then(function(arr) {
+    const list = arr.map(({ _id }) => _id);
+    return model.findIn(list);
+  }).then(function(docs) {
+    res.jsonp(docs);
+  });
+}
+
+
+const getHistoryCountsByYears = (req, res) => {
+  const { params: { type, isAdult, breakdown, partition } } = req;
+  const model = getQueryModelForType(type);
+  const breakdownObj = Functions.fetchBreakdownObject(breakdown);
+  model.getGroupedCount({
+    groupBy: "$month",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult), status: 2 },
+    project: Object.assign({}, { year: { $substr: [Functions.getDatePropertyString(breakdown), 0, 4] }, month: { $substr: [Functions.getDatePropertyString(breakdown), 5, 2] } }, breakdownObj.project),
+    postMatch: Object.assign({}, { year: { $in: [partition] } }, breakdownObj.match),
+    grouping: { average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" } }
+  }).then(function(arr) {
+	  const data = fixSeasonalResults(breakdown, arr).map(item => {
+		  const ratings = item.ratings.slice(0);
+		  delete item.ratings;
+		  return Object.assign({}, item, {
+		    mode: Functions.getModeRating(ratings)
+		  });
+	  });
+	  res.jsonp(data);
+  });
+}
+
+const isASeasonStartMonth = obj => ["01", "04", "07", "10"].some(y => y === obj._id)
+const fixSeasonalResults = (breakdown, data) => {
+  if (Functions.historyBreakdownIsMonths(breakdown)) return data;
+
+  return data
+    .filter(x => !isASeasonStartMonth(x))
+    .reduce((p, c) => {
+      const {_id, value, average, highest, lowest, ratings} = c;
+      const seasonNumber = `${Functions.getSeasonStartMonth(_id)}`;
+      const index = p.findIndex(x => x._id === seasonNumber);
+
+      if (index === -1) return [...p, { _id: seasonNumber, value, average, highest, lowest, ratings }];
+      const season = p[index];
+      const orderedArray = [...season.ratings, ...ratings].sort();
+      const length = orderedArray.length;
+      return Object.assign([...p], {
+        [index]: {
+          _id: season._id,
+          value: season.value + value,
+          average: orderedArray.reduce((p, c) => (p + c)) / length,
+          highest: orderedArray[length - 1],
+          lowest: orderedArray[0],
+          ratings: orderedArray
+        }
+      });
+    }, data.filter(isASeasonStartMonth))
+}
 
 module.exports = {
 	getStatusCounts,
 	getRatingCounts,
-	getHistoryCounts
+	getHistoryCounts,
+	getHistoryCountsPartition,
+	getHistoryCountsByYears
 };
