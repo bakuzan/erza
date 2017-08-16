@@ -6,6 +6,8 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 
 const Anime = require('../models/anime.js').Anime;
 const Manga = require('../models/manga.js').Manga;
+const Episode = require('../models/episode.js').Episode;
+
 
 const getQueryModelForType = t => t === Constants.type.anime ? Anime : Manga;
 
@@ -90,9 +92,34 @@ const getHistoryCountsPartition = (req, res) => {
     const list = arr.map(({ _id }) => _id);
     return model.findIn(list);
   }).then(function(docs) {
-    
-    res.jsonp(docs);
+    const results = Functions.historyBreakdownIsMonths(breakdown)
+      ? docs
+      : attachEpisodeStatistics({ isAdult }, list, docs);
+    res.jsonp(results);
   });
+}
+
+
+const attachEpisodeStatistics = ({ isAdult }, parentIds, parents) => {
+  Episode.getGroupedAggregation({
+    groupBy: "$_id",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
+  }).then(function(arr) {
+    const joined = results.map(item => {
+      const episodeStatistics = arr.find(x => x._id === item._id);
+      const episodeRatings = episodeStatistics.ratings.slice(0);
+		  delete episodeStatistics.ratings;
+		  
+      return Object.assign({}, item, {
+        episodeStatistics: Object.assign({}, episodeStatistics, {
+		      mode: Functions.getModeRating(episodeRatings)
+		    })
+      });
+      
+    });
+    return joined;
+  })
 }
 
 
