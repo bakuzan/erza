@@ -37,7 +37,15 @@ const groupedAggregation = function() {
       { $match: match },
       { $project: Object.assign({}, project, { _id: 1, rating: 1, isAdult: 1, parent: 1 }) },
       { $match: postMatch },
-      { $group: Object.assign({}, { _id: groupBy, average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" } }, grouping) },
+      {
+        $group: Object.assign({}, {
+          _id: groupBy,
+          average: { $avg: "$rating" },
+          highest: { $max: "$rating" },
+          lowest: { $min: "$rating" },
+          ratings: { $push: "$rating" }
+        }, grouping)
+      },
       { $sort : { _id: sort } }
     ]);
   }

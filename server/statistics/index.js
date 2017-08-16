@@ -93,33 +93,36 @@ const getHistoryCountsPartition = (req, res) => {
     return model.findIn(list);
   }).then(function(docs) {
     const results = Functions.historyBreakdownIsMonths(breakdown)
-      ? docs
-      : attachEpisodeStatistics({ isAdult }, list, docs);
-    res.jsonp(results);
+      ? Promise.resolve(docs)
+      : attachEpisodeStatistics({ isAdult }, docs);
+      console.log(results);
+    results.then((items) => res.jsonp(items));
   });
 }
 
 
-const attachEpisodeStatistics = ({ isAdult }, parentIds, parents) => {
+const attachEpisodeStatistics = ({ isAdult }, parents) => {
+  const parentIds = parents.map(({ _id }) => _id);
   Episode.getGroupedAggregation({
-    groupBy: "$_id",
+    groupBy: "$parent",
     sort: 1,
     match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
   }).then(function(arr) {
-    const joined = results.map(item => {
-      const episodeStatistics = arr.find(x => x._id === item._id);
-      const episodeRatings = episodeStatistics.ratings.slice(0);
+    const joined = parents.map(item => {
+      const episodeStatistics = (arr.find(x => x._id === item._id) || {});
+      console.log(episodeStatistics, item._id);
+      const episodeRatings = (episodeStatistics.ratings || []).slice(0);
 		  delete episodeStatistics.ratings;
-		  
+
       return Object.assign({}, item, {
         episodeStatistics: Object.assign({}, episodeStatistics, {
 		      mode: Functions.getModeRating(episodeRatings)
 		    })
       });
-      
+
     });
     return joined;
-  })
+  });
 }
 
 
