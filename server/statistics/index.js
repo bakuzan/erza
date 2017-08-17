@@ -100,26 +100,30 @@ const getHistoryCountsPartition = (req, res) => {
 
 const attachEpisodeStatistics = (res, { isAdult }, parents) => {
   const parentIds = parents.map(({ _id }) => _id);
+  console.log(parentIds);
   Episode.getGroupedAggregation({
     groupBy: "$parent",
     sort: 1,
     match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
   }).then(function(arr) {
-    console.log('EXAMPLE OF ARR : ', arr[0]);
     const joined = parents.map(item => {
-      console.log('EXAMPLE OF PARENT : ', item);
-      const episodeStatistics = (arr.find(x => x._id === item._id) || {});
+      const parentId = item._id.toString();
+      const episodeStatistics = (arr.find(x => x._id.toString() === parentId) || {});
       const episodeRatings = (episodeStatistics.ratings || []).slice(0);
       delete episodeStatistics.ratings;
 
-      return Object.assign({}, item, {
+      const merged = Object.assign({}, item, {
         episodeStatistics: Object.assign({}, episodeStatistics, {
           mode: Functions.getModeRating(episodeRatings)
         })
       });
-
+      console.log(merged);
+      return merged;
     });
-    res.jsonp(joined);
+
+    res.jsonp(
+      joined.map(({ _id, title, rating, episodeStatistics }) => ({ _id, title, rating, episodeStatistics }))
+    );
   });
 }
 
