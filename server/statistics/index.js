@@ -92,36 +92,34 @@ const getHistoryCountsPartition = (req, res) => {
     const list = arr.map(({ _id }) => _id);
     return model.findIn(list);
   }).then(function(docs) {
-    const results = Functions.historyBreakdownIsMonths(breakdown)
-      ? Promise.resolve(docs)
-      : attachEpisodeStatistics({ isAdult }, docs);
-      console.log(results);
-    results.then((items) => res.jsonp(items));
+    if (Functions.historyBreakdownIsMonths(breakdown)) return res.jsonp(docs);
+    return attachEpisodeStatistics(res, { isAdult }, docs);
   });
 }
 
 
-const attachEpisodeStatistics = ({ isAdult }, parents) => {
+const attachEpisodeStatistics = (res, { isAdult }, parents) => {
   const parentIds = parents.map(({ _id }) => _id);
   Episode.getGroupedAggregation({
     groupBy: "$parent",
     sort: 1,
     match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
   }).then(function(arr) {
+    console.log('EXAMPLE OF ARR : ', arr[0]);
     const joined = parents.map(item => {
+      console.log('EXAMPLE OF PARENT : ', item);
       const episodeStatistics = (arr.find(x => x._id === item._id) || {});
-      console.log(episodeStatistics, item._id);
       const episodeRatings = (episodeStatistics.ratings || []).slice(0);
-		  delete episodeStatistics.ratings;
+      delete episodeStatistics.ratings;
 
       return Object.assign({}, item, {
         episodeStatistics: Object.assign({}, episodeStatistics, {
-		      mode: Functions.getModeRating(episodeRatings)
-		    })
+          mode: Functions.getModeRating(episodeRatings)
+        })
       });
 
     });
-    return joined;
+    res.jsonp(joined);
   });
 }
 
