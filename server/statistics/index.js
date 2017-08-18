@@ -107,12 +107,18 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
     match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
   }).then(function(arr) {
     const joined = parents.map(item => {
-      const parentId = item._id.toString();
+      const { _id, title, rating } = item;
+      const parentId = _id.toString();
       const episodeStatistics = (arr.find(x => x._id.toString() === parentId) || {});
       const episodeRatings = (episodeStatistics.ratings || []).slice(0);
       delete episodeStatistics.ratings;
 
-      const merged = Object.assign({}, item, {
+      const merged = Object.assign({}, {
+        _id, 
+        title,
+        rating
+      },
+      {
         episodeStatistics: Object.assign({}, episodeStatistics, {
           mode: Functions.getModeRating(episodeRatings)
         })
@@ -121,9 +127,7 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
       return merged;
     });
 
-    res.jsonp(
-      joined.map(({ _id, title, rating, episodeStatistics }) => ({ _id, title, rating, episodeStatistics }))
-    );
+    res.jsonp(joined);
   });
 }
 
