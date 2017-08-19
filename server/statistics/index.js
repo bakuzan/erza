@@ -78,6 +78,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
 }
 
 
+const emptyEpisodeStatistic = () => ({ _id: "", average: 0.0, highest: 0, lowest: 0, mode: 0 })
 const getHistoryCountsPartition = (req, res) => {
   const { params: { type, isAdult, breakdown, partition } } = req;
   const model = getQueryModelForType(type);
@@ -92,7 +93,9 @@ const getHistoryCountsPartition = (req, res) => {
     const list = arr.map(({ _id }) => _id);
     return model.findIn(list);
   }).then(function(docs) {
-    if (Functions.historyBreakdownIsMonths(breakdown)) return res.jsonp(docs);
+    if (Functions.historyBreakdownIsMonths(breakdown)) return res.jsonp(
+      docs.map(({ _id, title, rating }) => Object.assign({}, { _id, title, rating, episodeStatistics: emptyEpisodeStatistic() }))
+    );
     return attachEpisodeStatistics(res, { isAdult }, docs);
   });
 }
@@ -100,7 +103,6 @@ const getHistoryCountsPartition = (req, res) => {
 
 const attachEpisodeStatistics = (res, { isAdult }, parents) => {
   const parentIds = parents.map(({ _id }) => _id);
-  console.log(parentIds);
   Episode.getGroupedAggregation({
     groupBy: "$parent",
     sort: 1,
@@ -114,7 +116,7 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
       delete episodeStatistics.ratings;
 
       const merged = Object.assign({}, {
-        _id, 
+        _id,
         title,
         rating
       },
@@ -123,7 +125,6 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
           mode: Functions.getModeRating(episodeRatings)
         })
       });
-      console.log(merged);
       return merged;
     });
 
