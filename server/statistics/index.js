@@ -6,6 +6,8 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 
 const Anime = require('../models/anime.js').Anime;
 const Manga = require('../models/manga.js').Manga;
+const Episode = require('../models/episode.js').Episode;
+
 
 const getQueryModelForType = t => t === Constants.type.anime ? Anime : Manga;
 
@@ -76,6 +78,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
 }
 
 
+const emptyEpisodeStatistic = () => ({ _id: "", average: 0.0, highest: 0, lowest: 0, mode: 0 })
 const getHistoryCountsPartition = (req, res) => {
   const { params: { type, isAdult, breakdown, partition } } = req;
   const model = getQueryModelForType(type);
@@ -90,7 +93,42 @@ const getHistoryCountsPartition = (req, res) => {
     const list = arr.map(({ _id }) => _id);
     return model.findIn(list);
   }).then(function(docs) {
-    res.jsonp(docs);
+    if (Functions.historyBreakdownIsMonths(breakdown)) return res.jsonp(
+      docs.map(({ _id, title, rating }) => Object.assign({}, { _id, title, rating, episodeStatistics: emptyEpisodeStatistic() }))
+    );
+    return attachEpisodeStatistics(res, { isAdult }, docs);
+  });
+}
+
+
+const attachEpisodeStatistics = (res, { isAdult }, parents) => {
+  const parentIds = parents.map(({ _id }) => _id);
+  Episode.getGroupedAggregation({
+    groupBy: "$parent",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
+  }).then(function(arr) {
+    const joined = parents.map(item => {
+      const { _id, title, rating } = item;
+      const parentId = _id.toString();
+      const episodeStatistics = (arr.find(x => x._id.toString() === parentId) || {});
+      const episodeRatings = (episodeStatistics.ratings || []).slice(0);
+      delete episodeStatistics.ratings;
+
+      const merged = Object.assign({}, {
+        _id,
+        title,
+        rating
+      },
+      {
+        episodeStatistics: Object.assign({}, episodeStatistics, {
+          mode: Functions.getModeRating(episodeRatings)
+        })
+      });
+      return merged;
+    });
+
+    res.jsonp(joined);
   });
 }
 

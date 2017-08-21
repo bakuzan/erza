@@ -1,12 +1,17 @@
 const chalk = require('chalk');
 const Constants = require('../constants');
-const { capitalise } = require('../utils/common');
+const { capitalise, padNumber } = require('../utils/common');
 
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
 const clientAdult = popura(process.env.MAL_USER_ADULT, process.env.MAL_PASSWORD_ADULT);
 
-const convertUSDateFormat = date => date ? date.getMonth() + 1 + '' + date.getDate() + '' + date.getFullYear() : null;
+const convertUSDateFormat = d => {
+	if (!d) return null;
+	
+	const date = new Date(d);
+	return `${padNumber(date.getMonth() + 1, 2)}${padNumber(date.getDate(), 2)}${date.getFullYear()}`;
+}
 
 const getMalAnime = animeitem => ({
 	episode: animeitem.episode,
