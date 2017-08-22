@@ -1,19 +1,12 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
+import Elm from 'react-elm-components'
 
-function setupPorts(ports) {
-}
+import {Main} from '../../build/static/js/satellizer'
+import '../../build/static/css/satellizer.css'
 
 const Statistics = (props) => (
-  <div>
-    <div id="satellizer"></div>
-    <script src="/static/js/main.d8f183c8.js"></script>
-    <script>
-      const node = document.getElementById("satellizer");
-      const app = Elm.Main.embed(node);
-      console.log("Statistics Page");
-    </script>
-  </div>
+  <Elm src={Main} />
 )
 
 Statistics.propTypes = {
