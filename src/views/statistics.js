@@ -5,9 +5,17 @@ import Elm from 'react-elm-components'
 import {Main} from '../../build/static/js/satellizer'
 import '../../build/static/css/satellizer.css'
 
-const Statistics = (props) => (
-  <Elm src={Main} />
-)
+
+
+const Statistics = ({ isAdult, type }) => {
+  // TODO pass flags, setup ports
+  
+  return (
+    <div id="satellizer">
+      <Elm src={Main} />
+    </div>
+  )
+}
 
 Statistics.propTypes = {
   isFetching: PropTypes.bool.isRequired,
