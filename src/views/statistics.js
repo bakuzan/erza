@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import Elm from 'react-elm-components'
 
-import {Main} from '../../build/static/js/satellizer'
-import '../../build/static/css/satellizer.css'
+import {Main} from '../../satellizer/build/static/js/satellizer'
+import '../../satellizer/build/static/css/satellizer.css'
 
 
 function setupPorts(ports) {
