@@ -6,13 +6,17 @@ import {Main} from '../../build/static/js/satellizer'
 import '../../build/static/css/satellizer.css'
 
 
+function setupPorts(ports) {
+  ports.contentType.send("anime");
+  ports.isAdult.send(false);
+}
 
-const Statistics = ({ isAdult, type }) => {
-  // TODO pass flags, setup ports
-  
+
+const Statistics = ({ isAdult, contentType }) => {
+  const flags = { isAdult, contentType }
   return (
     <div id="satellizer">
-      <Elm src={Main} />
+      <Elm src={Main} flags={flags} ports={setupPorts} />
     </div>
   )
 }
@@ -20,13 +24,13 @@ const Statistics = ({ isAdult, type }) => {
 Statistics.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired,
+  contentType: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  type: ownProps.params.type
+  contentType: ownProps.params.type
 })
 
 export default connect(
