@@ -12,7 +12,8 @@ const {
   itemSharedFields,
   searchFilterArg,
   statusInFilterArg,
-  groupedCount
+  groupedCount,
+  findIn
 } = require('./item-shared.js');
 
 const MangaSchema = new Schema(
@@ -42,6 +43,7 @@ const MangaSchema = new Schema(
 
 
 MangaSchema.statics.getGroupedCount = groupedCount();
+MangaSchema.statics.findIn = findIn();
 
 const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
