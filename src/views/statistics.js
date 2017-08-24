@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 
 const Statistics = ({ isFetching, isAdult, type }) => (
-
+	<div></div>
 )
 
 Statistics.propTypes = {
