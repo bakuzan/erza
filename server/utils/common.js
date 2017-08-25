@@ -29,7 +29,7 @@ const capitalise = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
 
-const stringToBool = s => (s == "true");
+const stringToBool = s => (s.toLowerCase() == "true");
 
 const padNumber = (n, width, z = 0) => {
    n += '';
