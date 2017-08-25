@@ -1,11 +1,31 @@
 import React, {Component, PropTypes} from 'react'
+import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import Elm from 'react-elm-components'
+
+import {Paths} from '../constants/paths'
+import {Strings} from '../constants/values'
 
 import {Main} from '../../satellizer/build/static/js/satellizer'
 import '../../satellizer/build/static/css/satellizer.css'
 
 
+const ContentTypeFilter = () => (
+  <div>
+    <Link
+     to={`${Paths.statistics}${Strings.anime}`}
+     className="button-link"
+     activeClassName="active">
+     { Strings.anime }
+    </Link>
+    <Link
+     to={`${Paths.statistics}${Strings.manga}`}
+     className="button-link"
+     activeClassName="active">
+     { Strings.manga }
+    </Link>
+  </div>
+)
 
 class Statistics extends Component {
 
@@ -35,8 +55,11 @@ class Statistics extends Component {
     const flags = { isAdult, contentType };
 
     return (
-      <div id="satellizer">
-        <Elm src={Main} flags={flags} ports={this.setupPorts} />
+      <div className="flex-column">
+        <ContentTypeFilters />
+        <div id="satellizer">
+          <Elm src={Main} flags={flags} ports={this.setupPorts} />
+        </div>
       </div>
     );
   }
