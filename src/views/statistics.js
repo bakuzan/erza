@@ -10,16 +10,16 @@ import {Main} from '../../satellizer/build/static/js/satellizer'
 import '../../satellizer/build/static/css/satellizer.css'
 
 
-const ContentTypeFilter = () => (
-  <div>
+const ContentTypeFilters = () => (
+  <div className="button-group">
     <Link
-     to={`${Paths.statistics}${Strings.anime}`}
+     to={`${Paths.base}${Paths.statistics}${Strings.anime}`}
      className="button-link"
      activeClassName="active">
      { Strings.anime }
     </Link>
     <Link
-     to={`${Paths.statistics}${Strings.manga}`}
+     to={`${Paths.base}${Paths.statistics}${Strings.manga}`}
      className="button-link"
      activeClassName="active">
      { Strings.manga }
