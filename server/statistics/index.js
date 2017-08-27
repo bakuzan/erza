@@ -121,7 +121,7 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
         rating
       },
       {
-        episodeStatistics: Object.assign({}, episodeStatistics, {
+        episodeStatistics: Object.assign({}, emptyEpisodeStatistic(), episodeStatistics, {
           mode: Functions.getModeRating(episodeRatings)
         })
       });
