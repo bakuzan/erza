@@ -132,7 +132,6 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
   });
 }
 
-
 const getHistoryCountsByYears = (req, res) => {
   const { params: { type, isAdult, breakdown, partition } } = req;
   const model = getQueryModelForType(type);
