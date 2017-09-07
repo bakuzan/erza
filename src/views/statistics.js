@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import Elm from 'react-elm-components'
 
+import FilterLink from '../containers/filter-link/filter-link'
 import {Paths} from '../constants/paths'
 import {Strings} from '../constants/values'
 
@@ -12,18 +12,12 @@ import '../../satellizer/build/static/css/satellizer.css'
 
 const ContentTypeFilters = () => (
   <div className="button-group">
-    <Link
-     to={`${Paths.base}${Paths.statistics}${Strings.anime}`}
-     className="button-link"
-     activeClassName="active">
+    <FilterLink filter={`${Paths.base}${Paths.statistics}${Strings.anime}`}>
      { Strings.anime }
-    </Link>
-    <Link
-     to={`${Paths.base}${Paths.statistics}${Strings.manga}`}
-     className="button-link"
-     activeClassName="active">
+    </FilterLink>
+    <FilterLink filter={`${Paths.base}${Paths.statistics}${Strings.manga}`}>
      { Strings.manga }
-    </Link>
+    </FilterLink>
   </div>
 )
 
