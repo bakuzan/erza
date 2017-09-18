@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
+import {Link} from 'react-router'
 import HistoryListItem from './history-list-item'
+import {Paths} from '../../../constants/paths'
 import {getHistoryNameForItemType} from '../../../utils/data'
 import './history-list.css'
 
@@ -12,7 +14,13 @@ const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
   })
   .forEach(item => {
     if (!!item.series && item.series._id !== previousSeries) {
-      list.push(<li key={`${item.series._id}-${item._id}`} className="history-list-item series-title">{item.series.title}</li>)
+      list.push(
+		<li key={`${item.series._id}-${item._id}`} className="history-list-item series-title">
+			<Link className="button-link" to={`${Paths.base}${Paths[type].view}${item.series._id}`}>
+			{item.series.title}
+			</Link>
+		</li>
+	  )
       previousSeries = item.series._id;
     }
 
