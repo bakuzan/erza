@@ -15,10 +15,11 @@ export const malResponseGenerator = (type, postItem) => response => {
   return intergrateMalEntry(type)({}, item);
 }
 
-export const applyUpdates = type => (item, malItem) => {
+export const applyUpdates = type => (entity, malItem) => {
   const { current, total } = getUniquePropertiesForItemType(type);
-  const updates = malItem;
-
+  const updates = {};
+  const item = Object.assign({}, entity, malItem);
+  console.log("apply updates to > ", item);
   // END
   if (item[current] === item[total] && item[total] !== 0) {
       if (item.end === undefined || item.end === null) {
