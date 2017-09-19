@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import classNames from 'classnames'
 
-import { toggleSidebar } from '../../actions/sidebar'
+import { toggleSidebarCollapse } from '../../actions/sidebar'
 import { Icons } from '../../constants/values'
 
 import "./Sidebar.css"
@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  toggleCollapse: toggleSidebar
+  toggleCollapse: toggleSidebarCollapse
 }
 
 export default connect(
