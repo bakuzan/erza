@@ -1,5 +1,14 @@
 .erza {
   main {
-    padding: 50px 5px 5px;
+    padding: 50px 5px 5px {
+      left: 200px;
+    };
+  }
+  
+  &.sidebar-collapsed main {  
+    padding-left: 50px;
+  }
+  &.sidebar-hidden main {
+    padding-left: 5px;
   }
 }
