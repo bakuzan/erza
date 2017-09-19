@@ -49,14 +49,14 @@ const Menu = [
       {
         id: 4,
         link: `${Paths.base}${Paths.history}${Strings.anime}`,
-        title: 'View episodes watched',
+        title: 'View watched',
         description: 'View anime history by data range.',
         icon: "AH"
       },
       {
         id: 5,
         link: `${Paths.base}${Paths.history}${Strings.manga}`,
-        title: 'View chapters read',
+        title: 'View read',
         description: 'View manga history by data range.',
         icon: "MH"
       }
@@ -69,14 +69,14 @@ const Menu = [
       {
         id: 6,
         link: `${Paths.base}${Paths.statistics}${Strings.anime}`,
-        title: 'Explore anime statistics',
+        title: 'Explore anime',
         description: 'Investigate the aggregation on anime entries',
         icon: "AS"
       },
       {
         id: 7,
         link: `${Paths.base}${Paths.statistics}${Strings.manga}`,
-        title: 'Explore manga statistics',
+        title: 'Explore manga',
         description: 'Investigate the aggregation on manga entries',
         icon: "MS"
       }

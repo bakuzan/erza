@@ -119,7 +119,9 @@ export const Icons = {
   clockwise: '\uD83D\uDD01', // 10227, //'\u27F3'
   link: '\uD83D\uDD17',
   editable: '\u270E', //'\uD83D\uDD89',
-  save: '\uD83D\uDCBE'
+  save: '\uD83D\uDCBE',
+  left: '\u2039',
+  right: '\u203A',
 }
 
 export const Types = {

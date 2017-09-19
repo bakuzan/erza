@@ -76,7 +76,7 @@ const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, is
         <li>
             <Tickbox text="toggle sidebar visibility"
                      name="isSidebarHidden"
-                     checked={isSidebarHidden}
+                     checked={!isSidebarHidden}
                      onChange={() => toggleSidebarVisibility()}
              />
         </li>

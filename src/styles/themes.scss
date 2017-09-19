@@ -103,7 +103,7 @@
 
     // Unique UI elements
     .application-header, .site-map-list {
-      li {
+      li:not(.dropdown-arrow) {
         border-bottom: 1px solid $base-background;
       }
       .group-title {

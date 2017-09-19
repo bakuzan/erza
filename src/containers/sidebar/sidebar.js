@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import classNames from 'classnames'
 
-import { toggleSidebarCollapse } from '../../actions/sidebar'
+import { toggleSidebarCollapse, closeSidebar } from '../../actions/sidebar'
 import Menu from '../../constants/menu'
 import { Icons } from '../../constants/values'
 
@@ -11,7 +11,7 @@ import "./Sidebar.css"
 
 const menuOptions = Menu.reduce((p, c) => p.concat(c.children), Array(0))
 
-const Sidebar = ({ isHidden, isCollapsed, toggleCollapse }) => {
+const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
   const sidebarClasses = classNames({ "collapsed": isCollapsed, "hidden": isHidden })
 
   return (
@@ -27,7 +27,7 @@ const Sidebar = ({ isHidden, isCollapsed, toggleCollapse }) => {
       {
           menuOptions.map(option => (
             <li key={option.id} className="sidebar-item" title={option.title}>
-              <Link className="button primary" to={option.link}>
+              <Link className="button primary" to={option.link} onClick={close}>
                 <div className="sidebar-item-icon center-contents">
                   { option.icon }
                 </div>
@@ -47,7 +47,8 @@ const Sidebar = ({ isHidden, isCollapsed, toggleCollapse }) => {
 Sidebar.propTypes = {
   isHidden: PropTypes.bool.isRequired,
   isCollapsed: PropTypes.bool.isRequired,
-  toggleCollapse: PropTypes.func.isRequired
+  toggleCollapse: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -56,7 +57,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  toggleCollapse: toggleSidebarCollapse
+  toggleCollapse: toggleSidebarCollapse,
+  close: closeSidebar
 }
 
 export default connect(
