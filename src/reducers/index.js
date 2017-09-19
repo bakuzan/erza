@@ -10,6 +10,7 @@ import {isAdult} from './is-adult'
 import {sorting} from './sorting'
 import {paging} from './paging'
 import {theme} from './theme'
+import {sidebar} from './sidebar'
 
 const entities = combineReducers({
   anime,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   isAdult,
   sorting,
   paging,
-  theme
+  theme,
+  sidebar
 })
 
 export default rootReducer
