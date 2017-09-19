@@ -10,13 +10,15 @@ const Menu = [
         id: 0,
         link: `${Paths.base}${Paths.anime.create}`,
         title: 'Create an Anime',
-        description: 'Enter details about a new anime entry.'
+        description: 'Enter details about a new anime entry.',
+        icon: "AC"
       },
       {
         id: 1,
         link: `${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`,
         title: 'Browse Anime',
-        description: 'Search anime with a variable of filters and conditions'
+        description: 'Search anime with a variable of filters and conditions',
+        icon: "AL"
       }
     ]
   },
@@ -28,13 +30,15 @@ const Menu = [
         id: 2,
         link: `${Paths.base}${Paths.manga.create}`,
         title: 'Create an Manga',
-        description: 'Enter details about a new manga entry.'
+        description: 'Enter details about a new manga entry.',
+        icon: "MC"
       },
       {
         id: 3,
         link: `${Paths.base}${Paths.manga.list}${Strings.filters.ongoing}`,
         title: 'Browse Manga',
-        description: 'Search manga with a variable of filters and conditions'
+        description: 'Search manga with a variable of filters and conditions',
+        icon: "ML"
       }
     ]
   },
@@ -46,13 +50,15 @@ const Menu = [
         id: 4,
         link: `${Paths.base}${Paths.history}${Strings.anime}`,
         title: 'View episodes watched',
-        description: 'View anime history by data range.'
+        description: 'View anime history by data range.',
+        icon: "AH"
       },
       {
         id: 5,
         link: `${Paths.base}${Paths.history}${Strings.manga}`,
         title: 'View chapters read',
-        description: 'View manga history by data range.'
+        description: 'View manga history by data range.',
+        icon: "MH"
       }
     ]
   },
@@ -64,13 +70,15 @@ const Menu = [
         id: 6,
         link: `${Paths.base}${Paths.statistics}${Strings.anime}`,
         title: 'Explore anime statistics',
-        description: 'Investigate the aggregation on anime entries'
+        description: 'Investigate the aggregation on anime entries',
+        icon: "AS"
       },
       {
         id: 7,
         link: `${Paths.base}${Paths.statistics}${Strings.manga}`,
         title: 'Explore manga statistics',
-        description: 'Investigate the aggregation on manga entries'
+        description: 'Investigate the aggregation on manga entries',
+        icon: "MS"
       }
     ]
   }
