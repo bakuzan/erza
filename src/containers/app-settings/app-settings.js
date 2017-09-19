@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import {connect} from 'react-redux'
 import Tickbox from '../../components/tickbox/tickbox';
 import {setApplicationTheme, toggleTimedTheme} from '../../actions/theme'
+import {toggleSidebarVisibility} from '../../actions/sidebar'
 import {toggleIsAdult} from '../../actions/is-adult'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
@@ -30,7 +31,7 @@ const setTimedThemeCheck = (theme, updateTheme) => {
     .catch(error => console.error(error));
 }
 
-const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, isAdult, toggleIsAdult }) => {
+const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, isAdult, toggleIsAdult, isSidebarHidden, toggleSidebarVisibility }) => {
   const themes = Strings.themes.slice(0);
   applyThemeToBody(theme);
   if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
@@ -72,6 +73,13 @@ const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, is
                      onChange={() => toggleIsAdult()}
              />
         </li>
+        <li>
+            <Tickbox text="toggle sidebar visibility"
+                     name="isSidebarHidden"
+                     checked={isSidebarHidden}
+                     onChange={() => toggleSidebarVisibility()}
+             />
+        </li>
       </ul>
     </div>
   );
@@ -83,19 +91,23 @@ AppSettings.propTypes = {
   setApplicationTheme: PropTypes.func.isRequired,
   toggleTimedTheme: PropTypes.func.isRequired,
   isAdult: PropTypes.bool.isRequired,
-  toggleIsAdult: PropTypes.func.isRequired
+  toggleIsAdult: PropTypes.func.isRequired,
+  isSidebarHidden: PropTypes.bool.isRequired,
+  toggleSidebarVisibility: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   theme: state.theme.class,
   isTimed: state.theme.isTimed,
-  isAdult: state.isAdult
+  isAdult: state.isAdult,
+  isSidebarHidden: state.sidebar.isHidden
 })
 
 const mapDispatchToProps = ({
   setApplicationTheme,
   toggleTimedTheme,
-  toggleIsAdult
+  toggleIsAdult,
+  toggleSidebarVisibility
 })
 
 export default connect(
