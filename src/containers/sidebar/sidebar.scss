@@ -1,0 +1,33 @@
+@import "../../styles/partials/_colours.scss";
+@import "../../styles/partials/_variables.scss";
+
+#sidebar {
+  position: fixed;
+  top: 50px;
+  height: 100%;
+  width: 200px;
+  background-color: $primary-background;
+  color: $primary-colour-contrast;
+  padding: 5px;
+  z-index: map-get($z-index, header);
+  
+  #sidebar-toggler {
+    justify-content: flex-end;
+    min-width: 40px;
+    width: 100%;
+    padding: 5px 20px;
+  }
+  
+    
+  &.collapsed {
+    width: 50px;
+    
+    #sidebar-toggler {
+      justify-content: center;
+    }
+  }
+  
+  &.hidden {
+    display: none;
+  }
+}
