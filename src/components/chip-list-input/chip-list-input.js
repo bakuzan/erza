@@ -16,13 +16,13 @@ class ChipListInput extends Component {
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(this);
-    this.handleCreateNewTag = this.handleCreateNewTag.bind(this);
+    this.handleCreateNew = this.handleCreateNew.bind(this);
   }
   
-  handleCreateNewTag() {
-    console.log("<< "+"%c Create New Tag: "+"%c Not yet implemented"+"%c >>", "color: blue", "color: red", "color: black");
-    const { attr, chipOptions } = this.props;
-    console.log("details: ", { [attr]: this.state[attr] });
+  handleCreateNew() {
+    if (!this.props.createNew) return;
+    const { attr, chipOptions, createNew } = this.props;
+    createNew({ [attr]: this.state[attr] });
   }
 
   selectAutocompleteSuggestion(id) {
@@ -75,7 +75,7 @@ class ChipListInput extends Component {
   }
 
   render() {
-    const { attr, chipOptions, chipsSelected } = this.props;
+    const { attr, chipOptions, chipsSelected, createNew } = this.props;
     const chips = chipsSelected.filter(x => x !== undefined).map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (
@@ -103,10 +103,11 @@ class ChipListInput extends Component {
           onSelect={this.selectAutocompleteSuggestion}
           onKeyDown={this.handleKeyDown}
           noSuggestionsItem={
+            !!createNew &&
             <button
               type="button"
               className="button ripple"
-              onClick={this.handleCreateNewTag}>
+              onClick={this.handleCreateNew}>
               Create New Tag
             </button>
           }
@@ -129,7 +130,8 @@ ChipListInput.propTypes = {
   name: PropTypes.string.isRequired,
   chipsSelected: PropTypes.arrayOf(PropTypes.object).isRequired,
   chipOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  updateChipList: PropTypes.func.isRequired
+  updateChipList: PropTypes.func.isRequired,
+  createNew: PropTypes.func
 }
 
 export default ChipListInput
