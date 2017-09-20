@@ -1,6 +1,9 @@
-import { TAGS_LOAD, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
+import { ADD_TAG, TAGS_LOAD, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
+import {constructRecordForPost} from '../graphql/common'
+import toaster from '../utils/toaster'
+import {getSingleObjectProperty} from '../utils/common'
 import TagQL from '../graphql/query/tag'
 import TagML from '../graphql/mutation/tag'
 
@@ -32,11 +35,11 @@ export const createTag = (item) => {
     const { isAdult } = getState();
     const itemForCreation = constructRecordForPost({ ...item, isAdult });
     const mutation = TagML.createTag(itemForCreation);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`)
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishTagsRequest());
         const data = response.data[getSingleObjectProperty(response.data)];
-        dispatch(addTag(data));
+        dispatch(addTag(data.record));
         toaster.success('Saved!', `Successfully saved '${data.record.name}' tag.`);
       });
   }

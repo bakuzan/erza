@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import classNames from 'classnames'
@@ -7,7 +7,7 @@ import { toggleSidebarCollapse, closeSidebar } from '../../actions/sidebar'
 import Menu from '../../constants/menu'
 import { Icons } from '../../constants/values'
 
-import "./Sidebar.css"
+import "./sidebar.css"
 
 const menuOptions = Menu.reduce((p, c) => p.concat(c.children), Array(0))
 
@@ -16,18 +16,18 @@ const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
 
   return (
     <div id="sidebar" className={sidebarClasses}>
-      <button 
-        type="button" 
+      <button
+        type="button"
         id="sidebar-toggler"
-        className="button button-icon primary" 
-        icon={isCollapsed ? Icons.right : Icons.left} 
+        className="button button-icon primary"
+        icon={isCollapsed ? Icons.right : Icons.left}
         onClick={toggleCollapse}>
       </button>
       <ul id="sidebar-menu">
       {
           menuOptions.map(option => (
             <li key={option.id} className="sidebar-item" title={option.title}>
-              <Link className="button primary" to={option.link} onClick={close}>
+              <Link className="button primary" activeClassName="active" to={option.link} onClick={close}>
                 <div className="sidebar-item-icon center-contents">
                   { option.icon }
                 </div>

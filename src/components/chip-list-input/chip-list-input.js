@@ -18,17 +18,17 @@ class ChipListInput extends Component {
     this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(this);
     this.handleCreateNew = this.handleCreateNew.bind(this);
   }
-  
+
   handleCreateNew() {
     if (!this.props.createNew) return;
-    const { attr, chipOptions, createNew } = this.props;
+    const { attr, createNew } = this.props;
     createNew({ [attr]: this.state[attr] });
   }
 
   selectAutocompleteSuggestion(id) {
     const item = this.props.chipOptions.find(x => x._id === id);
-	  if (!item) return this.handleCreateNewTag();
-    
+	  if (!item) return this.handleCreateNew();
+
     const alreadyExists = this.props.chipsSelected.find(x => x._id === item._id);
     if (alreadyExists) return;
 

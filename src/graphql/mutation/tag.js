@@ -3,9 +3,9 @@ const createTag = tag => (`
   mutation {
     tagCreate(record: ${tag}) {
       record: record {
-		_id
-		name
-		isAdult
+        _id
+        name
+        isAdult
       }
     }
   }

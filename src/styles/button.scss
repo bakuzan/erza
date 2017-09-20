@@ -54,7 +54,7 @@
   padding: 3px 6px;
   margin: 2px 5px;
   text-decoration: none;
-  
+
   &:before {
     content: attr(icon);
     font-size: 1.5rem;
@@ -70,7 +70,7 @@
 .button.primary, .button-icon.primary {
   background-color: $primary-background;
   color: $primary-colour-contrast;
-  &:hover {
+  &:hover, &.active {
     @include lightenOrDarken("background-color", $primary-background, $darken-amount * 3);
   }
 }
