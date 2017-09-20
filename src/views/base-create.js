@@ -17,7 +17,7 @@ import TabContainer from '../components/tab-container/tab-container'
 import TabView from '../components/tab-view/tab-view'
 import FileUploader from '../components/file-uploader/file-uploader'
 import MalSearch from '../components/mal-search/mal-search'
-import { loadTags } from '../actions/tags'
+import { createTag, loadTags } from '../actions/tags'
 
 const loadData = props => {
   props.loadTags();
@@ -187,6 +187,7 @@ class BaseCreate extends Component {
                      chipsSelected={this.state.tags}
                      chipOptions={availableTags}
                      updateChipList={this.handleListUpdate}
+                     createNew={this.props.createTag}
                    />
                 </div>
               </TabView>
@@ -301,6 +302,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = {
+  createTag,
   loadTags
 }
 
