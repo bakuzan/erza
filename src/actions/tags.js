@@ -20,6 +20,12 @@ const finishTagsRequest = () => ({
   isFetching: false
 })
 
+
+const addTag = (item) => ({
+  type: ADD_TAG,
+  item
+})
+
 export const createTag = (item) => {
   return function(dispatch, getState) {
     dispatch(startingTagsRequest());
@@ -30,6 +36,7 @@ export const createTag = (item) => {
       .then(response => {
         dispatch(finishTagsRequest());
         const data = response.data[getSingleObjectProperty(response.data)];
+        dispatch(addTag(data));
         toaster.success('Saved!', `Successfully saved '${data.record.name}' tag.`);
       });
   }
