@@ -18,7 +18,7 @@ class AutocompleteInput extends Component {
   }
 
   selectAutocompleteSuggestion(id) {
-    if (!id && !this.props.noSuggestionsItem) return;
+    if (!id && id !== 0 && !this.props.noSuggestionsItem) return;
     this.props.onSelect(id);
   }
 
