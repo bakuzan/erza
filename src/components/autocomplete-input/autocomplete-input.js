@@ -23,9 +23,11 @@ class AutocompleteInput extends Component {
 
   selectActiveSuggestion() {
     const item = this.filterAutoComplete()[this.state.activeSuggestion];
-    const id = isNumber(item.id)
-                ? item.id
-                : item._id;
+    const id = !!item
+      ? isNumber(item.id)
+        ? item.id
+        : item._id
+      : null;
     this.selectAutocompleteSuggestion(id);
   }
 
@@ -82,9 +84,10 @@ class AutocompleteInput extends Component {
   }
 
   render() {
-    const { filter, attr, label } = this.props;
+    const { filter, attr, label, noSuggestionsItem } = this.props;
     const autocomplete = this.filterAutoComplete();
-
+    const hasSuggestions = !!autocomplete.length;
+    
     return (
       <div className="autocomplete">
         <ClearableInput
@@ -95,9 +98,10 @@ class AutocompleteInput extends Component {
           onKeyDown={this.handleKeyDown}
         />
         {
-          !!autocomplete.length &&
+          !!filter &&
           <ul className="autocomplete-menu list column one">
             {
+              hasSuggestions &&
               autocomplete.map((item, index) => {
                 const itemId = isNumber(item.id)
                                 ? item.id
@@ -118,6 +122,16 @@ class AutocompleteInput extends Component {
                 );
               })
             }
+            {
+              !hasSuggestions &&
+              <li id="no-suggestions-item" className="autocomplete-suggestion active">
+                {
+                  !!noSuggestionsItem 
+                    ? noSuggestionsItem
+                    : <div>No suggestions available</div>
+                }
+               </li>
+            }
           </ul>
         }
       </div>
@@ -126,7 +140,8 @@ class AutocompleteInput extends Component {
 }
 
 AutocompleteInput.defaultProps = {
-  disableLocalFilter: false
+  disableLocalFilter: false,
+  noSuggestionsItem: null
 }
 
 AutocompleteInput.propTypes = {
