@@ -16,11 +16,18 @@ class ChipListInput extends Component {
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(this);
+    this.handleCreateNewTag = this.handleCreateNewTag.bind(this);
+  }
+  
+  handleCreateNewTag() {
+    console.log("<< "+"%c Create New Tag: "+"%c Not yet implemented"+"%c >>", "color: blue", "color: red", "color: black");
+    const { attr, chipOptions } = this.props;
+    console.log("details: ", { [attr]: this.state[attr] });
   }
 
   selectAutocompleteSuggestion(id) {
     const item = this.props.chipOptions.find(x => x._id === id);
-	  if (!item) return;
+	  if (!item) return this.handleCreateNewTag();
     
     const alreadyExists = this.props.chipsSelected.find(x => x._id === item._id);
     if (alreadyExists) return;
@@ -68,7 +75,7 @@ class ChipListInput extends Component {
   }
 
   render() {
-    const { attr, chipOptions, chipsSelected, ...passThroughProps } = this.props;
+    const { attr, chipOptions, chipsSelected } = this.props;
     const chips = chipsSelected.filter(x => x !== undefined).map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (
@@ -95,7 +102,14 @@ class ChipListInput extends Component {
           onChange={this.handleUserInput}
           onSelect={this.selectAutocompleteSuggestion}
           onKeyDown={this.handleKeyDown}
-         {...passThroughProps}
+          noSuggestionsItem={
+            <button
+              type="button"
+              className="button ripple"
+              onClick={this.handleCreateNewTag}>
+              Create New Tag
+            </button>
+          }
         />
         {
           !!hasChips &&
