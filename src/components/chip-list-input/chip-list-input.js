@@ -68,7 +68,7 @@ class ChipListInput extends Component {
   }
 
   render() {
-    const { attr, chipOptions, chipsSelected } = this.props;
+    const { attr, chipOptions, chipsSelected, ...passThroughProps } = this.props;
     const chips = chipsSelected.filter(x => x !== undefined).map((item, index, array) => {
       const readyRemoval = this.state.readyRemoval && index === array.length - 1;
       return (
@@ -95,6 +95,7 @@ class ChipListInput extends Component {
           onChange={this.handleUserInput}
           onSelect={this.selectAutocompleteSuggestion}
           onKeyDown={this.handleKeyDown}
+         {...passThroughProps}
         />
         {
           !!hasChips &&
