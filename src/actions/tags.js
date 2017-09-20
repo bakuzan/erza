@@ -2,6 +2,8 @@ import { TAGS_LOAD, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import TagQL from '../graphql/query/tag'
+import TagML from '../graphql/mutation/tag'
+
 
 const startingTagsRequest = () => ({
   type: TAGS_REQUEST,
@@ -18,23 +20,20 @@ const finishTagsRequest = () => ({
   isFetching: false
 })
 
-// const addTag = (item) => ({
-//   type: ADD_TAG,
-//   item
-// })
-//
-// export const createTag = (item) => {
-//   return function(dispatch) {
-//     dispatch(startingTagsRequest());
-//     var goToNext = Promise.resolve(item);
-//     setTimeout(() => {
-//       goToNext.then(response => {
-//         dispatch(addTag(response));
-//         dispatch(finishTagsRequest());
-//       })
-//     }, 1000);
-//   }
-// }
+export const createTag = (item) => {
+  return function(dispatch, getState) {
+    dispatch(startingTagsRequest());
+    const { isAdult } = getState();
+    const itemForCreation = constructRecordForPost({ ...item, isAdult });
+    const mutation = TagML.createTag(itemForCreation);
+    fetchFromServer(`${Paths.graphql.base}${mutation}`)
+      .then(response => {
+        dispatch(finishTagsRequest());
+        const data = response.data[getSingleObjectProperty(response.data)];
+        toaster.success('Saved!', `Successfully saved '${data.record.name}' tag.`);
+      });
+  }
+}
 
 export const loadTags = () => {
   return function(dispatch) {
