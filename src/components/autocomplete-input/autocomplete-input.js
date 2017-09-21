@@ -99,7 +99,7 @@ class AutocompleteInput extends Component {
   }
 
   render() {
-    const { filter, attr, label, noSuggestionsItem } = this.props;
+    const { filter, attr, label, noSuggestionsItem, disableLocalFilter } = this.props;
     const autocomplete = this.filterAutoComplete();
     const hasOptions = !!this.props.items.length;
     const hasSuggestions = !!autocomplete.length;
@@ -141,7 +141,7 @@ class AutocompleteInput extends Component {
               })
             }
             {
-              !hasSuggestions && hasOptions &&
+              !hasSuggestions && (hasOptions || disableLocalFilter) &&
               <li id="no-suggestions-item" className="autocomplete-suggestion active">
                 {
                   !!noSuggestionsItem 

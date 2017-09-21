@@ -1,7 +1,9 @@
 .mal-search-container {
   position: relative;
 
-  &.fetching .clear-input, &.selected .autocomplete-menu {
+  &.fetching .clear-input, 
+  &.selected .autocomplete-menu,
+  &.fresh .autocomplete-menu  {
     visibility: hidden;
     pointer-events: none;
   }

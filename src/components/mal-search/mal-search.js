@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react'
+import classNames from 'classnames'
+
 import fetchFromServer from '../../graphql/fetch'
 import AutocompleteInput from '../autocomplete-input/autocomplete-input'
 import LoadingSpinner from '../loading-spinner/loading-spinner';
@@ -6,8 +8,7 @@ import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
 import {Paths} from '../../constants/paths'
 import './mal-search.css'
 
-const FETCHING_CLASS = ' fetching';
-const SELECTED_CLASS = ' selected';
+
 const searchMyAnimeList = type => search => fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
 class MalSearch extends Component {
@@ -16,6 +17,7 @@ class MalSearch extends Component {
     super(props);
     this.state = {
       results: [],
+	  isFirstQuery: true,
       isFetching: false,
       hasSelected: false
     }
@@ -37,7 +39,14 @@ class MalSearch extends Component {
   fetchMalResults() {
     debounce(() => {
       this.setState({ isFetching: true });
-      this.queryMal(this.props.search).then(response => this.setState({ results: response, isFetching: false }));
+      this.queryMal(this.props.search)
+	  .then(response => {
+		  this.setState({ 
+		    results: response, 
+			isFetching: false, 
+			isFirstQuery: false 
+		  })
+	  });
     }, getTimeoutSeconds(2))
   }
 
@@ -58,16 +67,14 @@ class MalSearch extends Component {
 
   render() {
     const { search } = this.props;
-    const variableClass = !this.state.isFetching
-                          ? (
-                              this.state.hasSelected
-                              ? SELECTED_CLASS
-                              : ''
-                            )
-                          : FETCHING_CLASS;
-    console.log('%c mal search >> ', 'color: red', this.state);
+	const malSearchClasses = classNames("mal-search-container", {
+		"fresh": this.state.isFirstQuery,
+		"fetching": this.state.isFetching,
+		"selected": this.state.hasSelected
+	});
+
     return (
-      <div className={`mal-search-container${variableClass}`}>
+      <div className={malSearchClasses}>
         <AutocompleteInput
           attr="title"
           items={this.state.results}
