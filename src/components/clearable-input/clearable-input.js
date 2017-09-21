@@ -10,7 +10,7 @@ const clearAndFocusInput = (name, clearInput) => () => {
   debounce(() => inputField.focus(), 100);
 }
 
-const ClearableInput = ({ name = "search", label = "search", value, maxLength, onChange, onKeyDown }) => (
+const ClearableInput = ({ name = "search", label = "search", value, maxLength, onChange, onKeyDown, ...otherProps }) => (
   <div className="has-float-label input-container clearable-input">
     <input
       ref={(input) => inputField = input}
@@ -22,6 +22,7 @@ const ClearableInput = ({ name = "search", label = "search", value, maxLength, o
       onChange={onChange}
       onKeyDown={onKeyDown}
       autoComplete="off"
+      {...otherProps}
       />
     <label>{ label }</label>
     {
