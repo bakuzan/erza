@@ -97,8 +97,7 @@
 
     // history list
     .history-list-item.series-title {
-      background-color: $colour;
-      color: $contrast;
+      border-bottom-color: $colour;
     }
 
     // Unique UI elements
