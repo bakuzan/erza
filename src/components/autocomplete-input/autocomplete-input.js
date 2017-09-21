@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import ClearableInput from '../clearable-input/clearable-input'
 import {Enums} from '../../constants/values'
-import {isNumber} from '../../utils/common'
+import {isNumber, getTimeoutSeconds} from '../../utils/common'
 import './autocomplete-input.css'
 
 class AutocompleteInput extends Component {
@@ -10,11 +10,15 @@ class AutocompleteInput extends Component {
   constructor() {
     super();
     this.state = {
+      inUse: false,
       activeSuggestion: 0
     };
 
+    this.timer = null
     this.handleInputFilter = this.handleInputFilter.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
   }
 
   selectAutocompleteSuggestion(id) {
@@ -84,6 +88,16 @@ class AutocompleteInput extends Component {
     }
   }
 
+  handleFocus(e) {
+    clearTimeout(this.timer);
+    this.setState({ inUse: true })
+  }
+  
+  handleBlur(e) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ inUse: false }), getTimeoutSeconds(1))
+  }
+
   render() {
     const { filter, attr, label, noSuggestionsItem } = this.props;
     const autocomplete = this.filterAutoComplete();
@@ -98,9 +112,11 @@ class AutocompleteInput extends Component {
           value={filter}
           onChange={this.handleInputFilter}
           onKeyDown={this.handleKeyDown}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
         />
         {
-          !!filter &&
+          !!filter && this.state.inUse &&
           <ul className="autocomplete-menu list column one">
             {
               hasSuggestions &&
