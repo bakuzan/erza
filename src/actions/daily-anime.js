@@ -17,7 +17,7 @@ const loadDailyAnime = data => ({
 export const fetchDailyAnime = () => {
   return function(dispatch) {
     const date = new Date()
-    date.setDate(date.getDate() - 6)
+    date.setDate(date.getDate() - 7)
 
     const dateRange = [dateAsMs(startOfDay(date)), dateAsMs(endOfDay(date))].toString()
     const query = DailyAnimeQL.getDailyAnimeForDateRange(dateRange)
