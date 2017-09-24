@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import FilterLink from '../filter-link/filter-link'
 import RadioButton from '../../components/radio-button/radio-button'
 import ClearableInput from '../../components/clearable-input/clearable-input'
+import SelectBox from '../../components/select-box/select-box'
 import {toggleSortOrder, setSortKey} from '../../actions/sorting'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
@@ -13,7 +14,12 @@ const ALL_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.all}`;
 const COMPLETED_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.completed}`;
 const ONGOING_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.ongoing}`;
 
-const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey }) => (
+const SORT_OPTIONS = [
+  { text: 'Title', value: 'title' },
+  { text: 'Updated date', value: 'updatedDate' }
+]
+
+const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey, children }) => (
   <div className="list-filter">
 
     <ClearableInput
@@ -33,27 +39,14 @@ const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderTog
       </FilterLink>
     </div>
 
-    <div className="has-float-label select-container">
-      <select className="select-box"
-              name="sortKey"
-              value={sortKey}
-              onChange={(e) => onChangeSortKey(e)}
-      >
-        {
-          [
-            { text: 'Title', value: 'title' },
-            { text: 'Updated date', value: 'updatedDate' }
-          ].map(item => {
-            return (
-              <option key={item.value} value={item.value}>
-                { item.text }
-              </option>
-            );
-          })
-        }
-      </select>
-      <label>sort on</label>
-    </div>
+    <SelectBox
+      name="sortKey"
+      text="sort on"
+      value={sortKey}
+      onSelect={(e) => onChangeSortKey(e)}
+      options={SORT_OPTIONS}
+      />
+
     <div className="radio-group" role="radiogroup">
       <RadioButton
         name="sortOrder"
@@ -70,6 +63,10 @@ const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderTog
         onSelect={(e) => onSortOrderToggle(e)}
       />
     </div>
+
+    {
+      children
+    }
   </div>
 );
 

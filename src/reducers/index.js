@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 import anime from './anime'
+import dailyAnime from './daily-anime'
 import manga from './manga'
 import episode from './episode'
 import chapter from './chapter'
@@ -14,6 +15,7 @@ import {sidebar} from './sidebar'
 
 const entities = combineReducers({
   anime,
+  dailyAnime,
   manga,
   episode,
   chapter,

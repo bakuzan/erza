@@ -87,6 +87,7 @@ class HistoryListItem extends Component {
               <ClearableInput
                 name="note"
                 label="note"
+				maxLength={140}
                 value={this.state.note}
                 onChange={this.handleUserInput}
               />

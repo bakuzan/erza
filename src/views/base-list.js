@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import ListFilter from '../containers/list-filter/list-filter'
+import DailyAnime from '../containers/daily-anime/daily-anime'
 import PagedAnimeList from '../containers/paged-lists/paged-anime-list'
 import PagedMangaList from '../containers/paged-lists/paged-manga-list'
 import {Strings, Enums} from '../constants/values'
@@ -59,7 +60,7 @@ class BaseListView extends Component {
   }
 
   render() {
-    const { type, items } = this.props;
+    const { type, items, routeKey } = this.props;
     const PagedTypedList = fetchPagedListForType(type);
     const filters = { ...this.state, statusIn: getStatusList(this.props) };
 
@@ -69,7 +70,13 @@ class BaseListView extends Component {
             type={type}
             search={this.state.search}
             onChange={this.handleUserInput}
-        />
+        >
+          <div className="flex-spacer"></div>
+          <DailyAnime
+            routeKey={routeKey}
+            onSelect={this.handleUserInput}
+          />
+        </ListFilter>
         {
           this.props.isFetching &&
           <LoadingSpinner size="fullscreen" />

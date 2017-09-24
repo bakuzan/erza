@@ -8,6 +8,8 @@ export const ANIME_LOAD = 'ANIME_LOAD'
 export const ANIME_SUCCESS = 'ANIME_SUCCESS'
 export const ANIME_FAILURE = 'ANIME_FAILURE'
 
+export const DAILY_ANIME_LOAD = 'DAILY_ANIME_LOAD'
+
 export const ADD_MANGA = 'ADD_MANGA'
 export const UPDATE_MANGA = 'UPDATE_MANGA'
 export const MANGA_LOAD = 'MANGA_LOAD'

@@ -6,7 +6,7 @@ export const Enums = {
     dropped: 4,
     planned: 6,
     // all for status filter
-    all: [1,2,3,4,6]
+    all: [1,2,3,4,6],
   },
   anime: {
     type: {
