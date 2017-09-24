@@ -72,10 +72,13 @@ class BaseListView extends Component {
             onChange={this.handleUserInput}
         >
           <div className="flex-spacer"></div>
-          <DailyAnime
-            routeKey={routeKey}
-            onSelect={this.handleUserInput}
-          />
+		  {
+			  type === Strings.anime &&
+			  <DailyAnime
+				routeKey={routeKey}
+				onSelect={this.handleUserInput}
+			  />
+		  }
         </ListFilter>
         {
           this.props.isFetching &&
