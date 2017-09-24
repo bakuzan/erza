@@ -60,7 +60,7 @@ class BaseListView extends Component {
   }
 
   render() {
-    const { type, items, routeKey } = this.props;
+    const { type, items, isAdult, routeKey } = this.props;
     const PagedTypedList = fetchPagedListForType(type);
     const filters = { ...this.state, statusIn: getStatusList(this.props) };
 
@@ -74,6 +74,7 @@ class BaseListView extends Component {
           <div className="flex-spacer"></div>
 		  {
 			  type === Strings.anime &&
+			  !isAdult &&
 			  <DailyAnime
 				routeKey={routeKey}
 				onSelect={this.handleUserInput}
