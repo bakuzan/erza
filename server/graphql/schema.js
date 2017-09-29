@@ -7,18 +7,20 @@ const { MangaTC } = require('../models/manga');
 const { TagTC } = require('../models/tag');
 const { EpisodeTC } = require('../models/episode');
 const { ChapterTC } = require('../models/chapter');
+const { TaskTC } = require('../models/task');
 
 const arrayOfModels = [
   { prefix: 'anime', type: AnimeTC },
   { prefix: 'manga', type: MangaTC },
   { prefix: 'tag', type: TagTC },
   { prefix: 'episode', type: EpisodeTC },
-  { prefix: 'chapter', type: ChapterTC }
+  { prefix: 'chapter', type: ChapterTC },
+  { prefix: 'task', type: TaskTC }
 ];
 
 const queries = arrayOfModels.map(constructQueryFields)
                              .reduce(combineArrayOfObjects);
-                             
+
 const mutations = arrayOfModels.map(constructMutationFields)
                                .reduce(combineArrayOfObjects);
 
