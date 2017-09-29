@@ -94,3 +94,11 @@ export const historyKeyFieldsWithSeries = uniqueField => (`
     title
   }
 `)
+
+export const taskKeyFields = (`
+  _id
+  description
+  isComplete
+  repeatFrequency
+  repeatDay
+`)
