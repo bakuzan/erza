@@ -32,3 +32,14 @@ const BAD_MAL_DATE_PART = '-00';
 
 const isNotBadMalDate = s => s !== BAD_BLANK_MAL_DATE && s.indexOf(BAD_MAL_DATE_PART) === -1;
 export const dateStringToISOString = s => !!s && isNotBadMalDate(s) ? new Date(s).toISOString() : null;
+
+const getWeekExtreme = check => date => {
+  const d = new Date(date)
+  const day = d.getDay()
+  const diff = d.getDate() - day + check(day)
+  d.setDate(diff)
+  return d
+}
+
+export const weekBeginning = getWeekExtreme((d) => d === 0 ? -6:1)
+export const weekEnding = getWeekExtreme((d) => d === 0 ? 0:7)

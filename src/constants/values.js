@@ -92,7 +92,12 @@ export const Strings = {
   // theme
   light: 'Light',
   dark: 'Dark',
-  themes: [{ name: 'Light', class: 'theme-one' }, { name: 'Dark', class: 'theme-two' }]
+  themes: [{ name: 'Light', class: 'theme-one' }, { name: 'Dark', class: 'theme-two' }],
+  // yoruichi filters
+  timePeriod: {
+    day: "DAY",
+    week: "WEEK"
+  }
 }
 
 export const Properties = {
