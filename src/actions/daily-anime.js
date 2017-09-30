@@ -19,13 +19,13 @@ export const fetchDailyAnime = () => {
     const date = new Date()
     date.setDate(date.getDate() - 7)
 
-    const dateRange = [dateAsMs(startOfDay(date)), dateAsMs(endOfDay(date))].toString()
+    const dateRange = [dateAsMs(startOfDay(date)), dateAsMs(endOfDay(date))]
     const query = DailyAnimeQL.getDailyAnimeForDateRange(dateRange)
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
-        const { episodes: { edges: episodes }, anime } = response.data
+        const { episodes, anime } = response.data
         const dailyAnime = episodes
-          .map(({ node: item }) => {
+          .map((item) => {
             const series = anime.find(x => x._id === item.parent)
             if (!series) return null
             if (item.episode !== series.episode) return null
