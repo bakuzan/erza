@@ -21,10 +21,21 @@ const updateTaskById = task => (`
   }
 `)
 
+const deleteTask = id => (`
+  mutation {
+    taskRemoveById(_id: "${id}") {
+      record {
+        _id
+      }
+    }
+  }
+`)
+
 
 const TaskML = {
   createTask,
-  updateTaskById
+  updateTaskById,
+  deleteTask
 }
 
 export default TaskML
