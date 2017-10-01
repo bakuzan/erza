@@ -1,7 +1,7 @@
 import { constructFilterString, taskKeyFields } from '../common'
 
 
-const getTaskForDateRange = filters => (`
+const getTasksForDateRange = filters => (`
   {
     taskConnection(${constructFilterString(filters)}) {
       ${taskKeyFields}
@@ -11,7 +11,7 @@ const getTaskForDateRange = filters => (`
 
 
 const TaskQL = {
-  getTaskForDateRange
+  getTasksForDateRange
 }
 
 export default TaskQL

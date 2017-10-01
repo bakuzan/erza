@@ -49,16 +49,29 @@ class Home extends Component {
        range = [formatDateForInput(weekBeginning(targetDate)), formatDateForInput(weekEnding(targetDate))];
     }
 
-    // const query = {
-    //   filter: {
-    //
-    //   }
-    // }
-    // getTasks(TaskQL.getTaskForDateRange(query))
-    // .then(result => {
-    //
-    //   // this.ports.tasks.send()
-    // })
+    const query = {
+      filter: {
+        dateRange: range
+      }
+    }
+
+    getTasks(TaskQL.getTasksForDateRange(query))
+    .then(result => {
+      const { tasks } = result.data;
+
+      this.ports.tasks.send(
+        tasks.map(task => {
+          const id = task._id
+          delete task._id
+
+          return {
+            ..task,
+            id
+          }
+        })
+      );
+
+    });
   }
 
   handleCreate(task) {
