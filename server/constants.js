@@ -34,6 +34,8 @@ const environment = {
 	production: 'production'
 }
 
+const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
 const Constants = {
 	appName,
 	seasons,
@@ -42,7 +44,8 @@ const Constants = {
 	type,
 	status,
 	environment,
-	breakdown
+	breakdown,
+	dayNames
 }
 
 module.exports = Constants;

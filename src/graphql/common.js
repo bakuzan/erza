@@ -101,4 +101,6 @@ export const taskKeyFields = (`
   isComplete
   repeatFrequency
   repeatDay
+  completedOccurances
+  dayOfWeek
 `)
