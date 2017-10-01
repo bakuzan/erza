@@ -50,9 +50,7 @@ class Home extends Component {
     }
 
     const query = {
-      filter: {
-        dateRange: range
-      }
+      dateRange: range
     }
 
     getTasks(TaskQL.getTasksForDateRange(query))

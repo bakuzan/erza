@@ -66,6 +66,8 @@ const extendConnection = TaskTC
       type: [TaskTC.getFieldType('date')],
       description: 'Filter tasks by date range',
       query: (query, value, resolveParams) => {
+
+
         
       }
     });
