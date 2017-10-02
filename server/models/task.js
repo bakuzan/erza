@@ -66,9 +66,16 @@ const extendConnection = TaskTC
       type: [TaskTC.getFieldType('date')],
       description: 'Filter tasks by date range',
       query: (query, value, resolveParams) => {
-
-
-        
+        query = {
+          $or: [
+            { $and: [{ repeatFrequency: 0 }, { repeatDay: { $lte: value[1], $gte: value[0] } }] },
+            { repeatFrequency: 1 },
+            { $and: [{ repeatFrequency: 2 }, {  }] },
+            { $and: [{ repeatFrequency: 3 }, {  }] },
+            { $and: [{ repeatFrequency: 4 }, {  }] },
+            { $and: [{ repeatFrequency: 5 }, {  }] }
+          ]
+        }
       }
     });
 
