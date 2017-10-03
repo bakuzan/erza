@@ -20,7 +20,7 @@ const TaskSchema = new Schema({
     type: Boolean,
     default: false
   },
-  repeatFrquency: {
+  repeatFrequency: {
     type: Number,
     default: 0
   },
@@ -30,7 +30,7 @@ const TaskSchema = new Schema({
   completedOccurances: {
     type: Array,
     default: []
-  }
+  },
   updatedDate: {
     type: Date,
     default: Date.now,
@@ -63,7 +63,7 @@ const extendConnection = TaskTC
     .getResolver('connection')
     .addFilterArg({
       name: 'dateRange',
-      type: [TaskTC.getFieldType('date')],
+      type: ["String"],
       description: 'Filter tasks by date range',
       query: (query, value, resolveParams) => {
         query = {

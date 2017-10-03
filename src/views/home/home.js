@@ -1,21 +1,23 @@
 import React, {Component} from 'react';
 import Elm from 'react-elm-components'
 
-import {fetchFromServer} from '../../graphql/fetch'
+import fetchFromServer from '../../graphql/fetch'
 import {constructRecordForPost} from '../../graphql/common'
 import TaskQL from '../../graphql/query/task'
 import TaskML from '../../graphql/mutation/task'
 import {Paths} from '../../constants/paths'
 import {Strings} from '../../constants/values'
-import {weekBeginning, weekEnding} from '../../utils/date'
+import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding} from '../../utils/date'
 
-import {Main} from '../../yoruichi/build/static/js/yoruichi'
-import '../../yoruichi/build/static/css/yoruichi.css'
+import {Main} from '../../../yoruichi/build/static/js/yoruichi'
+import '../../../yoruichi/build/static/css/yoruichi.css'
 
 
 const query = method => str => fetchFromServer(`${Paths.graphql.base}${str}`, method)
 const getTasks = query('GET')
 const mutateTasks = query('POST')
+
+const fixRepeatDay = t => ({ ...t, repeatDay: dateStringToISOString(t.repeatDay) })
 
 class Home extends Component {
 
@@ -55,36 +57,29 @@ class Home extends Component {
 
     getTasks(TaskQL.getTasksForDateRange(query))
     .then(result => {
-      const { tasks } = result.data;
+      const { tasks: { edges } } = result.data;
 
       this.ports.tasks.send(
-        tasks.map(task => {
-          const id = task._id
-          delete task._id
-
-          return {
-            ..task,
-            id
-          }
-        })
+        edges.map(({ node: { repeatDay, ...task } }) => ({ ...task, repeatDay: formatDateForInput(repeatDay) }))
       );
 
     });
   }
 
-  handleCreate(task) {
-    delete task.id;
+  handleCreate({ id, ...task }) {
+    const data = fixRepeatDay(task)
+    const newTask = constructRecordForPost(data)
 
-    const newTask = constructRecordForPost(task)
     mutateTasks(TaskML.createTask(newTask))
-    .then(result => this.ports.task.send(result.data.record))
+    .then(result => this.ports.task.send(result.data.createdTask.record))
   }
 
-  handleUpdate(task) {
-    const updatedTask = constructRecordForPost(task)
+  handleUpdate({ id, ...task }) {
+    const data = { _id: id, ...fixRepeatDay(task) }
+    const updatedTask = constructRecordForPost(data)
 
     mutateTasks(TaskML.updateTaskById(updatedTask))
-    .then(result => this.ports.task.send(result.data.record))
+    .then(result => this.ports.task.send(result.data.updatedTask.record))
   }
 
   handleDelete(taskId) {

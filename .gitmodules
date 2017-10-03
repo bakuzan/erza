@@ -1,3 +1,6 @@
 [submodule "satellizer"]
 	path = satellizer
 	url = https://github.com/bakuzan/satellizer.git
+[submodule "yoruichi"]
+	path = yoruichi
+	url = https://github.com/bakuzan/yoruichi.git

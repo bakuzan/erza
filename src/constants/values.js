@@ -109,12 +109,14 @@ export const Properties = {
   season: 'season',
   tagList: 'tagList',
   chapter: 'chapter',
-  seriesChapters: 'series_chapters'
+  seriesChapters: 'series_chapters',
+  dayOfWeek: 'dayOfWeek'
 }
 
 export const NonPostableProperties = [
   Properties.season,
-  Properties.tagList
+  Properties.tagList,
+  Properties.dayOfWeek
 ];
 
 export const Icons = {

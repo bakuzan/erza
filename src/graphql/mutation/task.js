@@ -3,7 +3,7 @@ import { taskKeyFields } from "../common"
 
 const createTask = task => (`
   mutation {
-    taskCreate(record: ${task}) {
+    createdTask: taskCreate(record: ${task}) {
       record: record {
         ${taskKeyFields}
       }
@@ -13,7 +13,7 @@ const createTask = task => (`
 
 const updateTaskById = task => (`
   mutation {
-    taskUpdateById(record: ${task}) {
+    updatedTask: taskUpdateById(record: ${task}) {
       record: record {
         ${taskKeyFields}
       }
@@ -23,7 +23,7 @@ const updateTaskById = task => (`
 
 const deleteTask = id => (`
   mutation {
-    taskRemoveById(_id: "${id}") {
+    deletedTask: taskRemoveById(_id: "${id}") {
       record {
         _id
       }

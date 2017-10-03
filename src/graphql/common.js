@@ -96,7 +96,7 @@ export const historyKeyFieldsWithSeries = uniqueField => (`
 `)
 
 export const taskKeyFields = (`
-  _id
+  id: _id
   description
   isComplete
   repeatFrequency
