@@ -28,7 +28,7 @@ const TaskSchema = new Schema({
     type: Date
   },
   completedOccurances: {
-    type: Array,
+    type: [String],
     default: []
   },
   updatedDate: {
