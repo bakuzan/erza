@@ -7,7 +7,7 @@ import TaskQL from '../../graphql/query/task'
 import TaskML from '../../graphql/mutation/task'
 import {Paths} from '../../constants/paths'
 import {Strings} from '../../constants/values'
-import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding} from '../../utils/date'
+import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding, daysDifferentBetweenDates} from '../../utils/date'
 
 import {Main} from '../../../yoruichi/build/static/js/yoruichi'
 import '../../../yoruichi/build/static/css/yoruichi.css'
@@ -18,6 +18,29 @@ const getTasks = query('GET')
 const mutateTasks = query('POST')
 
 const fixRepeatDay = t => ({ ...t, repeatDay: dateStringToISOString(t.repeatDay) })
+
+const temporaryClientSideFilter = ([start, end]) => {
+  const startDoW = new Date(start).getDay()
+  const endDoW = new Date(end).getDay()
+  const isSingleDay = startDoW === endDoW
+
+  return ({ node: { repeatFrequency, repeatDay } }) => {
+    const repeatDate = new Date(repeatDay);
+    const repeatDayStr = repeatDay.split("T")[0]
+    const repeatDoW = repeatDate.getDay();
+    const startDiff = daysDifferentBetweenDates(repeatDate, start)
+    const endDiff = daysDifferentBetweenDates(repeatDate, end)
+
+    return (
+      (repeatDayStr >= start && repeatDayStr <= end) ||
+      (repeatFrequency === 1) ||
+      (repeatFrequency === 2 && (isSingleDay && repeatDoW === startDoW || !isSingleDay)) ||
+      (repeatFrequency === 3 && 28 >= startDiff && 28 <= endDiff) ||
+      (repeatFrequency === 4 && ( ((startDiff / 7)%13 === 0) || ((endDiff / 7)%13 === 0) ) ) ||
+      (repeatFrequency === 5 && 365 >= startDiff && 365 <= endDiff)
+    );
+  }
+}
 
 class Home extends Component {
 
@@ -60,7 +83,11 @@ class Home extends Component {
       const { tasks: { edges } } = result.data;
 
       this.ports.tasks.send(
-        edges.map(({ node: { repeatDay, ...task } }) => ({ ...task, repeatDay: formatDateForInput(repeatDay) }))
+        edges.filter(temporaryClientSideFilter(range))
+             .map(({ node: { repeatDay, ...task } }) => ({
+               ...task,
+               repeatDay: formatDateForInput(repeatDay)
+             }))
       );
 
     });

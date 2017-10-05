@@ -43,3 +43,12 @@ const getWeekExtreme = check => date => {
 
 export const weekBeginning = getWeekExtreme((d) => d === 0 ? -6:1)
 export const weekEnding = getWeekExtreme((d) => d === 0 ? 0:7)
+
+
+const MS_DAY = 60*60*24*1000
+export const daysDifferentBetweenDates = (d1, d2) => {
+  const a = new Date(d1)
+  const b = new Date(d2)
+
+  return (Math.floor(b - a) / MS_DAY)
+}
