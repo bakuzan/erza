@@ -9,7 +9,7 @@ import './daily-anime.css'
 
 
 const dummyEvent = value => ({
-  target: { name: 'search', value }
+  target: { name: 'search', type: 'text', value }
 })
 
 class DailyAnime extends Component {
