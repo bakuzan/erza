@@ -34,7 +34,7 @@ const temporaryClientSideFilter = ([start, end]) => {
     return (
       (repeatDayStr >= start && repeatDayStr <= end) ||
       (repeatFrequency === 1) ||
-      (repeatFrequency === 2 && (isSingleDay && repeatDoW === startDoW || !isSingleDay)) ||
+      (repeatFrequency === 2 && ((isSingleDay && repeatDoW === startDoW) || !isSingleDay)) ||
       (repeatFrequency === 3 && 28 >= startDiff && 28 <= endDiff) ||
       (repeatFrequency === 4 && ( ((startDiff / 7)%13 === 0) || ((endDiff / 7)%13 === 0) ) ) ||
       (repeatFrequency === 5 && 365 >= startDiff && 365 <= endDiff)
