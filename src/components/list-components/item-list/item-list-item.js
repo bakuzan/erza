@@ -40,7 +40,7 @@ const ItemListItem = ({ type, item, addAction }) => {
                   ></span>
           }
         </div>
-        <div className="button-group">
+        <div className="button-group fixed-width">
           <Link to={`${Paths.base}${Paths[type].view}${item._id}`}
                 className="button ripple">
             View
