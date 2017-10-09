@@ -137,3 +137,13 @@ export const Types = {
   boolean: 'boolean',
   number: 'number'
 }
+
+export const Days = [
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+  "Sun"
+]
