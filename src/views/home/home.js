@@ -6,7 +6,7 @@ import {constructRecordForPost} from '../../graphql/common'
 import TaskQL from '../../graphql/query/task'
 import TaskML from '../../graphql/mutation/task'
 import {Paths} from '../../constants/paths'
-import {Strings} from '../../constants/values'
+import {Strings, Days} from '../../constants/values'
 import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding, daysDifferentBetweenDates} from '../../utils/date'
 
 import {Main} from '../../../yoruichi/build/static/js/yoruichi'
@@ -40,6 +40,19 @@ const temporaryClientSideFilter = ([start, end]) => {
       (repeatFrequency === 5 && 365 >= startDiff && 365 <= endDiff)
     );
   }
+}
+
+const handleDailyEntries = (requiresDailyDuplication, tasks) => {
+  if (!requiresDailyDuplication) return tasks;
+  
+  const duplicatedDailyTasks = tasks
+    .filter(x => x.repeatFrequency === 1)
+    .reduce((p, c) => Days.map(dayOfWeek => p.push({ ...task, dayOfWeek })), [])
+
+  return [
+    ...tasks,
+    ...duplicatedDailyTasks
+  ]
 }
 
 class Home extends Component {
@@ -83,11 +96,14 @@ class Home extends Component {
       const { tasks: { edges } } = result.data;
 
       this.ports.tasks.send(
-        edges.filter(temporaryClientSideFilter(range))
-             .map(({ node: { repeatDay, ...task } }) => ({
-               ...task,
-               repeatDay: formatDateForInput(repeatDay)
-             }))
+        handleDailyEntries(
+          timePeriod === Strings.timePeriod.week,
+          edges.filter(temporaryClientSideFilter(range))
+               .map(({ node: { repeatDay, ...task } }) => ({
+                 ...task,
+                 repeatDay: formatDateForInput(repeatDay)
+               }))
+        )
       );
 
     });
