@@ -47,7 +47,7 @@ const handleDailyEntries = (requiresDailyDuplication, tasks) => {
   
   const duplicatedDailyTasks = tasks
     .filter(x => x.repeatFrequency === 1)
-    .reduce((p, c) => [ ...p, ...Days.map(dayOfWeek => ({ ...c, dayOfWeek })), []) ])
+    .reduce((p, c) => [ ...p, ...Days.map(dayOfWeek => ({ ...c, dayOfWeek })) ], [])
 
   return [
     ...tasks,
