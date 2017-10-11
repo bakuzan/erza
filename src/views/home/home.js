@@ -42,16 +42,19 @@ const temporaryClientSideFilter = ([start, end]) => {
   }
 }
 
-const handleDailyEntries = (requiresDailyDuplication, tasks) => {
-  if (!requiresDailyDuplication) return tasks;
+const handleDailyEntries = ([start, end], requiresDailyDuplication, tasks) => {
+  const startDoW = Days[new Date(start).getDay()]
+  const reduction = requiresDailyDuplication
+    ? (c) => Days.map(dayOfWeek => ({ ...c, dayOfWeek }))
+	: (c) => [{ ...c, dayOfWeek: startDoW }]
   
-  const duplicatedDailyTasks = tasks
+  const processedDailyTasks = tasks
     .filter(x => x.repeatFrequency === 1)
-    .reduce((p, c) => [ ...p, ...Days.map(dayOfWeek => ({ ...c, dayOfWeek })) ], [])
+    .reduce((p, c) => [ ...p, ...reduction(c) ], [])
 
   return [
-    ...tasks,
-    ...duplicatedDailyTasks
+    ...tasks.filter(x => x.repeatFrequency !== 1),
+    ...processedDailyTasks
   ]
 }
 
@@ -97,6 +100,7 @@ class Home extends Component {
 
       this.ports.tasks.send(
         handleDailyEntries(
+		  range,
           timePeriod === Strings.timePeriod.week,
           edges.filter(temporaryClientSideFilter(range))
                .map(({ node: { repeatDay, ...task } }) => ({

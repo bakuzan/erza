@@ -139,11 +139,11 @@ export const Types = {
 }
 
 export const Days = [
+  "Sun",
   "Mon",
   "Tue",
   "Wed",
   "Thu",
   "Fri",
-  "Sat",
-  "Sun"
+  "Sat"
 ]
