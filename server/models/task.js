@@ -59,6 +59,7 @@ TaskTC.addFields({
   }
 });
 
+const forceISODate = d => new Date(new Date(d).toISOString())
 const extendConnection = TaskTC
     .getResolver('connection')
     .addFilterArg({
@@ -66,14 +67,13 @@ const extendConnection = TaskTC
       type: ["String"],
       description: 'Filter tasks by date range',
       query: (query, value, resolveParams) => {
+        const start = forceISODate(value[0])
+        const end = forceISODate(value[1])
+        
         query = {
           $or: [
-            { $and: [{ repeatFrequency: 0 }, { repeatDay: { $lte: value[1], $gte: value[0] } }] },
-            { repeatFrequency: 1 },
-            { $and: [{ repeatFrequency: 2 }, {  }] },
-            { $and: [{ repeatFrequency: 3 }, {  }] },
-            { $and: [{ repeatFrequency: 4 }, {  }] },
-            { $and: [{ repeatFrequency: 5 }, {  }] }
+            { $and: [{ repeatFrequency: 0 }, { repeatDay: { $lte: end, $gte: start } }] },
+            { $and: [{ repeatFrequency: { $ne: 0 } }, { repeatDay: { $lte: end } }] }
           ]
         }
       }
