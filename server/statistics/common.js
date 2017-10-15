@@ -1,6 +1,10 @@
 const Constants = require('../constants.js');
 const { padNumber } = require('../utils/common.js');
 
+const fetchStatusGrouping = (v) => historyBreakdownIsMonths(v)
+  ?  2
+  : { $in: [1,2] };
+
 const fetchBreakdownObject = (v) => historyBreakdownIsMonths(v)
   ? { project: {}, match: {} }
   : {
@@ -59,6 +63,7 @@ const buildNestedList = arr => {
 }
 
 module.exports = {
+  fetchStatusGrouping,
   fetchBreakdownObject,
   historyBreakdownIsMonths,
   getDatePropertyString,

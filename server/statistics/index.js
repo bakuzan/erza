@@ -48,7 +48,7 @@ const getHistoryCounts = (req, res) => {
   model.getGroupedCount({
     groupBy: "$month",
     sort: -1,
-    match: { isAdult: stringToBool(isAdult), status: 2 },
+    match: { isAdult: stringToBool(isAdult), status: Functions.fetchStatusGrouping(breakdown) },
     project: Object.assign({}, { month: { $substr: [Functions.getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
     postMatch: breakdownObj.match
   }).then(function(arr) {
@@ -86,7 +86,7 @@ const getHistoryCountsPartition = (req, res) => {
   model.getGroupedCount({
     groupBy: "$_id",
     sort: 1,
-    match: { isAdult: stringToBool(isAdult), status: 2 },
+    match: { isAdult: stringToBool(isAdult), status: Functions.fetchStatusGrouping(breakdown) },
     project: Object.assign({}, { month: { $substr: [Functions.getDatePropertyString(breakdown), 0, 7] } }, breakdownObj.project),
     postMatch: Object.assign({}, { $and: [{ month: { $in: Functions.listOfMonths(breakdown, partition) } }, breakdownObj.match] })
   }).then(function(arr) {
@@ -96,12 +96,14 @@ const getHistoryCountsPartition = (req, res) => {
     if (Functions.historyBreakdownIsMonths(breakdown)) return res.jsonp(
       docs.map(({ _id, title, rating }) => Object.assign({}, { _id, title, rating, episodeStatistics: emptyEpisodeStatistic() }))
     );
-    return attachEpisodeStatistics(res, { isAdult }, docs);
+    return attachEpisodeStatistics({ isAdult }, docs);
+  }).then(function(result) {
+    res.jsonp(result)
   });
 }
 
 
-const attachEpisodeStatistics = (res, { isAdult }, parents) => {
+const attachEpisodeStatistics = ({ isAdult }, parents) => {
   const parentIds = parents.map(({ _id }) => _id);
   Episode.getGroupedAggregation({
     groupBy: "$parent",
@@ -128,7 +130,7 @@ const attachEpisodeStatistics = (res, { isAdult }, parents) => {
       return merged;
     });
 
-    res.jsonp(joined);
+    return joined;
   });
 }
 
@@ -139,7 +141,7 @@ const getHistoryCountsByYears = (req, res) => {
   model.getGroupedCount({
     groupBy: "$month",
     sort: 1,
-    match: { isAdult: stringToBool(isAdult), status: 2 },
+    match: { isAdult: stringToBool(isAdult), status: Functions.fetchStatusGrouping(breakdown) },
     project: Object.assign({}, { year: { $substr: [Functions.getDatePropertyString(breakdown), 0, 4] }, month: { $substr: [Functions.getDatePropertyString(breakdown), 5, 2] } }, breakdownObj.project),
     postMatch: Object.assign({}, { year: { $in: [partition] } }, breakdownObj.match),
     grouping: { average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" } }
@@ -170,6 +172,7 @@ const fixSeasonalResults = (breakdown, data) => {
       const season = p[index];
       const orderedArray = [...season.ratings, ...ratings].sort();
       const length = orderedArray.length;
+
       return Object.assign([...p], {
         [index]: {
           _id: season._id,
@@ -183,10 +186,52 @@ const fixSeasonalResults = (breakdown, data) => {
     }, data.filter(isASeasonStartMonth))
 }
 
+const getHistoryCountsByYearsPartition = (req, res) => {
+  const { params: { type, isAdult, breakdown, partition } } = req;
+  const model = getQueryModelForType(type);
+  const breakdownObj = Functions.fetchBreakdownObject(breakdown);
+  let counts = {}
+
+  model.getGroupedCount({
+    groupBy: "$month",
+    sort: 1,
+    match: { isAdult: stringToBool(isAdult), status: Functions.fetchStatusGrouping(breakdown) },
+    project: Object.assign({}, { year: { $substr: [Functions.getDatePropertyString(breakdown), 0, 4] }, month: { $substr: [Functions.getDatePropertyString(breakdown), 5, 2] } }, breakdownObj.project),
+    postMatch: Object.assign({}, { year: { $in: [partition] } }, breakdownObj.match),
+    grouping: { average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" }, series: { $push: "$_id" } }
+  }).then(function(arr) {
+    let ids = []
+
+    counts = fixSeasonalResults(breakdown, arr).map(item => {
+      const ratings = item.ratings.slice(0);
+      ids = [...ids, ...item.series]
+      delete item.ratings;
+      delete item.series;
+      return Object.assign({}, item, {
+        mode: Functions.getModeRating(ratings)
+      });
+    });
+
+    return model.findIn(ids);
+  }).then(function(docs) {
+    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(({ _id, title, rating }) => {
+      return Object.assign({}, { _id, title, rating, episodeStatistics: emptyEpisodeStatistic() })
+    })
+
+    return attachEpisodeStatistics({ isAdult }, docs);
+  }).then(function(result) {
+    res.jsonp({
+      counts: counts,
+      detail: result
+    })
+  })
+}
+
 module.exports = {
 	getStatusCounts,
 	getRatingCounts,
 	getHistoryCounts,
 	getHistoryCountsPartition,
-	getHistoryCountsByYears
+	getHistoryCountsByYears,
+  getHistoryCountsByYearsPartition
 };
