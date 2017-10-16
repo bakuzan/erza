@@ -96,13 +96,12 @@ const getHistoryCountsPartition = (req, res) => {
     return model.findIn(list);
   })
   .then(function(docs) {
-    if (Functions.historyBreakdownIsMonths(breakdown)) return res.jsonp(
-      docs.map(({ _id, title, rating }) => ({ _id, title, rating, episodeStatistics: emptyEpisodeStatistic() }))
-    );
+    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(({ _id, title, rating }) => ({ _id, title, rating, episodeStatistics: emptyEpisodeStatistic() }))
 
-    return res.jsonp(
-      attachEpisodeStatistics({ isAdult }, docs)
-    );
+    return attachEpisodeStatistics({ isAdult }, docs)
+  })
+  .then(function(result) {
+    res.jsonp(result)
   });
 }
 
@@ -203,7 +202,7 @@ const getHistoryCountsByYearsPartition = (req, res) => {
       ids = [...ids, ...item.series]
       delete item.ratings;
       delete item.series;
-      
+
       return Object.assign({}, item, {
         mode: Functions.getModeRating(ratings)
       });
