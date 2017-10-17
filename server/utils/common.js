@@ -21,7 +21,7 @@ const getSeasonText = (month) => {
 
 const handleErrorResponse = (err, res) => {
   console.error(chalk.bgRed.white.bold(err));
-  const error = { error: err };
+  const error = { success: false, error: err };
   return res ? res.status(400).send(error) : error;
 }
 
