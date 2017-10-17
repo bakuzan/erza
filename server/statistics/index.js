@@ -158,7 +158,7 @@ const fixSeasonalResults = (breakdown, data) => {
   return data
     .filter(x => !isASeasonStartMonth(x))
     .reduce((p, c) => {
-      const {_id, value, average, highest, lowest, ratings} = c;
+      const {_id, value, average, highest, lowest, ratings, series} = c;
       const seasonNumber = `${Functions.getSeasonStartMonth(_id)}`;
       const index = p.findIndex(x => x._id === seasonNumber);
 
@@ -174,7 +174,8 @@ const fixSeasonalResults = (breakdown, data) => {
           average: orderedArray.reduce((p, c) => (p + c)) / length,
           highest: orderedArray[length - 1],
           lowest: orderedArray[0],
-          ratings: orderedArray
+          ratings: orderedArray,
+		  series: !!series ? [...series, ...season.series] : undefined
         }
       });
     }, data.filter(isASeasonStartMonth))
