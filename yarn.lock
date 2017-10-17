@@ -4135,6 +4135,12 @@ node-gyp@^3.3.1:
     tar "^2.0.0"
     which "1"
 
+node-imgur@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/node-imgur/-/node-imgur-0.1.2.tgz#8062729f5ca58373d0c19634d4f40e5f01a0ec7c"
+  dependencies:
+    request "~2.10.0"
+
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
@@ -5493,6 +5499,10 @@ request@2, request@^2.61.0, request@^2.79.0, request@^2.81.0:
     tough-cookie "~2.3.0"
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
+
+request@~2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/request/-/request-2.10.0.tgz#9911b5ef669b6500da2ae0b133fa1cfc92b1c48a"
 
 require-directory@^2.1.1:
   version "2.1.1"
