@@ -79,6 +79,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
 
 
 const emptyEpisodeStatistic = () => ({ _id: "", average: 0.0, highest: 0, lowest: 0, mode: 0 })
+const mapDocToHistoryDetail = ({ _id, title, rating }) => ({ _id, title, rating, season: "", episodeStatistics: emptyEpisodeStatistic() })
 const getHistoryCountsPartition = (req, res) => {
   const { params: { type, isAdult, breakdown, partition } } = req;
   const model = getQueryModelForType(type);
@@ -96,7 +97,7 @@ const getHistoryCountsPartition = (req, res) => {
     return model.findIn(list);
   })
   .then(function(docs) {
-    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(({ _id, title, rating }) => ({ _id, title, rating, episodeStatistics: emptyEpisodeStatistic() }))
+    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(mapDocToHistoryDetail)
 
     return attachEpisodeStatistics({ isAdult }, docs)
   })
@@ -136,9 +137,7 @@ const getHistoryCountsByYearsPartition = (req, res) => {
     return model.findIn(ids);
   })
   .then(function(docs) {
-    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(({ _id, title, rating }) => {
-      return Object.assign({}, { _id, title, rating, season: "", episodeStatistics: emptyEpisodeStatistic() })
-    })
+    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(mapDocToHistoryDetail)
 
     return attachEpisodeStatistics({ isAdult }, docs);
   })
