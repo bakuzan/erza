@@ -137,7 +137,7 @@ const getHistoryCountsByYearsPartition = (req, res) => {
   })
   .then(function(docs) {
     if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(({ _id, title, rating }) => {
-      return Object.assign({}, { _id, title, rating, episodeStatistics: emptyEpisodeStatistic() })
+      return Object.assign({}, { _id, title, rating, season: "", episodeStatistics: emptyEpisodeStatistic() })
     })
 
     return attachEpisodeStatistics({ isAdult }, docs);
@@ -205,56 +205,10 @@ const fixSeasonalResults = (breakdown, data) => {
     }, data.filter(isASeasonStartMonth))
 }
 
-const getHistoryCountsByYearsPartitionNew = (req, res) => {
-  const { params: { type, isAdult, breakdown, partition } } = req;
-  const model = getQueryModelForType(type);
-  const breakdownObj = Functions.fetchBreakdownObject(breakdown);
-  let counts = {}
-
-  model.getGroupedCount({
-    groupBy: "$month",
-    sort: 1,
-    match: { isAdult: stringToBool(isAdult), status: Functions.fetchStatusGrouping(breakdown) },
-    project: Object.assign({}, { year: { $substr: [Functions.getDatePropertyString(breakdown), 0, 4] }, month: { $substr: [Functions.getDatePropertyString(breakdown), 5, 2] } }, breakdownObj.project),
-    postMatch: Object.assign({}, { year: { $in: [partition] } }, breakdownObj.match),
-    grouping: { average: { $avg: "$rating" }, highest: { $max: "$rating" }, lowest: { $min: "$rating" }, ratings: { $push: "$rating" }, series: { $push: "$_id" } }
-  })
-  .then(function(arr) {
-    let ids = []
-
-    counts = fixSeasonalResults(breakdown, arr).map(item => {
-      const ratings = item.ratings.slice(0);
-      ids = [...ids, ...item.series]
-      delete item.ratings;
-      delete item.series;
-
-      return Object.assign({}, item, {
-        mode: Functions.getModeRating(ratings)
-      });
-    });
-
-    return model.findIn(ids);
-  })
-  .then(function(docs) {
-    if (Functions.historyBreakdownIsMonths(breakdown)) return docs.map(({ _id, title, rating }) => {
-      return Object.assign({}, { _id, title, rating, season: "", episodeStatistics: emptyEpisodeStatistic() })
-    })
-
-    return attachEpisodeStatistics({ isAdult }, docs);
-  })
-  .then(function(detail) {
-    res.jsonp({
-      counts,
-      detail
-    })
-  })
-}
-
 module.exports = {
 	getStatusCounts,
 	getRatingCounts,
 	getHistoryCounts,
 	getHistoryCountsPartition,
-  getHistoryCountsByYearsPartition,
-  getHistoryCountsByYearsPartitionNew
+  getHistoryCountsByYearsPartition
 };
