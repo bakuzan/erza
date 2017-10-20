@@ -42,7 +42,7 @@ class ImageSelector extends Component {
   handleSubmit(event) {
     console.log("UPLOAD >> ", this.state.imageFile || this.state.imageUrl);
     postToImgur(this.state.imageFile || this.state.imageUrl).then(result => {
-      if (result.success) {
+      if (result && result.success) {
         console.log("imgur upload result", result)
         this.props.onChange({
           target: { name: this.props.name, type: "text", value: result.url }

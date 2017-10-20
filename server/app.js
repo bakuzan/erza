@@ -18,10 +18,15 @@ app.use(`/${Constants.appName}/favicon.ico`, favicon(path.join(__dirname, '..', 
 app.use(`/${Constants.appName}/static`, express.static(path.resolve(__dirname, '..', 'build/static')));
 
 //Body parsing for POST-ing
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
-app.use(bodyParser.json());
+app.use(parseBodyAsRequired);
+
+function parseBodyAsRequired(req, res, next) {
+	if (req.path === Constants.paths.imgur.postFile) return next();
+
+	bodyParser.urlencoded({ extended: true });
+	bodyParser.json();
+	next();
+}
 
 // Routes
 app.use(require('./routes'));

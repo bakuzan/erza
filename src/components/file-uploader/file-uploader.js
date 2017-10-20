@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import './file-uploader.css'
 
 
+const displayFileName = str => str.slice(0).replace(/^.*\\/g, "")
+
 class FileUploader extends Component {
 
   handleUserInput(event) {
@@ -27,7 +29,7 @@ class FileUploader extends Component {
           onChange={(e) => this.handleUserInput(e)}
           />
         <div className="file-value">
-          { value || 'Nothing selected' }
+          { displayFileName(value) || 'Nothing selected' }
         </div>
         <button
           className="button ripple primary"

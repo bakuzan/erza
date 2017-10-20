@@ -36,6 +36,12 @@ const environment = {
 
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
+const paths = {
+	imgur: {
+		postFile: "/api/image-upload/file"
+	}
+}
+
 const Constants = {
 	appName,
 	seasons,
@@ -45,7 +51,8 @@ const Constants = {
 	status,
 	environment,
 	breakdown,
-	dayNames
+	dayNames,
+	paths
 }
 
 module.exports = Constants;
