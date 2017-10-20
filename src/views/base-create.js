@@ -15,7 +15,7 @@ import ChipListInput from '../components/chip-list-input/chip-list-input';
 import LoadingSpinner from '../components/loading-spinner/loading-spinner';
 import TabContainer from '../components/tab-container/tab-container'
 import TabView from '../components/tab-view/tab-view'
-import FileUploader from '../components/file-uploader/file-uploader'
+import ImageSelector from '../components/image-selector/image-selector'
 import MalSearch from '../components/mal-search/mal-search'
 import { createTag, loadTags } from '../actions/tags'
 
@@ -217,12 +217,11 @@ class BaseCreate extends Component {
                       <label>total volumes</label>
                     </div>
                   }
-                  <FileUploader
+                  <ImageSelector
                     name="image"
-                    value={this.state.image}
-                    placeholder="Choose image"
-                    onFileSelect={this.handleUserInput}
-                    />
+                    url={this.state.image}
+                    onChange={this.handleUserInput}
+                  />
                   <div className="has-float-label input-container">
                     <input
                       type="url"

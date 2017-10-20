@@ -65,7 +65,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
   const {current, total} = getUniquePropertiesForItemType(type);
   return Object.assign({}, model, {
     title: !!model._id ? model.title : malItem.title,
-    image: malItem.image,
+    image: model.image && model.image.includes(Strings.imgur) ? model.image : malItem.image,
     malId: malItem.id,
     series_type: Enums[type].type[malItem.type.replace(/\W/g, '').toLowerCase()],
     [total]: malItem[`${current}s`],
@@ -78,7 +78,7 @@ export const shouldIntergrateMalEntry = type => (model, malItem) => {
   if (!model || !malItem) return false;
   const { image, malId, series_type, series_start, series_end, series_episodes, series_chapters, series_volumes } = model
   return !(
-    image === malItem.image &&
+    (image === malItem.image || image.includes(Strings.imgur)) &&
     malId === malItem.id &&
     series_type === Enums[type].type[malItem.type.toLowerCase()] &&
     series_chapters === malItem.chapters &&
