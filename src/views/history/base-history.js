@@ -69,6 +69,7 @@ class BaseHistoryView extends Component {
               name="to"
               placeholder=" "
               value={this.state.to}
+              min={this.state.from}
               onChange={this.handleUserInput}
               />
             <label>to</label>
