@@ -14,7 +14,7 @@ const handleErrorResponse = error => {
 
 const setOptions = (method, body) => ({
   method: method,
-  body: !!body ? JSON.stringify(body) : body,
+  body: !!body ? JSON.stringify(body) : null,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'

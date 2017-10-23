@@ -89,6 +89,7 @@ export const Strings = {
   noLinkedMalEntry: 'no related mal entry',
   updatedMalEntry: 'updated mal values',
   malEntryUpToDate: 'mal already up to date',
+  imgur: "imgur",
   // theme
   light: 'Light',
   dark: 'Dark',
@@ -147,3 +148,7 @@ export const Days = [
   "Fri",
   "Sat"
 ]
+
+export const ImageUrls = {
+  deadImage: "https://i.imgur.com/gKr1YhF.png"
+}

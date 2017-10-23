@@ -8,12 +8,14 @@
     width: 2px;
     color: $primary-colour;
   };
-  
+
   input[type="file"] {
     display: none;
   }
-  
+
   .file-value {
+    display: flex;
+    flex: 1;
     padding: 5px;
   }
 }

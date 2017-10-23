@@ -2,6 +2,22 @@ import React, {Component, PropTypes} from 'react'
 import {Strings} from '../../constants/values'
 import './dialog.css'
 
+
+const DialogContent = ({ name, isForm, children }) => {
+  if (!isForm) return (<div>{ children }</div>)
+
+  if (isForm) return (
+    <form
+      name={name}
+      noValidate=""
+      autoComplete="off"
+      >
+      { children }
+      </form>
+  )
+}
+
+
 class Dialog extends Component {
 
   constructor() {
@@ -37,12 +53,9 @@ class Dialog extends Component {
               className="dialog backdrop"
         >
         <div className="dialog-content">
-          <form
+          <DialogContent
             name={this.props.name}
-            onSubmit={this.handleAction}
-            noValidate=""
-            autoComplete="off"
-            >
+            isForm={this.props.isForm}>
             {
               hasTitle &&
               <h4 className="dialog-title">{ this.props.title }</h4>
@@ -50,29 +63,34 @@ class Dialog extends Component {
             <div className="dialog-content-custom">
               { this.props.children }
             </div>
+            <div className="button-group">
             {
               hasAction &&
-              <div className="button-group">
-                <button
-                  type="submit"
-                  className="button ripple"
-                  >
-                  { this.props.actionText }
-                </button>
-                <button
-                  type="button"
-                  className="button ripple"
-                  onClick={this.handleClose}
-                  >
-                  { Strings.cancel }
-                </button>
-              </div>
+              <button
+                type={this.props.isForm ? "submit" : "button"}
+                className="button ripple"
+                onClick={this.handleAction}
+                >
+                { this.props.actionText }
+              </button>
             }
-          </form>
+              <button
+                type="button"
+                className="button ripple"
+                onClick={this.handleClose}
+                >
+                { Strings.cancel }
+              </button>
+            </div>
+          </DialogContent>
         </div>
       </dialog>
     );
   }
+}
+
+Dialog.defaultProps = {
+  isForm: true
 }
 
 Dialog.propTypes = {
@@ -84,7 +102,8 @@ Dialog.propTypes = {
     PropTypes.node
   ]).isRequired,
   actionText: PropTypes.string,
-  action: PropTypes.func
+  action: PropTypes.func,
+  isForm: PropTypes.bool
 }
 
 export default Dialog

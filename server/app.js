@@ -18,9 +18,7 @@ app.use(`/${Constants.appName}/favicon.ico`, favicon(path.join(__dirname, '..', 
 app.use(`/${Constants.appName}/static`, express.static(path.resolve(__dirname, '..', 'build/static')));
 
 //Body parsing for POST-ing
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Routes
