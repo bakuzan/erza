@@ -5,8 +5,21 @@ import PagedHistoryList from '../../containers/paged-history-list/paged-history-
 import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
 import {startOfDay, endOfDay, dateAsMs, formatDateForInput} from '../../utils/date'
 
+
+
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [dateAsMs(startOfDay(from)), dateAsMs(endOfDay(to))]
 const loadData = (props, state) => props.loadHistory({ dateRange: dateRangeForQuery(state.from, state.to) });
+
+const Datepicker = ({ label, ...props }) => (
+  <div className="has-float-label input-container">
+    <input 
+      type="date"
+      placeholder=" "
+      {...props}
+      />
+    <label>{ label }</label>
+  </div>
+)
 
 class BaseHistoryView extends Component {
 
@@ -26,8 +39,6 @@ class BaseHistoryView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('%c will get props !! > ', 'font-size: 18px; font-weight: bold; color: indigo', nextProps, this.props);
-    // nextProps.location.key !== this.props.location.key ||
     if (
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.type !== this.props.type ||
@@ -55,25 +66,19 @@ class BaseHistoryView extends Component {
       }
       <div className="list-filter">
         <div>
-          <div className="has-float-label input-container">
-            <input type="date"
-              name="from"
-              placeholder=" "
-              value={this.state.from}
-              onChange={this.handleUserInput}
-              />
-            <label>from</label>
-          </div>
-          <div className="has-float-label input-container">
-            <input type="date"
-              name="to"
-              placeholder=" "
-              value={this.state.to}
-              min={this.state.from}
-              onChange={this.handleUserInput}
-              />
-            <label>to</label>
-          </div>
+          <Datepicker
+            name="from"
+            label="from"
+            value={this.state.from}
+            onChange={this.handleUserInput}
+          />
+          <Datepicker
+            name="to"
+            label="to"
+            value={this.state.to}
+            min={this.state.from}
+            onChange={this.handleUserInput}
+          />
         </div>
       </div>
       {
