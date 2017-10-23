@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import Elm from 'react-elm-components'
 
-import fetchFromServer from '../../graphql/fetch'
-import {constructRecordForPost} from '../../graphql/common'
-import TaskQL from '../../graphql/query/task'
-import TaskML from '../../graphql/mutation/task'
-import {Paths} from '../../constants/paths'
-import {Strings, Days} from '../../constants/values'
-import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding, daysDifferentBetweenDates} from '../../utils/date'
+import fetchFromServer from '../graphql/fetch'
+import {constructRecordForPost} from '../graphql/common'
+import TaskQL from '../graphql/query/task'
+import TaskML from '../graphql/mutation/task'
+import {Paths} from '../constants/paths'
+import {Strings, Days} from '../constants/values'
+import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding, daysDifferentBetweenDates} from '../utils/date'
 
-import {Main} from '../../../yoruichi/build/static/js/yoruichi'
-import '../../../yoruichi/build/static/css/yoruichi.css'
+import {Main} from '../../yoruichi/build/static/js/yoruichi'
+import '../../yoruichi/build/static/css/yoruichi.css'
 
 
 const query = method => str => fetchFromServer(`${Paths.graphql.base}${str}`, method)
@@ -47,7 +47,7 @@ const handleDailyEntries = ([start, end], requiresDailyDuplication, tasks) => {
   const reduction = requiresDailyDuplication
     ? (c) => Days.map(dayOfWeek => ({ ...c, dayOfWeek }))
 	: (c) => [{ ...c, dayOfWeek: startDoW }]
-  
+
   const processedDailyTasks = tasks
     .filter(x => x.repeatFrequency === 1)
     .reduce((p, c) => [ ...p, ...reduction(c) ], [])
