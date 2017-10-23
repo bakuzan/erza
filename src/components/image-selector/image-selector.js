@@ -104,6 +104,7 @@ class ImageSelector extends Component {
           getDialogRef={this.assignDialogRef}
           actionText="Save"
           action={this.handleSubmit}
+          isForm={false}
           >
           <ClearableInput
             name="imageUrl"
