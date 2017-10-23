@@ -31,7 +31,7 @@ const temporaryClientSideFilter = ([start, end]) => {
     const startDiff = daysDifferentBetweenDates(repeatDate, start)
     const endDiff = daysDifferentBetweenDates(repeatDate, end)
 
-    return (
+    return repeatDayStr <= end && (
       (repeatDayStr >= start && repeatDayStr <= end) ||
       (repeatFrequency === 1) ||
       (repeatFrequency === 2 && ((isSingleDay && repeatDoW === startDoW) || !isSingleDay)) ||
