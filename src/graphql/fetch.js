@@ -12,28 +12,14 @@ const handleErrorResponse = error => {
   console.error(error);
 }
 
-const setOptions = (method, body) => {
-  const hasBody = !!body
-  const isFile = hasBody && !!body.image && (body.image instanceof File)
-  const requestBody = !hasBody
-    ? body
-    : !isFile
-      ? JSON.stringify(body)
-      : (() => {
-        const fd = new FormData()
-        fd.append("image", body.image)
-        return fd
-      })()
-
-  return ({
-    method: method,
-    body: requestBody,
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  })
-}
+const setOptions = (method, body) => ({
+  method: method,
+  body: !!body ? JSON.stringify(body) : null,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
+})
 
 const fetchFromServer = (url, method = 'GET', body = null) => {
   const options = setOptions(method, body);

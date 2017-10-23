@@ -4,23 +4,15 @@ import fetchFromServer from '../../graphql/fetch'
 import Dialog from '../dialog/dialog'
 import ClearableInput from '../clearable-input/clearable-input'
 import FileUploader from '../file-uploader/file-uploader'
-import {isString} from '../../utils/common'
+import {isString, convertToBase64} from '../../utils/common'
 import {Paths} from '../../constants/paths'
+import {ImageUrls} from '../../constants/values'
 
 
 const defaults = {
   imageFile: "",
   imageUrl: "",
   imageMessage: ""
-}
-
-const postToImgur = data => {
-  const isStringData = isString(data)
-  const imgurUrl = isStringData
-    ? Paths.imgur.postUrl
-    : Paths.imgur.postFile
-
-  return fetchFromServer(imgurUrl, "POST", { image: data })
 }
 
 class ImageSelector extends Component {
@@ -30,26 +22,53 @@ class ImageSelector extends Component {
     this.state = defaults
 
     this.assignDialogRef = this.assignDialogRef.bind(this)
+    this.postToImgur = this.postToImgur.bind(this)
+    this.handleImgurResponse = this.handleImgurResponse.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleOpenDialog = this.handleOpenDialog.bind(this)
     this.handleUserSelection = this.handleUserSelection.bind(this)
+    this.exitImageSelector = this.exitImageSelector.bind(this)
   }
 
   assignDialogRef(element) {
     this.dialog = element;
   }
 
-  handleSubmit(event) {
-    console.log("UPLOAD >> ", this.state.imageFile || this.state.imageUrl);
-    postToImgur(this.state.imageFile || this.state.imageUrl).then(result => {
-      if (result && result.success) {
-        console.log("imgur upload result", result)
-        this.props.onChange({
-          target: { name: this.props.name, type: "text", value: result.url }
-        })
+  postToImgur(url) {
+    return (image) => fetchFromServer(url, "POST", { image })
+  }
+
+  handleImgurResponse(result) {
+    this.props.onChange({
+      target: {
+        name: this.props.name,
+        type: "text",
+        value: result && result.success ? result.url : ImageUrls.deadImage
       }
     })
-    this.dialog.close();
+  }
+
+  handleSubmit(event) {
+    const data = this.state.imageFile || this.state.imageUrl
+    const isStringData = isString(data)
+    const imgurUrl = isStringData
+      ? Paths.imgur.postUrl
+      : Paths.imgur.postFile
+
+    const requestImgur = this.postToImgur(imgurUrl)
+    this.exitImageSelector()
+
+    if (isStringData) return requestImgur(data).then(this.handleImgurResponse)
+    return convertToBase64(data, (function(selector) {
+      return function() {
+        requestImgur(this.result).then(selector.handleImgurResponse)
+      }
+    })(this))
+  }
+
+  exitImageSelector() {
+    this.setState(defaults)
+    this.dialog.close()
   }
 
   handleOpenDialog() {
@@ -67,7 +86,6 @@ class ImageSelector extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="file-uploader">
         <div className="file-value">

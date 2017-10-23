@@ -148,3 +148,7 @@ export const Days = [
   "Fri",
   "Sat"
 ]
+
+export const ImageUrls = {
+  deadImage: "https://i.imgur.com/gKr1YhF.png"
+}

@@ -53,3 +53,9 @@ export const isObject = isTypeOf(Types.object);
 export const isString = isTypeOf(Types.string);
 export const isNumber = isTypeOf(Types.number);
 export const isArray = v => v instanceof Array
+
+export const convertToBase64 = (file, callback) => {
+  const reader = new FileReader()
+  reader.onloadend = callback
+  reader.readAsDataURL(file)
+}

@@ -7,11 +7,11 @@ function upload({ body: { image } }, res) {
        .catch(returnImgurError(res));
 }
 
-function uploadFromLocal(req, res) {
-  console.log("image file upload body >> ", req)
-  // imgur.uploadFile(image, process.env.IMGUR_ALBUM)
-  //      .then(returnImgurUrl(res))
-  //      .catch(returnImgurError(res));
+function uploadFromLocal({ body: { image } }, res) {
+  const [rubbish, base64] = image.split(",")
+  imgur.uploadBase64(base64, process.env.IMGUR_ALBUM)
+       .then(returnImgurUrl(res))
+       .catch(returnImgurError(res));
 }
 
 function returnImgurUrl(res) {

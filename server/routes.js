@@ -5,10 +5,8 @@ const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 const graffiti = require('@risingstack/graffiti');
-const multer = require("multer");
 
 const GraphqlSchema = require('./graphql/schema.js');
-const upload = multer()
 
 const statistics = require('./statistics/index.js');
 const malSearch = require('./myanimelist/mal-search.js');
@@ -31,7 +29,7 @@ router.get('/api/mal-search/:type', malSearch);
 
 //Imgur routes
 router.post('/api/image-upload/url', imageStore.upload);
-router.post('/api/image-upload/file', upload.single("image"), imageStore.uploadFromLocal);
+router.post('/api/image-upload/file', imageStore.uploadFromLocal);
 
 //Statistic routes
 router.get('/api/statistics/status-counts/:type/:isAdult', statistics.getStatusCounts);
