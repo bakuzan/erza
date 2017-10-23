@@ -3,7 +3,7 @@ import {Router, Route, IndexRoute, Redirect} from 'react-router';
 import {Paths} from './constants/paths'
 import {Strings} from './constants/values'
 import App from './containers/app/app'
-import Home from './views/home/home'
+import Home from './views/home'
 
 import Anime from './views/anime/anime'
 import AnimeView from './views/anime/anime-view'

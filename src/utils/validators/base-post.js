@@ -18,7 +18,9 @@ export const malResponseGenerator = (type, postItem) => response => {
 export const applyUpdates = type => (entity, malItem) => {
   const { current, total } = getUniquePropertiesForItemType(type);
   const updates = {};
-  const item = Object.assign({}, entity, malItem);
+  const item = Object.assign({}, entity, malItem, {
+    image: entity.image && entity.image.includes(Strings.imgur) ? entity.image : malItem.image
+  });
   console.log("apply updates to > ", item);
   // END
   if (item[current] === item[total] && item[total] !== 0) {
