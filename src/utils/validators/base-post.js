@@ -1,6 +1,7 @@
 import fetchFromServer from '../../graphql/fetch'
 import {Paths} from '../../constants/paths'
 import {Enums, Strings} from '../../constants/values'
+import {coalesceSeriesImage} from '../common'
 import {getUniquePropertiesForItemType, intergrateMalEntry} from '../data'
 
 const searchMyAnimeList = type => search => fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
@@ -19,7 +20,7 @@ export const applyUpdates = type => (entity, malItem) => {
   const { current, total } = getUniquePropertiesForItemType(type);
   const updates = {};
   const item = Object.assign({}, entity, malItem, {
-    image: entity.image && entity.image.includes(Strings.imgur) ? entity.image : malItem.image
+    image: coalesceSeriesImage(entity, malItem)
   });
   console.log("apply updates to > ", item);
   // END

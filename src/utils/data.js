@@ -2,6 +2,7 @@ import AnimeModel from '../models/anime-model'
 import MangaModel from '../models/manga-model'
 import EpisodeModel from '../models/episode-model'
 import ChapterModel from '../models/chapter-model'
+import {coalesceSeriesImage} from './common'
 import {dateStringToISOString} from './date'
 import {Enums, Strings, Properties} from '../constants/values'
 
@@ -65,7 +66,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
   const {current, total} = getUniquePropertiesForItemType(type);
   return Object.assign({}, model, {
     title: !!model._id ? model.title : malItem.title,
-    image: model.image && model.image.includes(Strings.imgur) ? model.image : malItem.image,
+    image: coalesceSeriesImage(model, malItem),
     malId: malItem.id,
     series_type: Enums[type].type[malItem.type.replace(/\W/g, '').toLowerCase()],
     [total]: malItem[`${current}s`],

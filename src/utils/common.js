@@ -59,3 +59,9 @@ export const convertToBase64 = (file, callback) => {
   reader.onloadend = callback
   reader.readAsDataURL(file)
 }
+
+export const coalesceSeriesImage = (model, malItem) => {
+  return model.image && model.image.includes(Strings.imgur)
+    ? model.image 
+    : (malItem.image || "");
+}
