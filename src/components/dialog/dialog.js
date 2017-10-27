@@ -50,6 +50,8 @@ class Dialog extends Component {
   }
 
   handleRef(element) {
+    if (!element) return;
+    
     this.self = element;
     this.props.getDialogRef(element);
     this.listeners = createListeners("click", handleDialogClick(this))(this.self);
