@@ -105,6 +105,7 @@ class ImageSelector extends Component {
           actionText="Save"
           action={this.handleSubmit}
           isForm={false}
+          hasBackdrop={false}
           >
           <ClearableInput
             name="imageUrl"
