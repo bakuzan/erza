@@ -17,6 +17,9 @@
     bottom: 0;
     background-color: #eee;
   }
+  &.no-backdrop::backdrop {
+    background-color: transparent;
+  }
 }
 .dialog-title {
   margin: 0 {

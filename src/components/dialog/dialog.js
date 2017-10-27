@@ -1,5 +1,10 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+
 import {Strings} from '../../constants/values'
+import {createListeners} from '../../utils/common'
+
 import './dialog.css'
 
 
@@ -17,6 +22,18 @@ const DialogContent = ({ name, isForm, children }) => {
   )
 }
 
+const handleDialogClick = dialog => event => {
+  const rect = dialog.self.getBoundingClientRect();
+  const isInDialog = (
+    rect.top <= event.clientY &&
+    event.clientY <= rect.top + rect.height &&
+    rect.left <= event.clientX &&
+    event.clientX <= rect.left + rect.width
+  );
+
+  if (isInDialog) return;
+  dialog.self.close();
+}
 
 class Dialog extends Component {
 
@@ -28,9 +45,15 @@ class Dialog extends Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
+  componentWillUnmount() {
+    this.listeners.remove();
+  }
+
   handleRef(element) {
     this.self = element;
     this.props.getDialogRef(element);
+    this.listeners = createListeners("click", handleDialogClick(this))(this.self);
+    this.listeners.listen();
   }
 
   handleClose() {
@@ -44,14 +67,16 @@ class Dialog extends Component {
 
   render() {
     const dialogStyle = { 'top': !!this.props.localised ? '0' : `calc(${window.scrollY}px + 50vh)` };
+    const dialogClass = classNames("dialog", { "backdrop": this.props.hasBackdrop }, { "no-backdrop": !this.props.hasBackdrop })
     const hasTitle = !!this.props.title;
     const hasAction = !!this.props.action;
 
     return (
-      <dialog ref={this.handleRef}
-              style={dialogStyle}
-              className="dialog backdrop"
-        >
+      <dialog
+        ref={this.handleRef}
+        style={dialogStyle}
+        className={dialogClass}
+      >
         <div className="dialog-content">
           <DialogContent
             name={this.props.name}
@@ -90,7 +115,8 @@ class Dialog extends Component {
 }
 
 Dialog.defaultProps = {
-  isForm: true
+  isForm: true,
+  hasBackdrop: true
 }
 
 Dialog.propTypes = {
@@ -103,7 +129,8 @@ Dialog.propTypes = {
   ]).isRequired,
   actionText: PropTypes.string,
   action: PropTypes.func,
-  isForm: PropTypes.bool
+  isForm: PropTypes.bool,
+  hasBackdrop: PropTypes.bool
 }
 
 export default Dialog

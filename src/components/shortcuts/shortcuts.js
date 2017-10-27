@@ -5,12 +5,11 @@ import AutocompleteInput from '../autocomplete-input/autocomplete-input'
 
 import {Enums} from '../../constants/values'
 import Menu from '../../constants/menu'
+import {createListeners} from '../../utils/common'
+
+import './shortcuts.css'
 
 const shortcut = o => ({ctrlKey,keyCode}) => (ctrlKey && keyCode === Enums.keyCode.q) ? o.toggleVisible() : null;
-const createListeners = f => ({
-  listen: () => document.body.addEventListener('keydown', f),
-  remove: () => document.body.removeEventListener('keydown', f)
-})
 
 class Shortcuts extends Component {
 
@@ -20,7 +19,7 @@ class Shortcuts extends Component {
       filter: ''
     }
     this.items = Menu.reduce((p, c) => p.concat(c.children) , Array(0))
-    this.controller = createListeners(shortcut(this));
+    this.controller = createListeners("keydown", shortcut(this))();
 
     this.assignRef = this.assignRef.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
@@ -57,15 +56,17 @@ class Shortcuts extends Component {
 
   render() {
     return (
-      <Dialog name="shortcuts" getDialogRef={this.assignRef}>
-        <AutocompleteInput
-          attr="title"
-          items={this.items}
-          filter={this.state.filter}
-          onChange={this.handleFilter}
-          onSelect={this.performAction}
-          />
-      </Dialog>
+      <div id="shortcuts-container">
+        <Dialog name="shortcuts" hasBackdrop={false} getDialogRef={this.assignRef}>
+          <AutocompleteInput
+            attr="title"
+            items={this.items}
+            filter={this.state.filter}
+            onChange={this.handleFilter}
+            onSelect={this.performAction}
+            />
+        </Dialog>
+      </div>
     );
   }
 }

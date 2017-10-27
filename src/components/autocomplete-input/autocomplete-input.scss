@@ -28,20 +28,6 @@
   }
 }
 
-// specific to: component/shortcuts
-form[name="shortcuts"] {
-
-  .autocomplete {
-    flex-direction: column;
-  }
-
-  .autocomplete-menu {
-    position: relative;
-    transform: none;
-    box-shadow: none;
-  }
-}
-
 #no-suggestions-item {
   font-size: 13.33px;
   text-align: center;

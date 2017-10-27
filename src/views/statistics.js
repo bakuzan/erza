@@ -5,7 +5,7 @@ import Elm from 'react-elm-components'
 import FilterLink from '../containers/filter-link/filter-link'
 import {Paths} from '../constants/paths'
 import {Strings} from '../constants/values'
-import {debounce, getTimeoutSeconds} from '../utils/common'
+import {debounce, getTimeoutSeconds, createListeners} from '../utils/common'
 
 import {Main} from '../../satellizer/build/static/js/satellizer'
 import '../../satellizer/build/static/css/satellizer.css'
@@ -18,10 +18,6 @@ const processScroll = page => () => {
     page.ports.requireKey.send(required)
   }, getTimeoutSeconds(0.15))
 }
-const createListeners = f => ({
-  listen: () => document.addEventListener('scroll', f),
-  remove: () => document.removeEventListener('scroll', f)
-})
 
 const ContentTypeFilters = () => (
   <div className="button-group">
@@ -40,7 +36,7 @@ class Statistics extends Component {
     super(props);
 
     this.setupPorts = this.setupPorts.bind(this);
-    this.scrollController = createListeners(processScroll(this))
+    this.scrollController = createListeners("scroll", processScroll(this))();
   }
 
   shouldComponentUpdate() {

@@ -62,6 +62,12 @@ export const convertToBase64 = (file, callback) => {
 
 export const coalesceSeriesImage = (model, malItem) => {
   return model.image && model.image.includes(Strings.imgur)
-    ? model.image 
+    ? model.image
     : (malItem.image || "");
 }
+
+
+export const createListeners = (t, f) => (el = document) => ({
+  listen: () => el.addEventListener(t, f),
+  remove: () => el.removeEventListener(t, f)
+})
