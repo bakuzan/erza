@@ -60,8 +60,8 @@ TaskTC.addFields({
 });
 
 const forceISODate = d => new Date(new Date(d).toISOString())
-const extendConnection = TaskTC
-    .getResolver('connection')
+const extendFindMany = TaskTC
+    .getResolver('findMany')
     .addFilterArg({
       name: 'dateRange',
       type: ["String"],
@@ -86,10 +86,10 @@ const extendUpdate = TaskTC.getResolver('updateById')
                             .wrapResolve(updateDateBeforeSave('updatedDate'))
 
 
-extendConnection.name = 'connection';
+extendFindMany.name = 'findMany'
 extendCreate.name = 'createOne';
 extendUpdate.name = 'updateById';
-TaskTC.addResolver(extendConnection);
+TaskTC.addResolver(extendFindMany);
 TaskTC.addResolver(extendCreate);
 TaskTC.addResolver(extendUpdate);
 

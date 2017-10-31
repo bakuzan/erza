@@ -24,7 +24,7 @@ const temporaryClientSideFilter = ([start, end]) => {
   const endDoW = new Date(end).getDay()
   const isSingleDay = startDoW === endDoW
 
-  return ({ node: { repeatFrequency, repeatDay } }) => {
+  return ({ repeatFrequency, repeatDay }) => {
     const repeatDate = new Date(repeatDay);
     const repeatDayStr = repeatDay.split("T")[0]
     const repeatDoW = repeatDate.getDay();
@@ -96,14 +96,14 @@ class Home extends Component {
 
     getTasks(TaskQL.getTasksForDateRange(query))
     .then(result => {
-      const { tasks: { edges } } = result.data;
+      const { tasks } = result.data;
 
       this.ports.tasks.send(
         handleDailyEntries(
-		  range,
+          range,
           timePeriod === Strings.timePeriod.week,
-          edges.filter(temporaryClientSideFilter(range))
-               .map(({ node: { repeatDay, ...task } }) => ({
+          tasks.filter(temporaryClientSideFilter(range))
+               .map(({ repeatDay, ...task }) => ({
                  ...task,
                  repeatDay: formatDateForInput(repeatDay)
                }))

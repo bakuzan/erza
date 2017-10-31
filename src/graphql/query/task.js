@@ -3,12 +3,8 @@ import { constructFilterString, taskKeyFields } from '../common'
 
 const getTasksForDateRange = filters => (`
   {
-    tasks: taskConnection(${constructFilterString(filters)}) {
-      edges {
-        node {
-          ${taskKeyFields}
-        }
-      }
+    tasks: taskMany(${constructFilterString(filters)}) {
+      ${taskKeyFields}
     }
   }
 `)
