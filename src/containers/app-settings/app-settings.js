@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import Tickbox from '../../components/tickbox/tickbox';
 import {setApplicationTheme, toggleTimedTheme} from '../../actions/theme'
 import {toggleSidebarVisibility} from '../../actions/sidebar'
+import {toggleRequestIndicatorVisibility} from '../../actions/request-indicator'
 import {toggleIsAdult} from '../../actions/is-adult'
 import {Strings} from '../../constants/values'
 import {Paths} from '../../constants/paths'
@@ -31,7 +32,7 @@ const setTimedThemeCheck = (theme, updateTheme) => {
     .catch(error => console.error(error));
 }
 
-const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, isAdult, toggleIsAdult, isSidebarHidden, toggleSidebarVisibility }) => {
+const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, isAdult, toggleIsAdult, isSidebarHidden, toggleSidebarVisibility, isRequestIndicatorHidden, toggleRequestIndicatorVisibility }) => {
   const themes = Strings.themes.slice(0);
   applyThemeToBody(theme);
   if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
@@ -80,6 +81,13 @@ const AppSettings = ({ theme, isTimed, setApplicationTheme, toggleTimedTheme, is
                      onChange={() => toggleSidebarVisibility()}
              />
         </li>
+        <li>
+            <Tickbox text="toggle request indicator visibility"
+                     name="isRequestIndicatorHidden"
+                     checked={!isRequestIndicatorHidden}
+                     onChange={() => toggleRequestIndicatorVisibility()}
+             />
+        </li>
       </ul>
     </div>
   );
@@ -94,20 +102,24 @@ AppSettings.propTypes = {
   toggleIsAdult: PropTypes.func.isRequired,
   isSidebarHidden: PropTypes.bool.isRequired,
   toggleSidebarVisibility: PropTypes.func.isRequired,
+  isRequestIndicatorHidden: PropTypes.bool.isRequired,
+  toggleRequestIndicatorVisibility: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   theme: state.theme.class,
   isTimed: state.theme.isTimed,
   isAdult: state.isAdult,
-  isSidebarHidden: state.sidebar.isHidden
+  isSidebarHidden: state.sidebar.isHidden,
+  isRequestIndicatorHidden: state.requestIndicator.isHidden
 })
 
 const mapDispatchToProps = ({
   setApplicationTheme,
   toggleTimedTheme,
   toggleIsAdult,
-  toggleSidebarVisibility
+  toggleSidebarVisibility,
+  toggleRequestIndicatorVisibility
 })
 
 export default connect(

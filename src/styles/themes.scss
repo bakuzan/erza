@@ -111,6 +111,10 @@
       }
     }
 
+    #request-indicator-loader {
+      @include shiftColourLightness($colour, $darken-amount);
+    }
+
     // satellizer theming
     #satellizer {
 

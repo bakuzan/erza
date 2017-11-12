@@ -12,10 +12,12 @@ import './styles/button.css';
 import './styles/form.css';
 import './styles/themes.css';
 
-const store = configureStore()
+export const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
 
-render(
-  <Root store={store} history={history} />,
-  document.getElementById('root')
-)
+if (document.getElementById('root').children.length === 0) {
+  render(
+    <Root store={store} history={history} />,
+    document.getElementById('root')
+  )
+}

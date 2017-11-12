@@ -1,6 +1,9 @@
 import toaster from '../utils/toaster'
+import {addRequestIndicator, removeRequestIndicator} from '../actions/request-indicator'
+import {store} from '../index'
 
-const handleErrorResponse = error => {
+const handleErrorResponse = (error, url) => {
+  store.dispatch(removeRequestIndicator(url))
   const message = error.message
                     ? error.message
                     : error.error
@@ -22,10 +25,14 @@ const setOptions = (method, body) => ({
 })
 
 const fetchFromServer = (url, method = 'GET', body = null) => {
+  store.dispatch(addRequestIndicator(url))
   const options = setOptions(method, body);
   return fetch(url, options)
-    .then(response => response.json())
-    .catch(error => handleErrorResponse(error));
+    .then(response => {
+      store.dispatch(removeRequestIndicator(url))
+      return response.json()
+    })
+    .catch(error => handleErrorResponse(error, url));
 }
 
 export default fetchFromServer

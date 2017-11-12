@@ -12,6 +12,7 @@ import {sorting} from './sorting'
 import {paging} from './paging'
 import {theme} from './theme'
 import {sidebar} from './sidebar'
+import requestIndicator from './request-indicator'
 
 const entities = combineReducers({
   anime,
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   sorting,
   paging,
   theme,
-  sidebar
+  sidebar,
+  requestIndicator
 })
 
 export default rootReducer
