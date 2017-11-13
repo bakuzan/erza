@@ -112,7 +112,7 @@
     }
 
     #request-indicator-loader {
-      @include shiftColourLightness($colour, $darken-amount);
+      @include shiftColourLightness($colour, $darken-amount * 3);
     }
 
     // satellizer theming
