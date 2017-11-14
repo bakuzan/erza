@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react'
 import { connect } from 'react-redux'
 import {nextPage, prevPage, setItemsPerPage} from '../../actions/paging'
+import {pageSizes} from '../../constants/values'
 
-const PagingControls = ({ listType, filters, paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
+const PagingControls = ({ listType, filters, pageSizeOptions = pageSizes.default, paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
   const { pageInfo, itemsPerPage, page } = paging;
   const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage) - 1;
   return (
@@ -35,7 +36,7 @@ const PagingControls = ({ listType, filters, paging, goBackAPage, goForwardAPage
                 onChange={(e) => changeItemsPerPage(e)}
         >
           {
-            [5, 10, 15, 25].map(item => (
+            pageSizeOptions.map(item => (
               <option key={item}
                       value={item}
               >
@@ -55,7 +56,8 @@ PagingControls.propTypes = {
   goForwardAPage: PropTypes.func.isRequired,
   goBackAPage: PropTypes.func.isRequired,
   paging: PropTypes.object.isRequired,
-  listType: PropTypes.string.isRequired
+  listType: PropTypes.string.isRequired,
+  pageSizeOptions: PropTypes.arrayOf(PropTypes.number)
 }
 
 const mapStateToProps = (state, ownProps) => ({

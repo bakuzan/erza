@@ -152,3 +152,8 @@ export const Days = [
 export const ImageUrls = {
   deadImage: "https://i.imgur.com/gKr1YhF.png"
 }
+
+export const pageSizes = {
+  default: [5, 10, 15, 25],
+  history: [25, 50, 75, 100]
+}
