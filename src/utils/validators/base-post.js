@@ -22,7 +22,7 @@ export const applyUpdates = type => (entity, malItem) => {
   const item = Object.assign({}, entity, malItem, {
     image: coalesceSeriesImage(entity, malItem)
   });
-  console.log("apply updates to > ", item);
+
   // END
   if (item[current] === item[total] && item[total] !== 0) {
       if (item.end === undefined || item.end === null) {
@@ -45,6 +45,5 @@ export const applyUpdates = type => (entity, malItem) => {
       updates.isRepeat = false;
   }
 
-  console.log('%c pre post updates >> ', 'color: blue', updates);
   return Object.assign({}, item, updates);
 }

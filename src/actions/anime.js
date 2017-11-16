@@ -28,7 +28,6 @@ export const addEpisodes = ({ editItem }) => {
   return function(dispatch, getState) {
     const anime = getState().entities.anime.byId[editItem._id];
     const history = mapEpisodeData(anime, editItem);
-    console.log('add episode => ', anime, editItem, history)
     history.forEach(item => dispatch(createEpisode(item)) );
     return updatePrePost(
       update(anime, {
@@ -36,10 +35,7 @@ export const addEpisodes = ({ editItem }) => {
         rating: { $set: editItem.overallRating || anime.rating }
       })
     )
-    .then(updatedItem => {
-      console.log('edit anime => ', updatedItem);
-      dispatch(editAnime(updatedItem));
-    });
+    .then(updatedItem => dispatch(editAnime(updatedItem)));
   }
 }
 

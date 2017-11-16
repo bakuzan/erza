@@ -41,10 +41,10 @@ class MalSearch extends Component {
       this.setState({ isFetching: true });
       this.queryMal(this.props.search)
 	  .then(response => {
-		  this.setState({ 
-		    results: response, 
-			isFetching: false, 
-			isFirstQuery: false 
+		  this.setState({
+		    results: response,
+			isFetching: false,
+			isFirstQuery: false
 		  })
 	  });
     }, getTimeoutSeconds(2))
@@ -58,7 +58,6 @@ class MalSearch extends Component {
 
   handleMalSearch(event) {
     const search = getEventValue(event.target);
-    console.log('%c handleMalSearch > ', 'color: green', search);
     this.props.onUserInput(event);
     if (!search) return this.selectAutocompleteSuggestion(null);
     if (this.state.hasSelected) return;

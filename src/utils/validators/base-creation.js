@@ -4,7 +4,7 @@ import {getUniquePropertiesForItemType, getHistoryNameForItemType} from '../data
 
 const historyChangeHandler = ({ current, total }) => item => {
   const changes = {};
-  console.log('history > ', item);
+  
   if(item[current] > item[total] && item[total] !== 0) {
     changes[current] = item[total];
   }

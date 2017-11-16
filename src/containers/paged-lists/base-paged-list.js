@@ -111,7 +111,6 @@ class BasePagedList extends Component {
                               ? this.state.malUpdates.values[`${current}s`]
                               : null;
     const dynamicListProps = { [`add${capitalise(current)}`]: this.openEditDialog }
-    // console.log('PAGED ANIME LIST => ', filters, items);
 
     return (
       <div className="flex-column flex-grow">

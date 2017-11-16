@@ -40,7 +40,6 @@ EpisodeTC.addRelation(
   })
 )
 
-console.log();
 const extendConnection = EpisodeTC
   .getResolver('connection')
   .addFilterArg(dateRangeSearch(EpisodeTC));

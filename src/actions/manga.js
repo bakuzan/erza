@@ -28,7 +28,6 @@ export const addChapters = ({ editItem }) => {
   return function(dispatch, getState) {
     const manga = getState().entities.manga.byId[editItem._id];
     const history = mapChapterData(manga, editItem);
-    console.log('add chapter => ', manga, editItem, history)
     history.forEach(item => dispatch(createChapter(item)) );
     return updatePrePost(
       update(manga, {
@@ -37,10 +36,7 @@ export const addChapters = ({ editItem }) => {
         rating: { $set: editItem.overallRating || manga.rating }
       })
     )
-    .then(updatedItem => {
-      console.log('edit manga => ', updatedItem);
-      dispatch(editManga(updatedItem));
-    });
+    .then(updatedItem => dispatch(editManga(updatedItem)));
   }
 }
 
