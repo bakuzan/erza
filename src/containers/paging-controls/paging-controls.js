@@ -5,7 +5,7 @@ import {pageSizes} from '../../constants/values'
 
 const PagingControls = ({ listType, filters, pageSizeOptions = pageSizes.default, paging, goBackAPage, goForwardAPage, changeItemsPerPage }) => {
   const { pageInfo, itemsPerPage, page } = paging;
-  const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage) - 1;
+  const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage[listType]) - 1;
   return (
     <div className="flex-row">
       <div className="button-group centered flex-grow">
@@ -32,8 +32,8 @@ const PagingControls = ({ listType, filters, pageSizeOptions = pageSizes.default
       <div className="has-float-label select-container">
         <select className="select-box"
                 name="itemsPerPage"
-                value={itemsPerPage}
-                onChange={(e) => changeItemsPerPage(e)}
+                value={itemsPerPage[listType]}
+                onChange={(e) => changeItemsPerPage(e, listType)}
         >
           {
             pageSizeOptions.map(item => (

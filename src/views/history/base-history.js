@@ -12,7 +12,7 @@ const loadData = (props, state) => props.loadHistory({ dateRange: dateRangeForQu
 
 const Datepicker = ({ label, ...props }) => (
   <div className="has-float-label input-container">
-    <input 
+    <input
       type="date"
       placeholder=" "
       {...props}
@@ -101,7 +101,7 @@ BaseHistoryView.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadHistory: PropTypes.func.isRequired,
-  itemsPerPage: PropTypes.number.isRequired
+  itemsPerPage: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

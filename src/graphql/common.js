@@ -3,11 +3,12 @@ import {isString, isArray} from '../utils/common'
 
 const ampersand = "&";
 
-export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }) => {
-  const first = page * itemsPerPage + itemsPerPage;
+export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }, listType) => {
+  const pageSize = itemsPerPage[listType]
+  const first = page * pageSize + pageSize;
   return `
     first: ${first},
-    last: ${itemsPerPage},
+    last: ${pageSize},
     sort: ${sortKey.toUpperCase()}_${sortOrder},
   `;
 }

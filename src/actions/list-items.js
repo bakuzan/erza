@@ -67,7 +67,7 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
     dispatch(startingGraphqlRequest());
     if (!pageChange) dispatch(resetPageToZero());
     const { isAdult, paging, sorting } = getState();
-    const pageSettings = constructPagingAndSorting(paging, sorting);
+    const pageSettings = constructPagingAndSorting(paging, sorting, type);
     const query = queryBuilder(pageSettings, Object.assign({}, filters, { isAdult }));
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
@@ -125,7 +125,7 @@ export const loadHistoryByDateRange = ({ type, filters, pageChange }, queryBuild
     dispatch(startingGraphqlRequest());
     if (!pageChange) dispatch(resetPageToZero());
     const { paging, isAdult } = getState();
-    const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder: 'DESC' });
+    const pageSettings = constructPagingAndSorting(paging, { sortKey: 'date', sortOrder: 'DESC' }, type);
     const query = queryBuilder(pageSettings, Object.assign({}, filters, { isAdult }) );
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {

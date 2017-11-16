@@ -10,21 +10,22 @@ const changePage = (state, action) => {
   }
 }
 
+const initialPageSizes = { anime: 5, manga: 5, episode: 25, chapter: 25 }
 const getUserItemsPerPage = () => {
   const settings = getUserSettings();
-  if (!settings || !settings.itemsPerPage) return 5;
-  return settings.itemsPerPage;
+  if (!settings || !settings.itemsPerPage) return initialPageSizes;
+  return { ...initialPageSizes, ...settings.itemsPerPage };
 }
 
 const persistItemsPerPageChoice = (state, action) => {
-  persistUserSettings({ itemsPerPage: action.itemsPerPage });
-  return action.itemsPerPage;
+  const updatedSettings = persistUserSettings({ itemsPerPage: { ...state, [action.listType]: parseIfInt(action.itemsPerPage) } });
+  return updatedSettings.itemsPerPage
 }
 
 const setItemsPerPage = (state, action) => {
   switch (action.type) {
-    case SET_ITEMS_PER_PAGE : return parseIfInt(persistItemsPerPageChoice(state, action));
-    default                 : return parseIfInt(state);
+    case SET_ITEMS_PER_PAGE : return persistItemsPerPageChoice(state, action);
+    default                 : return state;
   }
 }
 

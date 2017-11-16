@@ -33,9 +33,10 @@ const changePage = (direction, changePage, type, filters) => {
 export const nextPage = (type, filters) => changePage(Strings.next, fetchNextPage, type, filters);
 export const prevPage = (type, filters) => changePage(Strings.prev, fetchPrevPage, type, filters);
 
-export const setItemsPerPage = (event) => ({
+export const setItemsPerPage = (event, listType) => ({
   type: SET_ITEMS_PER_PAGE,
-  itemsPerPage: event.target.value
+  itemsPerPage: event.target.value,
+  listType
 })
 
 export const loadPageInfo = (paging) => ({
