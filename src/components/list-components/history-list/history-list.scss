@@ -1,6 +1,8 @@
 .history-list-item {
   display: flex;
   flex-direction: row;
+  padding: 5px 0;
+  border-bottom: 1px dashed transparent;
 
   time {
     min-width: 185px; 
