@@ -1,7 +1,6 @@
 import {NonPostableProperties} from '../constants/values'
 import {isString, isArray} from '../utils/common'
 
-const ampersand = "&";
 
 export const constructPagingAndSorting = ({ itemsPerPage, page }, { sortKey, sortOrder }, listType) => {
   const pageSize = itemsPerPage[listType]
@@ -20,7 +19,7 @@ const appendKeyBreak = appendCharacter('}');
 // eslint-disable-next-line
 const processArray = v => v.length > 0 ? v.reduce((ac, cu, i) => `${ac} ${processType(cu)}${appendArrayBreak(v, i)}`, '[') : '[]';
 const processType = v => ((v || v === "") && isString(v))
-  ? `"${v.replace(ampersand, encodeURIComponent(ampersand))}"`
+  ? `"${encodeURIComponent(v.replace(/"/g, '\\"'))}"`
   : isArray(v)
       ? processArray(v)
       : v;

@@ -34,7 +34,10 @@ class BaseCreate extends Component {
 
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, props.item, { isAdult: props.isAdult }); // yes, i know i'm assigning a prop to state.
+    this.state = {
+      ...props.item,
+      isAdult: props.isAdult
+    }; // yes, i know i'm assigning a props to state.
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -51,7 +54,7 @@ class BaseCreate extends Component {
 
   componentWillReceiveProps(nextProps, nextState) {
     if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && isObject(x))) return;
-    this.setState(Object.assign({}, nextProps.item, { isAdult: nextProps.isAdult }));
+    this.setState({ ...nextProps.item, isAdult: nextProps.isAdult });
   }
 
   handleMalSelect(malItem) {
