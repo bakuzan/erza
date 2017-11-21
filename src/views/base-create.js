@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {Link} from 'react-router'
 import { Strings, Enums } from '../constants/values'
 import { Paths } from '../constants/paths'
-import { capitalise, getEventValue, isObject } from '../utils/common'
+import { capitalise, getEventValue, isObject, objectsAreEqual } from '../utils/common'
 import { formatDateForInput } from '../utils/date'
 import { mapStateToEntityList, shouldIntergrateMalEntry, intergrateMalEntry, getUniquePropertiesForItemType, itemModelForType } from '../utils/data'
 import animeValidator from '../utils/validators/anime-creation'
@@ -54,6 +54,7 @@ class BaseCreate extends Component {
 
   componentWillReceiveProps(nextProps, nextState) {
     if (!nextProps.item.tags || !nextProps.item.tags.find(x => x && isObject(x))) return;
+    if (objectsAreEqual(nextProps.item, this.props.item) && nextProps.isAdult === this.props.isAdult) return;
     this.setState({ ...nextProps.item, isAdult: nextProps.isAdult });
   }
 

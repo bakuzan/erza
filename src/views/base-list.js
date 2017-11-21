@@ -104,7 +104,7 @@ BaseListView.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired,
-  itemsPerPage: PropTypes.number.isRequired,
+  itemsPerPage: PropTypes.object.isRequired,
   statusFilter: PropTypes.object.isRequired
 }
 
