@@ -3,7 +3,7 @@ import MangaModel from '../models/manga-model'
 import EpisodeModel from '../models/episode-model'
 import ChapterModel from '../models/chapter-model'
 import {coalesceSeriesImage} from './common'
-import {dateStringToISOString} from './date'
+import {dateStringToISOString, preventDatesPre1970} from './date'
 import {Enums, Strings, Properties} from '../constants/values'
 
 
