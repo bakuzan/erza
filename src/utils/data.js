@@ -70,8 +70,8 @@ export const intergrateMalEntry = type => (model, malItem) => {
     malId: malItem.id,
     series_type: Enums[type].type[malItem.type.replace(/\W/g, '').toLowerCase()],
     [total]: malItem[`${current}s`],
-    series_start: dateStringToISOString(malItem.start_date),
-    series_end: dateStringToISOString(malItem.end_date)
+    series_start: preventDatesPre1970(malItem.start_date),
+    series_end: preventDatesPre1970(malItem.end_date)
   }, optionalFields);
 }
 
@@ -85,7 +85,7 @@ export const shouldIntergrateMalEntry = type => (model, malItem) => {
     series_chapters === malItem.chapters &&
     series_episodes === malItem.episodes &&
     series_volumes === malItem.volumes &&
-    series_start === dateStringToISOString(malItem.start_date) &&
-    series_end === dateStringToISOString(malItem.end_date)
+    (series_start === dateStringToISOString(malItem.start_date) || !preventDatesPre1970(malItem.start_date)) &&
+    (series_end === dateStringToISOString(malItem.end_date) || !preventDatesPre1970(malItem.end_date))
   );
 }

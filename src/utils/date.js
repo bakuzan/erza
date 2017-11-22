@@ -32,6 +32,7 @@ const BAD_MAL_DATE_PART = '-00';
 
 const isNotBadMalDate = s => s !== BAD_BLANK_MAL_DATE && s.indexOf(BAD_MAL_DATE_PART) === -1;
 export const dateStringToISOString = s => !!s && isNotBadMalDate(s) ? new Date(s).toISOString() : null;
+export const preventDatesPre1970 = d => !!dateStringToISOString(d) && new Date(d) >= new Date("1970-01-01") ? dateStringToISOString(d) : null
 
 const getWeekExtreme = check => date => {
   const d = new Date(date)

@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const {TagTC} = require('./tag.js');
 
-const {updateDateBeforeSave, addMalEntry, updateMalEntry} = require('../graphql/common.js');
+const {updateDateBeforeSave, preventDatesPre1970, addMalEntry, updateMalEntry} = require('../graphql/common.js');
 const {type} = require('../constants.js');
 
 const {
@@ -67,11 +67,13 @@ const extendConnection = MangaTC
 
 const extendCreate = MangaTC.getResolver('createOne')
                             .wrapResolve(updateDateBeforeSave('createdDate'))
-                            .wrapResolve(addMalEntry(type.manga));
+                            .wrapResolve(addMalEntry(type.manga))
+                            .wrapResolve(preventDatesPre1970);
 
 const extendUpdate = MangaTC.getResolver('updateById')
                             .wrapResolve(updateDateBeforeSave('updatedDate'))
-                            .wrapResolve(updateMalEntry(type.manga));
+                            .wrapResolve(updateMalEntry(type.manga))
+                            .wrapResolve(preventDatesPre1970);
 
 extendConnection.name = 'connection';
 extendCreate.name = 'createOne';

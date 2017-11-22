@@ -26,6 +26,19 @@ const updateDateBeforeSave = property => next => resolveParams => {
   return next(resolveParams);
 }
 
+const START_OF_1970 = new Date("1970-01-01")
+const isDatePre1970 = d => !!d && new Date(d) < START_OF_1970
+const preventDatesPre1970 = next => resolveParams => {
+  if (isDatePre1970(resolveParams.args.record.series_start)) {
+    resolveParams.args.record.series_start = null
+  }
+
+  if (isDatePre1970(resolveParams.args.record.series_end)) {
+    resolveParams.args.record.series_end = null
+  }
+  return next(resolveParams);
+}
+
 
 const addMalEntry = type => next => resolveParams => {
   addOnMal(type, resolveParams.args.record);
@@ -39,6 +52,7 @@ const updateMalEntry = type => next => resolveParams => {
 
 module.exports = {
   updateDateBeforeSave,
+  preventDatesPre1970,
   addMalEntry,
   updateMalEntry,
   combineArrayOfObjects,

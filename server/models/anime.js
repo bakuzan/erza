@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const {TagTC} = require('./tag.js');
 
-const {updateDateBeforeSave, addMalEntry, updateMalEntry} = require('../graphql/common.js');
+const {updateDateBeforeSave, preventDatesPre1970, addMalEntry, updateMalEntry} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
 
@@ -83,11 +83,13 @@ const extendConnection = AnimeTC
 
 const extendCreate = AnimeTC.getResolver('createOne')
                             .wrapResolve(updateDateBeforeSave('createdDate'))
-                            .wrapResolve(addMalEntry(Constants.type.anime));
+                            .wrapResolve(addMalEntry(Constants.type.anime))
+                            .wrapResolve(preventDatesPre1970);
 
 const extendUpdate = AnimeTC.getResolver('updateById')
                             .wrapResolve(updateDateBeforeSave('updatedDate'))
-                            .wrapResolve(updateMalEntry(Constants.type.anime));
+                            .wrapResolve(updateMalEntry(Constants.type.anime))
+                            .wrapResolve(preventDatesPre1970);
 
 extendConnection.name = 'connection';
 extendCreate.name = 'createOne';
