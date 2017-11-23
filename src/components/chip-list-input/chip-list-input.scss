@@ -9,11 +9,14 @@
   padding-top: 1em !important;
 
   .clearable-input {
-    padding-left: 0;
+    padding: {
+	  left: 0;
+	  bottom: 0;
+	};
   }
 
   .chip-list-wrapper {
-    margin-bottom: 1px;
+    margin-bottom: 2px;
   }
 
   .chip-list-inner {
