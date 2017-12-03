@@ -77,7 +77,8 @@ export const Strings = {
     all: 'all',
     ongoing: 'ongoing',
     completed: 'completed',
-    onhold: 'onhold'
+    onhold: 'onhold',
+    planned: 'planned'
   },
   anime: 'anime',
   manga: 'manga',

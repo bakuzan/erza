@@ -10,65 +10,67 @@ import {Paths} from '../../constants/paths'
 import './list-filter.css'
 
 const FILTER_BASE = type => `${Paths.base}${Paths[type].list}`;
-const ALL_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.all}`;
-const COMPLETED_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.completed}`;
-const ONGOING_FILTER = type => `${FILTER_BASE(type)}${Strings.filters.ongoing}`;
 
 const SORT_OPTIONS = [
   { text: 'Title', value: 'title' },
   { text: 'Updated date', value: 'updatedDate' }
 ]
 
-const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey, children }) => (
-  <div className="list-filter">
+const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey, children }) => {
+  const filterBase = FILTER_BASE(type)
+  return (
+    <div className="list-filter">
 
-    <ClearableInput
-      value={search}
-      onChange={onChange}
-    />
+      <ClearableInput
+        value={search}
+        onChange={onChange}
+      />
 
-    <div className="button-group">
-      <FilterLink filter={ALL_FILTER(type)}>
-      { Strings.filters.all }
-      </FilterLink>
-      <FilterLink filter={COMPLETED_FILTER(type)}>
-      { Strings.filters.completed }
-      </FilterLink>
-      <FilterLink filter={ONGOING_FILTER(type)}>
-      { Strings.filters.ongoing }
-      </FilterLink>
+      <div className="button-group">
+      {
+        Object.keys(Strings.filters)
+              .map(status => {
+                const statusUrl = Strings.filters[status]
+                return (
+                  <FilterLink key={statusUrl} filter={`${filterBase}${statusUrl}`}>
+                  { statusUrl }
+                  </FilterLink>
+                )
+              })
+      }
+      </div>
+
+      <SelectBox
+        name="sortKey"
+        text="sort on"
+        value={sortKey}
+        onSelect={(e) => onChangeSortKey(e)}
+        options={SORT_OPTIONS}
+        />
+
+      <div className="radio-group" role="radiogroup">
+        <RadioButton
+          name="sortOrder"
+          label={Strings.ascending}
+          value={Strings.ascending}
+          checked={sortOrder === Strings.ascending}
+          onSelect={(e) => onSortOrderToggle(e)}
+        />
+        <RadioButton
+          name="sortOrder"
+          label={Strings.descending}
+          value={Strings.descending}
+          checked={sortOrder === Strings.descending}
+          onSelect={(e) => onSortOrderToggle(e)}
+        />
+      </div>
+
+      {
+        children
+      }
     </div>
-
-    <SelectBox
-      name="sortKey"
-      text="sort on"
-      value={sortKey}
-      onSelect={(e) => onChangeSortKey(e)}
-      options={SORT_OPTIONS}
-      />
-
-    <div className="radio-group" role="radiogroup">
-      <RadioButton
-        name="sortOrder"
-        label={Strings.ascending}
-        value={Strings.ascending}
-        checked={sortOrder === Strings.ascending}
-        onSelect={(e) => onSortOrderToggle(e)}
-      />
-      <RadioButton
-        name="sortOrder"
-        label={Strings.descending}
-        value={Strings.descending}
-        checked={sortOrder === Strings.descending}
-        onSelect={(e) => onSortOrderToggle(e)}
-      />
-    </div>
-
-    {
-      children
-    }
-  </div>
-);
+  )
+};
 
 ListFilter.propTypes = {
   type: PropTypes.string.isRequired,
