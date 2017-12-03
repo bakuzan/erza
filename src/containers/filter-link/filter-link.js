@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 const FilterLink = ({ filter, children }) => (
-  <Link
+  <NavLink
     to={filter}
     className="button-link"
     activeClassName="active"
   >
     {children}
-  </Link>
+  </NavLink>
 );
 
 FilterLink.propTypes = {

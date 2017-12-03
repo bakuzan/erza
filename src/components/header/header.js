@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SvgLogo from '../svg-logo/svg-logo.js';
 import AppSettings from '../../containers/app-settings/app-settings';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Paths } from '../../constants/paths';
 import './header.css';
 import '../../styles/ripple.css';

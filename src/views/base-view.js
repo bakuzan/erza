@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-import {browserHistory, Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
+import {history as browserHistory} from '../index'
 import RatingControl from '../components/rating-control/rating-control'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import HistoryList from '../components/list-components/history-list/history-list'

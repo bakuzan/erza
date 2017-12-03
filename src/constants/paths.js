@@ -13,22 +13,22 @@ export const Paths = {
     const searchValue = hasSearch ? `?search=${params.search}` : '';
     return `${path}${searchValue}`;
   },
-  base: '/erza/',
+  base: '/erza',
   home: '',
   anime: {
-    list: 'anime-list/',
-    view: 'anime-view/',
-    create: 'anime/create',
-    edit: 'anime/edit/',
+    list: '/anime-list/',
+    view: '/anime-view/',
+    create: '/anime/create',
+    edit: '/anime/edit/',
   },
   manga: {
-    list: 'manga-list/',
-    view: 'manga-view/',
-    create: 'manga/create',
-    edit: 'manga/edit/',
+    list: '/manga-list/',
+    view: '/manga-view/',
+    create: '/manga/create',
+    edit: '/manga/edit/',
   },
-  history: 'history/',
-  statistics: 'statistics/',
+  history: '/history/',
+  statistics: '/statistics/',
   graphql: {
     base: '/graphql?query='
   },

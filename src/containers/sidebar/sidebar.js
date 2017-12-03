@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 
 import { toggleSidebarCollapse, closeSidebar } from '../../actions/sidebar'
@@ -27,14 +27,14 @@ const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
       {
           menuOptions.map(option => (
             <li key={option.id} className="sidebar-item" title={option.title}>
-              <Link className="button primary" activeClassName="active" to={option.link} onClick={close}>
+              <NavLink className="button primary" activeClassName="active" to={option.link} onClick={close}>
                 <div className="sidebar-item-icon center-contents">
                   { option.icon }
                 </div>
                 <div className="sidebar-item-text">
                   { option.title }
                 </div>
-              </Link>
+              </NavLink>
             </li>
           ))
       }

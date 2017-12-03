@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import HistoryListItem from './history-list-item'
 import {Paths} from '../../../constants/paths'
 import {getHistoryNameForItemType} from '../../../utils/data'

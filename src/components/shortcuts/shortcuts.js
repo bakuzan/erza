@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { browserHistory } from 'react-router'
+import { history as browserHistory } from '../../index'
 import Dialog from '../dialog/dialog'
 import AutocompleteInput from '../autocomplete-input/autocomplete-input'
 

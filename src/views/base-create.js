@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import { Strings, Enums } from '../constants/values'
 import { Paths } from '../constants/paths'
 import { capitalise, getEventValue, isObject, objectsAreEqual } from '../utils/common'

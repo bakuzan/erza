@@ -1,4 +1,4 @@
-import { browserHistory } from 'react-router'
+import { history as browserHistory } from '../index'
 
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'

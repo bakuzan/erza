@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import {Paths} from '../../../constants/paths'
 import {Enums, Icons} from '../../../constants/values'
 import {getKeyByValue} from '../../../utils/common'
