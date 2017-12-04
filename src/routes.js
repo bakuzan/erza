@@ -1,5 +1,6 @@
 import React from 'react'
-import {Router, Route, Switch, Redirect} from 'react-router';
+import {Route, Switch} from 'react-router';
+import {ConnectedRouter} from 'react-router-redux';
 import {Paths} from './constants/paths'
 import {Strings} from './constants/values'
 import App from './containers/app/app'
@@ -19,10 +20,9 @@ import MangaHistoryView from './views/history/manga-history'
 import Statistics from './views/statistics'
 
 const Routes = ({ history }) => (
-  <Router history={history} basename={Paths.base}>
+  <ConnectedRouter history={history} basename={Paths.base}>
     <App>
-      { /*<Redirect from="/" to={Paths.base} /> */ }
-
+      <Switch>
         <Route exact path={Paths.base} component={Home} />
 
         <Route path={`${Paths.anime.list}(:filter)`} component={Anime} />
@@ -40,8 +40,9 @@ const Routes = ({ history }) => (
 
         <Route path={`${Paths.statistics}(:type)`} component={Statistics} />
 
+      </Switch>
     </App>
-  </Router>
+  </ConnectedRouter>
 )
 
 export default Routes
