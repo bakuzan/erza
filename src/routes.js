@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Switch} from 'react-router';
+import {Route, Switch} from 'react-router-dom';
 import {ConnectedRouter} from 'react-router-redux';
 import {Paths} from './constants/paths'
 import {Strings} from './constants/values'
@@ -19,27 +19,30 @@ import MangaHistoryView from './views/history/manga-history'
 
 import Statistics from './views/statistics'
 
+
+const ErzaRoute = ({ path, component: Component, ...passThrough }) =>
+  <Route path={`${Paths.base}${path}`} render={props => <Component {...props} />} {...passThrough} />
+
 const Routes = ({ history }) => (
-  <ConnectedRouter history={history} basename={Paths.base}>
+  <ConnectedRouter history={history}>
     <App>
       <Switch>
-        <Route exact path={Paths.base} component={Home} />
+        <Route exact path={Paths.base} render={props => <Home {...props} />} />
 
-        <Route path={`${Paths.anime.list}(:filter)`} component={Anime} />
-        <Route path={`${Paths.anime.view}(:id)`} component={AnimeView} />
-        <Route path={`${Paths.anime.create}`} component={AnimeCreate} />
-        <Route path={`${Paths.anime.edit}(:id)`} component={AnimeCreate} />
+        <ErzaRoute path={`${Paths.anime.list}(:filter)`} component={Anime} />
+        <ErzaRoute path={`${Paths.anime.view}(:id)`} component={AnimeView} />
+        <ErzaRoute path={`${Paths.anime.create}`} component={AnimeCreate} />
+        <ErzaRoute path={`${Paths.anime.edit}(:id)`} component={AnimeCreate} />
 
-        <Route path={`${Paths.manga.list}(:filter)`} component={Manga} />
-        <Route path={`${Paths.manga.view}(:id)`} component={MangaView} />
-        <Route path={`${Paths.manga.create}`} component={MangaCreate} />
-        <Route path={`${Paths.manga.edit}(:id)`} component={MangaCreate} />
+        <ErzaRoute path={`${Paths.manga.list}(:filter)`} component={Manga} />
+        <ErzaRoute path={`${Paths.manga.view}(:id)`} component={MangaView} />
+        <ErzaRoute path={`${Paths.manga.create}`} component={MangaCreate} />
+        <ErzaRoute path={`${Paths.manga.edit}(:id)`} component={MangaCreate} />
 
-        <Route path={`${Paths.history}${Strings.anime}`} component={AnimeHistoryView} />
-        <Route path={`${Paths.history}${Strings.manga}`} component={MangaHistoryView} />
+        <ErzaRoute path={`${Paths.history}${Strings.anime}`} component={AnimeHistoryView} />
+        <ErzaRoute path={`${Paths.history}${Strings.manga}`} component={MangaHistoryView} />
 
-        <Route path={`${Paths.statistics}(:type)`} component={Statistics} />
-
+        <ErzaRoute path={`${Paths.statistics}(:type)`} component={Statistics} />
       </Switch>
     </App>
   </ConnectedRouter>

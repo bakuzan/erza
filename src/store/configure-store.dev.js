@@ -10,7 +10,7 @@ const configureStore = (history, preloadedState) => {
     rootReducer,
     preloadedState,
     compose(
-      applyMiddleware(routerMiddleware, thunk, createLogger()),
+      applyMiddleware(routerMiddleware(history), thunk, createLogger()),
       DevTools.instrument()
     )
   )

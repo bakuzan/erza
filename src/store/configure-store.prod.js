@@ -3,10 +3,10 @@ import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
 
-const configureStore = preloadedState => createStore(
+const configureStore = (history, preloadedState) => createStore(
   rootReducer,
   preloadedState,
-  applyMiddleware(routerMiddleware, thunk)
+  applyMiddleware(routerMiddleware(history), thunk)
 )
 
 export default configureStore
