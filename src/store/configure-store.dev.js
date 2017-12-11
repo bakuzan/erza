@@ -3,15 +3,14 @@ import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
-import DevTools from '../containers/dev-tools'
+
 
 const configureStore = (history, preloadedState) => {
   const store = createStore(
     rootReducer,
     preloadedState,
     compose(
-      applyMiddleware(routerMiddleware(history), thunk, createLogger()),
-      DevTools.instrument()
+      applyMiddleware(routerMiddleware(history), thunk, createLogger())
     )
   )
 

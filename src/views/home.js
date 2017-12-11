@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Elm from 'react-elm-components'
 
+import ElmWrapper from '../components/elm-wrapper'
 import fetchFromServer from '../graphql/fetch'
 import {constructRecordForPost} from '../graphql/common'
 import TaskQL from '../graphql/query/task'
@@ -136,7 +136,7 @@ class Home extends Component {
   render() {
     return (
       <div id="yoruichi" className="flex-column">
-        <Elm src={Main} ports={this.setupPorts} />
+        <ElmWrapper src={Main} ports={this.setupPorts} />
       </div>
     )
   }

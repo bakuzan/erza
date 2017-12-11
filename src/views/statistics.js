@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import Elm from 'react-elm-components'
 
+import ElmWrapper from '../components/elm-wrapper'
 import FilterLink from '../containers/filter-link/filter-link'
 import {Paths} from '../constants/paths'
 import {Strings} from '../constants/values'
@@ -71,7 +71,7 @@ class Statistics extends Component {
       <div className="flex-column">
         <ContentTypeFilters />
         <div id="satellizer">
-          <Elm src={Main} flags={flags} ports={this.setupPorts} />
+          <ElmWrapper src={Main} flags={flags} ports={this.setupPorts} />
         </div>
       </div>
     );
