@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import RatingControl from '../../rating-control/rating-control';
 import Dialog from '../../dialog/dialog';
 import ClearableInput from '../../clearable-input/clearable-input';

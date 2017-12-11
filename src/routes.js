@@ -20,8 +20,10 @@ import MangaHistoryView from './views/history/manga-history'
 import Statistics from './views/statistics'
 
 
-const ErzaRoute = ({ path, component: Component, ...passThrough }) =>
-  <Route path={`${Paths.base}${path}`} render={props => <Component {...props} />} {...passThrough} />
+const ErzaRoute = ({ path, component: Component, ...passThrough }) => {
+  console.log("ERZA ROUTE > ", `${Paths.base}${path}`)
+  return <Route path={`${Paths.base}${path}`} render={props => <Component {...props} />} {...passThrough} />
+}
 
 const Routes = ({ history }) => (
   <ConnectedRouter history={history}>

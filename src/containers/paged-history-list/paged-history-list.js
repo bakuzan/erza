@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux'
 import PagingControls from '../../containers/paging-controls/paging-controls'
 import HistoryList from '../../components/list-components/history-list/history-list'

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import './tickbox.css'
 
 const Tickbox = ({ name, checked, disabled, onChange, text }) => (

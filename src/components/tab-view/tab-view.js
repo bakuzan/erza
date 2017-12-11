@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 
 const TabView = ({ isActive, children }) => (
@@ -11,11 +12,11 @@ TabView.defaultProps = {
 };
 
 TabView.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  isActive: React.PropTypes.bool,
-  children: React.PropTypes.oneOfType([
-    React.PropTypes.element,
-    React.PropTypes.arrayOf(React.PropTypes.element)
+  name: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
   ]).isRequired
 };
 

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
