@@ -5768,10 +5768,6 @@ react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-elm-components@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-elm-components/-/react-elm-components-1.0.1.tgz#19c7766b5c5ff4412867acc22dcf9f1d9eae9e3d"
-
 react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"

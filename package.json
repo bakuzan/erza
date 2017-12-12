@@ -34,7 +34,6 @@
     "popura": "^1.2.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-elm-components": "^1.0.1",
     "react-redux": "^4.4.5",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "5.0.0-alpha.8",
