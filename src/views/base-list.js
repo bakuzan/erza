@@ -10,6 +10,7 @@ import {Strings, Enums} from '../constants/values'
 import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
 
 const getStatusList = props => {
+  console.log(props.statusFilter)
   const { name, value } = props.statusFilter;
   let statusIn = !!value && !!value.length ? value : [value];
   return (name === Strings.filters.ongoing) ? statusIn.concat([Enums.status.onhold]) : statusIn;
