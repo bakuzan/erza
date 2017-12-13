@@ -32,7 +32,7 @@ const App = ({ children, sidebarState }) => {
 }
 
 const mapStateToProps = state => ({
-  sidebarState: state.sidebar
+  sidebarState: state.sidebar,
 })
 
 export default connect(

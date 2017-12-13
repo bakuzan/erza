@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 
 import { toggleSidebarCollapse, closeSidebar } from '../../actions/sidebar'
@@ -62,7 +62,9 @@ const mapDispatchToProps = {
   close: closeSidebar
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sidebar)
+export default withRouter(
+    connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Sidebar)
+)
