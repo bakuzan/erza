@@ -24,7 +24,8 @@ Anime.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   items: mapStateToEntityList(state.entities.anime),
-  filter: mapUrlFilterToEntityObject(ownProps.params)
+  filter: mapUrlFilterToEntityObject(ownProps.match.params),
+  test: (() => console.log(ownProps))()
 })
 
 const mapDispatchToProps = {

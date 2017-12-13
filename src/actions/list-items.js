@@ -1,4 +1,4 @@
-import { history as browserHistory } from '../index'
+import { push } from 'react-router-redux'
 
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
@@ -35,7 +35,7 @@ const removeItemFromState = {
   [Strings.chapter]: dehydrateState(CHAPTER_REMOVE)
 }
 
-const redirectPostAction = type => browserHistory.push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);
+const redirectPostAction = type => push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);
 
 const startingGraphqlRequest = () => ({
   type: GRAPHQL_REQUEST,

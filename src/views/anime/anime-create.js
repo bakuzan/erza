@@ -24,7 +24,7 @@ AnimeCreate.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  itemId: ownProps.params.id
+  itemId: ownProps.match.params.id
 })
 
 const mapDispatchToProps = {

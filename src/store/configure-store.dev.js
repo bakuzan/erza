@@ -10,7 +10,9 @@ const configureStore = (history, preloadedState) => {
     rootReducer,
     preloadedState,
     compose(
-      applyMiddleware(routerMiddleware(history), thunk, createLogger())
+      applyMiddleware(routerMiddleware(history), thunk, createLogger()),
+      window.devToolsExtension &&
+      process.env.NODE_ENV !== 'production' ? window.devToolsExtension() : f => f,
     )
   )
 

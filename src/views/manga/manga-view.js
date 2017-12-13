@@ -32,8 +32,8 @@ MangaView.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  itemId: ownProps.params.id,
-  item: mapStateToEntity(state.entities.manga, ownProps.params.id),
+  itemId: ownProps.match.params.id,
+  item: mapStateToEntity(state.entities.manga, ownProps.match.params.id),
   history: mapStateToEntityList(state.entities.chapter)
 })
 

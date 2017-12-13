@@ -89,7 +89,7 @@ Statistics.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  contentType: ownProps.params.type
+  contentType: ownProps.match.params.type
 })
 
 

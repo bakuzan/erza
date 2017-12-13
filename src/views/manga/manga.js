@@ -24,7 +24,7 @@ Manga.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   items: mapStateToEntityList(state.entities.manga),
-  filter: mapUrlFilterToEntityObject(ownProps.params)
+  filter: mapUrlFilterToEntityObject(ownProps.match.params)
 })
 
 const mapDispatchToProps = {

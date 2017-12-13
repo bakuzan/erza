@@ -5,9 +5,7 @@ import Routes from '../../routes'
 
 const Root = ({ store, history }) => (
   <Provider store={store}>
-    <div>
       <Routes history={history} />
-    </div>
   </Provider>
 )
 
