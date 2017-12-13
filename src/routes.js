@@ -20,31 +20,26 @@ import MangaHistoryView from './views/history/manga-history'
 import Statistics from './views/statistics'
 
 
-const ErzaRoute = ({ url, component: PageComponent, ...routeProps }) => (
-  <Route
-    {...routeProps}
-    path={`${Paths.base}${url}`}
-    render={props => <PageComponent {...props} />}
-  />
-)
-
-const ErzaRoutes = () => {
+const ErzaRoutes = ({ match }) => {
+  console.log("erza routes > ", match)
   return (
     <Switch>
-      <ErzaRoute url={`${Paths.anime.list}:filter`} component={Anime} />
-      <ErzaRoute url={`${Paths.anime.view}:id`} component={AnimeView} />
-      <ErzaRoute url={`${Paths.anime.create}`} component={AnimeCreate} />
-      <ErzaRoute url={`${Paths.anime.edit}:id`} component={AnimeCreate} />
+      <Route path={`${match.path}${Paths.anime.list}:filter`} component={Anime} />
+      <Route path={`${match.path}${Paths.anime.view}:id`} component={AnimeView} />
+      <Route path={`${match.path}${Paths.anime.create}`} component={AnimeCreate} />
+      <Route path={`${match.path}${Paths.anime.edit}:id`} component={AnimeCreate} />
 
-      <ErzaRoute url={`${Paths.manga.list}:filter`} component={Manga} />
-      <ErzaRoute url={`${Paths.manga.view}:id`} component={MangaView} />
-      <ErzaRoute url={`${Paths.manga.create}`} component={MangaCreate} />
-      <ErzaRoute url={`${Paths.manga.edit}:id`} component={MangaCreate} />
+      <Route path={`${match.path}${Paths.manga.list}:filter`} component={Manga} />
+      <Route path={`${match.path}${Paths.manga.view}:id`} component={MangaView} />
+      <Route path={`${match.path}${Paths.manga.create}`} component={MangaCreate} />
+      <Route path={`${match.path}${Paths.manga.edit}:id`} component={MangaCreate} />
 
-      <ErzaRoute url={`${Paths.history}${Strings.anime}`} component={AnimeHistoryView} />
-      <ErzaRoute url={`${Paths.history}${Strings.manga}`} component={MangaHistoryView} />
+      <Route path={`${match.path}${Paths.history}${Strings.anime}`} component={AnimeHistoryView} />
+      <Route path={`${match.path}${Paths.history}${Strings.manga}`} component={MangaHistoryView} />
 
-      <ErzaRoute url={`${Paths.base}${Paths.statistics}:type`} component={Statistics} />
+      <Route path={`${match.path}${Paths.statistics}:type`} component={Statistics} />
+
+      <Route path="*" render={() => <div>Erza Page not found</div>} />
     </Switch>
   )
 }
@@ -56,7 +51,7 @@ const Routes = ({ history }) => (
         <Redirect exact from="/" to={Paths.base} />
 
         <Route exact path={Paths.base} component={Home} />
-        <ErzaRoutes path={Paths.base} component={ErzaRoutes} />
+        <Route path={`${Paths.base}`} component={ErzaRoutes} />
 
         <Route path="*" render={() => <div>Page not found</div>} />
       </Switch>
