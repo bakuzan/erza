@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 
 import Header from '../../components/header/header';
@@ -35,6 +36,8 @@ const mapStateToProps = state => ({
   sidebarState: state.sidebar,
 })
 
-export default connect(
-  mapStateToProps
-)(App)
+export default withRouter(
+  connect(
+    mapStateToProps
+  )(App)
+)
