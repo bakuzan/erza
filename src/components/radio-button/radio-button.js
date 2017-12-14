@@ -1,10 +1,12 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import './radio-button.css'
 
 const RadioButton = ({ name, label, value, checked, onSelect }) => (
   <label
     className="radio"
     role="radio"
+    aria-checked={checked}
     >
     <input
       type="radio"

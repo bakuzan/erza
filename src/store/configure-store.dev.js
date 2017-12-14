@@ -1,16 +1,18 @@
 import { createStore, applyMiddleware, compose } from 'redux'
+import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
-import DevTools from '../containers/dev-tools'
 
-const configureStore = preloadedState => {
+
+const configureStore = (history, preloadedState) => {
   const store = createStore(
     rootReducer,
     preloadedState,
     compose(
-      applyMiddleware(thunk, createLogger()),
-      DevTools.instrument()
+      applyMiddleware(routerMiddleware(history), thunk, createLogger()),
+      window.devToolsExtension &&
+      process.env.NODE_ENV !== 'production' ? window.devToolsExtension() : f => f,
     )
   )
 

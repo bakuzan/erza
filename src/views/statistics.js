@@ -1,14 +1,15 @@
-import React, {Component, PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import Elm from 'react-elm-components'
 
+import ElmWrapper from '../components/elm-wrapper'
 import FilterLink from '../containers/filter-link/filter-link'
 import {Paths} from '../constants/paths'
 import {Strings} from '../constants/values'
 import {debounce, getTimeoutSeconds, createListeners} from '../utils/common'
 
-import {Main} from '../../satellizer/build/static/js/satellizer'
-import '../../satellizer/build/static/css/satellizer.css'
+import {Main} from 'satellizer/js/satellizer'
+import 'satellizer/css/satellizer.css'
 
 
 const processScroll = page => () => {
@@ -70,7 +71,7 @@ class Statistics extends Component {
       <div className="flex-column">
         <ContentTypeFilters />
         <div id="satellizer">
-          <Elm src={Main} flags={flags} ports={this.setupPorts} />
+          <ElmWrapper src={Main} flags={flags} ports={this.setupPorts} />
         </div>
       </div>
     );
@@ -88,7 +89,7 @@ Statistics.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
-  contentType: ownProps.params.type
+  contentType: ownProps.match.params.type
 })
 
 

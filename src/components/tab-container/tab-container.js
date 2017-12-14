@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import TabView from '../tab-view/tab-view'
 import './tab-container.css'
@@ -61,7 +62,7 @@ class TabContainer extends Component {
 }
 
 TabContainer.propTypes = {
-  children: React.PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+  children: PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
     propValue.forEach(item => {
       if (!item.type || !item.type.name || item.type.name !== 'TabView') {
         return new Error(`TabContainer propTypes: Invalid prop '${propFullName}' supplied to ${componentName}. Validation failed.`);

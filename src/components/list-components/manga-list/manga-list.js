@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import ItemList from '../item-list/item-list'
 import ItemListItem from '../item-list/item-list-item'
 import {Strings} from '../../../constants/values'

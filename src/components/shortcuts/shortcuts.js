@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { history as browserHistory } from '../../index'
 import Dialog from '../dialog/dialog'
 import AutocompleteInput from '../autocomplete-input/autocomplete-input'
 
@@ -50,7 +49,7 @@ class Shortcuts extends Component {
   performAction(id) {
     const { link, action } = this.items.find(x => x.id === id);
     this.toggleVisible();
-    if (!!link) return browserHistory.push(link);
+    if (!!link) return this.props.history.push(link);
     return action();
   }
 

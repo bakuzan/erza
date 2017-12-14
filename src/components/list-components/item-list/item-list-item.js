@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import {Link} from 'react-router-dom'
 import {Paths} from '../../../constants/paths'
 import {Enums, Icons} from '../../../constants/values'

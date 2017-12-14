@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import ListFilter from '../containers/list-filter/list-filter'
@@ -42,7 +43,6 @@ class BaseListView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.routeKey !== this.props.routeKey ||
       nextProps.statusFilter.value !== this.props.statusFilter.value ||
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
@@ -60,7 +60,7 @@ class BaseListView extends Component {
   }
 
   render() {
-    const { type, items, isAdult, routeKey } = this.props;
+    const { type, items, isAdult } = this.props;
     const PagedTypedList = fetchPagedListForType(type);
     const filters = { ...this.state, statusIn: getStatusList(this.props) };
 
@@ -76,7 +76,6 @@ class BaseListView extends Component {
 			  type === Strings.anime &&
 			  !isAdult &&
 			  <DailyAnime
-				routeKey={routeKey}
 				onSelect={this.handleUserInput}
 			  />
 		  }
@@ -99,7 +98,6 @@ class BaseListView extends Component {
 }
 
 BaseListView.propTypes = {
-  routeKey: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,

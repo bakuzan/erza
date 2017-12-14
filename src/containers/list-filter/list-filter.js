@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux'
 import FilterLink from '../filter-link/filter-link'
 import RadioButton from '../../components/radio-button/radio-button'

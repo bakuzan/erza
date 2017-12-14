@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import {history as browserHistory} from '../index'
 import RatingControl from '../components/rating-control/rating-control'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import HistoryList from '../components/list-components/history-list/history-list'
@@ -44,10 +44,10 @@ class BaseView extends Component {
   }
 
   render() {
-    const { type, item, isFetching } = this.props;
+    const { type, item, isFetching, history } = this.props;
     const {current, total} = getUniquePropertiesForItemType(type);
     if (isFetching) return (<LoadingSpinner size="fullscreen" />);
-
+    console.log(this.props)
     return (
       <section>
         <div className="flex-row reverse">
@@ -57,7 +57,7 @@ class BaseView extends Component {
               <div className="flex-spacer"></div>
               <div className="button-group">
                 <button type="button"
-                        onClick={browserHistory.goBack}
+                        onClick={history.goBack}
                         className="button ripple">
                   { Strings.back }
                 </button>

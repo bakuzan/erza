@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Elm from 'react-elm-components'
 
+import ElmWrapper from '../components/elm-wrapper'
 import fetchFromServer from '../graphql/fetch'
 import {constructRecordForPost} from '../graphql/common'
 import TaskQL from '../graphql/query/task'
@@ -9,8 +9,8 @@ import {Paths} from '../constants/paths'
 import {Strings, Days} from '../constants/values'
 import {formatDateForInput, dateStringToISOString, weekBeginning, weekEnding, daysDifferentBetweenDates} from '../utils/date'
 
-import {Main} from '../../yoruichi/build/static/js/yoruichi'
-import '../../yoruichi/build/static/css/yoruichi.css'
+import {Main} from 'yoruichi/js/yoruichi'
+import 'yoruichi/css/yoruichi.css'
 
 
 const query = method => str => fetchFromServer(`${Paths.graphql.base}${str}`, method)
@@ -136,11 +136,11 @@ class Home extends Component {
   render() {
     return (
       <div id="yoruichi" className="flex-column">
-        <Elm src={Main} ports={this.setupPorts} />
+        <ElmWrapper src={Main} ports={this.setupPorts} />
       </div>
     )
   }
 
 }
 
-export default Home;
+export default Home

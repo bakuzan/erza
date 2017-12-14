@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import {connect} from 'react-redux'
 
 import BaseCreate from '../base-create'
@@ -22,7 +23,7 @@ MangaCreate.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  itemId: ownProps.params.id
+  itemId: ownProps.match.params.id
 })
 
 const mapDispatchToProps = {

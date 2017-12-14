@@ -39,3 +39,7 @@ export const Paths = {
     postFile: '/api/image-upload/file'
   }
 }
+
+export const ForceNavigate = {
+  forceNavigate: true
+}

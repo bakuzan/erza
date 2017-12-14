@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import {connect} from 'react-redux'
 
 import BaseView from '../base-view'
@@ -31,8 +32,8 @@ AnimeView.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  itemId: ownProps.params.id,
-  item: mapStateToEntity(state.entities.anime, ownProps.params.id),
+  itemId: ownProps.match.params.id,
+  item: mapStateToEntity(state.entities.anime, ownProps.match.params.id),
   history: mapStateToEntityList(state.entities.episode)
 })
 

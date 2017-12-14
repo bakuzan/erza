@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import {connect} from 'react-redux'
 
 import BaseListView from '../base-list'
@@ -6,9 +7,8 @@ import {Strings} from '../../constants/values'
 import {mapStateToEntityList, mapUrlFilterToEntityObject} from '../../utils/data'
 import {loadManga} from '../../actions/manga'
 
-const Manga = ({ location, filter, items, loadManga }) => (
+const Manga = ({ filter, items, loadManga }) => (
   <BaseListView
-    routeKey={location.key}
     type={Strings.manga}
     loadDataForTypedList={loadManga}
     items={items}
@@ -23,7 +23,7 @@ Manga.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   items: mapStateToEntityList(state.entities.manga),
-  filter: mapUrlFilterToEntityObject(ownProps.params)
+  filter: mapUrlFilterToEntityObject(ownProps.match.params)
 })
 
 const mapDispatchToProps = {

@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 
 import { toggleSidebarCollapse, closeSidebar } from '../../actions/sidebar'
@@ -11,7 +12,12 @@ import "./sidebar.css"
 
 const menuOptions = Menu.reduce((p, c) => p.concat(c.children), Array(0))
 
-const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
+const isSidebarActive = targetPath => (match, { pathname }) => {
+  if (!targetPath.includes("list")) return !!match
+  return targetPath.slice(0, 17) === pathname.slice(0, 17)
+}
+
+const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close, location }) => {
   const sidebarClasses = classNames({ "collapsed": isCollapsed, "hidden": isHidden })
 
   return (
@@ -27,7 +33,7 @@ const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
       {
           menuOptions.map(option => (
             <li key={option.id} className="sidebar-item" title={option.title}>
-              <NavLink className="button primary" activeClassName="active" to={option.link} onClick={close}>
+              <NavLink className="button primary" activeClassName="active" to={option.link} onClick={close} isActive={isSidebarActive(option.link)}>
                 <div className="sidebar-item-icon center-contents">
                   { option.icon }
                 </div>
@@ -61,7 +67,9 @@ const mapDispatchToProps = {
   close: closeSidebar
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sidebar)
+export default withRouter(
+    connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Sidebar)
+)

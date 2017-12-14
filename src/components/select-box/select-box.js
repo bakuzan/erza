@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const SelectBox = ({ name, value, disabled, onSelect, text, options }) => (
   <div className="has-float-label select-container">
