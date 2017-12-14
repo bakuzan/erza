@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux'
+import { push, replace } from 'react-router-redux'
 
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
@@ -11,7 +11,7 @@ import {
   EPISODE_REFRESH, CHAPTER_REFRESH,
   EPISODE_REMOVE, CHAPTER_REMOVE
 } from '../constants/actions'
-import {Paths} from '../constants/paths'
+import {Paths, ForceNavigate} from '../constants/paths'
 import { Strings } from '../constants/values'
 
 
@@ -35,7 +35,10 @@ const removeItemFromState = {
   [Strings.chapter]: dehydrateState(CHAPTER_REMOVE)
 }
 
-const redirectPostAction = type => push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`);
+const redirectPostAction = type => {
+  if (window.location.href.includes("list")) return replace(window.location.href, ForceNavigate)
+  return push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`, ForceNavigate)
+}
 
 const startingGraphqlRequest = () => ({
   type: GRAPHQL_REQUEST,
