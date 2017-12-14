@@ -7,9 +7,8 @@ import {Strings} from '../../constants/values'
 import {mapStateToEntityList, mapUrlFilterToEntityObject} from '../../utils/data'
 import {loadAnime} from '../../actions/anime'
 
-const Anime = ({ location, filter, items, loadAnime }) => (
+const Anime = ({ filter, items, loadAnime }) => (
   <BaseListView
-    routeKey={location.key}
     type={Strings.anime}
     loadDataForTypedList={loadAnime}
     items={items}
@@ -25,6 +24,7 @@ Anime.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   items: mapStateToEntityList(state.entities.anime),
   filter: mapUrlFilterToEntityObject(ownProps.match.params),
+  test: (() => console.log("%c props!! ","color: purple", ownProps))()
 })
 
 const mapDispatchToProps = {

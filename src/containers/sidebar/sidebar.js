@@ -12,7 +12,12 @@ import "./sidebar.css"
 
 const menuOptions = Menu.reduce((p, c) => p.concat(c.children), Array(0))
 
-const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
+const isSidebarActive = targetPath => (match, { pathname }) => {
+  if (!targetPath.includes("list")) return !!match
+  return targetPath.slice(0, 17) === pathname.slice(0, 17)
+}
+
+const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close, location }) => {
   const sidebarClasses = classNames({ "collapsed": isCollapsed, "hidden": isHidden })
 
   return (
@@ -28,7 +33,7 @@ const Sidebar = ({ isHidden, isCollapsed, toggleCollapse, close }) => {
       {
           menuOptions.map(option => (
             <li key={option.id} className="sidebar-item" title={option.title}>
-              <NavLink className="button primary" activeClassName="active" to={option.link} onClick={close}>
+              <NavLink className="button primary" activeClassName="active" to={option.link} onClick={close} isActive={isSidebarActive(option.link)}>
                 <div className="sidebar-item-icon center-contents">
                   { option.icon }
                 </div>

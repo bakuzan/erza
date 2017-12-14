@@ -43,7 +43,6 @@ class BaseListView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.routeKey !== this.props.routeKey ||
       nextProps.statusFilter.value !== this.props.statusFilter.value ||
       nextProps.isAdult !== this.props.isAdult ||
       nextProps.sortKey !== this.props.sortKey ||
@@ -100,7 +99,6 @@ class BaseListView extends Component {
 }
 
 BaseListView.propTypes = {
-  routeKey: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
