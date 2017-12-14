@@ -11,7 +11,7 @@ import {
   EPISODE_REFRESH, CHAPTER_REFRESH,
   EPISODE_REMOVE, CHAPTER_REMOVE
 } from '../constants/actions'
-import {Paths, ForceNavigate} from '../constants/paths'
+import {Paths} from '../constants/paths'
 import { Strings } from '../constants/values'
 
 

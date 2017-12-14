@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import LoadingSpinner from '../components/loading-spinner/loading-spinner'
 import ListFilter from '../containers/list-filter/list-filter'
 import DailyAnime from '../containers/daily-anime/daily-anime'
@@ -11,9 +10,8 @@ import {Strings, Enums} from '../constants/values'
 import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
 
 const getStatusList = props => {
-  const { name, value } = props.statusFilter;
-  let statusIn = !!value && !!value.length ? value : [value];
-  return (name === Strings.filters.ongoing) ? statusIn.concat([Enums.status.onhold]) : statusIn;
+  const { value } = props.statusFilter;
+  return !!value && !!value.length ? value : [value];
 }
 
 const loadData = (props, state) => {
