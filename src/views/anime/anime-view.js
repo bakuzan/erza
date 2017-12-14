@@ -8,12 +8,13 @@ import {loadEpisodeForSeries, editEpisode, deleteEpisode} from '../../actions/ep
 import {mapStateToEntity, mapStateToEntityList} from '../../utils/data'
 import {Strings} from '../../constants/values'
 
-const AnimeView = ({ itemId, item, history, loadAnimeById, loadEpisodeForSeries, editEpisode, deleteEpisode }) => (
+const AnimeView = ({ itemId, item, historyItems, loadAnimeById, loadEpisodeForSeries, editEpisode, deleteEpisode, ...props }) => (
   <BaseView
+    {...props}
     type={Strings.anime}
     itemId={itemId}
     item={item}
-    history={history}
+    historyItems={historyItems}
     loadItemById={loadAnimeById}
     loadHistoryForSeries={loadEpisodeForSeries}
     editAction={editEpisode}
@@ -24,7 +25,7 @@ const AnimeView = ({ itemId, item, history, loadAnimeById, loadEpisodeForSeries,
 AnimeView.propTypes = {
   itemId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
-  history: PropTypes.arrayOf(PropTypes.object),
+  historyItems: PropTypes.arrayOf(PropTypes.object),
   loadAnimeById: PropTypes.func.isRequired,
   loadEpisodeForSeries: PropTypes.func.isRequired,
   editEpisode: PropTypes.func.isRequired,
@@ -34,7 +35,7 @@ AnimeView.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   itemId: ownProps.match.params.id,
   item: mapStateToEntity(state.entities.anime, ownProps.match.params.id),
-  history: mapStateToEntityList(state.entities.episode)
+  historyItems: mapStateToEntityList(state.entities.episode),
 })
 
 const mapDispatchToProps = {

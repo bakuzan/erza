@@ -11,7 +11,7 @@ import './styles/button.css';
 import './styles/form.css';
 import './styles/themes.css';
 
-const history = createBrowserHistory()
+export const history = createBrowserHistory()
 export const store = configureStore(history)
 
 if (document.getElementById('root').children.length === 0) {

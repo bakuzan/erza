@@ -8,12 +8,13 @@ import {loadChapterForSeries, editChapter, deleteChapter} from '../../actions/ch
 import {mapStateToEntity, mapStateToEntityList} from '../../utils/data'
 import {Strings} from '../../constants/values'
 
-const MangaView = ({ itemId, item, history, loadMangaById, loadChapterForSeries, deleteChapter, editChapter }) => (
+const MangaView = ({ itemId, item, historyItems, loadMangaById, loadChapterForSeries, deleteChapter, editChapter, ...props }) => (
   <BaseView
+    {...props}
     type={Strings.manga}
     itemId={itemId}
     item={item}
-    history={history}
+    historyItems={historyItems}
     loadItemById={loadMangaById}
     loadHistoryForSeries={loadChapterForSeries}
     editAction={editChapter}
@@ -24,7 +25,7 @@ const MangaView = ({ itemId, item, history, loadMangaById, loadChapterForSeries,
 MangaView.propTypes = {
   itemId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
-  history: PropTypes.arrayOf(PropTypes.object),
+  historyItems: PropTypes.arrayOf(PropTypes.object),
   loadMangaById: PropTypes.func.isRequired,
   loadChapterForSeries: PropTypes.func.isRequired,
   editChapter: PropTypes.func.isRequired,
@@ -34,7 +35,7 @@ MangaView.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   itemId: ownProps.match.params.id,
   item: mapStateToEntity(state.entities.manga, ownProps.match.params.id),
-  history: mapStateToEntityList(state.entities.chapter)
+  historyItems: mapStateToEntityList(state.entities.chapter)
 })
 
 const mapDispatchToProps = {

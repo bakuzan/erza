@@ -1,4 +1,4 @@
-import { push, replace } from 'react-router-redux'
+import {history as Navigate} from '../index'
 
 import fetchFromServer from '../graphql/fetch'
 import {constructPagingAndSorting, constructRecordForPost} from '../graphql/common'
@@ -36,8 +36,9 @@ const removeItemFromState = {
 }
 
 const redirectPostAction = type => {
-  if (window.location.href.includes("list")) return replace(window.location.href, ForceNavigate)
-  return push(`${Paths.base}${Paths[type].list}${Strings.filters.ongoing}`, ForceNavigate)
+  const baseUrl = `${Paths.base}${Paths[type].list}`
+  if (window.location.href.includes("list")) return Navigate.push(`${baseUrl}${window.location.href.replace(/^.*\//g, "")}`)
+  return Navigate.push(`${baseUrl}${Strings.filters.ongoing}`)
 }
 
 const startingGraphqlRequest = () => ({

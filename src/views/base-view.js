@@ -44,7 +44,7 @@ class BaseView extends Component {
   }
 
   render() {
-    const { type, item, isFetching, history } = this.props;
+    const { type, item, isFetching, history, historyItems } = this.props;
     const {current, total} = getUniquePropertiesForItemType(type);
     if (isFetching) return (<LoadingSpinner size="fullscreen" />);
     console.log(this.props)
@@ -125,14 +125,14 @@ class BaseView extends Component {
                 this.state.hasHistory &&
                 <div>
                 {
-                  !this.props.history.length &&
+                  !historyItems.length &&
                   <p>No history found.</p>
                 }
                 {
-                  !!this.props.history.length &&
+                  !!historyItems.length &&
                   <HistoryList
                     type={type}
-                    items={this.props.history}
+                    items={historyItems}
                     editAction={this.handleHistoryEdit}
                     deleteAction={this.handleHistoryDelete}
                   />
@@ -172,7 +172,7 @@ BaseView.propTypes = {
   type: PropTypes.string.isRequired,
   itemId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
-  history: PropTypes.arrayOf(PropTypes.object),
+  historyItems: PropTypes.arrayOf(PropTypes.object),
   isFetching: PropTypes.bool.isRequired,
   loadItemById: PropTypes.func.isRequired,
   loadHistoryForSeries: PropTypes.func.isRequired,

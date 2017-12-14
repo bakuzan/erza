@@ -7,8 +7,9 @@ import {Strings} from '../../constants/values'
 import {mapStateToEntityList, mapUrlFilterToEntityObject} from '../../utils/data'
 import {loadAnime} from '../../actions/anime'
 
-const Anime = ({ filter, items, loadAnime }) => (
+const Anime = ({ location, filter, items, loadAnime }) => (
   <BaseListView
+    routeKey={location.key}
     type={Strings.anime}
     loadDataForTypedList={loadAnime}
     items={items}

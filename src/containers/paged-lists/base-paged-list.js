@@ -87,7 +87,7 @@ class BasePagedList extends Component {
 
   handleEdit(event) {
     this.props.addHistoryToItem(this.state);
-    this.dialog.close();
+    if (this.dialog.open) this.dialog.close();
   }
 
   handleUserInput(event) {
