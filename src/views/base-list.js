@@ -6,7 +6,7 @@ import ListFilter from '../containers/list-filter/list-filter'
 import DailyAnime from '../containers/daily-anime/daily-anime'
 import PagedAnimeList from '../containers/paged-lists/paged-anime-list'
 import PagedMangaList from '../containers/paged-lists/paged-manga-list'
-import {Strings, Enums} from '../constants/values'
+import {Strings} from '../constants/values'
 import {getEventValue, getTimeoutSeconds, debounce} from '../utils/common'
 
 const getStatusList = props => {
