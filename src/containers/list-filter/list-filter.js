@@ -18,6 +18,16 @@ const SORT_OPTIONS = [
 
 const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderToggle, sortKey, onChangeSortKey, children }) => {
   const filterBase = FILTER_BASE(type)
+  const statusLinks = Object.keys(Strings.filters)
+	  .map(status => {
+  		const statusUrl = Strings.filters[status]
+  		return (
+  		  <FilterLink key={statusUrl} filter={`${filterBase}${statusUrl}`}>
+  		  { statusUrl }
+  		  </FilterLink>
+  		)
+	  })
+
   return (
     <div className="list-filter">
 
@@ -27,17 +37,10 @@ const ListFilter = ({ type, search, isAdult, onChange, sortOrder, onSortOrderTog
       />
 
       <div className="button-group">
-      {
-        Object.keys(Strings.filters)
-              .map(status => {
-                const statusUrl = Strings.filters[status]
-                return (
-                  <FilterLink key={statusUrl} filter={`${filterBase}${statusUrl}`}>
-                  { statusUrl }
-                  </FilterLink>
-                )
-              })
-      }
+      { statusLinks.slice(0,3) }
+      </div>
+	  <div className="button-group">
+      { statusLinks.slice(3) }
       </div>
 
       <SelectBox
