@@ -16,7 +16,7 @@ const processScroll = page => () => {
   debounce(() => {
     const container = document.getElementById("history-breakdown-detail")
     const required = container && (container.getBoundingClientRect().top < 55)
-    page.ports.requireKey.send(required)
+    page.ports.requireKey.send(!!required)
   }, getTimeoutSeconds(0.15))
 }
 
