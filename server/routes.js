@@ -4,7 +4,6 @@ const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
-const graffiti = require('@risingstack/graffiti');
 
 const GraphqlSchema = require('./graphql/schema.js');
 
@@ -39,12 +38,10 @@ router.get('/api/statistics/history-detail/:type/:isAdult/:breakdown/:partition'
 router.get('/api/statistics/history-years/:type/:isAdult/:breakdown/:partition', statistics.getHistoryCountsByYearsPartition);
 
 // Graphql route
-router.use(
-  graffiti.express({
-    schema: GraphqlSchema,
-    graphiql: true,
-    pretty: true
-  })
-);
+router.use('/graphql', graphqlHTTP({
+  schema: GraphqlSchema,
+  graphiql: true,
+  pretty: true
+}));
 
 module.exports = router;
