@@ -8,7 +8,7 @@ const clientAdult = popura(process.env.MAL_USER_ADULT, process.env.MAL_PASSWORD_
 
 const convertUSDateFormat = d => {
 	if (!d) return null;
-	
+
 	const date = new Date(d);
 	return `${padNumber(date.getMonth() + 1, 2)}${padNumber(date.getDate(), 2)}${date.getFullYear()}`;
 }
@@ -19,6 +19,7 @@ const getMalAnime = animeitem => ({
 	date_finish: animeitem.end ? convertUSDateFormat(animeitem.end) : null,
 	status: animeitem.status,
 	enable_rewatching: animeitem.isRepeat ? 1 : 0,
+	times_rewatched: animeitem.timesCompleted,
 	score: animeitem.rating || 0
 })
 
@@ -29,6 +30,7 @@ const getMalManga = mangaitem => ({
 	date_finish: mangaitem.end ? convertUSDateFormat(mangaitem.end) : null,
 	status: mangaitem.status,
 	enable_rereading: mangaitem.isRepeat ? 1 : 0,
+	times_reread: mangaitem.timesCompleted,
 	score: mangaitem.rating || 0
 })
 
