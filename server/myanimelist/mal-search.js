@@ -1,4 +1,5 @@
 const Constants = require('../constants');
+const {fetchTimeout} = require('../utils/common');
 
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
@@ -6,15 +7,19 @@ const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
 const removeNullOnEmpty = result => (result[0] === null) ? [] : result;
 
 const animeSearch = (res, search) => {
+	fetchTimeout(5000,
 		client.searchAnimes(search)
-			.then(result => res.jsonp(removeNullOnEmpty(result)))
-			.catch(err => err);
+		.then(result => res.jsonp(removeNullOnEmpty(result)))
+		.catch(err => err)
+	);
 }
 
 const mangaSearch = (res, search) => {
+	fetchTimeout(5000,
 		client.searchMangas(search)
-			.then(result => res.jsonp(removeNullOnEmpty(result)))
-			.catch(err => err);
+		.then(result => res.jsonp(removeNullOnEmpty(result)))
+		.catch(err => err)
+	);
 }
 
 const search = (req, res) => {

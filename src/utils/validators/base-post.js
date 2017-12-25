@@ -10,6 +10,7 @@ export const searchManga = searchMyAnimeList(Strings.manga);
 
 
 export const malResponseGenerator = (type, postItem) => response => {
+  if (!Array.isArray(response)) return {};
   const item = response.find(x => x.id === postItem.malId);
 
   if (!item)  return {};
