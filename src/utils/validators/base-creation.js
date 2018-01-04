@@ -4,7 +4,7 @@ import {getUniquePropertiesForItemType, getHistoryNameForItemType} from '../data
 
 const historyChangeHandler = ({ current, total }) => item => {
   const changes = {};
-  
+
   if(item[current] > item[total] && item[total] !== 0) {
     changes[current] = item[total];
   }
@@ -28,7 +28,7 @@ const statusChangeHandler = item => {
   const { planned, ongoing } = Enums.status;
   switch(item.status) {
       case planned   : return { start: '', end: '' };
-      case ongoing   : return { start: formatDateForInput(new Date()), end: '' };
+      case ongoing   : return { start: formatDateForInput(item.start || new Date()), end: '' };
       default        : return {};
   }
 }
