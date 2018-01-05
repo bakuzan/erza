@@ -45,14 +45,10 @@
     "yoruichi": "file:./yoruichi/build/static"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
+    "{src, server}/**/*.{js,jsx,json,css}": [
       "prettier --single-quote --write",
       "git add"
-    ],
-    "server/**/*.{js,json}": [
-      "prettier --single-quote --write",
-      "git add"
-    ],
+    ]
   },
   "scripts": {
     "precommit": "lint-staged",
