@@ -11,7 +11,6 @@ const Episode = require('../models/episode.js').Episode;
 
 const getQueryModelForType = t => t === Constants.type.anime ? Anime : Manga;
 
-
 const getStatusCounts = (req, res) => {
   const { params: { type, isAdult } } = req;
   const model = getQueryModelForType(type);
