@@ -130,6 +130,7 @@ const getHistoryCountsByYearsPartition = (req, res) => {
       delete item.series;
 
       return Object.assign({}, item, {
+        average: Functions.getAverageRating(ratings),
         mode: Functions.getModeRating(ratings)
       });
     });
@@ -194,7 +195,7 @@ const fixSeasonalResults = (breakdown, data) => {
         [index]: {
           _id: season._id,
           value: season.value + value,
-          average: orderedArray.reduce((p, c) => (p + c)) / length,
+          average: Functions.getAverageRating(orderedArray),
           highest: orderedArray[length - 1],
           lowest: orderedArray[0],
           ratings: orderedArray,

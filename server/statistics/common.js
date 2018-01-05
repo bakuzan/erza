@@ -42,6 +42,15 @@ const listOfMonths = (breakdown, partition) => {
 }
 
 
+const buildNestedList = arr => {
+	const first = arr[0];
+	if (!first) return [];
+	return [arr.filter(x => x === first)]
+  .concat(
+    buildNestedList(arr.filter(x => x !== first))
+  );
+}
+
 const getModeRating = arr => {
 	const nested = buildNestedList(arr);
 	const { number } = nested.reduce((p, c) => {
@@ -53,13 +62,9 @@ const getModeRating = arr => {
 	return number;
 }
 
-const buildNestedList = arr => {
-	const first = arr[0];
-	if (!first) return [];
-	return [arr.filter(x => x === first)]
-	          .concat(
-			    buildNestedList(arr.filter(x => x !== first))
-			  );
+const getAverageRating = arr => {
+  const ratings = arr.filter(x => !!x)
+  return ratings.reduce((p, c) => (p + c)) / ratings.length
 }
 
 module.exports = {
@@ -70,5 +75,6 @@ module.exports = {
   aggregateIsSeasonStart,
   getSeasonStartMonth,
   listOfMonths,
-  getModeRating
+  getModeRating,
+  getAverageRating,
 }
