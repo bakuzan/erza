@@ -6,7 +6,7 @@ export const Enums = {
     dropped: 4,
     planned: 6,
     // all for status filter
-    all: [1,2,3,4,6],
+    all: [1, 2, 3, 4, 6]
   },
   anime: {
     type: {
@@ -37,7 +37,7 @@ export const Enums = {
     up: 38,
     down: 40
   }
-}
+};
 
 export const Strings = {
   localUserSettings: 'settingState',
@@ -67,6 +67,7 @@ export const Strings = {
   success: 'success',
   error: 'error',
   unfinished: 'Unfinished',
+  notStarted: 'Not Started',
   noItemsAvailable: 'No items were found.',
   create: 'Create',
   edit: 'Edit',
@@ -83,24 +84,40 @@ export const Strings = {
   anime: 'anime',
   manga: 'manga',
   history: 'history',
-  monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  monthNames: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ],
   deleteConfirmation: 'Are you sure you want to delete this entry?',
   // mal update messages
   fetchingMalEntry: 'fetching mal entry',
   noLinkedMalEntry: 'no related mal entry',
   updatedMalEntry: 'updated mal values',
   malEntryUpToDate: 'mal already up to date',
-  imgur: "imgur",
+  imgur: 'imgur',
   // theme
   light: 'Light',
   dark: 'Dark',
-  themes: [{ name: 'Light', class: 'theme-one' }, { name: 'Dark', class: 'theme-two' }],
+  themes: [
+    { name: 'Light', class: 'theme-one' },
+    { name: 'Dark', class: 'theme-two' }
+  ],
   // yoruichi filters
   timePeriod: {
-    day: "DAY",
-    week: "WEEK"
+    day: 'DAY',
+    week: 'WEEK'
   }
-}
+};
 
 export const Properties = {
   episode: 'episode',
@@ -113,7 +130,7 @@ export const Properties = {
   chapter: 'chapter',
   seriesChapters: 'series_chapters',
   dayOfWeek: 'dayOfWeek'
-}
+};
 
 export const NonPostableProperties = [
   Properties.season,
@@ -130,31 +147,23 @@ export const Icons = {
   editable: '\u270E', //'\uD83D\uDD89',
   save: '\uD83D\uDCBE',
   left: '\u2039',
-  right: '\u203A',
-}
+  right: '\u203A'
+};
 
 export const Types = {
   string: 'string',
   object: 'object',
   boolean: 'boolean',
   number: 'number'
-}
+};
 
-export const Days = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat"
-]
+export const Days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const ImageUrls = {
-  deadImage: "https://i.imgur.com/gKr1YhF.png"
-}
+  deadImage: 'https://i.imgur.com/gKr1YhF.png'
+};
 
 export const pageSizes = {
   default: [5, 10, 15, 25],
   history: [25, 50, 75, 100]
-}
+};
