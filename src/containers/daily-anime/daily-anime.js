@@ -47,7 +47,6 @@ class DailyAnime extends Component {
   }
 
   handleDayChange(change) {
-    const change = e.target.id.includes('next') ? -1 : 1;
     this.setState(prev => ({
       dateOffset: prev.dateOffset + change
     }));
