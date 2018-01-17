@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     max-width: 100%;
+    min-height: 42px;
 
     > div {
       display: flex;
@@ -16,6 +17,7 @@
     }
     > button {
       height: 42px;
+      min-width: 21px;
     }
   }
 

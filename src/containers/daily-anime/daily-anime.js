@@ -47,9 +47,11 @@ class DailyAnime extends Component {
   }
 
   handleDayChange(change) {
-    this.setState(prev => ({
-      dateOffset: prev.dateOffset + change
-    }));
+    this.setState(prev => {
+      const dateOffset = prev.dateOffset + change;
+      this.props.fetchDailyAnime(dateOffset);
+      return { dateOffset };
+    });
   }
 
   render() {
