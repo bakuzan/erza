@@ -98,6 +98,15 @@ export const Strings = {
     'Nov',
     'Dec'
   ],
+  dayNames: [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ],
   deleteConfirmation: 'Are you sure you want to delete this entry?',
   // mal update messages
   fetchingMalEntry: 'fetching mal entry',
