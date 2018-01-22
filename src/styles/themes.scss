@@ -95,13 +95,23 @@
       }
     }
 
+    //dialogs
+    dialog {
+      background-color: $base-background;
+      color: $base-colour;
+
+      &.backdrop::backdrop {
+        background-color: $contrast;
+      }
+    }
+
     // history list
     .history-list-item.series-title {
 		border-bottom-color: $colour;
     }
-	.view-content .history-list-item:not(.series-title) {
-		border-bottom-color: $contrast;
-	}
+	   .view-content .history-list-item:not(.series-title) {
+		  border-bottom-color: $contrast;
+	   }
 
     // Unique UI elements
     .application-header, .site-map-list {

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import './rating-control.css';
 
 class RatingControl extends Component {
-
   constructor(props) {
     super(props);
 
@@ -21,7 +20,7 @@ class RatingControl extends Component {
     const { value, type } = event.target;
     this.props.onChange({
       target: {
-        value,
+        value: this.props.value === value ? 0 : value,
         type,
         name: this.props.name
       }
@@ -40,15 +39,22 @@ class RatingControl extends Component {
       const value = index + 1;
       const colourise = this.ratingColouriser(value);
       const hoverInfo = `${value}/${this.maximum}`;
-      const highlight = this.props.value < value ? '' :
-                        this.props.value > value ? ' past' : ' selected';
+      const highlight =
+        this.props.value < value
+          ? ''
+          : this.props.value > value ? ' past' : ' selected';
       return (
-        <label key={index} className={`rating-control-option ${colourise}${highlight}`} title={hoverInfo}>
-          <input type="radio"
-                 name={`${this.props.name}-${value}`}
-                 value={value}
-                 checked={value === this.props.value}
-                 onChange={(e) => this.handleChange(e)}
+        <label
+          key={index}
+          className={`rating-control-option ${colourise}${highlight}`}
+          title={hoverInfo}
+        >
+          <input
+            type="radio"
+            name={`${this.props.name}-${value}`}
+            value={value}
+            checked={value === this.props.value}
+            onClick={e => this.handleChange(e)}
           />
         </label>
       );
@@ -59,13 +65,15 @@ class RatingControl extends Component {
     const ratingSelectors = this.renderSelectors();
 
     return (
-      <div className={`rating-control${this.isReadOnly ? ' read-only' : ''}`} role="radiogroup">
-        { ratingSelectors }
+      <div
+        className={`rating-control${this.isReadOnly ? ' read-only' : ''}`}
+        role="radiogroup"
+      >
+        {ratingSelectors}
         <label className="rating-control-label">{this.props.label}</label>
       </div>
     );
   }
-
 }
 
 RatingControl.propTypes = {
@@ -77,6 +85,6 @@ RatingControl.propTypes = {
     PropTypes.number
   ]).isRequired,
   onChange: PropTypes.func
-}
+};
 
 export default RatingControl;
