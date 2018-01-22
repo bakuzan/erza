@@ -142,8 +142,12 @@
       .history-breakdown-body__row.year-breakdown:hover,
       .history-breakdown-body__row.month-breakdown:hover a,
       .history-breakdown-body__row.year-breakdown:hover a {
-          background: $colour;
-          color: $contrast;
+          background-color: $anchor-colour-hover;
+          color: $anchor-colour;
+       }
+
+       .history-breakdown-body__data-cell__background {
+         background-color: $contrast;
        }
 
     }

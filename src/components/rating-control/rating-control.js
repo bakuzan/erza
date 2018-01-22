@@ -17,7 +17,8 @@ class RatingControl extends Component {
 
   handleChange(event) {
     if (this.isReadOnly) return;
-    const { value, type } = event.target;
+    const { value: valueString, type } = event.target;
+    const value = Number(valueString);
     this.props.onChange({
       target: {
         value: this.props.value === value ? 0 : value,

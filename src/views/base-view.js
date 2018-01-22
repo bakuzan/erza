@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import RatingControl from '../components/rating-control/rating-control';
 import LoadingSpinner from '../components/loading-spinner/loading-spinner';
 import HistoryList from '../components/list-components/history-list/history-list';
+import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
 import { formatDateForDisplay } from '../utils/date';
 import { getUniquePropertiesForItemType } from '../utils/data';

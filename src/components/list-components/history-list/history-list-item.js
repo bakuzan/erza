@@ -3,21 +3,19 @@ import React, { Component } from 'react';
 import RatingControl from '../../rating-control/rating-control';
 import Dialog from '../../dialog/dialog';
 import ClearableInput from '../../clearable-input/clearable-input';
-import {padNumber, capitalise} from '../../../utils/common'
-import {getUniquePropertiesForItemType} from '../../../utils/data'
-import {formatDateISO, formatDateTimeForDisplay} from '../../../utils/date'
-import {Strings, Icons} from '../../../constants/values'
-
+import { padNumber, capitalise } from '../../../utils/common';
+import { getUniquePropertiesForItemType } from '../../../utils/data';
+import { formatDateISO, formatDateTimeForDisplay } from '../../../utils/date';
+import { Strings, Icons } from '../../../constants/values';
 
 class HistoryListItem extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       isEditing: false,
       note: props.item.note || '',
       rating: props.item.rating || 0
-    }
+    };
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
     this.showDeleteDialog = this.showDeleteDialog.bind(this);
@@ -47,7 +45,7 @@ class HistoryListItem extends Component {
   confirmEdit() {
     const updateObject = Object.assign({}, this.props.item, {
       note: this.state.note,
-      rating: Number(this.state.rating) || Number(this.props.item.rating)
+      rating: Number(this.state.rating)
     });
     this.props.editAction(updateObject);
     this.toggleEdit();
@@ -60,55 +58,50 @@ class HistoryListItem extends Component {
 
   render() {
     const { item, type, editAction, deleteAction } = this.props;
-    const {current} = getUniquePropertiesForItemType(type);
+    const { current } = getUniquePropertiesForItemType(type);
     const capitalisedCurrent = capitalise(current);
     const number = padNumber(item[current], 3);
 
     return (
       <li className="history-list-item">
-        <time dateTime={formatDateISO(item.date)}>{ formatDateTimeForDisplay(item.date) }</time>
+        <time dateTime={formatDateISO(item.date)}>
+          {formatDateTimeForDisplay(item.date)}
+        </time>
         <div className="flex-column">
-          <span>{ `${capitalisedCurrent} ${number}` }</span>
-          {
-            !item.rating && !this.state.isEditing
-            ? ( <span>Unrated</span> )
-            : (
-                <RatingControl
-                  name="rating"
-                  value={this.state.rating}
-                  onChange={this.state.isEditing ? this.handleUserInput : null}
-                />
-              )
-          }
+          <span>{`${capitalisedCurrent} ${number}`}</span>
+          {!item.rating && !this.state.isEditing ? (
+            <span>Unrated</span>
+          ) : (
+            <RatingControl
+              name="rating"
+              value={this.state.rating}
+              onChange={this.state.isEditing ? this.handleUserInput : null}
+            />
+          )}
         </div>
-        {
-          !this.state.isEditing
-          ? ( <span>{ item.note }</span> )
-          : (
-              <ClearableInput
-                name="note"
-                label="note"
-				maxLength={140}
-                value={this.state.note}
-                onChange={this.handleUserInput}
-              />
-            )
-        }
-        {
-            (!!editAction || !!deleteAction) &&
-            <div className="list-item-actions">
-            {
-              this.state.isEditing &&
+        {!this.state.isEditing ? (
+          <span>{item.note}</span>
+        ) : (
+          <ClearableInput
+            name="note"
+            label="note"
+            maxLength={140}
+            value={this.state.note}
+            onChange={this.handleUserInput}
+          />
+        )}
+        {(!!editAction || !!deleteAction) && (
+          <div className="list-item-actions">
+            {this.state.isEditing && (
               <button
                 type="button"
                 className="button-icon small"
                 title="Save entry"
                 icon={Icons.save}
                 onClick={this.confirmEdit}
-              ></button>
-            }
-            {
-              !!editAction &&
+              />
+            )}
+            {!!editAction && (
               <button
                 type="button"
                 name="isEditing"
@@ -116,34 +109,34 @@ class HistoryListItem extends Component {
                 title={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
                 icon={this.state.isEditing ? Icons.cross : Icons.editable}
                 onClick={this.toggleEdit}
-              ></button>
-            }
-            {
-              !!deleteAction && !this.state.isEditing &&
-              <span className="delete-action">
-                <button
-                  type="button"
-                  className="button-icon small"
-                  title="Delete entry"
-                  icon={Icons.cross}
-                  onClick={this.showDeleteDialog}
-                ></button>
-              <Dialog
-                name="historyDelete"
-                title={`Delete ${capitalisedCurrent} ${number}`}
-                localised="true"
-                getDialogRef={this.assignDialogRef}
-                actionText={Strings.delete}
-                action={this.confirmDelete}
-                >
-                  <p>{ Strings.deleteConfirmation }</p>
-                </Dialog>
-              </span>
-            }
-            </div>
-        }
+              />
+            )}
+            {!!deleteAction &&
+              !this.state.isEditing && (
+                <span className="delete-action">
+                  <button
+                    type="button"
+                    className="button-icon small"
+                    title="Delete entry"
+                    icon={Icons.cross}
+                    onClick={this.showDeleteDialog}
+                  />
+                  <Dialog
+                    name="historyDelete"
+                    title={`Delete ${capitalisedCurrent} ${number}`}
+                    localised="true"
+                    getDialogRef={this.assignDialogRef}
+                    actionText={Strings.delete}
+                    action={this.confirmDelete}
+                  >
+                    <p>{Strings.deleteConfirmation}</p>
+                  </Dialog>
+                </span>
+              )}
+          </div>
+        )}
       </li>
-    )
+    );
   }
 }
 
@@ -152,6 +145,6 @@ HistoryListItem.propTypes = {
   item: PropTypes.object.isRequired,
   editAction: PropTypes.func,
   deleteAction: PropTypes.func
-}
+};
 
-export default HistoryListItem
+export default HistoryListItem;
