@@ -155,16 +155,18 @@ class BaseView extends Component {
           </div>
           <div className="series-image-container full">
             <img src={item.image} alt={`Cover for ${item.title}`} />
-            <NewTabLink
-              href={`https://myanimelist.net/${type}/${item.malId}`}
-              className="mal-link"
-              title="Open MAL entry in new tab."
-            >
-              <img
-                src="https://myanimelist.net/favicon.ico"
-                alt="MyAnimelist icon"
-              />
-            </NewTabLink>
+            {item.malId && (
+              <NewTabLink
+                href={`https://myanimelist.net/${type}/${item.malId}`}
+                className="mal-link"
+                title="Open MAL entry in new tab."
+              >
+                <img
+                  src="https://myanimelist.net/favicon.ico"
+                  alt="MyAnimelist icon"
+                />
+              </NewTabLink>
+            )}
             <h4>Series tags</h4>
             <ul className="list column one">
               {!item.tagList && (
