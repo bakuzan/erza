@@ -1,14 +1,34 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
 
-import BaseView from '../base-view'
-import {loadMangaById} from '../../actions/manga'
-import {loadChapterForSeries, editChapter, deleteChapter} from '../../actions/chapter'
-import {mapStateToEntity, mapStateToEntityList} from '../../utils/data'
-import {Strings} from '../../constants/values'
+import { SimpleLoading } from '../../components/loadable';
+import { loadMangaById } from '../../actions/manga';
+import {
+  loadChapterForSeries,
+  editChapter,
+  deleteChapter
+} from '../../actions/chapter';
+import { mapStateToEntity, mapStateToEntityList } from '../../utils/data';
+import { Strings } from '../../constants/values';
 
-const MangaView = ({ itemId, item, historyItems, loadMangaById, loadChapterForSeries, deleteChapter, editChapter, ...props }) => (
+const BaseView = Loadable({
+  loader: () => import(/* webpackChunkName: 'item-view' */ '../base-view'),
+  loading: SimpleLoading,
+  delay: 300
+});
+
+const MangaView = ({
+  itemId,
+  item,
+  historyItems,
+  loadMangaById,
+  loadChapterForSeries,
+  deleteChapter,
+  editChapter,
+  ...props
+}) => (
   <BaseView
     {...props}
     type={Strings.manga}
@@ -20,7 +40,7 @@ const MangaView = ({ itemId, item, historyItems, loadMangaById, loadChapterForSe
     editAction={editChapter}
     deleteAction={deleteChapter}
   />
-)
+);
 
 MangaView.propTypes = {
   itemId: PropTypes.string.isRequired,
@@ -30,22 +50,19 @@ MangaView.propTypes = {
   loadChapterForSeries: PropTypes.func.isRequired,
   editChapter: PropTypes.func.isRequired,
   deleteChapter: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = (state, ownProps) => ({
   itemId: ownProps.match.params.id,
   item: mapStateToEntity(state.entities.manga, ownProps.match.params.id),
   historyItems: mapStateToEntityList(state.entities.chapter)
-})
+});
 
 const mapDispatchToProps = {
   loadMangaById,
   loadChapterForSeries,
   editChapter,
   deleteChapter
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MangaView)
+export default connect(mapStateToProps, mapDispatchToProps)(MangaView);

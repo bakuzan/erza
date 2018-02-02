@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux'
-import BaseHistoryView from './base-history'
-import {Strings} from '../../constants/values'
-import {mapStateToEntityList} from '../../utils/data'
-import { loadEpisodesByDateRange } from '../../actions/episode'
+import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
+
+import { SimpleLoading } from '../../components/loadable';
+import { Strings } from '../../constants/values';
+import { mapStateToEntityList } from '../../utils/data';
+import { loadEpisodesByDateRange } from '../../actions/episode';
+
+const BaseHistoryView = Loadable({
+  loader: () => import(/* webpackChunkName: 'history' */ './base-history'),
+  loading: SimpleLoading,
+  delay: 300
+});
 
 const AnimeHistoryView = ({ items, loadHistory }) => (
   <BaseHistoryView
@@ -12,22 +20,19 @@ const AnimeHistoryView = ({ items, loadHistory }) => (
     items={items}
     loadHistory={loadHistory}
   />
-)
+);
 
 AnimeHistoryView.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
-  loadHistory: PropTypes.func.isRequired,
-}
+  loadHistory: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
-  items: mapStateToEntityList(state.entities.episode),
-})
+  items: mapStateToEntityList(state.entities.episode)
+});
 
 const mapDispatchToProps = {
   loadHistory: loadEpisodesByDateRange
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AnimeHistoryView)
+export default connect(mapStateToProps, mapDispatchToProps)(AnimeHistoryView);

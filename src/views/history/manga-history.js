@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux'
-import BaseHistoryView from './base-history'
-import {Strings} from '../../constants/values'
-import {mapStateToEntityList} from '../../utils/data'
-import { loadChaptersByDateRange } from '../../actions/chapter'
+import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
+
+import { SimpleLoading } from '../../components/loadable';
+import { Strings } from '../../constants/values';
+import { mapStateToEntityList } from '../../utils/data';
+import { loadChaptersByDateRange } from '../../actions/chapter';
+
+const BaseHistoryView = Loadable({
+  loader: () => import(/* webpackChunkName: 'history' */ './base-history'),
+  loading: SimpleLoading,
+  delay: 300
+});
 
 const MangaHistoryView = ({ items, loadHistory }) => (
   <BaseHistoryView
@@ -12,22 +20,19 @@ const MangaHistoryView = ({ items, loadHistory }) => (
     items={items}
     loadHistory={loadHistory}
   />
-)
+);
 
 MangaHistoryView.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
-  loadHistory: PropTypes.func.isRequired,
-}
+  loadHistory: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
-  items: mapStateToEntityList(state.entities.chapter),
-})
+  items: mapStateToEntityList(state.entities.chapter)
+});
 
 const mapDispatchToProps = {
   loadHistory: loadChaptersByDateRange
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MangaHistoryView)
+export default connect(mapStateToProps, mapDispatchToProps)(MangaHistoryView);

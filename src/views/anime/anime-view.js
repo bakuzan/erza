@@ -1,14 +1,34 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
 
-import BaseView from '../base-view'
-import {loadAnimeById} from '../../actions/anime'
-import {loadEpisodeForSeries, editEpisode, deleteEpisode} from '../../actions/episode'
-import {mapStateToEntity, mapStateToEntityList} from '../../utils/data'
-import {Strings} from '../../constants/values'
+import { SimpleLoading } from '../../components/loadable';
+import { loadAnimeById } from '../../actions/anime';
+import {
+  loadEpisodeForSeries,
+  editEpisode,
+  deleteEpisode
+} from '../../actions/episode';
+import { mapStateToEntity, mapStateToEntityList } from '../../utils/data';
+import { Strings } from '../../constants/values';
 
-const AnimeView = ({ itemId, item, historyItems, loadAnimeById, loadEpisodeForSeries, editEpisode, deleteEpisode, ...props }) => (
+const BaseView = Loadable({
+  loader: () => import(/* webpackChunkName: 'item-view' */ '../base-view'),
+  loading: SimpleLoading,
+  delay: 300
+});
+
+const AnimeView = ({
+  itemId,
+  item,
+  historyItems,
+  loadAnimeById,
+  loadEpisodeForSeries,
+  editEpisode,
+  deleteEpisode,
+  ...props
+}) => (
   <BaseView
     {...props}
     type={Strings.anime}
@@ -20,7 +40,7 @@ const AnimeView = ({ itemId, item, historyItems, loadAnimeById, loadEpisodeForSe
     editAction={editEpisode}
     deleteAction={deleteEpisode}
   />
-)
+);
 
 AnimeView.propTypes = {
   itemId: PropTypes.string.isRequired,
@@ -30,22 +50,19 @@ AnimeView.propTypes = {
   loadEpisodeForSeries: PropTypes.func.isRequired,
   editEpisode: PropTypes.func.isRequired,
   deleteEpisode: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = (state, ownProps) => ({
   itemId: ownProps.match.params.id,
   item: mapStateToEntity(state.entities.anime, ownProps.match.params.id),
-  historyItems: mapStateToEntityList(state.entities.episode),
-})
+  historyItems: mapStateToEntityList(state.entities.episode)
+});
 
 const mapDispatchToProps = {
   loadAnimeById,
   loadEpisodeForSeries,
   editEpisode,
   deleteEpisode
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AnimeView)
+export default connect(mapStateToProps, mapDispatchToProps)(AnimeView);

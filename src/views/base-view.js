@@ -2,9 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
+
 import RatingControl from '../components/rating-control/rating-control';
 import LoadingSpinner from '../components/loading-spinner/loading-spinner';
-import HistoryList from '../components/list-components/history-list/history-list';
+import { SimpleLoading } from '../components/loadable';
+
 import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
 import { formatDateForDisplay } from '../utils/date';
@@ -15,6 +18,13 @@ import { Strings, Enums, Icons } from '../constants/values';
 const loadData = props => props.loadItemById(props.itemId);
 const loadHistory = props => props.loadHistoryForSeries(props.itemId);
 
+const HistoryList = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'history-list' */ '../components/list-components/history-list/history-list'),
+  loading: SimpleLoading,
+  delay: 300
+});
+
 class BaseView extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +32,8 @@ class BaseView extends Component {
       hasHistory: false
     };
 
+    this.fetchHistory = this.fetchHistory.bind(this);
+    this.preloadHistoryList = this.preloadHistoryList.bind(this);
     this.handleHistoryEdit = this.handleHistoryEdit.bind(this);
     this.handleHistoryDelete = this.handleHistoryDelete.bind(this);
   }
@@ -33,6 +45,10 @@ class BaseView extends Component {
   fetchHistory() {
     loadHistory(this.props);
     this.setState({ hasHistory: true });
+  }
+
+  preloadHistoryList() {
+    HistoryList.preload();
   }
 
   handleHistoryEdit(item) {
@@ -132,7 +148,8 @@ class BaseView extends Component {
                   <button
                     type="button"
                     className="button primary ripple"
-                    onClick={() => this.fetchHistory()}
+                    onMouseOver={this.preloadHistoryList}
+                    onClick={this.fetchHistory}
                   >
                     View history
                   </button>
