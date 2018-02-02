@@ -1,42 +1,36 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import {Strings} from '../../constants/values'
-import {createListeners} from '../../utils/common'
+import { Strings } from '../../constants/values';
+import { createListeners } from '../../utils/common';
 
-import './dialog.css'
-
+import './dialog.css';
 
 const DialogContent = ({ name, isForm, children }) => {
-  if (!isForm) return (<div>{ children }</div>)
+  if (!isForm) return <div>{children}</div>;
 
-  if (isForm) return (
-    <form
-      name={name}
-      noValidate=""
-      autoComplete="off"
-      >
-      { children }
+  if (isForm)
+    return (
+      <form name={name} noValidate="" autoComplete="off">
+        {children}
       </form>
-  )
-}
+    );
+};
 
 const handleDialogClick = dialog => event => {
   const rect = dialog.self.getBoundingClientRect();
-  const isInDialog = (
+  const isInDialog =
     rect.top <= event.clientY &&
     event.clientY <= rect.top + rect.height &&
     rect.left <= event.clientX &&
-    event.clientX <= rect.left + rect.width
-  );
+    event.clientX <= rect.left + rect.width;
 
-  if (isInDialog) return;
+  if (isInDialog || !event.isTrusted) return;
   dialog.self.close();
-}
+};
 
 class Dialog extends Component {
-
   constructor() {
     super();
 
@@ -51,10 +45,12 @@ class Dialog extends Component {
 
   handleRef(element) {
     if (!element) return;
-    
+
     this.self = element;
     this.props.getDialogRef(element);
-    this.listeners = createListeners("click", handleDialogClick(this))(this.self);
+    this.listeners = createListeners('click', handleDialogClick(this))(
+      this.self
+    );
     this.listeners.listen();
   }
 
@@ -68,45 +64,39 @@ class Dialog extends Component {
   }
 
   render() {
-    const dialogStyle = { 'top': !!this.props.localised ? '0' : `calc(${window.scrollY}px + 50vh)` };
-    const dialogClass = classNames("dialog", { "backdrop": this.props.hasBackdrop }, { "no-backdrop": !this.props.hasBackdrop })
+    const dialogStyle = {
+      top: !!this.props.localised ? '0' : `calc(${window.scrollY}px + 50vh)`
+    };
+    const dialogClass = classNames(
+      'dialog',
+      { backdrop: this.props.hasBackdrop },
+      { 'no-backdrop': !this.props.hasBackdrop }
+    );
     const hasTitle = !!this.props.title;
     const hasAction = !!this.props.action;
 
     return (
-      <dialog
-        ref={this.handleRef}
-        style={dialogStyle}
-        className={dialogClass}
-      >
+      <dialog ref={this.handleRef} style={dialogStyle} className={dialogClass}>
         <div className="dialog-content">
-          <DialogContent
-            name={this.props.name}
-            isForm={this.props.isForm}>
-            {
-              hasTitle &&
-              <h4 className="dialog-title">{ this.props.title }</h4>
-            }
-            <div className="dialog-content-custom">
-              { this.props.children }
-            </div>
+          <DialogContent name={this.props.name} isForm={this.props.isForm}>
+            {hasTitle && <h4 className="dialog-title">{this.props.title}</h4>}
+            <div className="dialog-content-custom">{this.props.children}</div>
             <div className="button-group">
-            {
-              hasAction &&
-              <button
-                type={this.props.isForm ? "submit" : "button"}
-                className="button ripple"
-                onClick={this.handleAction}
+              {hasAction && (
+                <button
+                  type={this.props.isForm ? 'submit' : 'button'}
+                  className="button ripple"
+                  onClick={this.handleAction}
                 >
-                { this.props.actionText }
-              </button>
-            }
+                  {this.props.actionText}
+                </button>
+              )}
               <button
                 type="button"
                 className="button ripple"
                 onClick={this.handleClose}
-                >
-                { Strings.cancel }
+              >
+                {Strings.cancel}
               </button>
             </div>
           </DialogContent>
@@ -119,7 +109,7 @@ class Dialog extends Component {
 Dialog.defaultProps = {
   isForm: true,
   hasBackdrop: true
-}
+};
 
 Dialog.propTypes = {
   name: PropTypes.string.isRequired,
@@ -133,6 +123,6 @@ Dialog.propTypes = {
   action: PropTypes.func,
   isForm: PropTypes.bool,
   hasBackdrop: PropTypes.bool
-}
+};
 
-export default Dialog
+export default Dialog;

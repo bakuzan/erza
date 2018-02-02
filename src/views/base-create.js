@@ -30,6 +30,7 @@ import ChipListInput from '../components/chip-list-input/chip-list-input';
 import LoadingSpinner from '../components/loading-spinner/loading-spinner';
 import TabContainer from '../components/tab-container/tab-container';
 import TabView from '../components/tab-view/tab-view';
+import ClearableInput from '../components/clearable-input/clearable-input';
 import { createTag, loadTags } from '../actions/tags';
 
 const loadData = props => {
@@ -167,63 +168,50 @@ class BaseCreate extends Component {
                     selectMalItem={this.handleMalSelect}
                   />
 
-                  <div className="has-float-label input-container">
-                    <input
-                      type="number"
-                      name={current}
-                      value={this.state[current]}
-                      min="0"
-                      max={
-                        !!Number(this.state[total]) ? this.state[total] : null
-                      }
-                      placeholder=" "
-                      onChange={this.handleUserInput}
-                    />
-                    <label>{current}</label>
-                  </div>
+                  <ClearableInput
+                    type="number"
+                    name={current}
+                    label={current}
+                    value={this.state[current]}
+                    min="0"
+                    max={!!Number(this.state[total]) ? this.state[total] : null}
+                    onChange={this.handleUserInput}
+                  />
 
                   {type === Strings.manga && (
-                    <div className="has-float-label input-container">
-                      <input
-                        type="number"
-                        name="volume"
-                        value={this.state.volume}
-                        min="0"
-                        max={
-                          !!Number(this.state.series_volumes)
-                            ? this.state.series_volumes
-                            : null
-                        }
-                        placeholder=" "
-                        onChange={this.handleUserInput}
-                      />
-                      <label>volume</label>
-                    </div>
+                    <ClearableInput
+                      type="number"
+                      name="volume"
+                      label="volume"
+                      value={this.state.volume}
+                      min="0"
+                      max={
+                        !!Number(this.state.series_volumes)
+                          ? this.state.series_volumes
+                          : null
+                      }
+                      onChange={this.handleUserInput}
+                    />
                   )}
 
-                  <div className="has-float-label input-container">
-                    <input
-                      type="date"
-                      name="start"
-                      value={formatDateForInput(this.state.start)}
-                      max={this.state.end}
-                      placeholder=" "
-                      onChange={this.handleUserInput}
-                    />
-                    <label>start</label>
-                  </div>
-                  <div className="has-float-label input-container">
-                    <input
-                      type="date"
-                      name="end"
-                      value={formatDateForInput(this.state.end)}
-                      min={this.state.start}
-                      placeholder=" "
-                      onChange={this.handleUserInput}
-                      disabled={this.state.status !== Enums.status.completed}
-                    />
-                    <label>end</label>
-                  </div>
+                  <ClearableInput
+                    type="date"
+                    name="start"
+                    label="start"
+                    value={formatDateForInput(this.state.start)}
+                    max={this.state.end}
+                    onChange={this.handleUserInput}
+                  />
+
+                  <ClearableInput
+                    type="date"
+                    name="end"
+                    label="end"
+                    value={formatDateForInput(this.state.end)}
+                    min={this.state.start}
+                    onChange={this.handleUserInput}
+                    disabled={this.state.status !== Enums.status.completed}
+                  />
 
                   <SelectBox
                     name="status"
@@ -252,46 +240,40 @@ class BaseCreate extends Component {
               </TabView>
               <TabView name="Additional">
                 <div className="flex-column">
-                  <div className="has-float-label input-container">
-                    <input
-                      type="number"
-                      name={total}
-                      value={this.state[total]}
-                      min="0"
-                      placeholder=" "
-                      onChange={this.handleUserInput}
-                    />
-                    <label>{`total ${current}s`}</label>
-                  </div>
+                  <ClearableInput
+                    type="number"
+                    name={total}
+                    label={`total ${current}s`}
+                    value={this.state[total]}
+                    min="0"
+                    onChange={this.handleUserInput}
+                  />
 
                   {type === Strings.manga && (
-                    <div className="has-float-label input-container">
-                      <input
-                        type="number"
-                        name="series_volumes"
-                        value={this.state.series_volumes}
-                        min="0"
-                        placeholder=" "
-                        onChange={this.handleUserInput}
-                      />
-                      <label>total volumes</label>
-                    </div>
+                    <ClearableInput
+                      type="number"
+                      name="series_volumes"
+                      label="total volumes"
+                      value={this.state.series_volumes}
+                      min="0"
+                      onChange={this.handleUserInput}
+                    />
                   )}
+
                   <ImageSelector
                     name="image"
                     url={this.state.image}
                     onChange={this.handleUserInput}
                   />
-                  <div className="has-float-label input-container">
-                    <input
-                      type="url"
-                      name="link"
-                      value={this.state.link}
-                      placeholder=" "
-                      onChange={this.handleUserInput}
-                    />
-                    <label>link</label>
-                  </div>
+
+                  <ClearableInput
+                    type="url"
+                    name="link"
+                    label="link"
+                    value={this.state.link}
+                    placeholder=" "
+                    onChange={this.handleUserInput}
+                  />
 
                   <Tickbox
                     text="owned"
