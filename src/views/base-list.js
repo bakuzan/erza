@@ -78,7 +78,6 @@ class BaseListView extends Component {
           search={this.state.search}
           onChange={this.handleUserInput}
         >
-          <div className="flex-spacer" />
           {type === Strings.anime &&
             !isAdult && (
               <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />

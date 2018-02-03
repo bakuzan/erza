@@ -23,7 +23,7 @@ const Home = Loadable({
 });
 const Statistics = Loadable({
   loader: () =>
-    import(/* webpackChunkName: 'statistics' */ './views/statistics'),
+    import(/* webpackChunkName: 'statistics' */ './views/statistics/statistics'),
   ...loadableSettings
 });
 
