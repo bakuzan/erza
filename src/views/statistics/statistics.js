@@ -12,6 +12,8 @@ import {
 
 import { Main } from 'satellizer/js/satellizer';
 import 'satellizer/css/satellizer.css';
+import '../../components/radio-button/radio-button.css';
+import '../../components/tab-container/tab-container.css';
 
 const processScroll = page => () => {
   debounce(() => {
