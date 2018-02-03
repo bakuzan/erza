@@ -6,3 +6,9 @@
   height: calc(100vh - 50px);
   padding: 20px 5px;
 }
+
+.list-filter-custom-content {
+  display: flex;
+  align-items: flex-end;
+  height: calc(100% - 240px);
+}
