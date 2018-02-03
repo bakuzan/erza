@@ -97,12 +97,22 @@ button:focus + .dropdown-menu {
   };
 }
 
+.history-filters {
+  display: flex;
+  flex: 0 0 20%;
+  padding: 20px 5px;
+  > div {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+  }
+}
+
 // custom lists
 .paged-list-edit .list {
   max-height: 250px;
   overflow: auto;
 }
-
 
 .delete-action {
   position: relative;

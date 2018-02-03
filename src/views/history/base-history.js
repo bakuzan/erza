@@ -1,29 +1,31 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
-import PagedHistoryList from '../../containers/paged-history-list/paged-history-list'
-import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
-import {startOfDay, endOfDay, dateAsMs, formatDateForInput} from '../../utils/date'
+import { connect } from 'react-redux';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import PagedHistoryList from '../../containers/paged-history-list/paged-history-list';
+import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
+import {
+  startOfDay,
+  endOfDay,
+  dateAsMs,
+  formatDateForInput
+} from '../../utils/date';
 
-
-
-const dateRangeForQuery = (from = new Date(), to = new Date()) => [dateAsMs(startOfDay(from)), dateAsMs(endOfDay(to))]
-const loadData = (props, state) => props.loadHistory({ dateRange: dateRangeForQuery(state.from, state.to) });
+const dateRangeForQuery = (from = new Date(), to = new Date()) => [
+  dateAsMs(startOfDay(from)),
+  dateAsMs(endOfDay(to))
+];
+const loadData = (props, state) =>
+  props.loadHistory({ dateRange: dateRangeForQuery(state.from, state.to) });
 
 const Datepicker = ({ label, ...props }) => (
   <div className="has-float-label input-container">
-    <input
-      type="date"
-      placeholder=" "
-      {...props}
-      />
-    <label>{ label }</label>
+    <input type="date" placeholder=" " {...props} />
+    <label>{label}</label>
   </div>
-)
+);
 
 class BaseHistoryView extends Component {
-
   constructor(props) {
     super(props);
     const dr = dateRangeForQuery();
@@ -45,7 +47,7 @@ class BaseHistoryView extends Component {
       nextProps.type !== this.props.type ||
       nextProps.itemsPerPage !== this.props.itemsPerPage
     ) {
-      loadData(nextProps, this.state)
+      loadData(nextProps, this.state);
     }
   }
 
@@ -57,43 +59,36 @@ class BaseHistoryView extends Component {
 
   render() {
     const { isFetching, items, type } = this.props;
-    const filters = { dateRange: dateRangeForQuery(this.state.from, this.state.to) };
+    const filters = {
+      dateRange: dateRangeForQuery(this.state.from, this.state.to)
+    };
 
     return (
       <div className="flex-row">
-      {
-        isFetching &&
-        <LoadingSpinner size="fullscreen" />
-      }
-      <div className="list-filter">
-        <div>
-          <Datepicker
-            name="from"
-            label="from"
-            value={this.state.from}
-            onChange={this.handleUserInput}
-          />
-          <Datepicker
-            name="to"
-            label="to"
-            value={this.state.to}
-            min={this.state.from}
-            onChange={this.handleUserInput}
-          />
+        {isFetching && <LoadingSpinner size="fullscreen" />}
+        <div className="history-filters">
+          <div>
+            <Datepicker
+              name="from"
+              label="from"
+              value={this.state.from}
+              onChange={this.handleUserInput}
+            />
+            <Datepicker
+              name="to"
+              label="to"
+              value={this.state.to}
+              min={this.state.from}
+              onChange={this.handleUserInput}
+            />
+          </div>
         </div>
-      </div>
-      {
-        !isFetching &&
-        <PagedHistoryList
-            type={type}
-            filters={filters}
-            items={items}
-         />
-      }
+        {!isFetching && (
+          <PagedHistoryList type={type} filters={filters} items={items} />
+        )}
       </div>
     );
   }
-
 }
 
 BaseHistoryView.propTypes = {
@@ -103,14 +98,12 @@ BaseHistoryView.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   loadHistory: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = state => ({
   isFetching: state.isFetching,
   isAdult: state.isAdult,
   itemsPerPage: state.paging.itemsPerPage
-})
+});
 
-export default connect(
-  mapStateToProps
-)(BaseHistoryView)
+export default connect(mapStateToProps)(BaseHistoryView);
