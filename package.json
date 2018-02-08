@@ -46,13 +46,15 @@
     "yoruichi": "file:./yoruichi/build/static"
   },
   "lint-staged": {
-    "*.{js,jsx,json,css}": ["prettier --single-quote --write", "git add"]
+    "*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css":
-      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js server",
     "build": "npm run build-css && react-scripts build",
