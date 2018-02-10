@@ -3,9 +3,14 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const {TagTC} = require('./tag.js');
+const { TagTC } = require('./tag.js');
 
-const {updateDateBeforeSave, preventDatesPre1970, addMalEntry, updateMalEntry} = require('../graphql/common.js');
+const {
+  updateDateBeforeSave,
+  preventDatesPre1970,
+  addMalEntry,
+  updateMalEntry
+} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
 
@@ -13,6 +18,7 @@ const {
   itemSharedFields,
   searchFilterArg,
   statusInFilterArg,
+  ratingInFilterArg,
   groupedCount,
   findIn
 } = require('./item-shared.js');
@@ -42,17 +48,13 @@ AnimeSchema.statics.findIn = findIn();
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
 
-
-AnimeTC.addRelation(
-  'tagList',
-  () => ({
-    resolver: TagTC.getResolver('findByIds'),
-    args: {
-      _ids: (source) => source.tags,
-    },
-    projection: { tags: 1 }
-  })
-)
+AnimeTC.addRelation('tagList', () => ({
+  resolver: TagTC.getResolver('findByIds'),
+  args: {
+    _ids: source => source.tags
+  },
+  projection: { tags: 1 }
+}));
 
 AnimeTC.addFields({
   season: {
@@ -63,33 +65,36 @@ AnimeTC.addFields({
       const start = Common.getDateParts(item.start);
       const seriesStart = Common.getDateParts(item.series_start);
 
-      return Object.assign({}, {
-        inSeason: item._legacyIsSeason || (
-          start.year === seriesStart.year &&
-          start.month === seriesStart.month &&
-          Constants.seasonalTypes.indexOf(item.series_type) !== -1
-        ),
-        year: start.year,
-        season: Common.getSeasonText(seriesStart.month || start.month)
-      });
+      return Object.assign(
+        {},
+        {
+          inSeason:
+            item._legacyIsSeason ||
+            (start.year === seriesStart.year &&
+              start.month === seriesStart.month &&
+              Constants.seasonalTypes.indexOf(item.series_type) !== -1),
+          year: start.year,
+          season: Common.getSeasonText(seriesStart.month || start.month)
+        }
+      );
     }
   }
 });
 
-const extendConnection = AnimeTC
-  .getResolver('connection')
+const extendConnection = AnimeTC.getResolver('connection')
   .addFilterArg(searchFilterArg)
-  .addFilterArg(statusInFilterArg(AnimeTC));
+  .addFilterArg(statusInFilterArg(AnimeTC))
+  .addFilterArg(ratingInFilterArg(AnimeTC));
 
 const extendCreate = AnimeTC.getResolver('createOne')
-                            .wrapResolve(updateDateBeforeSave('createdDate'))
-                            .wrapResolve(addMalEntry(Constants.type.anime))
-                            .wrapResolve(preventDatesPre1970);
+  .wrapResolve(updateDateBeforeSave('createdDate'))
+  .wrapResolve(addMalEntry(Constants.type.anime))
+  .wrapResolve(preventDatesPre1970);
 
 const extendUpdate = AnimeTC.getResolver('updateById')
-                            .wrapResolve(updateDateBeforeSave('updatedDate'))
-                            .wrapResolve(updateMalEntry(Constants.type.anime))
-                            .wrapResolve(preventDatesPre1970);
+  .wrapResolve(updateDateBeforeSave('updatedDate'))
+  .wrapResolve(updateMalEntry(Constants.type.anime))
+  .wrapResolve(preventDatesPre1970);
 
 extendConnection.name = 'connection';
 extendCreate.name = 'createOne';
@@ -101,4 +106,4 @@ AnimeTC.addResolver(extendUpdate);
 module.exports = {
   Anime,
   AnimeTC
-}
+};

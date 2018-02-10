@@ -3,15 +3,21 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const {TagTC} = require('./tag.js');
+const { TagTC } = require('./tag.js');
 
-const {updateDateBeforeSave, preventDatesPre1970, addMalEntry, updateMalEntry} = require('../graphql/common.js');
-const {type} = require('../constants.js');
+const {
+  updateDateBeforeSave,
+  preventDatesPre1970,
+  addMalEntry,
+  updateMalEntry
+} = require('../graphql/common.js');
+const { type } = require('../constants.js');
 
 const {
   itemSharedFields,
   searchFilterArg,
   statusInFilterArg,
+  ratingInFilterArg,
   groupedCount,
   findIn
 } = require('./item-shared.js');
@@ -41,39 +47,34 @@ const MangaSchema = new Schema(
   })
 );
 
-
 MangaSchema.statics.getGroupedCount = groupedCount();
 MangaSchema.statics.findIn = findIn();
 
 const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
 
+MangaTC.addRelation('tagList', () => ({
+  resolver: TagTC.getResolver('findByIds'),
+  args: {
+    _ids: source => source.tags
+  },
+  projection: { tags: 1 }
+}));
 
-MangaTC.addRelation(
-  'tagList',
-  () => ({
-    resolver: TagTC.getResolver('findByIds'),
-    args: {
-      _ids: (source) => source.tags,
-    },
-    projection: { tags: 1 }
-  })
-)
-
-const extendConnection = MangaTC
-  .getResolver('connection')
+const extendConnection = MangaTC.getResolver('connection')
   .addFilterArg(searchFilterArg)
-  .addFilterArg(statusInFilterArg(MangaTC));
+  .addFilterArg(statusInFilterArg(MangaTC))
+  .addFilterArg(ratingInFilterArg(MangaTC));
 
 const extendCreate = MangaTC.getResolver('createOne')
-                            .wrapResolve(updateDateBeforeSave('createdDate'))
-                            .wrapResolve(addMalEntry(type.manga))
-                            .wrapResolve(preventDatesPre1970);
+  .wrapResolve(updateDateBeforeSave('createdDate'))
+  .wrapResolve(addMalEntry(type.manga))
+  .wrapResolve(preventDatesPre1970);
 
 const extendUpdate = MangaTC.getResolver('updateById')
-                            .wrapResolve(updateDateBeforeSave('updatedDate'))
-                            .wrapResolve(updateMalEntry(type.manga))
-                            .wrapResolve(preventDatesPre1970);
+  .wrapResolve(updateDateBeforeSave('updatedDate'))
+  .wrapResolve(updateMalEntry(type.manga))
+  .wrapResolve(preventDatesPre1970);
 
 extendConnection.name = 'connection';
 extendCreate.name = 'createOne';
@@ -85,4 +86,4 @@ MangaTC.addResolver(extendUpdate);
 module.exports = {
   Manga,
   MangaTC
-}
+};
