@@ -5,19 +5,11 @@ const ObjectId = Schema.ObjectId;
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const { TagTC } = require('./tag.js');
 
-const {
-  updateDateBeforeSave,
-  preventDatesPre1970,
-  addMalEntry,
-  updateMalEntry
-} = require('../graphql/common.js');
-const { type } = require('../constants.js');
+const Constants = require('../constants.js');
 
 const {
   itemSharedFields,
-  searchFilterArg,
-  statusInFilterArg,
-  ratingInFilterArg,
+  resolverExtentions,
   groupedCount,
   findIn
 } = require('./item-shared.js');
@@ -61,27 +53,7 @@ MangaTC.addRelation('tagList', () => ({
   projection: { tags: 1 }
 }));
 
-const extendConnection = MangaTC.getResolver('connection')
-  .addFilterArg(searchFilterArg)
-  .addFilterArg(statusInFilterArg(MangaTC))
-  .addFilterArg(ratingInFilterArg(MangaTC));
-
-const extendCreate = MangaTC.getResolver('createOne')
-  .wrapResolve(updateDateBeforeSave('createdDate'))
-  .wrapResolve(addMalEntry(type.manga))
-  .wrapResolve(preventDatesPre1970);
-
-const extendUpdate = MangaTC.getResolver('updateById')
-  .wrapResolve(updateDateBeforeSave('updatedDate'))
-  .wrapResolve(updateMalEntry(type.manga))
-  .wrapResolve(preventDatesPre1970);
-
-extendConnection.name = 'connection';
-extendCreate.name = 'createOne';
-extendUpdate.name = 'updateById';
-MangaTC.addResolver(extendConnection);
-MangaTC.addResolver(extendCreate);
-MangaTC.addResolver(extendUpdate);
+resolverExtentions(MangaTC, Constants.type.manga);
 
 module.exports = {
   Manga,

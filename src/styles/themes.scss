@@ -141,13 +141,20 @@
       .history-breakdown-body__row.month-breakdown:hover,
       .history-breakdown-body__row.year-breakdown:hover,
       .history-breakdown-body__row.month-breakdown:hover a,
-      .history-breakdown-body__row.year-breakdown:hover a {
+      .history-breakdown-body__row.year-breakdown:hover a,
+      #series-by-ratings-list > li:hover,
+      #series-by-ratings-list > li:hover a, {
           background-color: $anchor-colour-hover;
           color: $anchor-colour;
        }
 
        .history-breakdown-body__data-cell__background {
          background-color: $contrast;
+       }
+
+       .rating-label.selected {
+         background-color: $colour;
+         color: $contrast;
        }
 
     }

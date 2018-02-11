@@ -5,20 +5,12 @@ const ObjectId = Schema.ObjectId;
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 const { TagTC } = require('./tag.js');
 
-const {
-  updateDateBeforeSave,
-  preventDatesPre1970,
-  addMalEntry,
-  updateMalEntry
-} = require('../graphql/common.js');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
 
 const {
   itemSharedFields,
-  searchFilterArg,
-  statusInFilterArg,
-  ratingInFilterArg,
+  resolverExtentions,
   groupedCount,
   findIn
 } = require('./item-shared.js');
@@ -81,27 +73,7 @@ AnimeTC.addFields({
   }
 });
 
-const extendConnection = AnimeTC.getResolver('connection')
-  .addFilterArg(searchFilterArg)
-  .addFilterArg(statusInFilterArg(AnimeTC))
-  .addFilterArg(ratingInFilterArg(AnimeTC));
-
-const extendCreate = AnimeTC.getResolver('createOne')
-  .wrapResolve(updateDateBeforeSave('createdDate'))
-  .wrapResolve(addMalEntry(Constants.type.anime))
-  .wrapResolve(preventDatesPre1970);
-
-const extendUpdate = AnimeTC.getResolver('updateById')
-  .wrapResolve(updateDateBeforeSave('updatedDate'))
-  .wrapResolve(updateMalEntry(Constants.type.anime))
-  .wrapResolve(preventDatesPre1970);
-
-extendConnection.name = 'connection';
-extendCreate.name = 'createOne';
-extendUpdate.name = 'updateById';
-AnimeTC.addResolver(extendConnection);
-AnimeTC.addResolver(extendCreate);
-AnimeTC.addResolver(extendUpdate);
+resolverExtentions(AnimeTC, Constants.type.anime);
 
 module.exports = {
   Anime,
