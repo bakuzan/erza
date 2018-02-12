@@ -29,6 +29,7 @@ export const Paths = {
   },
   history: '/history/',
   statistics: '/statistics/',
+  tagManagement: '/tag-management/',
   graphql: {
     base: '/graphql?query='
   },

@@ -81,6 +81,19 @@ const Menu = [
         icon: "MS"
       }
     ]
+  },
+  {
+    id: 4,
+    title: 'Tag Management',
+    children: [
+      {
+        id: 8,
+        link: `${Paths.base}${Paths.tagManagement}`,
+        title: "Tag management",
+        description: "Manage tag changes and deletion",
+        icon: "TM"
+      }
+    ]
   }
 ]
 
