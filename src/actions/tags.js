@@ -1,4 +1,4 @@
-import { ADD_TAG, TAGS_LOAD, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
+import { ADD_TAG, REMOVE_TAG, TAGS_LOAD, TAGS_REQUEST, TAGS_SUCCESS } from '../constants/actions'
 import {Paths} from '../constants/paths'
 import fetchFromServer from '../graphql/fetch'
 import {constructRecordForPost} from '../graphql/common'
@@ -23,18 +23,22 @@ const finishTagsRequest = () => ({
   isFetching: false
 })
 
-
 const addTag = (item) => ({
   type: ADD_TAG,
   item
 })
 
-export const createTag = (item) => {
+const removeTag = (id) => ({
+  type: REMOVE_TAG,
+  id
+})
+
+const mutateTag = (queryBuilder, item) => {
   return function(dispatch, getState) {
     dispatch(startingTagsRequest());
     const { isAdult } = getState();
     const itemForCreation = constructRecordForPost({ ...item, isAdult });
-    const mutation = TagML.createTag(itemForCreation);
+    const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishTagsRequest());
@@ -45,12 +49,23 @@ export const createTag = (item) => {
   }
 }
 
+export const createTag = (item) => mutateTag(
+  TagML.createTag,
+  item
+)
+
+export const updateTag = (item) => mutateTag(
+  TagML.updateTag,
+  item
+)
+
 export const deleteTag = (tagId) => {
   return function(dispatch) {
     dispatch(startingTagsRequest());
-    fetchFromServer(`${Paths.graphql.base}${TagML.deleteTag(tagId)}`)
+    fetchFromServer(`${Paths.graphql.base}${TagML.deleteTag(tagId)}`, "POST")
       .then(response => {
         const data = getSingleObjectProperty(response.data);
+        dispatch(removeTag(tagId));
         toaster.success('Removed!', `Successfully deleted '${data.record.name}' tag.`)
       })
       .then(() => dispatch(finishTagsRequest()) );

@@ -32,12 +32,13 @@ class TagManagementDetails extends React.Component {
 
   handleDelete() {
     console.log("Delete Tag")
-    // this.props.actions.deleteTag(this.props.item._id)
+    this.props.actions.deleteTag(this.props.item._id)
+    this.props.onComplete()
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    console.log("%c Tag Submit Not Implemented", "color: maroon")
+    this.props.actions.updateTag(this.state.item)
   }
 
   render() {
@@ -45,8 +46,8 @@ class TagManagementDetails extends React.Component {
     const { onComplete } = this.props
     return (
       <div>
-        {console.log("%c TM - edit :: implementation in progress", "color: orange", this.state)}
-        <div>
+        {console.log("%c TM - edit :: implementation in progress", "color: orange", this.props, this.state)}
+        <div className="flex width-50 padding-10">
           <form name="tag-edit" onSubmit={this.handleSubmit}>
             <ClearableInput
               name="name"
@@ -62,17 +63,19 @@ class TagManagementDetails extends React.Component {
             </div>
           </form>
         </div>
-        <div>
+        <div className="padding-left-10 padding-right-10 margin-top-20">
           <div>
-            <button type="button" className="button ripple" onClick={this.handleDelete}>
+            <button type="button" className="button primary ripple" onClick={this.handleDelete}>
               {Strings.delete}
             </button>
           </div>
           List of series with the tag here?
         </div>
-        <button type="button" className="button ripple" onClick={onComplete}>
-          {Strings.ok}
-        </button>
+        <div className="button-group right-aligned">
+          <button type="button" className="button ripple" onClick={onComplete}>
+            {Strings.ok}
+          </button>
+        </div>
       </div>
     )
   }

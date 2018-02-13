@@ -107,7 +107,9 @@ a.button-link.active {
   &.centered {
     justify-content: center;
   }
-
+  &.right-aligned {
+    justify-content: flex-end;
+  }
 }
 
 form .button-group {

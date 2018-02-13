@@ -15,6 +15,7 @@ export const UPDATE_MANGA = 'UPDATE_MANGA'
 export const MANGA_LOAD = 'MANGA_LOAD'
 
 export const ADD_TAG = 'ADD_TAG'
+export const REMOVE_TAG = 'REMOVE_TAG'
 
 export const TAGS_REQUEST = 'TAGS_REQUEST'
 export const TAGS_LOAD = 'TAGS_LOAD'

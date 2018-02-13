@@ -46,10 +46,6 @@ class TagManagement extends React.Component {
   handleTagClick(selectedTag) {
     console.log("tag clicked", selectedTag)
     this.setState({ selectedTag })
-    // TODO
-    // display ability to edit tag text and delete tag
-    // fetch series linked to tag ?
-    // how to handle removing deleted tag from series ?
   }
 
   render() {
