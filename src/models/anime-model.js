@@ -1,4 +1,4 @@
-import BaseItemModel from './base-item-model'
+import BaseItemModel from './base-item-model';
 
 class AnimeModel extends BaseItemModel {
   constructor(props = {}) {
@@ -12,7 +12,6 @@ class AnimeModel extends BaseItemModel {
       series_episodes: 0
     });
   }
-
 }
 
 export default AnimeModel;

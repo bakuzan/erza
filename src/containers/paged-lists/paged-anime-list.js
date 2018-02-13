@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux'
-import AnimeList from '../../components/list-components/anime-list'
-import BasePagedList from './base-paged-list'
-import {Strings} from '../../constants/values'
-import {addEpisodes} from '../../actions/anime'
+import { connect } from 'react-redux';
+import AnimeList from '../../components/list-components/anime-list';
+import BasePagedList from './base-paged-list';
+import { Strings } from '../../constants/values';
+import { addEpisodes } from '../../actions/anime';
 
 const PagedAnimeList = ({ items, filters, addEpisodes }) => (
   <BasePagedList
@@ -14,18 +14,15 @@ const PagedAnimeList = ({ items, filters, addEpisodes }) => (
     filters={filters}
     addHistoryToItem={addEpisodes}
   />
-)
+);
 
 PagedAnimeList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object
-}
+};
 
 const mapDispatchToProps = {
   addEpisodes
-}
+};
 
-export default connect(
-  () => ({}),
-  mapDispatchToProps
-)(PagedAnimeList)
+export default connect(() => ({}), mapDispatchToProps)(PagedAnimeList);

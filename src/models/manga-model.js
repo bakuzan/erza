@@ -1,4 +1,4 @@
-import BaseItemModel from './base-item-model'
+import BaseItemModel from './base-item-model';
 
 class MangaModel extends BaseItemModel {
   constructor(props = {}) {
@@ -14,7 +14,6 @@ class MangaModel extends BaseItemModel {
       series_volumes: 0
     });
   }
-
 }
 
 export default MangaModel;

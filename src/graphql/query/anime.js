@@ -1,4 +1,9 @@
-import { itemKeyFields, itemEditFields, pagedDataWrapper, constructFilterString } from '../common'
+import {
+  itemKeyFields,
+  itemEditFields,
+  pagedDataWrapper,
+  constructFilterString
+} from '../common';
 
 const animeSpecificKeyFields = `
   episode
@@ -7,15 +12,15 @@ const animeSpecificKeyFields = `
 export const animeKeyFields = itemKeyFields(animeSpecificKeyFields);
 export const animeEditFields = itemEditFields(animeSpecificKeyFields);
 
-const getFilteredList = (pageParameters, filters) => (`
+const getFilteredList = (pageParameters, filters) => `
   {
     animeConnection(${pageParameters}${constructFilterString(filters)}) {
       ${pagedDataWrapper(animeKeyFields)}
     }
   }
-`);
+`;
 
-const getById = (id) => (`
+const getById = id => `
   {
     animeById(_id: "${id}") {
       ${animeKeyFields}
@@ -30,15 +35,15 @@ const getById = (id) => (`
       }
     }
   }
-`);
+`;
 
-const getByIdForEdit = (id) => (`
+const getByIdForEdit = id => `
   {
     animeById(_id: "${id}") {
       ${animeEditFields}
     }
   }
-`);
+`;
 
 const AnimeQL = {
   getById,

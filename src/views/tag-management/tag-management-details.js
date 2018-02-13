@@ -1,52 +1,57 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import ClearableInput from '../../components/clearable-input/clearable-input';
 
-import {Strings} from '../../constants/values'
+import { Strings } from '../../constants/values';
 import { getEventValue } from '../../utils/common';
 import * as actions from '../../actions/tags';
 
 class TagManagementDetails extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       item: props.item
-    }
+    };
 
-    this.handleUserInput = this.handleUserInput.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleUserInput({ target }) {
-    const value = getEventValue(target)
+    const value = getEventValue(target);
     this.setState(prev => ({
       item: {
         ...prev.item,
         [target.name]: value
       }
-    }))
+    }));
   }
 
   handleDelete() {
-    console.log("Delete Tag")
-    this.props.actions.deleteTag(this.props.item._id)
-    this.props.onComplete()
+    console.log('Delete Tag');
+    this.props.actions.deleteTag(this.props.item._id);
+    this.props.onComplete();
   }
 
   handleSubmit(e) {
-    e.preventDefault()
-    this.props.actions.updateTag(this.state.item)
+    e.preventDefault();
+    this.props.actions.updateTag(this.state.item);
   }
 
   render() {
-    const { item } = this.state
-    const { onComplete } = this.props
+    const { item } = this.state;
+    const { onComplete } = this.props;
     return (
       <div>
-        {console.log("%c TM - edit :: implementation in progress", "color: orange", this.props, this.state)}
+        {console.log(
+          '%c TM - edit :: implementation in progress',
+          'color: orange',
+          this.props,
+          this.state
+        )}
         <div className="flex width-50 padding-10">
           <form name="tag-edit" onSubmit={this.handleSubmit}>
             <ClearableInput
@@ -65,7 +70,11 @@ class TagManagementDetails extends React.Component {
         </div>
         <div className="padding-left-10 padding-right-10 margin-top-20">
           <div>
-            <button type="button" className="button primary ripple" onClick={this.handleDelete}>
+            <button
+              type="button"
+              className="button primary ripple"
+              onClick={this.handleDelete}
+            >
               {Strings.delete}
             </button>
           </div>
@@ -77,15 +86,12 @@ class TagManagementDetails extends React.Component {
           </button>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
-})
+});
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(TagManagementDetails)
+export default connect(null, mapDispatchToProps)(TagManagementDetails);

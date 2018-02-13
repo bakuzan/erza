@@ -1,7 +1,7 @@
 export const Paths = {
   build: (path, params) => {
     let hasSearch = false;
-    for(let k in params) {
+    for (let k in params) {
       if (params.hasOwnProperty(k)) {
         if (k === 'search') {
           hasSearch = true;
@@ -19,13 +19,13 @@ export const Paths = {
     list: '/anime-list/',
     view: '/anime-view/',
     create: '/anime/create',
-    edit: '/anime/edit/',
+    edit: '/anime/edit/'
   },
   manga: {
     list: '/manga-list/',
     view: '/manga-view/',
     create: '/manga/create',
-    edit: '/manga/edit/',
+    edit: '/manga/edit/'
   },
   history: '/history/',
   statistics: '/statistics/',
@@ -34,13 +34,14 @@ export const Paths = {
     base: '/graphql?query='
   },
   malSearch: '/api/mal-search/:type',
-  sunrise_sunset: 'https://api.sunrise-sunset.org/json?lat=51.9451597&lng=-0.6565607&formatted=0',
+  sunrise_sunset:
+    'https://api.sunrise-sunset.org/json?lat=51.9451597&lng=-0.6565607&formatted=0',
   imgur: {
     postUrl: '/api/image-upload/url',
     postFile: '/api/image-upload/file'
   }
-}
+};
 
 export const ForceNavigate = {
   forceNavigate: true
-}
+};

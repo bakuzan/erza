@@ -1,7 +1,7 @@
-import {Strings} from '../../constants/values'
-import {historyKeyFields} from '../common'
+import { Strings } from '../../constants/values';
+import { historyKeyFields } from '../common';
 
-const createChapter = chapter => (`
+const createChapter = chapter => `
   mutation {
     chapterCreate(record: ${chapter}) {
       record: record {
@@ -9,9 +9,9 @@ const createChapter = chapter => (`
       }
     }
   }
-`)
+`;
 
-const updateChapterById = chapter => (`
+const updateChapterById = chapter => `
   mutation {
     chapterUpdateById(record: ${chapter}) {
       record: record {
@@ -19,9 +19,9 @@ const updateChapterById = chapter => (`
       }
     }
   }
-`)
+`;
 
-const removeChapter = id => (`
+const removeChapter = id => `
   mutation {
     chapterRemoveById(_id: "${id}") {
       record {
@@ -33,12 +33,12 @@ const removeChapter = id => (`
       }
     }
   }
-`)
+`;
 
 const ChapterML = {
   createChapter,
   updateChapterById,
   removeChapter
-}
+};
 
-export default ChapterML
+export default ChapterML;

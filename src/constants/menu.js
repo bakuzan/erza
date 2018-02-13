@@ -1,5 +1,5 @@
-import {Paths} from './paths'
-import {Strings} from './values'
+import { Paths } from './paths';
+import { Strings } from './values';
 
 const Menu = [
   {
@@ -11,14 +11,14 @@ const Menu = [
         link: `${Paths.base}${Paths.anime.create}`,
         title: 'Create an Anime',
         description: 'Enter details about a new anime entry.',
-        icon: "AC"
+        icon: 'AC'
       },
       {
         id: 1,
         link: `${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`,
         title: 'Browse Anime',
         description: 'Search anime with a variable of filters and conditions',
-        icon: "AL"
+        icon: 'AL'
       }
     ]
   },
@@ -31,14 +31,14 @@ const Menu = [
         link: `${Paths.base}${Paths.manga.create}`,
         title: 'Create an Manga',
         description: 'Enter details about a new manga entry.',
-        icon: "MC"
+        icon: 'MC'
       },
       {
         id: 3,
         link: `${Paths.base}${Paths.manga.list}${Strings.filters.ongoing}`,
         title: 'Browse Manga',
         description: 'Search manga with a variable of filters and conditions',
-        icon: "ML"
+        icon: 'ML'
       }
     ]
   },
@@ -51,14 +51,14 @@ const Menu = [
         link: `${Paths.base}${Paths.history}${Strings.anime}`,
         title: 'View watched',
         description: 'View anime history by data range.',
-        icon: "AH"
+        icon: 'AH'
       },
       {
         id: 5,
         link: `${Paths.base}${Paths.history}${Strings.manga}`,
         title: 'View read',
         description: 'View manga history by data range.',
-        icon: "MH"
+        icon: 'MH'
       }
     ]
   },
@@ -71,14 +71,14 @@ const Menu = [
         link: `${Paths.base}${Paths.statistics}${Strings.anime}`,
         title: 'Explore anime',
         description: 'Investigate the aggregation on anime entries',
-        icon: "AS"
+        icon: 'AS'
       },
       {
         id: 7,
         link: `${Paths.base}${Paths.statistics}${Strings.manga}`,
         title: 'Explore manga',
         description: 'Investigate the aggregation on manga entries',
-        icon: "MS"
+        icon: 'MS'
       }
     ]
   },
@@ -89,12 +89,12 @@ const Menu = [
       {
         id: 8,
         link: `${Paths.base}${Paths.tagManagement}`,
-        title: "Tag management",
-        description: "Manage tag changes and deletion",
-        icon: "TM"
+        title: 'Tag management',
+        description: 'Manage tag changes and deletion',
+        icon: 'TM'
       }
     ]
   }
-]
+];
 
 export default Menu;

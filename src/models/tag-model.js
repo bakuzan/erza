@@ -2,7 +2,7 @@ class TagModel {
   constructor(props = this.initaliseDefaults()) {
     Object.assign(this, this.initaliseDefaults(), props);
   }
-  
+
   initaliseDefaults() {
     return {
       name: '',
@@ -11,4 +11,4 @@ class TagModel {
   }
 }
 
-export default TagModel
+export default TagModel;

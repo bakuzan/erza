@@ -1,17 +1,15 @@
-import { constructFilterString, taskKeyFields } from '../common'
+import { constructFilterString, taskKeyFields } from '../common';
 
-
-const getTasksForDateRange = filters => (`
+const getTasksForDateRange = filters => `
   {
     tasks: taskMany(${constructFilterString(filters)}) {
       ${taskKeyFields}
     }
   }
-`)
-
+`;
 
 const TaskQL = {
   getTasksForDateRange
-}
+};
 
-export default TaskQL
+export default TaskQL;

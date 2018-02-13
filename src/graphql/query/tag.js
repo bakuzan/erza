@@ -4,26 +4,26 @@ const tagFields = `
   isAdult
 `;
 
-const getAll = isAdult => (`
+const getAll = isAdult => `
   {
     tagMany(filter: { isAdult: ${isAdult} }) {
       ${tagFields}
     }
   }
-`);
+`;
 
-const getList = isAdult => (`
+const getList = isAdult => `
   {
     tagMany(filter: { isAdult: ${isAdult} }) {
       _id
       name
     }
   }
-`)
+`;
 
 const TagQl = {
   getAll,
   getList
 };
 
-export default TagQl
+export default TagQl;

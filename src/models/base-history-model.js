@@ -13,4 +13,4 @@ class BaseHistoryModel {
   }
 }
 
-export default BaseHistoryModel
+export default BaseHistoryModel;

@@ -1,7 +1,7 @@
-import {Strings} from '../../constants/values'
-import {historyKeyFields} from '../common'
+import { Strings } from '../../constants/values';
+import { historyKeyFields } from '../common';
 
-const createEpisode = episode => (`
+const createEpisode = episode => `
   mutation {
     episodeCreate(record: ${episode}) {
       record: record {
@@ -9,9 +9,9 @@ const createEpisode = episode => (`
       }
     }
   }
-`)
+`;
 
-const updateEpisodeById = episode => (`
+const updateEpisodeById = episode => `
   mutation {
     episodeUpdateById(record: ${episode}) {
       record: record {
@@ -19,9 +19,9 @@ const updateEpisodeById = episode => (`
       }
     }
   }
-`)
+`;
 
-const removeEpisode = id => (`
+const removeEpisode = id => `
   mutation {
     episodeRemoveById(_id: "${id}") {
       record {
@@ -33,12 +33,12 @@ const removeEpisode = id => (`
       }
     }
   }
-`)
+`;
 
 const EpisodeML = {
   createEpisode,
   updateEpisodeById,
   removeEpisode
-}
+};
 
-export default EpisodeML
+export default EpisodeML;

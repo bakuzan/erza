@@ -1,6 +1,6 @@
-import {animeEditFields} from '../query/anime'
+import { animeEditFields } from '../query/anime';
 
-const createAnime = (anime) => (`
+const createAnime = anime => `
   mutation {
     animeCreate(record: ${anime}) {
       record: record {
@@ -8,9 +8,9 @@ const createAnime = (anime) => (`
       }
     }
   }
-`)
+`;
 
-const updateAnimeById = (anime) => (`
+const updateAnimeById = anime => `
   mutation {
     animeUpdateById(record: ${anime}) {
       record: record {
@@ -18,7 +18,7 @@ const updateAnimeById = (anime) => (`
       }
     }
   }
-`)
+`;
 
 const AnimeML = {
   createAnime,

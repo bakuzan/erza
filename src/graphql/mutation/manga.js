@@ -1,6 +1,6 @@
-import {mangaEditFields} from '../query/manga'
+import { mangaEditFields } from '../query/manga';
 
-const createManga = (manga) => (`
+const createManga = manga => `
   mutation {
     mangaCreate(record: ${manga}) {
       record: record {
@@ -8,9 +8,9 @@ const createManga = (manga) => (`
       }
     }
   }
-`)
+`;
 
-const updateMangaById = (manga) => (`
+const updateMangaById = manga => `
   mutation {
     mangaUpdateById(record: ${manga}) {
       record: record {
@@ -18,7 +18,7 @@ const updateMangaById = (manga) => (`
       }
     }
   }
-`)
+`;
 
 const MangaML = {
   createManga,

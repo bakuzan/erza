@@ -1,7 +1,6 @@
-import { taskKeyFields } from "../common"
+import { taskKeyFields } from '../common';
 
-
-const createTask = task => (`
+const createTask = task => `
   mutation {
     createdTask: taskCreate(record: ${task}) {
       record: record {
@@ -9,9 +8,9 @@ const createTask = task => (`
       }
     }
   }
-`)
+`;
 
-const updateTaskById = task => (`
+const updateTaskById = task => `
   mutation {
     updatedTask: taskUpdateById(record: ${task}) {
       record: record {
@@ -19,9 +18,9 @@ const updateTaskById = task => (`
       }
     }
   }
-`)
+`;
 
-const deleteTask = id => (`
+const deleteTask = id => `
   mutation {
     deletedTask: taskRemoveById(_id: "${id}") {
       record {
@@ -29,13 +28,12 @@ const deleteTask = id => (`
       }
     }
   }
-`)
-
+`;
 
 const TaskML = {
   createTask,
   updateTaskById,
   deleteTask
-}
+};
 
-export default TaskML
+export default TaskML;

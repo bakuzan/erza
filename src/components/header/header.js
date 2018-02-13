@@ -14,9 +14,9 @@ class Header extends Component {
         <Link className="ripple" id="logo-svg" to={Paths.base}>
           <SvgLogo text="Erza" />
         </Link>
-        <div className="flex-spacer"></div>
+        <div className="flex-spacer" />
         <h1>ERZA</h1>
-        <div className="flex-spacer"></div>
+        <div className="flex-spacer" />
         <div id="navigation-links">
           <AppSettings />
         </div>

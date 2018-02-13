@@ -1,5 +1,4 @@
-
-const createTag = tag => (`
+const createTag = tag => `
   mutation {
     tagCreate(record: ${tag}) {
       record {
@@ -9,9 +8,9 @@ const createTag = tag => (`
       }
     }
   }
-`)
+`;
 
-const updateTag = tag => (`
+const updateTag = tag => `
   mutation {
     tagUpdateById(record: ${tag}) {
       record {
@@ -21,9 +20,9 @@ const updateTag = tag => (`
       }
     }
   }
-`)
+`;
 
-const deleteTag = tagId => (`
+const deleteTag = tagId => `
   mutation {
     tagRemoveById(_id: "${tagId}") {
       record {
@@ -31,12 +30,12 @@ const deleteTag = tagId => (`
       }
     }
   }
-`)
+`;
 
 const TagML = {
   createTag,
   updateTag,
   deleteTag
-}
+};
 
-export default TagML
+export default TagML;
