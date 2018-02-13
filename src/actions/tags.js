@@ -45,6 +45,18 @@ export const createTag = (item) => {
   }
 }
 
+export const deleteTag = (tagId) => {
+  return function(dispatch) {
+    dispatch(startingTagsRequest());
+    fetchFromServer(`${Paths.graphql.base}${TagML.deleteTag(tagId)}`)
+      .then(response => {
+        const data = response.data[getSingleObjectProperty(response.data)];
+        toaster.success('Removed!', `Successfully deleted '${data.record.name}' tag.`)
+      })
+      .then(() => dispatch(finishTagsRequest()) );
+  }
+}
+
 export const loadTags = () => {
   return function(dispatch, getState) {
     dispatch(startingTagsRequest());

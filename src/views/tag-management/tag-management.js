@@ -5,21 +5,23 @@ import {bindActionCreators} from 'redux'
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import ClearableInput from '../../components/clearable-input/clearable-input';
 import TagList from '../../components/list-components/tag-list'
+import TagManagementDetails from './tag-management-details'
 
 import { mapStateToEntityList} from '../../utils/data';
 import * as actions from '../../actions/tags';
 
 
 const loadData = props => props.actions.loadTagList();
+const initialState = {
+  search: '',
+  selectedTag: null
+};
 
 class TagManagement extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      search: '',
-      selectedTag: null
-    };
+    this.state = { ...initialState }
 
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this)
@@ -32,6 +34,7 @@ class TagManagement extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAdult !== this.props.isAdult) {
       loadData(nextProps)
+      this.setState(initialState)
     }
   }
 
@@ -51,12 +54,11 @@ class TagManagement extends React.Component {
 
   render() {
     if (this.state.selectedTag) {
-      console.log("%c TM - edit :: not implemented yet", "color: maroon", this.props, this.state)
       return (
-        <div>
-          Display "tag edit" component here
-          <button type="button" onClick={() => this.handleTagClick(null)}>Ok</button>
-        </div>
+        <TagManagementDetails
+          item={this.state.selectedTag}
+          onComplete={() => this.handleTagClick(null)}
+        />
       )
     }
 
