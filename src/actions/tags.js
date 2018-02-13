@@ -38,7 +38,7 @@ export const createTag = (item) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishTagsRequest());
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         dispatch(addTag(data.record));
         toaster.success('Saved!', `Successfully saved '${data.record.name}' tag.`);
       });
@@ -50,7 +50,7 @@ export const deleteTag = (tagId) => {
     dispatch(startingTagsRequest());
     fetchFromServer(`${Paths.graphql.base}${TagML.deleteTag(tagId)}`)
       .then(response => {
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         toaster.success('Removed!', `Successfully deleted '${data.record.name}' tag.`)
       })
       .then(() => dispatch(finishTagsRequest()) );

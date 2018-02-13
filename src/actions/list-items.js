@@ -59,7 +59,7 @@ export const mutateItem = (type, item, queryBuilder) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
         dispatch(finishGraphqlRequest());
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         toaster.success('Saved!', `Successfully saved '${data.record.title}' ${type}.`);
         return redirectPostAction(type);
       });
@@ -75,7 +75,7 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
     const query = queryBuilder(pageSettings, Object.assign({}, filters, { isAdult }));
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
@@ -87,7 +87,7 @@ export const loadItemsById = (type, queryString) => {
   return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
-      .then(response => dispatch(loadItemsToState[type]([{ node: response.data[getSingleObjectProperty(response.data)] }])) )
+      .then(response => dispatch(loadItemsToState[type]([{ node: getSingleObjectProperty(response.data) }])) )
       .then(() => dispatch(finishGraphqlRequest()) );
   }
 }
@@ -102,7 +102,7 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
       .then(response => {
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         if (type) dispatch(refreshItemInState[type](data.record));
         dispatch(finishGraphqlRequest());
         toaster.success('Saved!', `Successfully saved '${data.record[type] || 'history'}'.`);
@@ -118,7 +118,7 @@ export const removeHistoryItem = (type, id, queryBuilder) => {
       .then(response => {
         dispatch(removeItemFromState[type](id));
         dispatch(finishGraphqlRequest());
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         toaster.success('Deleted!', `Successfully deleted '${data.record.series.title}' history entry.`);
       });
   }
@@ -133,7 +133,7 @@ export const loadHistoryByDateRange = ({ type, filters, pageChange }, queryBuild
     const query = queryBuilder(pageSettings, Object.assign({}, filters, { isAdult }) );
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
-        const data = response.data[getSingleObjectProperty(response.data)];
+        const data = getSingleObjectProperty(response.data);
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
@@ -145,7 +145,7 @@ export const loadHistoryForSeries = (type, queryString) => {
   return function(dispatch) {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
-      .then(response => dispatch(loadItemsToState[type](response.data[getSingleObjectProperty(response.data)])) )
+      .then(response => dispatch(loadItemsToState[type](getSingleObjectProperty(response.data))) )
       .then(() => dispatch(finishGraphqlRequest()) );
   }
 }
