@@ -11,8 +11,19 @@ const createTag = tag => (`
   }
 `)
 
+const deleteTag = tagId => (`
+  mutation {
+    tagRemoveById(_id: ${tagId}) {
+      record {
+        name
+      }
+    }
+  }
+`)
+
 const TagML = {
-  createTag
+  createTag,
+  deleteTag
 }
 
 export default TagML

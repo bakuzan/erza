@@ -10,6 +10,8 @@ import { mapStateToEntityList} from '../../utils/data';
 import * as actions from '../../actions/tags';
 
 
+const loadData = props => props.actions.loadTagList();
+
 class TagManagement extends React.Component {
 
   constructor(props) {
@@ -24,7 +26,13 @@ class TagManagement extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.loadTags();
+    loadData(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAdult !== this.props.isAdult) {
+      loadData(nextProps)
+    }
   }
 
   handleUserInput(event) {
@@ -52,10 +60,8 @@ class TagManagement extends React.Component {
       )
     }
 
-    // TODO make the isAdult filter server side ?
-    const items = this.props.tags.filter(
-      x => x.isAdult === this.props.isAdult && x.name.indexOf(this.state.search) > -1
-    )
+    const items = this.props.tags.filter(x => x.name.indexOf(this.state.search) > -1)
+
     console.log("%c TM", "color: magenta", this.props, this.state)
     return (
       <div className="flex-row">

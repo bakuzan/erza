@@ -46,9 +46,20 @@ export const createTag = (item) => {
 }
 
 export const loadTags = () => {
-  return function(dispatch) {
+  return function(dispatch, getState) {
     dispatch(startingTagsRequest());
-    fetchFromServer(`${Paths.graphql.base}${TagQL.getAll}`)
+    const { isAdult } = getState();
+    fetchFromServer(`${Paths.graphql.base}${TagQL.getAll(isAdult)}`)
+      .then(response => dispatch(loadTagsData(response.data.tagMany)) )
+      .then(() => dispatch(finishTagsRequest()) );
+  }
+}
+
+export const loadTagList = () => {
+  return function(dispatch, getState) {
+    dispatch(startingTagsRequest());
+    const { isAdult } = getState();
+    fetchFromServer(`${Paths.graphql.base}${TagQL.getList(isAdult)}`)
       .then(response => dispatch(loadTagsData(response.data.tagMany)) )
       .then(() => dispatch(finishTagsRequest()) );
   }
