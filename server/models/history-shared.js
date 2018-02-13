@@ -26,34 +26,50 @@ const dateRangeSearch = type => ({
   type: [type.getFieldType('date')],
   description: 'Array of 2 dates in ms creating a date range.',
   query: (query, value, resolveParams) => {
-    query.date = { $gte: value[0], $lt: value[1] }
-  },
-})
-
+    query.date = { $gte: value[0], $lt: value[1] };
+  }
+});
 
 const groupedAggregation = function() {
-  return function ({ groupBy, sort, match = {}, project = {}, postMatch = {}, grouping = {} }) {
+  return function({
+    groupBy,
+    sort,
+    match = {},
+    project = {},
+    postMatch = {},
+    grouping = {}
+  }) {
     return this.aggregate([
       { $match: match },
-      { $project: Object.assign({}, project, { _id: 1, rating: 1, isAdult: 1, parent: 1 }) },
+      {
+        $project: Object.assign({}, project, {
+          _id: 1,
+          rating: 1,
+          isAdult: 1,
+          parent: 1
+        })
+      },
       { $match: postMatch },
       {
-        $group: Object.assign({}, {
-          _id: groupBy,
-          average: { $avg: "$rating" },
-          highest: { $max: "$rating" },
-          lowest: { $min: "$rating" },
-          ratings: { $push: "$rating" }
-        }, grouping)
+        $group: Object.assign(
+          {},
+          {
+            _id: groupBy,
+            average: { $avg: '$rating' },
+            highest: { $max: '$rating' },
+            lowest: { $min: '$rating' },
+            ratings: { $push: '$rating' }
+          },
+          grouping
+        )
       },
-      { $sort : { _id: sort } }
+      { $sort: { _id: sort } }
     ]);
-  }
-}
-
+  };
+};
 
 module.exports = {
   historySharedSchema,
   dateRangeSearch,
   groupedAggregation
-}
+};

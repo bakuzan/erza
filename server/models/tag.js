@@ -23,4 +23,4 @@ const TagTC = composeWithMongoose(Tag);
 module.exports = {
   Tag,
   TagTC
-}
+};

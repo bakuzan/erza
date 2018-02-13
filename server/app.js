@@ -11,11 +11,21 @@ dotenv.config();
 const app = express();
 
 // Setup logger
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
+app.use(
+  morgan(
+    ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'
+  )
+);
 
 // Serve static assets
-app.use(`/${Constants.appName}/favicon.ico`, favicon(path.join(__dirname, '..', 'build', 'favicon.ico')));
-app.use(`/${Constants.appName}/static`, express.static(path.resolve(__dirname, '..', 'build/static')));
+app.use(
+  `/${Constants.appName}/favicon.ico`,
+  favicon(path.join(__dirname, '..', 'build', 'favicon.ico'))
+);
+app.use(
+  `/${Constants.appName}/static`,
+  express.static(path.resolve(__dirname, '..', 'build/static'))
+);
 
 //Body parsing for POST-ing
 app.use(bodyParser.urlencoded({ extended: true }));

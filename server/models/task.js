@@ -4,17 +4,16 @@ const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
-const {updateDateBeforeSave} = require('../graphql/common.js');
+const { updateDateBeforeSave } = require('../graphql/common.js');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
-
 
 const TaskSchema = new Schema({
   description: {
     type: String,
-    default: "",
+    default: '',
     trim: true,
-    required: "description is required"
+    required: 'description is required'
   },
   isComplete: {
     type: Boolean,
@@ -42,7 +41,6 @@ const TaskSchema = new Schema({
   }
 });
 
-
 const Task = mongoose.model('Task', TaskSchema);
 const TaskTC = composeWithMongoose(Task);
 
@@ -52,41 +50,47 @@ TaskTC.addFields({
     description: 'Day of the week for repeatDay',
     resolve: (source, args, context, info) => {
       const date = source.repeatDay;
-      if (!date) return "";
+      if (!date) return '';
 
-      return Constants.dayNames[date.getDay()]
+      return Constants.dayNames[date.getDay()];
     }
   }
 });
 
-const forceISODate = d => new Date(new Date(d).toISOString())
-const extendFindMany = TaskTC
-    .getResolver('findMany')
-    .addFilterArg({
-      name: 'dateRange',
-      type: ["String"],
-      description: 'Filter tasks by date range',
-      query: (query, value, resolveParams) => {
-        const start = forceISODate(value[0])
-        const end = forceISODate(value[1])
-        
-        query = {
-          $or: [
-            { $and: [{ repeatFrequency: 0 }, { repeatDay: { $lte: end, $gte: start } }] },
-            { $and: [{ repeatFrequency: { $ne: 0 } }, { repeatDay: { $lte: end } }] }
+const forceISODate = d => new Date(new Date(d).toISOString());
+const extendFindMany = TaskTC.getResolver('findMany').addFilterArg({
+  name: 'dateRange',
+  type: ['String'],
+  description: 'Filter tasks by date range',
+  query: (query, value, resolveParams) => {
+    const start = forceISODate(value[0]);
+    const end = forceISODate(value[1]);
+
+    query = {
+      $or: [
+        {
+          $and: [
+            { repeatFrequency: 0 },
+            { repeatDay: { $lte: end, $gte: start } }
           ]
+        },
+        {
+          $and: [{ repeatFrequency: { $ne: 0 } }, { repeatDay: { $lte: end } }]
         }
-      }
-    });
+      ]
+    };
+  }
+});
 
-const extendCreate = TaskTC.getResolver('createOne')
-                            .wrapResolve(updateDateBeforeSave('createdDate'))
+const extendCreate = TaskTC.getResolver('createOne').wrapResolve(
+  updateDateBeforeSave('createdDate')
+);
 
-const extendUpdate = TaskTC.getResolver('updateById')
-                            .wrapResolve(updateDateBeforeSave('updatedDate'))
+const extendUpdate = TaskTC.getResolver('updateById').wrapResolve(
+  updateDateBeforeSave('updatedDate')
+);
 
-
-extendFindMany.name = 'findMany'
+extendFindMany.name = 'findMany';
 extendCreate.name = 'createOne';
 extendUpdate.name = 'updateById';
 TaskTC.addResolver(extendFindMany);
@@ -96,4 +100,4 @@ TaskTC.addResolver(extendUpdate);
 module.exports = {
   Task,
   TaskTC
-}
+};

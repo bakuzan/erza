@@ -1,7 +1,11 @@
 const { ComposeStorage } = require('graphql-compose');
 const GQC = new ComposeStorage();
 
-const { combineArrayOfObjects, constructQueryFields, constructMutationFields } = require('./common');
+const {
+  combineArrayOfObjects,
+  constructQueryFields,
+  constructMutationFields
+} = require('./common');
 const { AnimeTC } = require('../models/anime');
 const { MangaTC } = require('../models/manga');
 const { TagTC } = require('../models/tag');
@@ -18,11 +22,13 @@ const arrayOfModels = [
   { prefix: 'task', type: TaskTC }
 ];
 
-const queries = arrayOfModels.map(constructQueryFields)
-                             .reduce(combineArrayOfObjects);
+const queries = arrayOfModels
+  .map(constructQueryFields)
+  .reduce(combineArrayOfObjects);
 
-const mutations = arrayOfModels.map(constructMutationFields)
-                               .reduce(combineArrayOfObjects);
+const mutations = arrayOfModels
+  .map(constructMutationFields)
+  .reduce(combineArrayOfObjects);
 
 GQC.rootQuery().addFields(queries);
 GQC.rootMutation().addFields(mutations);
