@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const { TagTC } = require('./tag.js');
 
 const Constants = require('../constants.js');
 
 const {
   itemSharedFields,
+  relationFields,
   resolverExtentions,
   groupedCount,
   findIn
@@ -45,13 +45,7 @@ MangaSchema.statics.findIn = findIn();
 const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
 
-MangaTC.addRelation('tagList', () => ({
-  resolver: TagTC.getResolver('findByIds'),
-  args: {
-    _ids: source => source.tags
-  },
-  projection: { tags: 1 }
-}));
+MangaTC.addRelation('tagList', relationFields.tagList);
 
 resolverExtentions(MangaTC, Constants.type.manga);
 

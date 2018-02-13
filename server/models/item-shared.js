@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.ObjectId;
 
+const {TagTC} = require('./tag')
 const {
   updateDateBeforeSave,
   preventDatesPre1970,
@@ -118,6 +119,16 @@ const ratingInFilterArg = type => ({
   }
 });
 
+const relationFields = {
+  tagList: () => ({
+    resolver: TagTC.getResolver('findByIds'),
+    args: {
+      _ids: source => source.tags
+    },
+    projection: { tags: 1 }
+  })
+}
+
 const resolverExtentions = (type, typeString) => {
   const extendConnection = type
     .getResolver('connection')
@@ -200,6 +211,7 @@ const findIn = function() {
 
 module.exports = {
   itemSharedFields,
+  relationFields,
   resolverExtentions,
   groupedCount,
   findIn

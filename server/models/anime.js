@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const { TagTC } = require('./tag.js');
 
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
 
 const {
   itemSharedFields,
+  relationFields,
   resolverExtentions,
   groupedCount,
   findIn
@@ -40,14 +40,7 @@ AnimeSchema.statics.findIn = findIn();
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
 
-AnimeTC.addRelation('tagList', () => ({
-  resolver: TagTC.getResolver('findByIds'),
-  args: {
-    _ids: source => source.tags
-  },
-  projection: { tags: 1 }
-}));
-
+AnimeTC.addRelation('tagList', relationFields.tagList);
 AnimeTC.addFields({
   season: {
     type: 'Json', // String, Int, Float, Boolean, ID, Json
