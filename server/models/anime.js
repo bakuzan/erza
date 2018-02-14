@@ -4,6 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
+const { TagTC, linkedSeriesRelation } = require('./tag');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
 
@@ -40,7 +41,6 @@ AnimeSchema.statics.findIn = findIn();
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
 
-AnimeTC.addRelation('tagList', relationFields.tagList);
 AnimeTC.addFields({
   season: {
     type: 'Json', // String, Int, Float, Boolean, ID, Json
@@ -66,6 +66,8 @@ AnimeTC.addFields({
   }
 });
 
+AnimeTC.addRelation('tagList', relationFields.tagList);
+linkedSeriesRelation('animeWithTag', AnimeTC);
 resolverExtentions(AnimeTC, Constants.type.anime);
 
 module.exports = {

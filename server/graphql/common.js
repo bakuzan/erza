@@ -40,12 +40,14 @@ const preventDatesPre1970 = next => resolveParams => {
 };
 
 const addMalEntry = type => next => resolveParams => {
-  addOnMal(type, resolveParams.args.record);
+  const seriesItem = resolveParams.args.record;
+  if (seriesItem.malId) addOnMal(type, seriesItem);
   return next(resolveParams);
 };
 
 const updateMalEntry = type => next => resolveParams => {
-  updateOnMal(type, resolveParams.args.record);
+  const seriesItem = resolveParams.args.record;
+  if (seriesItem.malId) updateOnMal(type, seriesItem);
   return next(resolveParams);
 };
 

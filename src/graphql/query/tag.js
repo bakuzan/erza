@@ -17,6 +17,8 @@ const getList = isAdult => `
     tagMany(filter: { isAdult: ${isAdult} }) {
       _id
       name
+      animeWithTag
+      mangaWithTag
     }
   }
 `;

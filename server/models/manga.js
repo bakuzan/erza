@@ -4,6 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
+const { TagTC, linkedSeriesRelation } = require('./tag');
 const Constants = require('../constants.js');
 
 const {
@@ -46,7 +47,7 @@ const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
 
 MangaTC.addRelation('tagList', relationFields.tagList);
-
+linkedSeriesRelation('mangaWithTag', MangaTC);
 resolverExtentions(MangaTC, Constants.type.manga);
 
 module.exports = {
