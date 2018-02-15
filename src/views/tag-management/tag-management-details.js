@@ -101,7 +101,7 @@ class TagManagementDetails extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  item: state.entities.tags.find(x => x._id === ownProps.selectedTagId)
+  item: state.entities.tags.byId[_id]
 });
 
 const mapDispatchToProps = dispatch => ({
