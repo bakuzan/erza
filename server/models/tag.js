@@ -25,7 +25,7 @@ const linkedSeriesRelation = (name, seriesType) =>
     resolver: seriesType.getResolver('findMany'),
     args: {
       filter: source => ({
-        tags: source._id
+        tags: `${source._id}`
       })
     },
     projection: { _id: 1 }

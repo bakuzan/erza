@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ClearableInput from '../../components/clearable-input/clearable-input';
+import RelatedSeriesList from './tag-management-related-series-list';
 
 import { Strings } from '../../constants/values';
 import { getEventValue } from '../../utils/common';
@@ -78,7 +79,16 @@ class TagManagementDetails extends React.Component {
               {Strings.delete}
             </button>
           </div>
-          List of series with the tag here?
+          <div className="flex">
+            <RelatedSeriesList
+              seriesType={Strings.anime}
+              items={item.animeWithTag}
+            />
+            <RelatedSeriesList
+              seriesType={Strings.manga}
+              items={item.mangaWithTag}
+            />
+          </div>
         </div>
         <div className="button-group right-aligned">
           <button type="button" className="button ripple" onClick={onComplete}>
@@ -90,8 +100,14 @@ class TagManagementDetails extends React.Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  item: state.entities.tags.find(x => x._id === ownProps.selectedTagId)
+});
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(TagManagementDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  TagManagementDetails
+);

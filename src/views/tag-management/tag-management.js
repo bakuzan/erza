@@ -43,14 +43,15 @@ class TagManagement extends React.Component {
 
   handleTagClick(selectedTag) {
     console.log('tag clicked', selectedTag);
-    this.setState({ selectedTag });
+    this.props.actions.loadTag(selectedTag._id);
+    this.setState({ selectedTag: selectedTag._id });
   }
 
   render() {
     if (this.state.selectedTag) {
       return (
         <TagManagementDetails
-          item={this.state.selectedTag}
+          selectedTagId={this.state.selectedTag}
           onComplete={() => this.handleTagClick(null)}
         />
       );

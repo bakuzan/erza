@@ -59,7 +59,6 @@ const mutateTag = (queryBuilder, item) => {
 };
 
 export const createTag = item => mutateTag(TagML.createTag, item);
-
 export const updateTag = item => mutateTag(TagML.updateTag, item);
 
 export const deleteTag = tagId => {
@@ -94,6 +93,15 @@ export const loadTagList = () => {
     const { isAdult } = getState();
     fetchFromServer(`${Paths.graphql.base}${TagQL.getList(isAdult)}`)
       .then(response => dispatch(loadTagsData(response.data.tagMany)))
+      .then(() => dispatch(finishTagsRequest()));
+  };
+};
+
+export const loadTag = tagId => {
+  return function(dispatch) {
+    dispatch(startingTagsRequest());
+    fetchFromServer(`${Paths.graphql.base}${TagQL.getById(tagId)}`)
+      .then(response => dispatch(addTag(response.data.tagById)))
       .then(() => dispatch(finishTagsRequest()));
   };
 };

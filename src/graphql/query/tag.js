@@ -17,11 +17,20 @@ const getList = isAdult => `
     tagMany(filter: { isAdult: ${isAdult} }) {
       _id
       name
-      animeWithTag {
+    }
+  }
+`;
+
+const getById = id => `
+  {
+    tagById(_id: "${id}") {
+      _id
+      name
+      animeWithTag(sort: TITLE_DESC) {
         _id
         title
       }
-      mangaWithTag {
+      mangaWithTag(sort: TITLE_DESC) {
         _id
         title
       }
@@ -31,7 +40,8 @@ const getList = isAdult => `
 
 const TagQl = {
   getAll,
-  getList
+  getList,
+  getById
 };
 
 export default TagQl;
