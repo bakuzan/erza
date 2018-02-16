@@ -110,8 +110,12 @@ button:focus + .dropdown-menu {
 
 // custom lists
 .paged-list-edit .list {
+  height: 250px;
   max-height: 250px;
   overflow: auto;
+  li {
+    height: 50px;
+  }
 }
 
 .delete-action {
