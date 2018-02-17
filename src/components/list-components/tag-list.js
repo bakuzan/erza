@@ -13,7 +13,11 @@ const TagListItem = ({ item, onClick }) => (
 const TagList = ({ items, onClick }) => (
   <ItemList
     items={items.map(item => (
-      <TagListItem key={item._id} item={item} onClick={() => onClick(item)} />
+      <TagListItem
+        key={item._id}
+        item={item}
+        onClick={() => onClick(item._id)}
+      />
     ))}
   />
 );

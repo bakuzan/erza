@@ -13,7 +13,7 @@ import * as actions from '../../actions/tags';
 const loadData = props => props.actions.loadTagList();
 const initialState = {
   search: '',
-  selectedTag: null
+  selectedTagId: null
 };
 
 class TagManagement extends React.Component {
@@ -41,17 +41,16 @@ class TagManagement extends React.Component {
     this.setState({ search });
   }
 
-  handleTagClick(selectedTag) {
-    console.log('tag clicked', selectedTag);
-    this.props.actions.loadTag(selectedTag._id);
-    this.setState({ selectedTag: selectedTag._id });
+  handleTagClick(selectedTagId) {
+    if (selectedTagId) this.props.actions.loadTag(selectedTagId);
+    this.setState({ selectedTagId });
   }
 
   render() {
-    if (this.state.selectedTag) {
+    if (this.state.selectedTagId) {
       return (
         <TagManagementDetails
-          selectedTagId={this.state.selectedTag}
+          selectedTagId={this.state.selectedTagId}
           onComplete={() => this.handleTagClick(null)}
         />
       );

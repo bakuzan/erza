@@ -21,6 +21,12 @@ class TagManagementDetails extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!!nextProps.item.animeWithTag && !this.props.item.animeWithTag) {
+      this.setState({ item: nextProps.item });
+    }
+  }
+
   handleUserInput({ target }) {
     const value = getEventValue(target);
     this.setState(prev => ({
@@ -32,7 +38,6 @@ class TagManagementDetails extends React.Component {
   }
 
   handleDelete() {
-    console.log('Delete Tag');
     this.props.actions.deleteTag(this.props.item._id);
     this.props.onComplete();
   }
@@ -45,6 +50,10 @@ class TagManagementDetails extends React.Component {
   render() {
     const { item } = this.state;
     const { onComplete } = this.props;
+    const canDelete =
+      (!item.animeWithTag || item.animeWithTag.length === 0) &&
+      (!item.mangaWithTag || item.mangaWithTag.length === 0);
+
     return (
       <div>
         {console.log(
@@ -75,6 +84,7 @@ class TagManagementDetails extends React.Component {
               type="button"
               className="button primary ripple"
               onClick={this.handleDelete}
+              disabled={!canDelete}
             >
               {Strings.delete}
             </button>
@@ -101,7 +111,7 @@ class TagManagementDetails extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  item: state.entities.tags.byId[_id]
+  item: state.entities.tags.byId[ownProps.selectedTagId]
 });
 
 const mapDispatchToProps = dispatch => ({
