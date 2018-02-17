@@ -1,5 +1,5 @@
 const Constants = require('../constants');
-const { fetchTimeout } = require('../utils/common');
+const { MAL_QUERY_TIMEOUT, fetchTimeout } = require('../utils/common');
 
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
@@ -8,7 +8,7 @@ const removeNullOnEmpty = result => (result[0] === null ? [] : result);
 
 const animeSearch = (res, search) => {
   fetchTimeout(
-    5000,
+    MAL_QUERY_TIMEOUT,
     client
       .searchAnimes(search)
       .then(result => res.jsonp(removeNullOnEmpty(result)))
@@ -18,7 +18,7 @@ const animeSearch = (res, search) => {
 
 const mangaSearch = (res, search) => {
   fetchTimeout(
-    5000,
+    MAL_QUERY_TIMEOUT,
     client
       .searchMangas(search)
       .then(result => res.jsonp(removeNullOnEmpty(result)))

@@ -38,11 +38,13 @@ const padNumber = (n, width, z = 0) => {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 };
 
+const MAL_QUERY_TIMEOUT = 5000;
+const MAL_UPDATE_TIMEOUT = 5000;
 const fetchTimeout = (t, promise) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       reject(new Error('fetch request timed out'));
-    }, ms);
+    }, t);
     promise.then(resolve, reject);
   });
 };
@@ -55,7 +57,9 @@ const Common = {
   getKeyByValue,
   stringToBool,
   padNumber,
-  fetchTimeout
+  fetchTimeout,
+  MAL_QUERY_TIMEOUT,
+  MAL_UPDATE_TIMEOUT
 };
 
 module.exports = Common;

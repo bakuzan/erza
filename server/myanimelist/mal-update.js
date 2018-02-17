@@ -1,6 +1,11 @@
 const chalk = require('chalk');
 const Constants = require('../constants');
-const { capitalise, padNumber } = require('../utils/common');
+const {
+  capitalise,
+  padNumber,
+  MAL_UPDATE_TIMEOUT,
+  fetchTimeout
+} = require('../utils/common');
 
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
@@ -52,9 +57,15 @@ const failedEntry = err =>
 
 const getMalClient = isAdult => (isAdult ? clientAdult : client);
 const addEntity = (type, isAdult, { id, values }) =>
-  getMalClient(isAdult)[`add${capitalise(type)}`](id, values);
+  fetchTimeout(
+    MAL_UPDATE_TIMEOUT,
+    getMalClient(isAdult)[`add${capitalise(type)}`](id, values)
+  );
 const updateEntity = (type, isAdult, { id, values }) =>
-  getMalClient(isAdult)[`update${capitalise(type)}`](id, values);
+  fetchTimeout(
+    MAL_UPDATE_TIMEOUT,
+    getMalClient(isAdult)[`update${capitalise(type)}`](id, values)
+  );
 
 exports.addOnMal = (type, item, secondFailure = false) => {
   const malValues = getMalUpdateObject[type](item);
