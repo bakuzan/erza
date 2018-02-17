@@ -1,7 +1,7 @@
-import updatePrePost from './manga-post'
-import baseValidator from './base-creation'
-import {Strings} from '../../constants/values'
+import updatePrePost from './manga-post';
+import baseValidator from './base-creation';
+import { Strings } from '../../constants/values';
 
 const mangaValidator = baseValidator(Strings.manga, updatePrePost);
 
-export default mangaValidator
+export default mangaValidator;

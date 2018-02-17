@@ -1,7 +1,8 @@
-
-const getDailyAnimeForDateRange = dateRange => (`
+const getDailyAnimeForDateRange = dateRange => `
 	{
-	  episodes: episodeMany(filter: { _operators: { date: { gte: ${dateRange[0]}, lte: ${dateRange[1]} } }, isAdult: false}, sort: DATE_ASC) {
+	  episodes: episodeMany(filter: { _operators: { date: { gte: ${
+      dateRange[0]
+    }, lte: ${dateRange[1]} } }, isAdult: false}, sort: DATE_ASC) {
 	    _id
 	    parent
 	    episode
@@ -16,10 +17,10 @@ const getDailyAnimeForDateRange = dateRange => (`
 	    series_type
 	  }
 	}
-`)
+`;
 
 const DailyAnimeQl = {
   getDailyAnimeForDateRange
 };
 
-export default DailyAnimeQl
+export default DailyAnimeQl;

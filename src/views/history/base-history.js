@@ -66,7 +66,7 @@ class BaseHistoryView extends Component {
     return (
       <div className="flex-row">
         {isFetching && <LoadingSpinner size="fullscreen" />}
-        <div className="history-filters">
+        <div className="filters-container">
           <div>
             <Datepicker
               name="from"

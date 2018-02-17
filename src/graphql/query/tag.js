@@ -4,16 +4,44 @@ const tagFields = `
   isAdult
 `;
 
-const getAll = `
+const getAll = isAdult => `
   {
-    tagMany {
+    tagMany(filter: { isAdult: ${isAdult} }) {
       ${tagFields}
     }
   }
 `;
 
+const getList = isAdult => `
+  {
+    tagMany(filter: { isAdult: ${isAdult} }) {
+      _id
+      name
+    }
+  }
+`;
+
+const getById = id => `
+  {
+    tagById(_id: "${id}") {
+      _id
+      name
+      animeWithTag(sort: TITLE_DESC) {
+        _id
+        title
+      }
+      mangaWithTag(sort: TITLE_DESC) {
+        _id
+        title
+      }
+    }
+  }
+`;
+
 const TagQl = {
-  getAll
+  getAll,
+  getList,
+  getById
 };
 
-export default TagQl
+export default TagQl;

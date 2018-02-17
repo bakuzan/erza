@@ -26,6 +26,11 @@ const Statistics = Loadable({
     import(/* webpackChunkName: 'statistics' */ './views/statistics/statistics'),
   ...loadableSettings
 });
+const TagManagement = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'tag-management' */ './views/tag-management/tag-management'),
+  ...loadableSettings
+});
 
 const ErzaRoute = ({ component: PageComponent, ...routeProps }) => (
   <Route {...routeProps} component={PageComponent} />
@@ -79,6 +84,11 @@ const ErzaRoutes = ({ match }) => (
     <ErzaRoute
       path={`${match.path}${Paths.statistics}:type`}
       component={Statistics}
+    />
+
+    <ErzaRoute
+      path={`${match.path}${Paths.tagManagement}`}
+      component={TagManagement}
     />
 
     <ErzaRoute path="*" render={() => <div>Erza Page not found</div>} />

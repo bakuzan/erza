@@ -1,12 +1,11 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import ClearableInput from '../clearable-input/clearable-input'
-import {Enums} from '../../constants/values'
-import {isNumber, getTimeoutSeconds} from '../../utils/common'
-import './autocomplete-input.css'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ClearableInput from '../clearable-input/clearable-input';
+import { Enums } from '../../constants/values';
+import { isNumber, getTimeoutSeconds } from '../../utils/common';
+import './autocomplete-input.css';
 
 class AutocompleteInput extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -14,11 +13,11 @@ class AutocompleteInput extends Component {
       activeSuggestion: 0
     };
 
-    this.timer = null
-    this.handleInputFilter = this.handleInputFilter.bind(this)
-    this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.handleFocus = this.handleFocus.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
+    this.timer = null;
+    this.handleInputFilter = this.handleInputFilter.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   selectAutocompleteSuggestion(id) {
@@ -28,11 +27,7 @@ class AutocompleteInput extends Component {
 
   selectActiveSuggestion() {
     const item = this.filterAutoComplete()[this.state.activeSuggestion];
-    const id = !!item
-      ? isNumber(item.id)
-        ? item.id
-        : item._id
-      : null;
+    const id = !!item ? (isNumber(item.id) ? item.id : item._id) : null;
     this.selectAutocompleteSuggestion(id);
   }
 
@@ -42,7 +37,9 @@ class AutocompleteInput extends Component {
     if (disableLocalFilter) return items;
 
     const filterLowerCase = filter.toLowerCase();
-    return items.filter(x => x[attr].toLowerCase().indexOf(filterLowerCase) > -1);
+    return items.filter(
+      x => x[attr].toLowerCase().indexOf(filterLowerCase) > -1
+    );
   }
 
   updateActiveSuggestion(value) {
@@ -60,11 +57,11 @@ class AutocompleteInput extends Component {
     const length = this.props.filter.length;
     return (
       <span>
-        { value.slice(0, match.index) }
+        {value.slice(0, match.index)}
         <span className="highlight">
-          { value.slice(match.index, match.index + length) }
+          {value.slice(match.index, match.index + length)}
         </span>
-        { value.slice(match.index + length) }
+        {value.slice(match.index + length)}
       </span>
     );
   }
@@ -90,20 +87,29 @@ class AutocompleteInput extends Component {
 
   handleFocus(e) {
     clearTimeout(this.timer);
-    this.setState({ inUse: true })
+    this.setState({ inUse: true });
   }
-  
+
   handleBlur(e) {
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState({ inUse: false }), getTimeoutSeconds(1))
+    this.timer = setTimeout(
+      () => this.setState({ inUse: false }),
+      getTimeoutSeconds(1)
+    );
   }
 
   render() {
-    const { filter, attr, label, noSuggestionsItem, disableLocalFilter } = this.props;
+    const {
+      filter,
+      attr,
+      label,
+      noSuggestionsItem,
+      disableLocalFilter
+    } = this.props;
     const autocomplete = this.filterAutoComplete();
     const hasOptions = !!this.props.items.length;
     const hasSuggestions = !!autocomplete.length;
-    
+
     return (
       <div className="autocomplete">
         <ClearableInput
@@ -115,43 +121,47 @@ class AutocompleteInput extends Component {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
-        {
-          !!filter && this.state.inUse &&
-          <ul className="autocomplete-menu list column one">
-            {
-              hasSuggestions &&
-              autocomplete.map((item, index) => {
-                const itemId = isNumber(item.id)
-                                ? item.id
-                                : item._id;
-                const activeSuggestion = this.state.activeSuggestion === index ? ' active' : '';
-                return (
+        {!!filter &&
+          this.state.inUse && (
+            <ul className="autocomplete-menu list column one">
+              {hasSuggestions &&
+                autocomplete.map((item, index) => {
+                  const itemId = isNumber(item.id) ? item.id : item._id;
+                  const activeSuggestion =
+                    this.state.activeSuggestion === index ? ' active' : '';
+                  return (
+                    <li
+                      key={itemId}
+                      className={`autocomplete-suggestion${activeSuggestion}`}
+                    >
+                      <button
+                        type="button"
+                        className="button ripple"
+                        title={item[attr]}
+                        onClick={() =>
+                          this.selectAutocompleteSuggestion(itemId)
+                        }
+                      >
+                        {this.highlightMatch(item[attr])}
+                      </button>
+                    </li>
+                  );
+                })}
+              {!hasSuggestions &&
+                (hasOptions || disableLocalFilter) && (
                   <li
-                    key={itemId}
-                    className={`autocomplete-suggestion${activeSuggestion}`}>
-                    <button
-                      type="button"
-                      className="button ripple"
-                      title={item[attr]}
-                      onClick={() => this.selectAutocompleteSuggestion(itemId)}>
-                      { this.highlightMatch(item[attr]) }
-                    </button>
+                    id="no-suggestions-item"
+                    className="autocomplete-suggestion active"
+                  >
+                    {!!noSuggestionsItem ? (
+                      noSuggestionsItem
+                    ) : (
+                      <div>No suggestions available</div>
+                    )}
                   </li>
-                );
-              })
-            }
-            {
-              !hasSuggestions && (hasOptions || disableLocalFilter) &&
-              <li id="no-suggestions-item" className="autocomplete-suggestion active">
-                {
-                  !!noSuggestionsItem 
-                    ? noSuggestionsItem
-                    : <div>No suggestions available</div>
-                }
-               </li>
-            }
-          </ul>
-        }
+                )}
+            </ul>
+          )}
       </div>
     );
   }
@@ -160,7 +170,7 @@ class AutocompleteInput extends Component {
 AutocompleteInput.defaultProps = {
   disableLocalFilter: false,
   noSuggestionsItem: null
-}
+};
 
 AutocompleteInput.propTypes = {
   label: PropTypes.string,
@@ -171,6 +181,6 @@ AutocompleteInput.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func,
   disableLocalFilter: PropTypes.bool
-}
+};
 
-export default AutocompleteInput
+export default AutocompleteInput;

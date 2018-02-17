@@ -74,6 +74,7 @@ export const Strings = {
   delete: 'Delete',
   back: 'Back',
   cancel: 'cancel',
+  ok: 'ok',
   filters: {
     all: 'all',
     ongoing: 'ongoing',

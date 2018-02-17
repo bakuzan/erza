@@ -1,10 +1,11 @@
-import {Strings} from '../../constants/values'
-import {searchAnime, malResponseGenerator, applyUpdates} from './base-post'
+import { Strings } from '../../constants/values';
+import { searchAnime, malResponseGenerator, applyUpdates } from './base-post';
 
 const animeUpdates = applyUpdates(Strings.anime);
 
-const updatePrePost = anime => searchAnime(anime.title)
-                                      .then(malResponseGenerator(Strings.anime, anime))
-                                      .then(malItem => animeUpdates(anime, malItem));
+const updatePrePost = anime =>
+  searchAnime(anime.title)
+    .then(malResponseGenerator(Strings.anime, anime))
+    .then(malItem => animeUpdates(anime, malItem));
 
-export default updatePrePost
+export default updatePrePost;

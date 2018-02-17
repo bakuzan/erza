@@ -6,7 +6,6 @@ import Header from './header';
 import JuriSvg from '../juri-svg/juri-svg.js';
 
 describe('testing header', () => {
-
   it('should render without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Header />, div);
@@ -33,10 +32,6 @@ describe('testing header', () => {
       TestUtils.Simulate.click(link);
     });
 
-    it('should take you to base page on svg click', () => {
-
-    });
-
+    it('should take you to base page on svg click', () => {});
   });
-
 });

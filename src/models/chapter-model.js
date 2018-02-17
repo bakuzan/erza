@@ -1,4 +1,4 @@
-import BaseHistoryModel from './base-history-model.js'
+import BaseHistoryModel from './base-history-model.js';
 
 class ChapterModel extends BaseHistoryModel {
   constructor(props = {}) {
@@ -14,4 +14,4 @@ class ChapterModel extends BaseHistoryModel {
   }
 }
 
-export default ChapterModel
+export default ChapterModel;

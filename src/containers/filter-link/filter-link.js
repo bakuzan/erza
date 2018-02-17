@@ -3,11 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const FilterLink = ({ filter, children }) => (
-  <NavLink
-    to={filter}
-    className="button-link"
-    activeClassName="active"
-  >
+  <NavLink to={filter} className="button-link" activeClassName="active">
     {children}
   </NavLink>
 );
@@ -15,6 +11,6 @@ const FilterLink = ({ filter, children }) => (
 FilterLink.propTypes = {
   children: PropTypes.node.isRequired,
   filter: PropTypes.string
-}
+};
 
 export default FilterLink;

@@ -1,4 +1,4 @@
-import BaseHistoryModel from './base-history-model.js'
+import BaseHistoryModel from './base-history-model.js';
 
 class EpisodeModel extends BaseHistoryModel {
   constructor(props = {}) {
@@ -14,4 +14,4 @@ class EpisodeModel extends BaseHistoryModel {
   }
 }
 
-export default EpisodeModel
+export default EpisodeModel;

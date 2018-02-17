@@ -1,4 +1,9 @@
-import { itemKeyFields, itemEditFields, pagedDataWrapper, constructFilterString } from '../common'
+import {
+  itemKeyFields,
+  itemEditFields,
+  pagedDataWrapper,
+  constructFilterString
+} from '../common';
 
 const mangaSpecificKeyFields = `
   chapter
@@ -9,15 +14,15 @@ const mangaSpecificKeyFields = `
 export const mangaKeyFields = itemKeyFields(mangaSpecificKeyFields);
 export const mangaEditFields = itemEditFields(mangaSpecificKeyFields);
 
-const getFilteredList = (pageParameters, filters) => (`
+const getFilteredList = (pageParameters, filters) => `
   {
     mangaConnection(${pageParameters}${constructFilterString(filters)}) {
       ${pagedDataWrapper(mangaKeyFields)}
     }
   }
-`);
+`;
 
-const getById = (id) => (`
+const getById = id => `
   {
     mangaById(_id: "${id}") {
       ${mangaKeyFields}
@@ -29,15 +34,15 @@ const getById = (id) => (`
       }
     }
   }
-`);
+`;
 
-const getByIdForEdit = (id) => (`
+const getByIdForEdit = id => `
   {
     mangaById(_id: "${id}") {
       ${mangaEditFields}
     }
   }
-`);
+`;
 
 const MangaQL = {
   getById,

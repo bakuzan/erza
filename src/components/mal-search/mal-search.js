@@ -1,31 +1,32 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import classNames from 'classnames'
+import classNames from 'classnames';
 
-import fetchFromServer from '../../graphql/fetch'
-import AutocompleteInput from '../autocomplete-input/autocomplete-input'
+import fetchFromServer from '../../graphql/fetch';
+import AutocompleteInput from '../autocomplete-input/autocomplete-input';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import {getEventValue, getTimeoutSeconds, debounce} from '../../utils/common'
-import {Paths} from '../../constants/paths'
-import './mal-search.css'
+import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
+import { Paths } from '../../constants/paths';
+import './mal-search.css';
 
-
-const searchMyAnimeList = type => search => fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
+const searchMyAnimeList = type => search =>
+  fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
 class MalSearch extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       results: [],
-	  isFirstQuery: true,
+      isFirstQuery: true,
       isFetching: false,
       hasSelected: false
-    }
+    };
 
     this.queryMal = searchMyAnimeList(props.type);
     this.handleMalSearch = this.handleMalSearch.bind(this);
-    this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(this);
+    this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -40,15 +41,14 @@ class MalSearch extends Component {
   fetchMalResults() {
     debounce(() => {
       this.setState({ isFetching: true });
-      this.queryMal(this.props.search)
-	  .then(response => {
-		  this.setState({
-		    results: response,
-			isFetching: false,
-			isFirstQuery: false
-		  })
-	  });
-    }, getTimeoutSeconds(2))
+      this.queryMal(this.props.search).then(response => {
+        this.setState({
+          results: response,
+          isFetching: false,
+          isFirstQuery: false
+        });
+      });
+    }, getTimeoutSeconds(2));
   }
 
   selectAutocompleteSuggestion(selectedId) {
@@ -67,11 +67,11 @@ class MalSearch extends Component {
 
   render() {
     const { search } = this.props;
-	const malSearchClasses = classNames("mal-search-container", {
-		"fresh": this.state.isFirstQuery,
-		"fetching": this.state.isFetching,
-		"selected": this.state.hasSelected
-	});
+    const malSearchClasses = classNames('mal-search-container', {
+      fresh: this.state.isFirstQuery,
+      fetching: this.state.isFetching,
+      selected: this.state.hasSelected
+    });
 
     return (
       <div className={malSearchClasses}>
@@ -83,10 +83,7 @@ class MalSearch extends Component {
           onSelect={this.selectAutocompleteSuggestion}
           disableLocalFilter={true}
         />
-        {
-          this.state.isFetching &&
-          <LoadingSpinner size="control" />
-        }
+        {this.state.isFetching && <LoadingSpinner size="control" />}
       </div>
     );
   }
@@ -98,6 +95,6 @@ MalSearch.propTypes = {
   search: PropTypes.string,
   onUserInput: PropTypes.func.isRequired,
   selectMalItem: PropTypes.func.isRequired
-}
+};
 
-export default MalSearch
+export default MalSearch;

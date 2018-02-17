@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import {debounce, getTimeoutSeconds} from '../../utils/common'
-import toaster from '../../utils/toaster'
-import './toaster.css'
+import React, { Component } from 'react';
+import { debounce, getTimeoutSeconds } from '../../utils/common';
+import toaster from '../../utils/toaster';
+import './toaster.css';
 
 class Toaster extends Component {
   constructor() {
@@ -37,21 +37,21 @@ class Toaster extends Component {
 
     return (
       <div id="toaster">
-      {
-        list.map(item => {
+        {list.map(item => {
           return (
-            <span key={item.time}
-                  className={`toast ${item.type.toLowerCase()}`}
-                  onClick={() => this.removeToast(item.time)}>
-              <span className="title">{ item.title }</span>
-              <span className="message">{ item.message }</span>
+            <span
+              key={item.time}
+              className={`toast ${item.type.toLowerCase()}`}
+              onClick={() => this.removeToast(item.time)}
+            >
+              <span className="title">{item.title}</span>
+              <span className="message">{item.message}</span>
             </span>
           );
-        })
-      }
+        })}
       </div>
     );
   }
 }
 
-export default Toaster
+export default Toaster;

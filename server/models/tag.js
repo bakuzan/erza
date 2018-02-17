@@ -20,7 +20,19 @@ const TagSchema = new Schema({
 const Tag = mongoose.model('Tag', TagSchema);
 const TagTC = composeWithMongoose(Tag);
 
+const linkedSeriesRelation = (name, seriesType) =>
+  TagTC.addRelation(name, () => ({
+    resolver: seriesType.getResolver('findMany'),
+    args: {
+      filter: source => ({
+        tags: `${source._id}`
+      })
+    },
+    projection: { _id: 1 }
+  }));
+
 module.exports = {
   Tag,
-  TagTC
-}
+  TagTC,
+  linkedSeriesRelation
+};

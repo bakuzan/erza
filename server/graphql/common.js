@@ -3,13 +3,13 @@ const { addOnMal, updateOnMal } = require('../myanimelist/mal-update');
 const combineArrayOfObjects = (prev, curr) => Object.assign({}, prev, curr);
 
 const constructQueryFields = ({ prefix, type }) => ({
-  [`${prefix}ById`]       : type.getResolver('findById'),
-  [`${prefix}ByIds`]      : type.getResolver('findByIds'),
-  [`${prefix}One`]        : type.getResolver('findOne'),
-  [`${prefix}Many`]       : type.getResolver('findMany'),
-  [`${prefix}Total`]      : type.getResolver('count'),
-  [`${prefix}Connection`] : type.getResolver('connection'),
-})
+  [`${prefix}ById`]: type.getResolver('findById'),
+  [`${prefix}ByIds`]: type.getResolver('findByIds'),
+  [`${prefix}One`]: type.getResolver('findOne'),
+  [`${prefix}Many`]: type.getResolver('findMany'),
+  [`${prefix}Total`]: type.getResolver('count'),
+  [`${prefix}Connection`]: type.getResolver('connection')
+});
 
 const constructMutationFields = ({ prefix, type }) => ({
   [`${prefix}Create`]: type.getResolver('createOne'),
@@ -18,37 +18,38 @@ const constructMutationFields = ({ prefix, type }) => ({
   [`${prefix}UpdateMany`]: type.getResolver('updateMany'),
   [`${prefix}RemoveById`]: type.getResolver('removeById'),
   [`${prefix}RemoveOne`]: type.getResolver('removeOne'),
-  [`${prefix}RemoveMany`]: type.getResolver('removeMany'),
-})
+  [`${prefix}RemoveMany`]: type.getResolver('removeMany')
+});
 
 const updateDateBeforeSave = property => next => resolveParams => {
   resolveParams.args.record[property] = new Date();
   return next(resolveParams);
-}
+};
 
-const START_OF_1970 = new Date("1970-01-01")
-const isDatePre1970 = d => !!d && new Date(d) < START_OF_1970
+const START_OF_1970 = new Date('1970-01-01');
+const isDatePre1970 = d => !!d && new Date(d) < START_OF_1970;
 const preventDatesPre1970 = next => resolveParams => {
   if (isDatePre1970(resolveParams.args.record.series_start)) {
-    resolveParams.args.record.series_start = null
+    resolveParams.args.record.series_start = null;
   }
 
   if (isDatePre1970(resolveParams.args.record.series_end)) {
-    resolveParams.args.record.series_end = null
+    resolveParams.args.record.series_end = null;
   }
   return next(resolveParams);
-}
-
+};
 
 const addMalEntry = type => next => resolveParams => {
-  addOnMal(type, resolveParams.args.record);
+  const seriesItem = resolveParams.args.record;
+  if (seriesItem.malId) addOnMal(type, seriesItem);
   return next(resolveParams);
-}
+};
 
 const updateMalEntry = type => next => resolveParams => {
-  updateOnMal(type, resolveParams.args.record);
+  const seriesItem = resolveParams.args.record;
+  if (seriesItem.malId) updateOnMal(type, seriesItem);
   return next(resolveParams);
-}
+};
 
 module.exports = {
   updateDateBeforeSave,
@@ -58,4 +59,4 @@ module.exports = {
   combineArrayOfObjects,
   constructQueryFields,
   constructMutationFields
-}
+};

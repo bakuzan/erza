@@ -1,15 +1,13 @@
-import React, {Component} from 'react'
-
+import React, { Component } from 'react';
 
 class ElmWrapper extends Component {
-
   componentDidMount() {
-    this.renderElm(this.element)
+    this.renderElm(this.element);
   }
 
   shouldComponentUpdate() {
-		return false;
-	}
+    return false;
+  }
 
   renderElm(node) {
     const app = this.props.src.embed(node, this.props.flags);
@@ -19,9 +17,9 @@ class ElmWrapper extends Component {
     }
   }
 
-	render() {
-		return <div ref={el => this.element = el}></div>
-	}
+  render() {
+    return <div ref={el => (this.element = el)} />;
+  }
 }
 
-export default ElmWrapper
+export default ElmWrapper;

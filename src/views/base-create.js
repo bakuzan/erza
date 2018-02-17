@@ -91,6 +91,7 @@ class BaseCreate extends Component {
     )
       return;
     this.setState({ ...nextProps.item, isAdult: nextProps.isAdult });
+    nextProps.loadTags();
   }
 
   handleMalSelect(malItem) {
@@ -124,9 +125,7 @@ class BaseCreate extends Component {
     if (this.props.isFetching) return <LoadingSpinner size="fullscreen" />;
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
-    const availableTags = this.props.typeaheadTags.filter(
-      x => x.isAdult === this.state.isAdult
-    );
+    const availableTags = this.props.typeaheadTags;
 
     return (
       <div className="flex-column center-contents padding-10">
