@@ -10,6 +10,8 @@ import TagManagementDetails from './tag-management-details';
 import { mapStateToEntityList } from '../../utils/data';
 import * as actions from '../../actions/tags';
 
+import './tag-management.css';
+
 const loadData = props => props.actions.loadTagList();
 const initialState = {
   search: '',
@@ -60,7 +62,6 @@ class TagManagement extends React.Component {
       x => x.name.indexOf(this.state.search) > -1
     );
 
-    console.log('%c TM', 'color: magenta', this.props, this.state);
     return (
       <div className="flex-row">
         <div className="filters-container">

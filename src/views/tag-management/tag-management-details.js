@@ -50,18 +50,13 @@ class TagManagementDetails extends React.Component {
   render() {
     const { item } = this.state;
     const { onComplete } = this.props;
+    const canEdit = item.name.length > 1;
     const canDelete =
       (!item.animeWithTag || item.animeWithTag.length === 0) &&
       (!item.mangaWithTag || item.mangaWithTag.length === 0);
 
     return (
       <div>
-        {console.log(
-          '%c TM - edit :: implementation in progress',
-          'color: orange',
-          this.props,
-          this.state
-        )}
         <div className="flex width-50 padding-10">
           <form name="tag-edit" onSubmit={this.handleSubmit}>
             <ClearableInput
@@ -72,7 +67,11 @@ class TagManagementDetails extends React.Component {
               onChange={this.handleUserInput}
             />
             <div>
-              <button type="submit" className="button ripple">
+              <button
+                type="submit"
+                className="button ripple"
+                disabled={!canEdit}
+              >
                 {Strings.edit}
               </button>
             </div>
@@ -89,13 +88,15 @@ class TagManagementDetails extends React.Component {
               {Strings.delete}
             </button>
           </div>
-          <div className="flex">
+          <div className="flex-row">
             <RelatedSeriesList
               seriesType={Strings.anime}
+              title="Anime series"
               items={item.animeWithTag}
             />
             <RelatedSeriesList
               seriesType={Strings.manga}
+              title="Manga series"
               items={item.mangaWithTag}
             />
           </div>

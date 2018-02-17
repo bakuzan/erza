@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import './item-list.css';
 
-const ItemList = ({ items }) => (
-  <ul className="item-list">
+const ItemList = ({ className, items }) => (
+  <ul className={classNames('item-list', className)}>
     {items.length === 0 ? (
       <li>
         {' '}

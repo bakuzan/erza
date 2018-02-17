@@ -1,0 +1,11 @@
+
+.related-series-container {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+
+  ul {
+    max-height: 50vh;
+    overflow: auto;
+  }
+}

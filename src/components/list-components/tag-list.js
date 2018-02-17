@@ -12,6 +12,7 @@ const TagListItem = ({ item, onClick }) => (
 
 const TagList = ({ items, onClick }) => (
   <ItemList
+    className="list column three"
     items={items.map(item => (
       <TagListItem
         key={item._id}
