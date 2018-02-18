@@ -91,13 +91,15 @@ class Dialog extends Component {
                   {this.props.actionText}
                 </button>
               )}
-              <button
-                type="button"
-                className="button ripple"
-                onClick={this.handleClose}
-              >
-                {Strings.cancel}
-              </button>
+              {!this.props.hideCancel && (
+                <button
+                  type="button"
+                  className="button ripple"
+                  onClick={this.handleClose}
+                >
+                  {Strings.cancel}
+                </button>
+              )}
             </div>
           </DialogContent>
         </div>
@@ -108,7 +110,8 @@ class Dialog extends Component {
 
 Dialog.defaultProps = {
   isForm: true,
-  hasBackdrop: true
+  hasBackdrop: true,
+  hideCancel: false
 };
 
 Dialog.propTypes = {
@@ -122,7 +125,8 @@ Dialog.propTypes = {
   actionText: PropTypes.string,
   action: PropTypes.func,
   isForm: PropTypes.bool,
-  hasBackdrop: PropTypes.bool
+  hasBackdrop: PropTypes.bool,
+  hideCancel: PropTypes.bool
 };
 
 export default Dialog;

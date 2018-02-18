@@ -11,7 +11,7 @@ import Shortcuts from '../../components/shortcuts/shortcuts';
 
 import './app.css';
 
-const App = ({ children, sidebarState }) => {
+const App = ({ history, children, sidebarState }) => {
   const appClasses = classNames('erza', {
     'sidebar-collapsed': sidebarState.isCollapsed,
     'sidebar-hidden': sidebarState.isHidden
@@ -24,7 +24,7 @@ const App = ({ children, sidebarState }) => {
       <RequestIndicator />
       <main>{children}</main>
       <Toaster />
-      <Shortcuts />
+      <Shortcuts history={history} />
     </div>
   );
 };

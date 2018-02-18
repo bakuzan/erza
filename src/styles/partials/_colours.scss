@@ -2,10 +2,10 @@ $darken-amount: 5%;
 
 // Colours
 $erza-red: #850512;
-$erza-red-highlight: #CE414A;
-$erza-blue: #082A6A;
-$erza-silver: #E1E3EF;
-$erza-silver-shade: #7E7E86;
+$erza-red-highlight: #ce414a;
+$erza-blue: #082a6a;
+$erza-silver: #e1e3ef;
+$erza-silver-shade: #7e7e86;
 
 $white: #fff;
 $grey95: #f2f2f2;
@@ -41,41 +41,38 @@ $bronze: #cc6633;
 
 // Super theme maps!
 $theme-maps: (
-  theme-one: (
-    base-background: $white,
-    base-colour: $black,
-    colour: $erza-red,
-    contrast: $erza-silver-shade,
-    anchor-colour: $erza-red-highlight,
-    anchor-colour-hover: $erza-silver
-  ),
-  theme-two: (
-    base-background: $black-red,
-    base-colour: $white,
-    colour: $erza-red-highlight,
-    contrast: $erza-silver,
-    anchor-colour: $erza-red,
-    anchor-colour-hover: $erza-silver-shade
-  )
+  theme-one:
+    (
+      base-background: $white,
+      base-colour: $black,
+      colour: $erza-red,
+      contrast: $erza-silver-shade,
+      anchor-colour: $erza-red-highlight,
+      anchor-colour-hover: $erza-silver
+    ),
+  theme-two:
+    (
+      base-background: $black-red,
+      base-colour: $white,
+      colour: $erza-red-highlight,
+      contrast: $erza-silver,
+      anchor-colour: $erza-silver-shade,
+      anchor-colour-hover: $erza-red
+    )
 );
 // Super theme maps end!
-
 $primary-background: $erza-red;
 $primary-colour: $erza-red;
 $primary-colour-contrast: $erza-silver;
-
 $secondary-background: $erza-red-highlight;
 $secondary-colour: $erza-red-highlight;
 $secondary-colour-contrast: $erza-silver-shade;
-
 $spinner-colour-one: $erza-silver;
 $spinner-colour-two: $erza-red-highlight;
 $spinner-colour-three: $erza-silver;
 $spinner-colour-four: $erza-red-highlight;
-
 $anchor-colour: $secondary-colour;
 $anchor-colour-hover: $secondary-colour-contrast;
-
 $category-colours: (
   anime: $orange,
   develop: $dark-violet,
@@ -89,31 +86,13 @@ $category-colours: (
   wasted: $brown-from-dark-yellow,
   work: $grey94
 );
-
 $info-colour: $cyan;
 $success-colour: $green;
 $alert-colour: $orange;
 $danger-colour: $red;
-
 $toasts: (
-  success: (
-    background: $success-colour, 
-    colour: #000, 
-    icon: "\2713"
-  ),
-  error: (
-    background: $danger-colour, 
-    colour: #fff, 
-    icon: "\0021"
-  ),
-  warning: (
-    background: $alert-colour, 
-    colour: #000, 
-    icon: "\26a0"
-  ),
-  info: (
-    background: $info-colour, 
-    colour: #000, 
-    icon: "\2139"
-  )
+  success: (background: $success-colour, colour: #000, icon: '\2713'),
+  error: (background: $danger-colour, colour: #fff, icon: '\0021'),
+  warning: (background: $alert-colour, colour: #000, icon: '\26a0'),
+  info: (background: $info-colour, colour: #000, icon: '\2139')
 );

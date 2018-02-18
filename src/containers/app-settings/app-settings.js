@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import Portal from '../../components/portal';
+import SelectBox from '../../components/select-box/select-box';
 import Tickbox from '../../components/tickbox/tickbox';
+
 import { setApplicationTheme, toggleTimedTheme } from '../../actions/theme';
 import { toggleSidebarVisibility } from '../../actions/sidebar';
 import { toggleRequestIndicatorVisibility } from '../../actions/request-indicator';
@@ -9,6 +13,8 @@ import { toggleIsAdult } from '../../actions/is-adult';
 import { Strings } from '../../constants/values';
 import { Paths } from '../../constants/paths';
 import { getTimeoutMinutes } from '../../utils/common';
+
+import './app-settings.css';
 
 let timedTheme;
 const applyThemeToBody = theme => (document.body.className = theme);
@@ -34,81 +40,125 @@ const setTimedThemeCheck = (theme, updateTheme) => {
     .catch(error => console.error(error));
 };
 
-const AppSettings = ({
-  theme,
-  isTimed,
-  setApplicationTheme,
-  toggleTimedTheme,
-  isAdult,
-  toggleIsAdult,
-  isSidebarHidden,
-  toggleSidebarVisibility,
-  isRequestIndicatorHidden,
-  toggleRequestIndicatorVisibility
-}) => {
-  const themes = Strings.themes.slice(0);
-  applyThemeToBody(theme);
-  if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
+const themeMapper = theme => ({
+  text: theme.name,
+  value: theme.class
+});
+const appThemes = Strings.themes.map(themeMapper);
 
-  return (
-    <div id="app-settings">
-      <button
-        type="button"
-        title="App settings"
-        className="button-icon ripple"
-        icon="&#x2699;"
-      />
-      <ul className="dropdown-menu" role="menu">
-        <li className="dropdown-arrow" />
-        <li className="button-group">
-          {themes.map(item => (
-            <button
-              key={item.class}
-              type="button"
-              role="menuitem"
-              className="button"
-              onClick={() => setApplicationTheme(item.class)}
-            >
-              {item.name}
-            </button>
-          ))}
-        </li>
-        <li>
-          <Tickbox
-            text="timed theme change"
-            name="isTimed"
-            checked={isTimed}
-            onChange={() => toggleTimedTheme()}
-          />
-        </li>
-        <li>
-          <Tickbox
-            text="toggle adult lists"
-            name="isAdult"
-            checked={isAdult}
-            onChange={() => toggleIsAdult()}
-          />
-        </li>
-        <li>
-          <Tickbox
-            text="toggle sidebar visibility"
-            name="isSidebarHidden"
-            checked={!isSidebarHidden}
-            onChange={() => toggleSidebarVisibility()}
-          />
-        </li>
-        <li>
-          <Tickbox
-            text="toggle request indicator visibility"
-            name="isRequestIndicatorHidden"
-            checked={!isRequestIndicatorHidden}
-            onChange={() => toggleRequestIndicatorVisibility()}
-          />
-        </li>
-      </ul>
-    </div>
-  );
-};
+class AppSettings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDropdownOpen: false
+    };
+
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleCloseAppSettings = this.handleCloseAppSettings.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+  }
+
+  handleDropdownChange(onChange) {
+    return e => {
+      onChange(e.target.value);
+      this.handleCloseAppSettings();
+    };
+  }
+
+  handleCloseAppSettings() {
+    this.setState({ isDropdownOpen: false });
+  }
+
+  toggleDropdown() {
+    this.setState(prev => ({ isDropdownOpen: !prev.isDropdownOpen }));
+  }
+
+  render() {
+    const {
+      theme,
+      isTimed,
+      setApplicationTheme,
+      toggleTimedTheme,
+      isAdult,
+      toggleIsAdult,
+      isSidebarHidden,
+      toggleSidebarVisibility,
+      isRequestIndicatorHidden,
+      toggleRequestIndicatorVisibility
+    } = this.props;
+    applyThemeToBody(theme);
+    if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
+
+    return (
+      <div id="app-settings">
+        <input
+          type="checkbox"
+          value={this.state.isDropdownOpen}
+          id="app-settings-toggler"
+          onChange={this.toggleDropdown}
+        />
+        <label
+          icon="&#x2699;"
+          htmlFor="app-settings-toggler"
+          title="App settings"
+        />
+        {this.state.isDropdownOpen && (
+          <Portal targetTagName="main">
+            <div
+              id="app-settings-backdrop"
+              role="button"
+              onClick={this.handleCloseAppSettings}
+            />
+            <ul id="app-settings-menu" className="dropdown-menu" role="menu">
+              <li className="dropdown-arrow" />
+              <li>
+                <SelectBox
+                  name="appTheme"
+                  text="App Theme"
+                  value={theme}
+                  options={appThemes}
+                  onSelect={this.handleDropdownChange(setApplicationTheme)}
+                />
+              </li>
+              <li>
+                <Tickbox
+                  text="timed theme change"
+                  name="isTimed"
+                  checked={isTimed}
+                  onChange={() => toggleTimedTheme()}
+                />
+              </li>
+              <li>
+                <Tickbox
+                  text="toggle adult lists"
+                  name="isAdult"
+                  checked={isAdult}
+                  onChange={() => toggleIsAdult()}
+                />
+              </li>
+              <li>
+                <Tickbox
+                  text="toggle sidebar visibility"
+                  name="isSidebarHidden"
+                  checked={!isSidebarHidden}
+                  onChange={() => toggleSidebarVisibility()}
+                />
+              </li>
+              <li>
+                <Tickbox
+                  text="toggle request indicator visibility"
+                  name="isRequestIndicatorHidden"
+                  checked={!isRequestIndicatorHidden}
+                  onChange={() => toggleRequestIndicatorVisibility()}
+                />
+              </li>
+            </ul>
+          </Portal>
+        )}
+      </div>
+    );
+  }
+}
 
 AppSettings.propTypes = {
   theme: PropTypes.string.isRequired,

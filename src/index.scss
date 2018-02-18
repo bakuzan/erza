@@ -1,5 +1,5 @@
-@import "./styles/partials/_colours";
-@import "./styles/partials/_variables";
+@import './styles/partials/_colours';
+@import './styles/partials/_variables';
 
 * {
   box-sizing: border-box;
@@ -8,57 +8,11 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto mono", monospace;
+  font-family: 'Roboto mono', monospace;
 }
 
 .button {
-  font: 16px "Roboto mono", monospace;
-}
-
-// dropdown styling here
-.dropdown-menu {
-  position: relative;
-  width: 200px;
-	min-height: 100px;
-	background-color: $white;
-	border-radius: 4px;
-  box-shadow: 2px 2px 10px #aaa;
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 2px;
-  margin: 0;
-  list-style-type: none;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(70px);
-  transition: visibility 0.5s;
-  transition-delay: 1s !important;
-  .dropdown-arrow {
-    position: absolute;
-    top: -18px;
-    right: 5px;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid $white;
-    width: 0;
-    height: 0;
-    -webkit-filter: drop-shadow(0 -2px 2px #aaa);
-  }
-
-  .button-group {
-    border-bottom: 1px solid rgba(0,0,0,.07);
-    margin: 0;
-  }
-}
-
-button:focus + .dropdown-menu {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-  transition: all 1s cubic-bezier(.07,1.46,.81,.57);
-  transition-delay: .5s !important;
-  z-index: map-get($z-index, dropdown);
+  font: 16px 'Roboto mono', monospace;
 }
 
 .series-image-container {
@@ -93,8 +47,8 @@ button:focus + .dropdown-menu {
 .mal-link {
   padding: 3px 6px;
   margin: 2px 5px {
-    left: 0
-  };
+    left: 0;
+  }
 }
 
 .filters-container {

@@ -58,6 +58,8 @@ class Shortcuts extends Component {
       <div id="shortcuts-container">
         <Dialog
           name="shortcuts"
+          isForm={false}
+          hideCancel={true}
           hasBackdrop={false}
           getDialogRef={this.assignRef}
         >

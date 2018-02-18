@@ -10,7 +10,10 @@ const RelatedSeriesList = ({ seriesType, title, items }) => (
     <ul className="list column one">
       {items.map(x => (
         <li key={x._id}>
-          <NavLink to={`${Paths.base}${Paths[seriesType].view}${x._id}`}>
+          <NavLink
+            className="button-link"
+            to={`${Paths.base}${Paths[seriesType].view}${x._id}`}
+          >
             {x.title}
           </NavLink>
         </li>

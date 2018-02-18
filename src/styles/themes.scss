@@ -1,8 +1,8 @@
-@import "./partials/_colours";
-@import "./partials/_mixins";
+@import './partials/_colours';
+@import './partials/_mixins';
 
 @mixin shiftColourLightness($colour, $percentage) {
-  @include lightenOrDarken("background-color", $colour, $percentage);
+  @include lightenOrDarken('background-color', $colour, $percentage);
 }
 
 @each $name, $values in $theme-maps {
@@ -18,11 +18,14 @@
     color: $base-colour;
 
     // Generic components
-    .input-container, .select-container {
-      input, select {
+    .input-container,
+    .select-container {
+      input,
+      select {
         background-color: $base-background;
         color: $base-colour;
-        &:focus, &:focus ~ .list {
+        &:focus,
+        &:focus ~ .list {
           border-bottom-color: $colour;
         }
       }
@@ -43,8 +46,12 @@
         color: $contrast;
       }
     }
+
+    #shortcuts-container ul {
+      background-color: $base-background;
+    }
     .autocomplete-suggestion {
-       border: 1px solid $base-background;
+      border: 1px solid $base-background;
       &.active {
         border-color: $colour;
         .button {
@@ -54,7 +61,7 @@
     }
 
     .rating-control {
-      .rating-control-option input[type="radio"] {
+      .rating-control-option input[type='radio'] {
         color: $contrast;
       }
     }
@@ -68,26 +75,28 @@
     }
     .button-link:not(.active) {
       color: $anchor-colour;
-      &:focus, &:active, &:visited {
+      &:focus,
+      &:active,
+      &:visited {
         color: $anchor-colour;
       }
       &:hover {
-       color: $anchor-colour-hover;
+        color: $anchor-colour-hover;
       }
     }
     .button-icon.bold {
       font-weight: bold;
     }
 
-    .radio input[type="radio"]:checked::after {
+    .radio input[type='radio']:checked::after {
       color: $colour;
     }
-    .radio input[type="radio"]::after {
+    .radio input[type='radio']::after {
       color: $contrast;
     }
 
     .dropdown-menu {
-    	background-color: $base-background;
+      background-color: $base-background;
       box-shadow: 2px 2px 10px $contrast;
       .dropdown-arrow {
         border-bottom-color: $base-background; //20px solid $base-background;
@@ -105,16 +114,26 @@
       }
     }
 
+    .tab-controls li {
+      border-color: $contrast;
+      border-bottom-color: $base-background;
+      &.active {
+        border-color: $colour;
+        border-bottom-color: $base-background;
+      }
+    }
+
     // history list
     .history-list-item.series-title {
-		border-bottom-color: $colour;
+      border-bottom-color: $colour;
     }
-	   .view-content .history-list-item:not(.series-title) {
-		  border-bottom-color: $contrast;
-	   }
+    .view-content .history-list-item:not(.series-title) {
+      border-bottom-color: $contrast;
+    }
 
     // Unique UI elements
-    .application-header, .site-map-list {
+    .application-header,
+    .site-map-list {
       li:not(.dropdown-arrow) {
         border-bottom: 1px solid $base-background;
       }
@@ -130,7 +149,6 @@
 
     // satellizer theming
     #satellizer {
-
       a {
         color: $anchor-colour;
         &:hover {
@@ -138,27 +156,28 @@
         }
       }
 
+      #season-key {
+        background: $base-background;
+      }
+
       .history-breakdown-body__row.month-breakdown:hover,
       .history-breakdown-body__row.year-breakdown:hover,
       .history-breakdown-body__row.month-breakdown:hover a,
       .history-breakdown-body__row.year-breakdown:hover a,
       #series-by-ratings-list > li:hover,
-      #series-by-ratings-list > li:hover a, {
-          background-color: $anchor-colour-hover;
-          color: $anchor-colour;
-       }
+      #series-by-ratings-list > li:hover a {
+        background-color: $anchor-colour-hover;
+        color: $anchor-colour;
+      }
 
-       .history-breakdown-body__data-cell__background {
-         background-color: $contrast;
-       }
+      .history-breakdown-body__data-cell__background {
+        background-color: $contrast;
+      }
 
-       .rating-label.selected {
-         background-color: $colour;
-         color: $contrast;
-       }
-
+      .rating-label.selected {
+        background-color: $colour;
+        color: $contrast;
+      }
     }
-
   } // End of Theme block
-
 } // End of @each
