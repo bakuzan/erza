@@ -4,6 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
+const { EpisodeTC } = require('./episode');
 const { TagTC, linkedSeriesRelation } = require('./tag');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
@@ -67,6 +68,7 @@ AnimeTC.addFields({
 });
 
 AnimeTC.addRelation('tagList', relationFields.tagList);
+AnimeTC.addRelation('historyList', relationFields.historyList(EpisodeTC));
 linkedSeriesRelation('animeWithTag', AnimeTC);
 resolverExtentions(AnimeTC, Constants.type.anime);
 

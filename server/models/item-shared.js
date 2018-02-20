@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.ObjectId;
 
-const {TagTC} = require('./tag')
+const { TagTC } = require('./tag');
 const {
   updateDateBeforeSave,
   preventDatesPre1970,
@@ -126,8 +126,17 @@ const relationFields = {
       _ids: source => source.tags
     },
     projection: { tags: 1 }
+  }),
+  historyList: historyType => () => ({
+    resolver: historyType.getResolver('findMany'),
+    args: {
+      filter: source => ({
+        parent: `${source._id}`
+      })
+    },
+    projection: { _id: 1 }
   })
-}
+};
 
 const resolverExtentions = (type, typeString) => {
   const extendConnection = type
