@@ -69,8 +69,8 @@ const groupedAggregation = function() {
 };
 
 const relationHistoryList = historyModel => () => ({
-  resolver: historyModel.getResolver('findMany'),
-  args: {
+  resolver: () => historyModel.getResolver('findMany'),
+  prepareArgs: {
     filter: source => ({
       parent: `${source._id}`
     })

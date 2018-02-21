@@ -45,7 +45,7 @@ MangaSchema.statics.findIn = findIn();
 const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
 
-MangaTC.addRelation('tagList', relationFields.tagList);
+MangaTC.addRelation('tagList', relationFields.tagList());
 linkedSeriesRelation('mangaWithTag', MangaTC);
 resolverExtentions(MangaTC, Constants.type.manga);
 

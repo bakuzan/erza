@@ -29,7 +29,6 @@ EpisodeSchema.statics.getGroupedAggregation = groupedAggregation();
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);
 
-AnimeTC.addRelation('historyList', relationHistoryList(EpisodeTC));
 EpisodeTC.addRelation('series', () => ({
   resolver: () => AnimeTC.getResolver('findById'),
   prepareArgs: {

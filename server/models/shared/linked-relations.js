@@ -8,11 +8,20 @@ const relationFields = {
       _ids: source => source.tags
     },
     projection: { tags: 1 }
+  }),
+  historyList: historyModel => ({
+    resolver: () => historyModel.getResolver('findMany'),
+    prepareArgs: {
+      filter: source => ({
+        parent: `${source._id}`
+      })
+    },
+    projection: { _id: 1 }
   })
 };
 
 const linkedSeriesRelation = (name, seriesType) =>
-  TagTC.addRelation(name, () => ({
+  TagTC.addRelation(name, {
     resolver: () => seriesType.getResolver('findMany'),
     prepareArgs: {
       filter: source => ({
@@ -20,7 +29,7 @@ const linkedSeriesRelation = (name, seriesType) =>
       })
     },
     projection: { _id: 1 }
-  }));
+  });
 
 module.exports = {
   relationFields,

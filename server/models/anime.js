@@ -7,6 +7,7 @@ const { composeWithMongoose } = require('graphql-compose-mongoose');
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
 
+const { EpisodeTC } = require('./episode');
 const itemSharedFields = require('./shared/fields');
 const resolverExtentions = require('./shared/filters-combined');
 const { groupedCount, findIn } = require('./shared/statistics');
@@ -65,7 +66,8 @@ AnimeTC.addFields({
   }
 });
 
-AnimeTC.addRelation('tagList', relationFields.tagList);
+AnimeTC.addRelation('tagList', relationFields.tagList());
+AnimeTC.addRelation('historyList', relationFields.historyList(EpisodeTC));
 linkedSeriesRelation('animeWithTag', AnimeTC);
 resolverExtentions(AnimeTC, Constants.type.anime);
 

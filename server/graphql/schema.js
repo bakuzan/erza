@@ -1,5 +1,5 @@
-const { ComposeStorage } = require('graphql-compose');
-const GQC = new ComposeStorage();
+const { SchemaComposer } = require('graphql-compose');
+const GQC = new SchemaComposer();
 
 const {
   combineArrayOfObjects,
