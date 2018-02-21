@@ -68,8 +68,19 @@ const groupedAggregation = function() {
   };
 };
 
+const relationHistoryList = historyModel => () => ({
+  resolver: historyModel.getResolver('findMany'),
+  args: {
+    filter: source => ({
+      parent: `${source._id}`
+    })
+  },
+  projection: { _id: 1 }
+});
+
 module.exports = {
   historySharedSchema,
   dateRangeSearch,
-  groupedAggregation
+  groupedAggregation,
+  relationHistoryList
 };
