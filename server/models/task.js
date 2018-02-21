@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
 const { updateDateBeforeSave } = require('../graphql/common.js');
@@ -58,44 +57,41 @@ TaskTC.addFields({
 });
 
 const forceISODate = d => new Date(new Date(d).toISOString());
-const extendFindMany = TaskTC.getResolver('findMany').addFilterArg({
-  name: 'dateRange',
-  type: ['String'],
-  description: 'Filter tasks by date range',
-  query: (query, value, resolveParams) => {
-    const start = forceISODate(value[0]);
-    const end = forceISODate(value[1]);
 
-    query = {
-      $or: [
-        {
-          $and: [
-            { repeatFrequency: 0 },
-            { repeatDay: { $lte: end, $gte: start } }
-          ]
-        },
-        {
-          $and: [{ repeatFrequency: { $ne: 0 } }, { repeatDay: { $lte: end } }]
-        }
-      ]
-    };
-  }
-});
+TaskTC.wrapResolver('findMany', newResolver =>
+  newResolver.addFilterArg({
+    name: 'dateRange',
+    type: ['String'],
+    description: 'Filter tasks by date range',
+    query: (query, value, resolveParams) => {
+      const start = forceISODate(value[0]);
+      const end = forceISODate(value[1]);
 
-const extendCreate = TaskTC.getResolver('createOne').wrapResolve(
-  updateDateBeforeSave('createdDate')
+      query = {
+        $or: [
+          {
+            $and: [
+              { repeatFrequency: 0 },
+              { repeatDay: { $lte: end, $gte: start } }
+            ]
+          },
+          {
+            $and: [
+              { repeatFrequency: { $ne: 0 } },
+              { repeatDay: { $lte: end } }
+            ]
+          }
+        ]
+      };
+    }
+  })
 );
-
-const extendUpdate = TaskTC.getResolver('updateById').wrapResolve(
-  updateDateBeforeSave('updatedDate')
+TaskTC.wrapResolver('createOne', newResolver =>
+  newResolver.wrapResolve(updateDateBeforeSave('createdDate'))
 );
-
-extendFindMany.name = 'findMany';
-extendCreate.name = 'createOne';
-extendUpdate.name = 'updateById';
-TaskTC.addResolver(extendFindMany);
-TaskTC.addResolver(extendCreate);
-TaskTC.addResolver(extendUpdate);
+TaskTC.wrapResolver('updateById', newResolver =>
+  newResolver.wrapResolve(updateDateBeforeSave('updatedDate'))
+);
 
 module.exports = {
   Task,

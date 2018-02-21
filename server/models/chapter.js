@@ -24,12 +24,9 @@ const ChapterSchema = new Schema(
 const Chapter = mongoose.model('Chapter', ChapterSchema);
 const ChapterTC = composeWithMongoose(Chapter);
 
-const extendConnection = ChapterTC.getResolver('connection').addFilterArg(
-  dateRangeSearch(ChapterTC)
+ChapterTC.wrapResolver('connection', newResolver =>
+  newResolver.addFilterArg(dateRangeSearch(ChapterTC))
 );
-
-extendConnection.name = 'connection';
-ChapterTC.addResolver(extendConnection);
 
 module.exports = {
   Chapter,

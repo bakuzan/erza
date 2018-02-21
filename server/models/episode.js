@@ -27,12 +27,9 @@ EpisodeSchema.statics.getGroupedAggregation = groupedAggregation();
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);
 
-const extendConnection = EpisodeTC.getResolver('connection').addFilterArg(
-  dateRangeSearch(EpisodeTC)
+EpisodeTC.wrapResolver('connection', newResolver =>
+  newResolver.addFilterArg(dateRangeSearch(EpisodeTC))
 );
-
-extendConnection.name = 'connection';
-EpisodeTC.addResolver(extendConnection);
 
 module.exports = {
   Episode,
