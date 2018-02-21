@@ -28,8 +28,8 @@ const ChapterTC = composeWithMongoose(Chapter);
 
 MangaTC.addRelation('historyList', relationHistoryList(ChapterTC));
 ChapterTC.addRelation('series', () => ({
-  resolver: MangaTC.getResolver('findById'),
-  args: {
+  resolver: () => MangaTC.getResolver('findById'),
+  prepareArgs: {
     _id: source => source.parent
   },
   projection: { parent: 1 }

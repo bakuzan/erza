@@ -31,8 +31,8 @@ const EpisodeTC = composeWithMongoose(Episode);
 
 AnimeTC.addRelation('historyList', relationHistoryList(EpisodeTC));
 EpisodeTC.addRelation('series', () => ({
-  resolver: AnimeTC.getResolver('findById'),
-  args: {
+  resolver: () => AnimeTC.getResolver('findById'),
+  prepareArgs: {
     _id: source => source.parent
   },
   projection: { parent: 1 }
