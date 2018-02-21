@@ -30,14 +30,12 @@ const ratingInFilterArg = type => ({
   }
 });
 
-const hasRepeatFilterArg = () => ({
-  name: 'hasRepeat',
-  type: 'Bool',
-  description: 'isRepeat or timesComplete > 0',
+const timesCompleteGreaterThanFilterArg = () => ({
+  name: 'timesCompleteGreaterThan',
+  type: 'Int',
+  description: 'timesComplete is greater than given number',
   query: (rawQuery, value, resolveParams) => {
-    if (value) {
-      console.log('hasRepeat not implemented');
-    }
+    rawQuery.timesComplete = { $gt: value };
   }
 });
 
@@ -45,5 +43,5 @@ module.exports = {
   searchFilterArg,
   statusInFilterArg,
   ratingInFilterArg,
-  hasRepeatFilterArg
+  timesCompleteGreaterThanFilterArg
 };

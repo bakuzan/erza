@@ -11,10 +11,7 @@ const { EpisodeTC } = require('./episode');
 const itemSharedFields = require('./shared/fields');
 const resolverExtentions = require('./shared/filters-combined');
 const { groupedCount, findIn } = require('./shared/statistics');
-const {
-  relationFields,
-  linkedSeriesRelation
-} = require('./shared/linked-relations');
+const { relationFields } = require('./shared/linked-relations');
 
 const AnimeSchema = new Schema(
   Object.assign({}, itemSharedFields, {
@@ -68,7 +65,6 @@ AnimeTC.addFields({
 
 AnimeTC.addRelation('tagList', relationFields.tagList());
 AnimeTC.addRelation('historyList', relationFields.historyList(EpisodeTC));
-linkedSeriesRelation('animeWithTag', AnimeTC);
 resolverExtentions(AnimeTC, Constants.type.anime);
 
 module.exports = {

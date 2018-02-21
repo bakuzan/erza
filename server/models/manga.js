@@ -6,13 +6,11 @@ const { composeWithMongoose } = require('graphql-compose-mongoose');
 
 const Constants = require('../constants.js');
 
+const { ChapterTC } = require('./chapter');
 const itemSharedFields = require('./shared/fields');
 const resolverExtentions = require('./shared/filters-combined');
 const { groupedCount, findIn } = require('./shared/statistics');
-const {
-  relationFields,
-  linkedSeriesRelation
-} = require('./shared/linked-relations');
+const { relationFields } = require('./shared/linked-relations');
 
 const MangaSchema = new Schema(
   Object.assign({}, itemSharedFields, {
@@ -46,7 +44,7 @@ const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
 
 MangaTC.addRelation('tagList', relationFields.tagList());
-linkedSeriesRelation('mangaWithTag', MangaTC);
+MangaTC.addRelation('historyList', relationFields.historyList(ChapterTC));
 resolverExtentions(MangaTC, Constants.type.manga);
 
 module.exports = {

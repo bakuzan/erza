@@ -7,7 +7,8 @@ const {
 const {
   searchFilterArg,
   statusInFilterArg,
-  ratingInFilterArg
+  ratingInFilterArg,
+  timesCompleteGreaterThanFilterArg
 } = require('./filters');
 
 const resolverExtentions = (type, typeString) => {
@@ -15,13 +16,15 @@ const resolverExtentions = (type, typeString) => {
     .getResolver('connection')
     .addFilterArg(searchFilterArg)
     .addFilterArg(statusInFilterArg(type))
-    .addFilterArg(ratingInFilterArg(type));
+    .addFilterArg(ratingInFilterArg(type))
+    .addFilterArg(timesCompleteGreaterThanFilterArg);
 
   const extendMany = type
     .getResolver('findMany')
     .addFilterArg(searchFilterArg)
     .addFilterArg(statusInFilterArg(type))
-    .addFilterArg(ratingInFilterArg(type));
+    .addFilterArg(ratingInFilterArg(type))
+    .addFilterArg(timesCompleteGreaterThanFilterArg);
 
   const extendCreate = type
     .getResolver('createOne')
