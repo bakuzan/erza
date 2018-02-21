@@ -30,8 +30,20 @@ const ratingInFilterArg = type => ({
   }
 });
 
+const hasRepeatFilterArg = () => ({
+  name: 'hasRepeat',
+  type: 'Bool',
+  description: 'isRepeat or timesComplete > 0',
+  query: (rawQuery, value, resolveParams) => {
+    if (value) {
+      console.log('hasRepeat not implemented');
+    }
+  }
+});
+
 module.exports = {
   searchFilterArg,
   statusInFilterArg,
-  ratingInFilterArg
+  ratingInFilterArg,
+  hasRepeatFilterArg
 };
