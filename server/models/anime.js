@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-
 const { composeWithMongoose } = require('graphql-compose-mongoose');
 
 const Common = require('../utils/common.js');
 const Constants = require('../constants.js');
-
-const { EpisodeTC } = require('./episode');
 const itemSharedFields = require('./shared/fields');
 const resolverExtentions = require('./shared/filters-combined');
 const { groupedCount, findIn } = require('./shared/statistics');
-const { relationFields } = require('./shared/linked-relations');
 
 const AnimeSchema = new Schema(
   Object.assign({}, itemSharedFields, {
@@ -37,6 +33,7 @@ AnimeSchema.statics.findIn = findIn();
 
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
+resolverExtentions(AnimeTC, Constants.type.anime);
 
 AnimeTC.addFields({
   season: {
@@ -62,10 +59,6 @@ AnimeTC.addFields({
     }
   }
 });
-
-AnimeTC.addRelation('tagList', relationFields.tagList());
-AnimeTC.addRelation('historyList', relationFields.historyList(EpisodeTC));
-resolverExtentions(AnimeTC, Constants.type.anime);
 
 module.exports = {
   Anime,

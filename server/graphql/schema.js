@@ -6,11 +6,13 @@ const {
   constructQueryFields,
   constructMutationFields
 } = require('./common');
-const { AnimeTC } = require('../models/anime');
-const { MangaTC } = require('../models/manga');
-const { TagTC } = require('../models/tag');
-const { EpisodeTC } = require('../models/episode');
-const { ChapterTC } = require('../models/chapter');
+const {
+  AnimeTC,
+  MangaTC,
+  EpisodeTC,
+  ChapterTC,
+  TagTC
+} = require('./relation-construction');
 const { TaskTC } = require('../models/task');
 
 const arrayOfModels = [

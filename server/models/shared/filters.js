@@ -30,14 +30,14 @@ const ratingInFilterArg = type => ({
   }
 });
 
-const timesCompleteGreaterThanFilterArg = () => ({
+const timesCompleteGreaterThanFilterArg = {
   name: 'timesCompleteGreaterThan',
   type: 'Int',
   description: 'timesComplete is greater than given number',
   query: (rawQuery, value, resolveParams) => {
     rawQuery.timesComplete = { $gt: value };
   }
-});
+};
 
 module.exports = {
   searchFilterArg,
