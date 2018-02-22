@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const { MangaTC } = require('./manga.js');
-const { historySharedSchema, dateRangeSearch } = require('./history-shared.js');
+
+const { MangaTC } = require('./manga');
+const {
+  historySharedSchema,
+  dateRangeSearch,
+  relationHistoryList
+} = require('./shared/history-shared.js');
 
 const ChapterSchema = new Schema(
   Object.assign({}, historySharedSchema, {
@@ -22,6 +26,7 @@ const ChapterSchema = new Schema(
 const Chapter = mongoose.model('Chapter', ChapterSchema);
 const ChapterTC = composeWithMongoose(Chapter);
 
+MangaTC.addRelation('historyList', relationHistoryList(ChapterTC));
 ChapterTC.addRelation('series', () => ({
   resolver: MangaTC.getResolver('findById'),
   args: {

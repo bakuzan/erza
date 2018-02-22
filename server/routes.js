@@ -16,6 +16,7 @@ const Constants = require('./constants');
 const environment = process.env.NODE_ENV || Constants.environment.development;
 const db = mongoose.connect(
   `mongodb://localhost/${Constants.appName}-${environment}`,
+  { useMongoClient: true },
   err => {
     if (!err)
       return console.log(

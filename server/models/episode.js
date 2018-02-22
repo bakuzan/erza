@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const { AnimeTC } = require('./anime.js');
+
+const { AnimeTC } = require('./anime');
 const {
   historySharedSchema,
   dateRangeSearch,
-  groupedAggregation
-} = require('./history-shared.js');
+  groupedAggregation,
+  relationHistoryList
+} = require('./shared/history-shared.js');
 
 const EpisodeSchema = new Schema(
   Object.assign({}, historySharedSchema, {
@@ -28,6 +29,7 @@ EpisodeSchema.statics.getGroupedAggregation = groupedAggregation();
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);
 
+AnimeTC.addRelation('historyList', relationHistoryList(EpisodeTC));
 EpisodeTC.addRelation('series', () => ({
   resolver: AnimeTC.getResolver('findById'),
   args: {

@@ -13,7 +13,9 @@ const seasonalTypes = [1, 5]; // tv, ona
 
 const type = {
   anime: 'anime',
-  manga: 'manga'
+  manga: 'manga',
+  chapter: 'chapter',
+  episode: 'episode'
 };
 
 const breakdown = {
