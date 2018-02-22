@@ -112,6 +112,7 @@ export const Strings = {
   // mal update messages
   fetchingMalEntry: 'fetching mal entry',
   noLinkedMalEntry: 'no related mal entry',
+  failedMalUpdate: 'Failed to update mal entry',
   updatedMalEntry: 'updated mal values',
   malEntryUpToDate: 'mal already up to date',
   imgur: 'imgur',
