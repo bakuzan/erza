@@ -30,13 +30,12 @@ const ratingInFilterArg = type => ({
   }
 });
 
-const timesCompletedGreaterThanFilterArg = {
-  name: 'timesCompletedGreaterThan',
-  type: 'Int',
-  description: 'timesCompleted is greater than given number',
+const timesCompletedMinFilterArg = {
+  name: 'timesCompletedMin',
+  type: 'Float',
+  description: 'Minimum value for timesCompleted',
   query: (rawQuery, value, resolveParams) => {
-    console.log('tc => ', value);
-    rawQuery.timesCompleted = { $gt: value };
+    rawQuery.timesCompleted = { $gte: value };
   }
 };
 
@@ -44,5 +43,5 @@ module.exports = {
   searchFilterArg,
   statusInFilterArg,
   ratingInFilterArg,
-  timesCompletedGreaterThanFilterArg
+  timesCompletedMinFilterArg
 };

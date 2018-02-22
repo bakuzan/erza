@@ -8,7 +8,7 @@ const {
   searchFilterArg,
   statusInFilterArg,
   ratingInFilterArg,
-  timesCompletedGreaterThanFilterArg
+  timesCompletedMinFilterArg
 } = require('./filters');
 
 const resolverExtentions = (type, typeString) => {
@@ -17,7 +17,7 @@ const resolverExtentions = (type, typeString) => {
       .addFilterArg(searchFilterArg)
       .addFilterArg(statusInFilterArg(type))
       .addFilterArg(ratingInFilterArg(type))
-      .addFilterArg(timesCompletedGreaterThanFilterArg)
+      .addFilterArg(timesCompletedMinFilterArg)
   );
 
   type.wrapResolver('findMany', newResolver =>
@@ -25,7 +25,7 @@ const resolverExtentions = (type, typeString) => {
       .addFilterArg(searchFilterArg)
       .addFilterArg(statusInFilterArg(type))
       .addFilterArg(ratingInFilterArg(type))
-      .addFilterArg(timesCompletedGreaterThanFilterArg)
+      .addFilterArg(timesCompletedMinFilterArg)
   );
 
   type.wrapResolver('createOne', newResolver =>
