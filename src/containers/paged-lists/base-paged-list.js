@@ -140,6 +140,14 @@ class BasePagedList extends Component {
         !!this.state.malUpdates.values[`${current}s`]
         ? this.state.malUpdates.values[`${current}s`]
         : null;
+
+    const showSeriesOverallRating =
+      this.state.editItem[current] > 0 &&
+      (!!this.state.malUpdates.values
+        ? this.state.editItem[current] ===
+          this.state.malUpdates.values[`${current}s`]
+        : this.state.editItem[current] === this.state.editItem.max);
+
     const dynamicListProps = {
       [`add${capitalise(current)}`]: this.openEditDialog
     };
@@ -175,17 +183,14 @@ class BasePagedList extends Component {
                   />
                   <label>{current}</label>
                 </div>
-                {!!this.state.malUpdates.values &&
-                  this.state.editItem[current] > 0 &&
-                  this.state.editItem[current] ===
-                    this.state.malUpdates.values[`${current}s`] && (
-                    <RatingControl
-                      name="overallRating"
-                      label="Rating"
-                      value={this.state.editItem.overallRating || 0}
-                      onChange={this.handleUserInput}
-                    />
-                  )}
+                {showSeriesOverallRating && (
+                  <RatingControl
+                    name="overallRating"
+                    label="Rating"
+                    value={this.state.editItem.overallRating || 0}
+                    onChange={this.handleUserInput}
+                  />
+                )}
                 <ul className="list column one">
                   {!!this.state.editItem[current] &&
                     Array(
