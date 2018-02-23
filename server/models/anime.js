@@ -33,7 +33,7 @@ AnimeSchema.statics.findIn = findIn();
 
 const Anime = mongoose.model('Anime', AnimeSchema);
 const AnimeTC = composeWithMongoose(Anime);
-resolverExtentions(AnimeTC, Constants.type.anime);
+resolverExtentions(AnimeTC, Constants.type.anime, Anime);
 
 AnimeTC.addFields({
   season: {

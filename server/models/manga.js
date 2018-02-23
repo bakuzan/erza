@@ -38,7 +38,7 @@ MangaSchema.statics.findIn = findIn();
 
 const Manga = mongoose.model('Manga', MangaSchema);
 const MangaTC = composeWithMongoose(Manga);
-resolverExtentions(MangaTC, Constants.type.manga);
+resolverExtentions(MangaTC, Constants.type.manga, Manga);
 
 module.exports = {
   Manga,

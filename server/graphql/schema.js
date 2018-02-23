@@ -32,7 +32,11 @@ const mutations = arrayOfModels
   .map(constructMutationFields)
   .reduce(combineArrayOfObjects);
 
-GQC.rootQuery().addFields(queries);
+GQC.rootQuery().addFields({
+  ...queries,
+  animeManyRepeated: AnimeTC.getResolver('findManyRepeated'),
+  mangaManyRepeated: MangaTC.getResolver('findManyRepeated')
+});
 GQC.rootMutation().addFields(mutations);
 
 const GraphqlSchema = GQC.buildSchema();
