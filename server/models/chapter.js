@@ -5,7 +5,8 @@ const { composeWithMongoose } = require('graphql-compose-mongoose');
 
 const {
   historySharedSchema,
-  dateRangeSearch
+  dateRangeSearch,
+  additionalFields
 } = require('./shared/history-shared.js');
 
 const ChapterSchema = new Schema(
@@ -24,6 +25,7 @@ const ChapterSchema = new Schema(
 const Chapter = mongoose.model('Chapter', ChapterSchema);
 const ChapterTC = composeWithMongoose(Chapter);
 
+ChapterTC.addFields(additionalFields);
 ChapterTC.wrapResolver('connection', newResolver =>
   newResolver.addFilterArg(dateRangeSearch(ChapterTC))
 );

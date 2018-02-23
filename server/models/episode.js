@@ -6,7 +6,8 @@ const { composeWithMongoose } = require('graphql-compose-mongoose');
 const {
   historySharedSchema,
   dateRangeSearch,
-  groupedAggregation
+  groupedAggregation,
+  additionalFields
 } = require('./shared/history-shared.js');
 
 const EpisodeSchema = new Schema(
@@ -27,6 +28,7 @@ EpisodeSchema.statics.getGroupedAggregation = groupedAggregation();
 const Episode = mongoose.model('Episode', EpisodeSchema);
 const EpisodeTC = composeWithMongoose(Episode);
 
+EpisodeTC.addFields(additionalFields);
 EpisodeTC.wrapResolver('connection', newResolver =>
   newResolver.addFilterArg(dateRangeSearch(EpisodeTC))
 );

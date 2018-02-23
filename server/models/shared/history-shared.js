@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Common = require('../../utils/common');
 
 const historySharedSchema = {
   date: {
@@ -18,6 +19,14 @@ const historySharedSchema = {
   isAdult: {
     type: Boolean,
     default: false
+  }
+};
+
+const additionalFields = {
+  dateStr: {
+    type: 'String',
+    description: 'Date field as a String',
+    resolve: source => Common.getFormattedDateString(source.date)
   }
 };
 
@@ -71,5 +80,6 @@ const groupedAggregation = function() {
 module.exports = {
   historySharedSchema,
   dateRangeSearch,
-  groupedAggregation
+  groupedAggregation,
+  additionalFields
 };

@@ -11,6 +11,11 @@ const getDateParts = date => {
   };
 };
 
+const getFormattedDateString = d => {
+  const { year, month, date } = getDateParts(d);
+  return `${year}-${month}-${date}`;
+};
+
 const getSeasonText = month => {
   return month < 3
     ? Constants.seasons.winter
@@ -52,6 +57,7 @@ const fetchTimeout = (t, promise) => {
 const Common = {
   handleErrorResponse,
   getDateParts,
+  getFormattedDateString,
   getSeasonText,
   capitalise,
   getKeyByValue,
