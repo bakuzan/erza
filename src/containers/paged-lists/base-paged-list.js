@@ -81,20 +81,31 @@ class BasePagedList extends Component {
   }
 
   refreshMalValues(editItem) {
-    this.getMalEntry(editItem.title).then(response => {
-      const malItem = response.find(x => x.id === editItem.malId);
-      const shouldUpdateMalEntry =
-        this.shouldHydrateMal(editItem, malItem) && !!malItem;
-      this.setState({
-        malUpdates: {
-          values: malItem,
-          message: shouldUpdateMalEntry
-            ? Strings.updatedMalEntry
-            : Strings.malEntryUpToDate,
-          status: shouldUpdateMalEntry ? Strings.success : ''
-        }
+    this.getMalEntry(editItem.title)
+      .then(response => {
+        if (response.error) throw response.error;
+        const malItem = response.find(x => x.id === editItem.malId);
+        const shouldUpdateMalEntry =
+          this.shouldHydrateMal(editItem, malItem) && !!malItem;
+        this.setState({
+          malUpdates: {
+            values: malItem,
+            message: shouldUpdateMalEntry
+              ? Strings.updatedMalEntry
+              : Strings.malEntryUpToDate,
+            status: shouldUpdateMalEntry ? Strings.success : ''
+          }
+        });
+      })
+      .catch(error => {
+        this.setState({
+          malUpdates: {
+            values: null,
+            message: Strings.failedMalUpdate,
+            status: Strings.error
+          }
+        });
       });
-    });
   }
 
   handleEdit(event) {
