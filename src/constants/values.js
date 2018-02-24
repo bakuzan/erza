@@ -140,13 +140,17 @@ export const Properties = {
   tagList: 'tagList',
   chapter: 'chapter',
   seriesChapters: 'series_chapters',
-  dayOfWeek: 'dayOfWeek'
+  dayOfWeek: 'dayOfWeek',
+  animeWithTag: 'animeWithTag',
+  mangaWithTag: 'mangaWithTag'
 };
 
 export const NonPostableProperties = [
   Properties.season,
   Properties.tagList,
-  Properties.dayOfWeek
+  Properties.dayOfWeek,
+  Properties.animeWithTag,
+  Properties.mangaWithTag
 ];
 
 export const Icons = {

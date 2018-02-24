@@ -1,31 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import ItemList from './item-list/item-list';
+import { Paths } from '../../constants/paths';
 
-const TagListItem = ({ item, onClick }) => (
+const TagListItem = ({ item }) => (
   <li className="tag-item">
-    <button type="button" className="button ripple" onClick={onClick}>
+    <NavLink
+      className="button-link ripple"
+      to={`${Paths.base}${Paths.tagManagement}${item._id}`}
+    >
       {item.name}
-    </button>
+    </NavLink>
   </li>
 );
 
-const TagList = ({ items, onClick }) => (
+const TagList = ({ items }) => (
   <ItemList
     className="list column three"
-    items={items.map(item => (
-      <TagListItem
-        key={item._id}
-        item={item}
-        onClick={() => onClick(item._id)}
-      />
-    ))}
+    items={items.map(item => <TagListItem key={item._id} item={item} />)}
   />
 );
 
 TagList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onClick: PropTypes.func.isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default TagList;
