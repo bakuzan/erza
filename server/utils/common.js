@@ -13,7 +13,7 @@ const getDateParts = date => {
 
 const getFormattedDateString = d => {
   const { year, month, date } = getDateParts(d);
-  return `${year}-${month}-${date}`;
+  return `${year}-${month + 1}-${date}`;
 };
 
 const getSeasonText = month => {
