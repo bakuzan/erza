@@ -46,9 +46,9 @@ const mutateTag = (queryBuilder, item) => {
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
       response => {
-        dispatch(finishTagsRequest());
         const data = getSingleObjectProperty(response.data);
         dispatch(addTag(data.record));
+        dispatch(finishTagsRequest());
         toaster.success(
           'Saved!',
           `Successfully saved '${data.record.name}' tag.`

@@ -32,7 +32,7 @@ class TagManagementDetails extends React.Component {
     if (
       !!nextProps.item &&
       !!nextProps.item.animeWithTag &&
-      (!this.props.item || !this.props.item.animeWithTag)
+      (!this.state.item || (!nextProps.isFetching && this.props.isFetching))
     ) {
       this.setState({ item: nextProps.item });
     }
@@ -132,6 +132,7 @@ class TagManagementDetails extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   tagId: ownProps.match.params.tagId,
   item: state.entities.tags.byId[ownProps.match.params.tagId]
 });
