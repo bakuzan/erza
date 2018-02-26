@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
+import { isNumber } from '../../utils/common';
 
 const MalSearchSuggestionItem = ({
   activeSuggestion,
@@ -27,7 +28,11 @@ const MalSearchSuggestionItem = ({
         onClick={() => selectAutocompleteSuggestion(itemId)}
       >
         {!!item.image && (
-          <img className="mal-search-suggestion-image" src={item.image} />
+          <img
+            className="mal-search-suggestion-image"
+            src={item.image}
+            alt="mal series cover"
+          />
         )}
         {highlightMatch(itemText)}
         <span>{`(${item.series_type})`}</span>
