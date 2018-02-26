@@ -17,6 +17,10 @@ class AutocompleteInput extends Component {
     };
 
     this.timer = null;
+    this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(
+      this
+    );
+    this.highlightMatch = this.highlightMatch.bind(this);
     this.handleInputFilter = this.handleInputFilter.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
