@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import fetchFromServer from '../../graphql/fetch';
 import AutocompleteInput from '../autocomplete-input/autocomplete-input';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
+import MalSearchSuggestionItem from './mal-search-suggestion-item';
+
 import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
 import { Paths } from '../../constants/paths';
 import './mal-search.css';
@@ -82,6 +84,7 @@ class MalSearch extends Component {
           onChange={this.handleMalSearch}
           onSelect={this.selectAutocompleteSuggestion}
           disableLocalFilter={true}
+          suggestionTemplate={MalSearchSuggestionItem}
         />
         {this.state.isFetching && <LoadingSpinner size="control" />}
       </div>

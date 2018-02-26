@@ -1,10 +1,31 @@
 .mal-search-container {
   position: relative;
 
-  &.fetching .clear-input, 
+  &.fetching .clear-input,
   &.selected .autocomplete-menu,
-  &.fresh .autocomplete-menu  {
+  &.fresh .autocomplete-menu {
     visibility: hidden;
     pointer-events: none;
+  }
+}
+
+$base-img-height: 100px;
+.mal-search-suggestion-image {
+  height: $base-img-height;
+}
+
+.mal-search-suggestion {
+  span + span {
+    margin-left: 2px;
+  }
+  > .button {
+    height: 25px;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  &.active > .button,
+  &:hover > .button {
+    height: #{$base-img-height + 10px};
+    align-items: center;
   }
 }

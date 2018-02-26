@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import ClearableInput from '../clearable-input/clearable-input';
+import AutocompleteSuggestionItem from './autocomplete-input-suggestion-item';
+
 import { Enums } from '../../constants/values';
 import { isNumber, getTimeoutSeconds } from '../../utils/common';
 import './autocomplete-input.css';
@@ -104,7 +107,8 @@ class AutocompleteInput extends Component {
       attr,
       label,
       noSuggestionsItem,
-      disableLocalFilter
+      disableLocalFilter,
+      suggestionTemplate: AutocompleteSuggestionTemplate
     } = this.props;
     const autocomplete = this.filterAutoComplete();
     const hasOptions = !!this.props.items.length;
@@ -125,28 +129,19 @@ class AutocompleteInput extends Component {
           this.state.inUse && (
             <ul className="autocomplete-menu list column one">
               {hasSuggestions &&
-                autocomplete.map((item, index) => {
-                  const itemId = isNumber(item.id) ? item.id : item._id;
-                  const activeSuggestion =
-                    this.state.activeSuggestion === index ? ' active' : '';
-                  return (
-                    <li
-                      key={itemId}
-                      className={`autocomplete-suggestion${activeSuggestion}`}
-                    >
-                      <button
-                        type="button"
-                        className="button ripple"
-                        title={item[attr]}
-                        onClick={() =>
-                          this.selectAutocompleteSuggestion(itemId)
-                        }
-                      >
-                        {this.highlightMatch(item[attr])}
-                      </button>
-                    </li>
-                  );
-                })}
+                autocomplete.map((item, index) => (
+                  <AutocompleteSuggestionTemplate
+                    key={item.id || item._id}
+                    activeSuggestion={this.state.activeSuggestion}
+                    index={index}
+                    attr={attr}
+                    item={item}
+                    selectAutocompleteSuggestion={
+                      this.selectAutocompleteSuggestion
+                    }
+                    highlightMatch={this.highlightMatch}
+                  />
+                ))}
               {!hasSuggestions &&
                 (hasOptions || disableLocalFilter) && (
                   <li
@@ -169,7 +164,8 @@ class AutocompleteInput extends Component {
 
 AutocompleteInput.defaultProps = {
   disableLocalFilter: false,
-  noSuggestionsItem: null
+  noSuggestionsItem: null,
+  suggestionTemplate: AutocompleteSuggestionItem
 };
 
 AutocompleteInput.propTypes = {
@@ -180,7 +176,8 @@ AutocompleteInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func,
-  disableLocalFilter: PropTypes.bool
+  disableLocalFilter: PropTypes.bool,
+  suggestionTemplate: PropTypes.func
 };
 
 export default AutocompleteInput;
