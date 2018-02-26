@@ -1,5 +1,5 @@
-@import "../../styles/partials/_colours";
-@import "../../styles/partials/_variables";
+@import '../../styles/partials/_colours';
+@import '../../styles/partials/_variables';
 $tab-controls-height: 31px;
 
 .tab-container {
@@ -10,6 +10,7 @@ $tab-controls-height: 31px;
   .tabs {
     position: relative;
     height: calc(100% - #{$tab-controls-height});
+    min-width: 400px;
     border-top: 1px solid $primary-colour;
   }
 }
@@ -30,14 +31,14 @@ $tab-controls-height: 31px;
       style: solid;
       color: $grey80;
       bottom-color: $white;
-    };
+    }
     z-index: map-get($z-index, above-siblings);
   }
   li.active {
     border: {
       color: $primary-colour;
       bottom-color: $white;
-    };
+    }
     margin-bottom: -1px;
   }
 }

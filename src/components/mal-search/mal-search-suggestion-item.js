@@ -35,7 +35,7 @@ const MalSearchSuggestionItem = ({
           />
         )}
         {highlightMatch(itemText)}
-        <span>{`(${item.series_type})`}</span>
+        <span>{`(${item.type})`}</span>
       </button>
     </li>
   );

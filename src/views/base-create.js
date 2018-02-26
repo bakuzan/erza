@@ -158,7 +158,7 @@ class BaseCreate extends Component {
           >
             <TabContainer>
               <TabView name="Required">
-                <div className="flex-column">
+                <div className="flex-column width-100">
                   <MalSearch
                     id={this.state.malId}
                     type={type}
@@ -238,7 +238,7 @@ class BaseCreate extends Component {
                 </div>
               </TabView>
               <TabView name="Additional">
-                <div className="flex-column">
+                <div className="flex-column width-100">
                   <ClearableInput
                     type="number"
                     name={total}

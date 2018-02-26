@@ -63,7 +63,7 @@ class AutocompleteInput extends Component {
 
     const length = this.props.filter.length;
     return (
-      <span>
+      <span className="autocomplete-suggestion-text">
         {value.slice(0, match.index)}
         <span className="highlight">
           {value.slice(match.index, match.index + length)}
