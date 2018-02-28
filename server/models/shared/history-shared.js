@@ -26,7 +26,8 @@ const additionalFields = {
   dateStr: {
     type: 'String',
     description: 'Date field as a String',
-    resolve: source => Common.getFormattedDateString(source.date)
+    resolve: source => Common.getFormattedDateString(source.date),
+    projection: { date: true }
   }
 };
 
