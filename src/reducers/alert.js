@@ -16,7 +16,7 @@ function dismissAlert(state, action) {
   };
 }
 
-const messageReducer = createReducer(initialState, {
+const alert = createReducer(initialState, {
   [ALERT_MESSAGE]: pushAlert,
   [ALERT_DISMISS]: dismissAlert
 });
