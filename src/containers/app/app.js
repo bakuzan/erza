@@ -8,7 +8,7 @@ import Sidebar from '../sidebar/sidebar';
 import RequestIndicator from '../request-indicator';
 import Toaster from '../../components/toaster/toaster';
 import Shortcuts from '../../components/shortcuts/shortcuts';
-import Alert from '../../components/alert';
+import Alert from '../alert';
 
 import './app.css';
 
