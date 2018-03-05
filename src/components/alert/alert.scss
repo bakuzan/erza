@@ -1,0 +1,9 @@
+@import '../../styles/partials/_variables.scss';
+@import '../../styles/partials/_colours.scss';
+
+#alert-container {
+  .alert {
+    &.error {
+    }
+  }
+}

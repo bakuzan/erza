@@ -8,6 +8,7 @@ import Sidebar from '../sidebar/sidebar';
 import RequestIndicator from '../request-indicator';
 import Toaster from '../../components/toaster/toaster';
 import Shortcuts from '../../components/shortcuts/shortcuts';
+import Alert from '../../components/alert';
 
 import './app.css';
 
@@ -23,6 +24,7 @@ const App = ({ history, children, sidebarState }) => {
       <Sidebar />
       <RequestIndicator />
       <main>{children}</main>
+      <Alert />
       <Toaster />
       <Shortcuts history={history} />
     </div>

@@ -90,3 +90,20 @@ export const objectsAreEqual = (o1, o2) => {
       : one === two;
   });
 };
+
+export const generateUniqueId = () =>
+  ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+
+export function curry(fn) {
+  const c = curry.bind(
+    this,
+    (fn = fn.bind.apply(fn, [this].concat([].slice.call(arguments, 1))))
+  );
+  c.exec = fn;
+  return c;
+}
