@@ -35,7 +35,6 @@ const fetchFromServer = (url, method = 'GET', body = null) => {
     })
     .then(jsonResult => {
       const badResponse = isObject(jsonResult) && !!jsonResult.errors;
-      console.log(jsonResult, badResponse);
       if (badResponse)
         store.dispatch(
           showAlertError({

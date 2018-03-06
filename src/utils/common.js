@@ -99,15 +99,15 @@ export const generateUniqueId = () =>
     ).toString(16)
   );
 
-function toArray(arg) {
-  return Array.prototype.slice.call(arg);
-}
+export const compose = (...fns) =>
+  fns.reduce((f, g) => (...args) => f(g(...args)));
 
-export function curry() {
-  if (arguments.length < 1) return this; //nothing to curry with - return function
-  const __method = this;
-  const args = toArray(arguments);
+export function curry(uncurried) {
+  const parameters = Array.prototype.slice.call(arguments, 1);
   return function() {
-    return __method.apply(this, args.concat(toArray(arguments)));
+    return uncurried.apply(
+      this,
+      parameters.concat(Array.prototype.slice.call(arguments, 0))
+    );
   };
 }

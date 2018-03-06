@@ -64,6 +64,7 @@ class Alert extends React.Component {
           .slice(0, 1)
           .map(a => (
             <AlertMessage
+              key={a.id}
               {...a}
               isExpanded={this.state.expandedAlerts.includes(a.id)}
               expandDetail={this.handleShowDetail}
