@@ -90,9 +90,11 @@ $info-colour: $cyan;
 $success-colour: $green;
 $alert-colour: $orange;
 $danger-colour: $red;
-$toasts: (
+$ui-messaging: (
   success: (background: $success-colour, colour: #000, icon: '\2713'),
   error: (background: $danger-colour, colour: #fff, icon: '\0021'),
   warning: (background: $alert-colour, colour: #000, icon: '\26a0'),
   info: (background: $info-colour, colour: #000, icon: '\2139')
 );
+$toasts: $ui-messaging;
+$alerts: $ui-messaging;

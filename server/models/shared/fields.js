@@ -6,7 +6,7 @@ const itemSharedFields = {
     type: String,
     unique: 'Title must be unique.',
     default: '',
-    required: 'Please fill in an anime title',
+    required: 'Please fill in a title',
     trim: true
   },
   start: {

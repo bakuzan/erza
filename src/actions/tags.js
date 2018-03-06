@@ -47,8 +47,9 @@ const mutateTag = (queryBuilder, item) => {
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
       response => {
         const data = getSingleObjectProperty(response.data);
-        dispatch(addTag(data.record));
         dispatch(finishTagsRequest());
+        if (!data) return null;
+        dispatch(addTag(data.record));
         toaster.success(
           'Saved!',
           `Successfully saved '${data.record.name}' tag.`
@@ -68,6 +69,7 @@ export const deleteTag = tagId => {
       .then(response => {
         const data = getSingleObjectProperty(response.data);
         dispatch(removeTag(tagId));
+        if (!data) return null;
         toaster.success(
           'Removed!',
           `Successfully deleted '${data.record.name}' tag.`

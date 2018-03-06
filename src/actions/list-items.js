@@ -71,6 +71,7 @@ export const mutateItem = (type, item, queryBuilder) => {
       response => {
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
+        if (!data) return null;
         toaster.success(
           'Saved!',
           `Successfully saved '${data.record.title}' ${type}.`
@@ -125,9 +126,10 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
       response => {
-        const data = getSingleObjectProperty(response.data);
-        if (type) dispatch(refreshItemInState[type](data.record));
         dispatch(finishGraphqlRequest());
+        const data = getSingleObjectProperty(response.data);
+        if (!data) return null;
+        if (type) dispatch(refreshItemInState[type](data.record));
         toaster.success(
           'Saved!',
           `Successfully saved '${data.record[type] || 'history'}'.`
@@ -146,6 +148,7 @@ export const removeHistoryItem = (type, id, queryBuilder) => {
         dispatch(removeItemFromState[type](id));
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
+        if (!data) return null;
         toaster.success(
           'Deleted!',
           `Successfully deleted '${data.record.series.title}' history entry.`
