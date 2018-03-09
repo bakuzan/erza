@@ -58,6 +58,7 @@ class Alert extends React.Component {
 
   render() {
     const { alerts, actions } = this.props;
+    if (!alerts.length) return null;
     return (
       <div id="alert-container">
         {alerts
