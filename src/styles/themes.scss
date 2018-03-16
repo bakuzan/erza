@@ -147,6 +147,10 @@
       @include shiftColourLightness($colour, $darken-amount * 3);
     }
 
+    .loading-bouncer > div {
+      background: $colour;
+    }
+
     // satellizer theming
     #satellizer {
       a {

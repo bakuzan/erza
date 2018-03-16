@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import { SimpleLoading } from '../../components/loadable';
+import Loaders from '../../components/loaders/index';
 import { Strings } from '../../constants/values';
 import {
   mapStateToEntityList,
@@ -13,7 +13,7 @@ import { loadManga } from '../../actions/manga';
 
 const BaseListView = Loadable({
   loader: () => import(/* webpackChunkName: 'item-list' */ '../base-list'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 

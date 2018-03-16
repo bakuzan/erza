@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import RatingControl from '../components/rating-control/rating-control';
-import LoadingSpinner from '../components/loading-spinner/loading-spinner';
-import { SimpleLoading } from '../components/loadable';
+import Loaders from '../components/loaders/index';
 
 import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
@@ -21,7 +20,7 @@ const loadHistory = props => props.loadHistoryForSeries(props.itemId);
 const HistoryList = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'history-list' */ '../components/list-components/history-list/history-list'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 
@@ -62,7 +61,7 @@ class BaseView extends Component {
   render() {
     const { type, item, isFetching, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
-    if (isFetching) return <LoadingSpinner size="fullscreen" />;
+    if (isFetching) return <Loaders.LoadingSpinner size="fullscreen" />;
 
     return (
       <section>
