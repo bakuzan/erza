@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import { SimpleLoading } from '../components/loadable';
-import LoadingSpinner from '../components/loading-spinner/loading-spinner';
+import Loaders from '../components/loaders/index';
 import ListFilter from '../containers/list-filter/list-filter';
 import PagedAnimeList from '../containers/paged-lists/paged-anime-list';
 import PagedMangaList from '../containers/paged-lists/paged-manga-list';
@@ -29,7 +28,7 @@ const fetchPagedListForType = type =>
 const DailyAnime = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'daily-anime' */ '../containers/daily-anime/daily-anime'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 
@@ -83,7 +82,7 @@ class BaseListView extends Component {
               <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />
             )}
         </ListFilter>
-        {this.props.isFetching && <LoadingSpinner size="fullscreen" />}
+        {this.props.isFetching && <Loaders.LoadingSpinner size="fullscreen" />}
         {!this.props.isFetching && (
           <PagedTypedList filters={filters} items={items} />
         )}

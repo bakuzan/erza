@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import fetchFromServer from '../../graphql/fetch';
 import AutocompleteInput from '../autocomplete-input/autocomplete-input';
-import LoadingSpinner from '../loading-spinner/loading-spinner';
+import LoadingSpinner from '../loaders/loading-spinner/loading-spinner';
 import MalSearchSuggestionItem from './mal-search-suggestion-item';
 
 import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';

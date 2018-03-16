@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import LoadingSpinner from '../../components/loaders/loading-spinner/loading-spinner';
 import ClearableInput from '../../components/clearable-input/clearable-input';
 import TagList from '../../components/list-components/tag-list';
 

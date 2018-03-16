@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import { SimpleLoading } from '../../components/loadable';
+import Loaders from '../../components/loaders/index';
 import { loadAnimeById } from '../../actions/anime';
 import {
   loadEpisodeForSeries,
@@ -15,7 +15,7 @@ import { Strings } from '../../constants/values';
 
 const BaseView = Loadable({
   loader: () => import(/* webpackChunkName: 'item-view' */ '../base-view'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 

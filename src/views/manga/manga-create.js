@@ -3,14 +3,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import { SimpleLoading } from '../../components/loadable';
+import Loaders from '../../components/loaders/index';
 import { loadMangaById, createManga, editManga } from '../../actions/manga';
 import { Strings } from '../../constants/values';
 
 const BaseCreate = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'item-creation' */ '../base-create'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 

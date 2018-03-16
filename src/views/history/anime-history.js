@@ -3,14 +3,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import { SimpleLoading } from '../../components/loadable';
+import Loaders from '../../components/loaders/index';
 import { Strings } from '../../constants/values';
 import { mapStateToEntityList } from '../../utils/data';
 import { loadEpisodesByDateRange } from '../../actions/episode';
 
 const BaseHistoryView = Loadable({
   loader: () => import(/* webpackChunkName: 'history' */ './base-history'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 

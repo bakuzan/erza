@@ -22,12 +22,11 @@ import {
 } from '../utils/data';
 import animeValidator from '../utils/validators/anime-creation';
 import mangaValidator from '../utils/validators/manga-creation';
-import { SimpleLoading } from '../components/loadable';
+import Loaders from '../components/loaders/index';
 import RatingControl from '../components/rating-control/rating-control';
 import Tickbox from '../components/tickbox/tickbox';
 import SelectBox from '../components/select-box/select-box';
 import ChipListInput from '../components/chip-list-input/chip-list-input';
-import LoadingSpinner from '../components/loading-spinner/loading-spinner';
 import TabContainer from '../components/tab-container/tab-container';
 import TabView from '../components/tab-view/tab-view';
 import ClearableInput from '../components/clearable-input/clearable-input';
@@ -47,13 +46,13 @@ const STATUS_OPTIONS = Object.keys(Enums.status)
 const MalSearch = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'mal-search' */ '../components/mal-search/mal-search'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 const ImageSelector = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'image-selector' */ '../components/image-selector/image-selector'),
-  loading: SimpleLoading,
+  loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
 
@@ -122,7 +121,8 @@ class BaseCreate extends Component {
   }
 
   render() {
-    if (this.props.isFetching) return <LoadingSpinner size="fullscreen" />;
+    if (this.props.isFetching)
+      return <Loaders.LoadingSpinner size="fullscreen" />;
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;

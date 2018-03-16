@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import LoadingSpinner from '../../components/loaders/loading-spinner/loading-spinner';
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list';
 import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
 import {

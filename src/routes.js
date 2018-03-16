@@ -6,7 +6,7 @@ import Loadable from 'react-loadable';
 import { Paths } from './constants/paths';
 import { Strings } from './constants/values';
 import App from './containers/app/app';
-import { Loading } from './components/loadable';
+import Loaders from './components/loaders/index';
 import Anime from './views/anime/anime';
 import AnimeView from './views/anime/anime-view';
 import AnimeCreate from './views/anime/anime-create';
@@ -16,7 +16,7 @@ import MangaCreate from './views/manga/manga-create';
 import AnimeHistoryView from './views/history/anime-history';
 import MangaHistoryView from './views/history/manga-history';
 
-const loadableSettings = { loading: Loading, delay: 300 };
+const loadableSettings = { loading: Loaders.Loadables.Loading, delay: 300 };
 const Home = Loadable({
   loader: () => import(/* webpackChunkName: 'home' */ './views/home'),
   ...loadableSettings
