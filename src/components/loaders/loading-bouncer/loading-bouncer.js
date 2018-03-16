@@ -1,9 +1,9 @@
 import React from 'react';
 
-import './loading-bouncer.js';
+import './loading-bouncer.css';
 
 const LoadingBouncer = () => (
-  <div class="loading-bouncer">
+  <div className="loading-bouncer">
     <div />
     <div />
     <div />
