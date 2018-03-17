@@ -44,18 +44,17 @@ const mutateTag = (queryBuilder, item) => {
     const { isAdult } = getState();
     const itemForCreation = constructRecordForPost({ ...item, isAdult });
     const mutation = queryBuilder(itemForCreation);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
-      response => {
+    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
+      .then(response => {
         const data = getSingleObjectProperty(response.data);
-        dispatch(finishTagsRequest());
         if (!data) return null;
         dispatch(addTag(data.record));
         toaster.success(
           'Saved!',
           `Successfully saved '${data.record.name}' tag.`
         );
-      }
-    );
+      })
+      .then(() => dispatch(finishTagsRequest()));
   };
 };
 
