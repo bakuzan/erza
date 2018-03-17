@@ -16,8 +16,10 @@ class LoadableContent extends React.Component {
     if (nextProps.isFetching && !this.props.isFetching)
       return this.handleDelayTimer();
 
-    if (!nextProps.isFetching && this.props.isFetching)
+    if (!nextProps.isFetching && this.props.isFetching) {
+      clearTimeout(this.timer);
       return this.setState({ pastDelay: false });
+    }
   }
 
   handleDelayTimer() {
