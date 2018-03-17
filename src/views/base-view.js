@@ -5,7 +5,7 @@ import Loadable from 'react-loadable';
 
 import RatingControl from '../components/rating-control/rating-control';
 import Loaders from '../components/loaders/index';
-import LoadableContent from '../containers/loading-content';
+import LoadableContent from '../containers/loadable-content';
 
 import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';

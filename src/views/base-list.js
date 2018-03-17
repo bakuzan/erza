@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import Loaders from '../components/loaders/index';
-import LoadableContent from '../containers/loading-content';
+import LoadableContent from '../containers/loadable-content';
 import ListFilter from '../containers/list-filter/list-filter';
 import PagedAnimeList from '../containers/paged-lists/paged-anime-list';
 import PagedMangaList from '../containers/paged-lists/paged-manga-list';

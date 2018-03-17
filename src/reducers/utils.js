@@ -22,7 +22,7 @@ export function addEntity(state, action) {
   });
 }
 
-export function addListEntity(state, action) {
+function addListEntity(state, action) {
   const item = getItem(action);
   const updatedById = update(state, {
     byId: {
