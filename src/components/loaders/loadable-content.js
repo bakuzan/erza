@@ -24,7 +24,7 @@ class LoadableContent extends React.Component {
     clearTimeout(this.timer);
     this.timer = setTimeout(
       () => this.setState({ pastDelay: true }),
-      this.props.apinnerDelay
+      this.props.spinnerDelay
     );
   }
 

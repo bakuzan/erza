@@ -62,6 +62,8 @@ class BaseView extends Component {
     const { type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
 
+    if (!item || !item._id) return <Loaders.LoadingSpinner size="fullscreen" />;
+
     return (
       <section>
         <div className="flex-row reverse">
