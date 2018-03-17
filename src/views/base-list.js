@@ -82,10 +82,9 @@ class BaseListView extends Component {
               <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />
             )}
         </ListFilter>
-        {this.props.isFetching && <Loaders.LoadingSpinner size="fullscreen" />}
-        {!this.props.isFetching && (
+        <Loaders.LoadableContent>
           <PagedTypedList filters={filters} items={items} />
-        )}
+        </Loaders.LoadableContent>
       </div>
     );
   }
@@ -93,7 +92,6 @@ class BaseListView extends Component {
 
 BaseListView.propTypes = {
   routeKey: PropTypes.string.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired,
@@ -102,7 +100,6 @@ BaseListView.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.isFetching,
   isAdult: state.isAdult,
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey,

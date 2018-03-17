@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import LoadingSpinner from '../../components/loaders/loading-spinner/loading-spinner';
+import LoadableContent from '../../containers/loadable-content';
 import ClearableInput from '../../components/clearable-input/clearable-input';
 import TagList from '../../components/list-components/tag-list';
 
@@ -55,15 +55,15 @@ class TagManagementList extends React.Component {
             />
           </div>
         </div>
-        {this.props.isFetching && <LoadingSpinner size="fullscreen" />}
-        {!this.props.isFetching && <TagList items={items} />}
+        <LoadableContent>
+          <TagList items={items} />
+        </LoadableContent>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isFetching: state.isFetching,
   isAdult: state.isAdult,
   tags: mapStateToEntityList(state.entities.tags)
 });

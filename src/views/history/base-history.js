@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../components/loaders/loading-spinner/loading-spinner';
+import LoadableContent from '../../containers/loadable-content';
 import PagedHistoryList from '../../containers/paged-history-list/paged-history-list';
 import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
 import {
@@ -58,14 +58,13 @@ class BaseHistoryView extends Component {
   }
 
   render() {
-    const { isFetching, items, type } = this.props;
+    const { items, type } = this.props;
     const filters = {
       dateRange: dateRangeForQuery(this.state.from, this.state.to)
     };
 
     return (
       <div className="flex-row">
-        {isFetching && <LoadingSpinner size="fullscreen" />}
         <div className="filters-container">
           <div>
             <Datepicker
@@ -83,9 +82,9 @@ class BaseHistoryView extends Component {
             />
           </div>
         </div>
-        {!isFetching && (
+        <LoadableContent>
           <PagedHistoryList type={type} filters={filters} items={items} />
-        )}
+        </LoadableContent>
       </div>
     );
   }
@@ -93,7 +92,6 @@ class BaseHistoryView extends Component {
 
 BaseHistoryView.propTypes = {
   type: PropTypes.string.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadHistory: PropTypes.func.isRequired,
@@ -101,7 +99,6 @@ BaseHistoryView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isFetching: state.isFetching,
   isAdult: state.isAdult,
   itemsPerPage: state.paging.itemsPerPage
 });
