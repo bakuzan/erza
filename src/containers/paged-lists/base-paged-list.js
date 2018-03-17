@@ -24,26 +24,30 @@ const EMPTY_OBJECT = {};
 const fetchMalEntry = type => search =>
   fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
+const getInitialState = current => ({
+  editItem: {
+    _id: null,
+    [current]: 0,
+    min: 0,
+    max: null,
+    overallRating: 0,
+    ratings: {},
+    notes: {}
+  },
+  malUpdates: {
+    values: null,
+    message: null,
+    status: ''
+  }
+});
+
 class BasePagedList extends Component {
   constructor(props) {
     super(props);
     this.itemProperties = getUniquePropertiesForItemType(props.type);
     this.getMalEntry = fetchMalEntry(props.type);
     this.state = {
-      editItem: {
-        _id: null,
-        [this.itemProperties.current]: 0,
-        min: 0,
-        max: null,
-        overallRating: 0,
-        ratings: {},
-        notes: {}
-      },
-      malUpdates: {
-        values: null,
-        message: null,
-        status: ''
-      }
+      ...getInitialState(this.itemProperties.current)
     };
 
     this.openEditDialog = this.openEditDialog.bind(this);
@@ -59,24 +63,27 @@ class BasePagedList extends Component {
   openEditDialog(_id) {
     const { current, total } = this.itemProperties;
     const editItem = this.props.items.find(x => x._id === _id);
-
+    const defaults = getInitialState(this.itemProperties.current);
     if (editItem.malId) this.refreshMalValues(editItem);
-    this.setState(prevState => ({
-      editItem: Object.assign({}, prevState.editItem, {
+    this.setState({
+      ...defaults,
+      editItem: {
+        ...defaults.editItem,
         _id,
         [current]: editItem[current] || 0,
         min: editItem[current] || 0,
         max: editItem[total] || null,
         overallRating: editItem.rating
-      }),
+      },
       malUpdates: {
+        ...defaults.malUpdates,
         values: null,
         message: editItem.malId
           ? Strings.fetchingMalEntry
           : Strings.noLinkedMalEntry,
         status: editItem.malId ? Strings.loading : ''
       }
-    }));
+    });
     this.dialog.showModal();
   }
 
