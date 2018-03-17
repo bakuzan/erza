@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import RatingControl from '../components/rating-control/rating-control';
 import Loaders from '../components/loaders/index';
+import LoadableContent from '../containers/loading-content';
 
 import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
@@ -59,9 +59,8 @@ class BaseView extends Component {
   }
 
   render() {
-    const { type, item, isFetching, history, historyItems } = this.props;
+    const { type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
-    if (isFetching) return <Loaders.LoadingSpinner size="fullscreen" />;
 
     return (
       <section>
@@ -154,17 +153,19 @@ class BaseView extends Component {
                   </button>
                 )}
                 {this.state.hasHistory && (
-                  <div>
-                    {!historyItems.length && <p>No history found.</p>}
-                    {!!historyItems.length && (
-                      <HistoryList
-                        type={type}
-                        items={historyItems}
-                        editAction={this.handleHistoryEdit}
-                        deleteAction={this.handleHistoryDelete}
-                      />
-                    )}
-                  </div>
+                  <LoadableContent spinnerSize="default">
+                    <div>
+                      {!historyItems.length && <p>No history found.</p>}
+                      {!!historyItems.length && (
+                        <HistoryList
+                          type={type}
+                          items={historyItems}
+                          editAction={this.handleHistoryEdit}
+                          deleteAction={this.handleHistoryDelete}
+                        />
+                      )}
+                    </div>
+                  </LoadableContent>
                 )}
               </div>
             </div>
@@ -205,15 +206,10 @@ BaseView.propTypes = {
   itemId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
   historyItems: PropTypes.arrayOf(PropTypes.object),
-  isFetching: PropTypes.bool.isRequired,
   loadItemById: PropTypes.func.isRequired,
   loadHistoryForSeries: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  isFetching: state.isFetching
-});
-
-export default connect(mapStateToProps)(BaseView);
+export default BaseView;

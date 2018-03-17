@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import Loaders from '../components/loaders/index';
+import LoadableContent from '../containers/loading-content';
 import ListFilter from '../containers/list-filter/list-filter';
 import PagedAnimeList from '../containers/paged-lists/paged-anime-list';
 import PagedMangaList from '../containers/paged-lists/paged-manga-list';
@@ -82,9 +83,9 @@ class BaseListView extends Component {
               <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />
             )}
         </ListFilter>
-        <Loaders.LoadableContent>
+        <LoadableContent>
           <PagedTypedList filters={filters} items={items} />
-        </Loaders.LoadableContent>
+        </LoadableContent>
       </div>
     );
   }
