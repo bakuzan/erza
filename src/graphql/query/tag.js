@@ -26,11 +26,11 @@ const getById = id => `
     tagById(_id: "${id}") {
       _id
       name
-      animeWithTag(sort: TITLE_DESC) {
+      animeWithTag(sort: TITLE_ASC) {
         _id
         title
       }
-      mangaWithTag(sort: TITLE_DESC) {
+      mangaWithTag(sort: TITLE_ASC) {
         _id
         title
       }
