@@ -4,51 +4,64 @@ import { Icons } from '../../constants/values';
 import { debounce } from '../../utils/common';
 import './clearable-input.css';
 
-let inputField;
-const clearAndFocusInput = (name, clearInput) => () => {
-  clearInput({ target: { name, value: '' } });
-  debounce(() => inputField.focus(), 100);
-};
+class ClearableInput extends React.Component {
+  constructor(props) {
+    super(props);
 
-const ClearableInput = ({
-  type,
-  label,
-  name,
-  value,
-  maxLength,
-  onChange,
-  ...props
-}) => (
-  <div className="has-float-label input-container clearable-input">
-    <input
-      ref={input => (inputField = input)}
-      placeholder=" "
-      autoComplete="off"
-      type={type}
-      label={label}
-      name={name}
-      value={value}
-      maxLength={maxLength}
-      onChange={onChange}
-      {...props}
-    />
-    <label>{label}</label>
-    {!!value &&
-      type === 'text' && (
-        <button
-          type="button"
-          className="button-icon small clear-input"
-          icon={Icons.cross}
-          onClick={clearAndFocusInput(name, onChange)}
+    this.inputField = null;
+    this.clearAndFocusInput = this.clearAndFocusInput.bind(this);
+  }
+
+  clearAndFocusInput() {
+    this.props.onChange({ target: { name: this.props.name, value: '' } });
+    console.log(this.inputField);
+    debounce(() => this.inputField.focus(), 100);
+  }
+
+  render() {
+    const {
+      type,
+      label,
+      name,
+      value,
+      maxLength,
+      onChange,
+      ...props
+    } = this.props;
+
+    return (
+      <div className="has-float-label input-container clearable-input">
+        <input
+          ref={input => (this.inputField = input)}
+          placeholder=" "
+          autoComplete="off"
+          type={type}
+          label={label}
+          name={name}
+          value={value}
+          maxLength={maxLength}
+          onChange={onChange}
+          {...props}
         />
-      )}
-    {!!maxLength && (
-      <span className="clearable-input-count">
-        {`${value.length}/${maxLength}`}
-      </span>
-    )}
-  </div>
-);
+        <label>{label}</label>
+        {!!value &&
+          type === 'text' && (
+            <button
+              type="button"
+              className="button-icon small clear-input"
+              icon={Icons.cross}
+              onClick={this.clearAndFocusInput}
+            />
+          )}
+        {!!maxLength && (
+          <span className="clearable-input-count">
+            {`${value.length}/${maxLength}`}
+          </span>
+        )}
+      </div>
+    );
+  }
+}
 
 ClearableInput.defaultProps = {
   name: 'search',
