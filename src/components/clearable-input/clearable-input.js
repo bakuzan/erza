@@ -14,7 +14,6 @@ class ClearableInput extends React.Component {
 
   clearAndFocusInput() {
     this.props.onChange({ target: { name: this.props.name, value: '' } });
-    console.log(this.inputField);
     debounce(() => this.inputField.focus(), 100);
   }
 
