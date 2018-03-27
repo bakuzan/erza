@@ -16,14 +16,25 @@ const getFormattedDateString = d => {
   return `${year}-${padNumber(month + 1, 2)}-${padNumber(date, 2)}`;
 };
 
-const getSeasonText = month => {
-  return month < 3
+const getSeasonText = dateParts => {
+  if (!dateParts) return null;
+  const {month} = dateParts;
+  if (!month && isNaN(month)) return null;
+  
+  const isLateInMonth = dateParts.date > 14;
+  const modulus = dateParts.month%3;
+  const monthAdjusted = modulus === 2 || (modulus === 1 && isLateInMonth)
+   ? month + 1
+   : month;
+  return monthAdjusted < 3
     ? Constants.seasons.winter
-    : month < 6
+    : monthAdjusted < 6
       ? Constants.seasons.spring
-      : month < 9
+      : monthAdjusted < 9
         ? Constants.seasons.summer
-        : month < 12 ? Constants.seasons.fall : null;
+        : monthAdjusted < 12
+          ? Constants.seasons.fall
+          : Constants.seasons.winter;
 };
 
 const handleErrorResponse = (err, res) => {

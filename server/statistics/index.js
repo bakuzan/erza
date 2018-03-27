@@ -3,7 +3,8 @@ const {
   handleErrorResponse,
   getKeyByValue,
   stringToBool,
-  getSeasonText
+  getSeasonText,
+  getDateParts
 } = require('../utils/common');
 const Functions = require('./common.js');
 const mongoose = require('mongoose');
@@ -240,7 +241,9 @@ const attachEpisodeStatistics = async ({ isAdult }, parents) => {
       _id,
       title,
       rating,
-      season: getSeasonText(new Date(start).getMonth() + 1),
+      season: getSeasonText(
+		getDateParts(new Date(start))
+	  ),
       episodeStatistics: {
         ...emptyEpisodeStatistic(),
         ...episodeStatistics,
