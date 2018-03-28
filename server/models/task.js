@@ -52,7 +52,8 @@ TaskTC.addFields({
       if (!date) return '';
 
       return Constants.dayNames[date.getDay()];
-    }
+    },
+    projection: { repeatDay: 1 }
   }
 });
 

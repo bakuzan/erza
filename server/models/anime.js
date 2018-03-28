@@ -43,10 +43,8 @@ AnimeTC.addFields({
       const item = source;
       const start = Common.getDateParts(item.start);
       const seriesStart = Common.getDateParts(item.series_start);
-	  const dateParts = seriesStart.month
-	    ? seriesStart
-		: start;
-		
+      const dateParts = seriesStart.month ? seriesStart : start;
+
       return Object.assign(
         {},
         {
@@ -59,6 +57,12 @@ AnimeTC.addFields({
           season: Common.getSeasonText(dateParts)
         }
       );
+    },
+    projection: {
+      _legacyIsSeason: 1,
+      start: 1,
+      series_start: 1,
+      series_type: 1
     }
   }
 });
