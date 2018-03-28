@@ -23,8 +23,11 @@ const fetchBreakdownObject = v =>
             {
               $and: [
                 { monthMatches: true },
-                { series_type: { $in: Constants.seasonalTypes } },
-                { monthPart: { $in: ['01', '04', '07', '10'] } }
+                { series_type: { $in: Constants.seasonalTypes } }
+                // { monthPart: { $in: ['01', '04', '07', '10'] } }
+                /* Trial removal of "season start month check".
+                 * Unsure as to what will happen.
+                 */
               ]
             }
           ]
