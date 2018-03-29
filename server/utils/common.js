@@ -1,6 +1,11 @@
 const chalk = require('chalk');
 const Constants = require('../constants.js');
 
+function getPreviousMonth(year, month) {
+  const date = getFormattedDateString(new Date(year, Number(month) - 1, 1));
+  return date.substring(0, 7);
+}
+
 const getDateParts = date => {
   if (!date) return {};
   const d = new Date(date);
@@ -16,26 +21,25 @@ const getFormattedDateString = d => {
   return `${year}-${padNumber(month + 1, 2)}-${padNumber(date, 2)}`;
 };
 
-const getSeasonText = dateParts => {
+const getSeasonIndex = seasonArr => dateParts => {
   if (!dateParts) return null;
-  const {month} = dateParts;
+  const { month } = dateParts;
   if (!month && isNaN(month)) return null;
-  
+
   const isLateInMonth = dateParts.date > 14;
-  const modulus = dateParts.month%3;
-  const monthAdjusted = modulus === 2 || (modulus === 1 && isLateInMonth)
-   ? month + 1
-   : month;
+  const modulus = dateParts.month % 3;
+  const monthAdjusted =
+    modulus === 2 || (modulus === 1 && isLateInMonth) ? month + 1 : month;
   return monthAdjusted < 3
-    ? Constants.seasons.winter
+    ? seasonArr[0]
     : monthAdjusted < 6
-      ? Constants.seasons.spring
+      ? seasonArr[1]
       : monthAdjusted < 9
-        ? Constants.seasons.summer
-        : monthAdjusted < 12
-          ? Constants.seasons.fall
-          : Constants.seasons.winter;
+        ? seasonArr[2]
+        : monthAdjusted < 12 ? seasonArr[3] : seasonArr[0];
 };
+
+const getSeasonText = getSeasonIndex(Object.values(Constants.seasons));
 
 const handleErrorResponse = (err, res) => {
   console.error(chalk.bgRed.white.bold(err));
@@ -67,6 +71,7 @@ const fetchTimeout = (t, promise) => {
 
 const Common = {
   handleErrorResponse,
+  getPreviousMonth,
   getDateParts,
   getFormattedDateString,
   getSeasonText,

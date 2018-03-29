@@ -84,7 +84,10 @@ const currateHistoryBreakdown = (breakdown, arr) => {
     .reduce((p, c) => {
       const { _id, value } = c;
       const [year, month] = _id.split('-');
-      const seasonText = `${year}-${Functions.getSeasonStartMonth(month)}`;
+      const seasonText = `${year}-${Functions.getSeasonStartMonth(
+        year,
+        month
+      )}`;
       const index = p.findIndex(x => x._id === seasonText);
 
       if (index === -1) return [...p, { _id: seasonText, value }];
@@ -193,7 +196,7 @@ const getHistoryCountsByYearsPartition = (req, res) => {
     .then(function(arr) {
       let ids = [];
 
-      counts = fixSeasonalResults(breakdown, arr).map(item => {
+      counts = fixSeasonalResults(partition, breakdown, arr).map(item => {
         const ratings = item.ratings.slice(0);
         ids = [...ids, ...item.series];
         delete item.ratings;
@@ -241,9 +244,7 @@ const attachEpisodeStatistics = async ({ isAdult }, parents) => {
       _id,
       title,
       rating,
-      season: getSeasonText(
-		getDateParts(new Date(start))
-	  ),
+      season: getSeasonText(getDateParts(new Date(start))),
       episodeStatistics: {
         ...emptyEpisodeStatistic(),
         ...episodeStatistics,
@@ -255,12 +256,12 @@ const attachEpisodeStatistics = async ({ isAdult }, parents) => {
 
 const isASeasonStartMonth = obj =>
   ['01', '04', '07', '10'].some(y => y === obj._id);
-const fixSeasonalResults = (breakdown, data) => {
+const fixSeasonalResults = (year, breakdown, data) => {
   if (Functions.historyBreakdownIsMonths(breakdown)) return data;
 
   return data.filter(x => !isASeasonStartMonth(x)).reduce((p, c) => {
     const { _id, value, average, highest, lowest, ratings, series } = c;
-    const seasonNumber = `${Functions.getSeasonStartMonth(_id)}`;
+    const seasonNumber = `${Functions.getSeasonStartMonth(year, _id)}`;
     const index = p.findIndex(x => x._id === seasonNumber);
 
     if (index === -1)

@@ -1,5 +1,5 @@
 const Constants = require('../constants.js');
-const { padNumber } = require('../utils/common.js');
+const { padNumber, getPreviousMonth } = require('../utils/common.js');
 
 const fetchStatusGrouping = v =>
   historyBreakdownIsMonths(v) ? 2 : { $in: [1, 2] };
@@ -45,13 +45,11 @@ const getDatePropertyString = b =>
 const aggregateIsSeasonStart = o =>
   ['01', '04', '07', '10'].some(y => y === o._id.split('-')[1]);
 
-// TODO
-// change this function to behave like getSeasonText, but return the numbers.
-const getSeasonStartMonth = month =>
-  Constants.seasonMonths[Math.floor(Number(month) / 4)];
+const getSeasonStartMonth = (year, month) => {
+  const date = new Date(year, month, 1);
+  return getSeasonIndex(Constants.seasonMonths)(date);
+};
 
-// TODO
-// add a monthNum - 1, make sure you take year into account.
 const listOfMonths = (breakdown, partition) => {
   const isMonths = historyBreakdownIsMonths(breakdown);
   const [year, month] = partition.split('-');
@@ -59,6 +57,7 @@ const listOfMonths = (breakdown, partition) => {
   return isMonths
     ? [partition]
     : [
+        getPreviousMonth(year, monthNum),
         partition,
         `${year}-${padNumber(monthNum + 1, 2)}`,
         `${year}-${padNumber(monthNum + 2, 2)}`
