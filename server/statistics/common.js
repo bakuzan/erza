@@ -15,6 +15,9 @@ const fetchBreakdownObject = v =>
               { $substr: ['$series_start', 0, 7] }
             ]
           },
+          datesMatch: {
+            $eq: [{ $substr: ['$start', 0, 7] }, { $substr: ['$end', 0, 7] }]
+          },
           monthPart: { $substr: ['$start', 5, 2] }
         },
         match: {
@@ -23,6 +26,7 @@ const fetchBreakdownObject = v =>
             {
               $and: [
                 { monthMatches: true },
+                { datesMatch: false },
                 { series_type: { $in: Constants.seasonalTypes } }
                 // { monthPart: { $in: ['01', '04', '07', '10'] } }
                 /* Trial removal of "season start month check".
@@ -40,9 +44,14 @@ const getDatePropertyString = b =>
 
 const aggregateIsSeasonStart = o =>
   ['01', '04', '07', '10'].some(y => y === o._id.split('-')[1]);
+
+// TODO
+// change this function to behave like getSeasonText, but return the numbers.
 const getSeasonStartMonth = month =>
   Constants.seasonMonths[Math.floor(Number(month) / 4)];
 
+// TODO
+// add a monthNum - 1, make sure you take year into account.
 const listOfMonths = (breakdown, partition) => {
   const isMonths = historyBreakdownIsMonths(breakdown);
   const [year, month] = partition.split('-');
