@@ -2,7 +2,8 @@ const chalk = require('chalk');
 const Constants = require('../constants.js');
 
 function getPreviousMonth(year, month) {
-  const date = getFormattedDateString(new Date(year, Number(month) - 1, 1));
+  // -2 because e.g. april(04), needs to be last month (-1) and adjusted for date month (-1) 
+  const date = getFormattedDateString(new Date(year, Number(month) - 2, 1));
   return date.substring(0, 7);
 }
 
@@ -74,6 +75,7 @@ const Common = {
   getPreviousMonth,
   getDateParts,
   getFormattedDateString,
+  getSeasonIndex,
   getSeasonText,
   capitalise,
   getKeyByValue,

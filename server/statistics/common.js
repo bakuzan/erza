@@ -1,5 +1,5 @@
 const Constants = require('../constants.js');
-const { padNumber, getPreviousMonth } = require('../utils/common.js');
+const { padNumber, getDateParts, getPreviousMonth, getSeasonIndex } = require('../utils/common.js');
 
 const fetchStatusGrouping = v =>
   historyBreakdownIsMonths(v) ? 2 : { $in: [1, 2] };
@@ -45,9 +45,13 @@ const getDatePropertyString = b =>
 const aggregateIsSeasonStart = o =>
   ['01', '04', '07', '10'].some(y => y === o._id.split('-')[1]);
 
-const getSeasonStartMonth = (year, month) => {
+const getSeasonStartMonthForCounts = month =>
+  Constants.seasonMonths[Math.floor(Number(month) / 4)];
+
+const getSeasonStartMonthForSeries = (year, month) => {
   const date = new Date(year, month, 1);
-  return getSeasonIndex(Constants.seasonMonths)(date);
+  const dateParts = getDateParts(date);
+  return getSeasonIndex(Constants.seasonMonths)(dateParts);
 };
 
 const listOfMonths = (breakdown, partition) => {
@@ -59,8 +63,7 @@ const listOfMonths = (breakdown, partition) => {
     : [
         getPreviousMonth(year, monthNum),
         partition,
-        `${year}-${padNumber(monthNum + 1, 2)}`,
-        `${year}-${padNumber(monthNum + 2, 2)}`
+        `${year}-${padNumber(monthNum + 1, 2)}`
       ];
 };
 
@@ -86,6 +89,7 @@ const getModeRating = arr => {
 
 const getAverageRating = arr => {
   const ratings = arr.filter(x => !!x);
+  if (!ratings.length) return 0;
   return ratings.reduce((p, c) => p + c) / ratings.length;
 };
 
@@ -95,7 +99,8 @@ module.exports = {
   historyBreakdownIsMonths,
   getDatePropertyString,
   aggregateIsSeasonStart,
-  getSeasonStartMonth,
+  getSeasonStartMonthForCounts,
+  getSeasonStartMonthForSeries,
   listOfMonths,
   getModeRating,
   getAverageRating
