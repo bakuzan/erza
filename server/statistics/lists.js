@@ -180,18 +180,18 @@ const fixSeasonalResults = (year, breakdown, data) => {
   const seasonStarts = data.filter(isASeasonStartMonth);
   const other = data.filter(x => !isASeasonStartMonth(x));
   if (!other.length) return seasonStarts;
+
   return other.reduce((p, c) => {
-    const { _id, value, average, highest, lowest, ratings, series } = c;
+    const { _id, value, ratings, series } = c;
+
     const seasonNumber = `${Functions.getSeasonStartMonthForSeries(year, _id)}`;
     const index = p.findIndex(x => x._id === seasonNumber);
 
-    if (index === -1)
-      return [
-        ...p,
-        { _id: seasonNumber, value, average, highest, lowest, ratings }
-      ];
+    if (index === -1) return [...p, { ...c, _id: seasonNumber }];
+
     const season = p[index];
     if (!season) return [...p];
+
     const orderedArray = [...season.ratings, ...ratings].sort();
     const length = orderedArray.length;
 
