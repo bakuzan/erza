@@ -12,13 +12,15 @@ class LoadableContent extends React.Component {
     this.timer = null;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isFetching && !this.props.isFetching)
-      return this.handleDelayTimer();
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.isFetching && !this.props.isFetching) {
+      this.handleDelayTimer();
+      return null;
+    }
 
     if (!nextProps.isFetching && this.props.isFetching) {
       clearTimeout(this.timer);
-      return this.setState({ pastDelay: false });
+      return { pastDelay: false };
     }
   }
 

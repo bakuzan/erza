@@ -11,8 +11,8 @@ class RatingControl extends Component {
     this.isReadOnly = !props.onChange;
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.isReadOnly = !nextProps.onChange;
+  componentDidUpdate(prevProps) {
+    this.isReadOnly = !this.props.onChange;
   }
 
   handleChange(event) {
@@ -55,6 +55,7 @@ class RatingControl extends Component {
             name={`${this.props.name}-${value}`}
             value={value}
             checked={value === this.props.value}
+            onChange={() => null}
             onClick={e => this.handleChange(e)}
           />
         </label>

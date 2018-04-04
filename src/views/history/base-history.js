@@ -41,13 +41,13 @@ class BaseHistoryView extends Component {
     loadData(this.props, this.state);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      nextProps.isAdult !== this.props.isAdult ||
-      nextProps.type !== this.props.type ||
-      nextProps.itemsPerPage !== this.props.itemsPerPage
+      prevProps.isAdult !== this.props.isAdult ||
+      prevProps.type !== this.props.type ||
+      prevProps.itemsPerPage !== this.props.itemsPerPage
     ) {
-      loadData(nextProps, this.state);
+      loadData(this.props, this.state);
     }
   }
 

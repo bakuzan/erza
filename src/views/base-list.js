@@ -47,16 +47,16 @@ class BaseListView extends Component {
     loadData(this.props, this.state);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      nextProps.routeKey !== this.props.routeKey ||
-      nextProps.statusFilter.value !== this.props.statusFilter.value ||
-      nextProps.isAdult !== this.props.isAdult ||
-      nextProps.sortKey !== this.props.sortKey ||
-      nextProps.sortOrder !== this.props.sortOrder ||
-      nextProps.itemsPerPage !== this.props.itemsPerPage
+      prevProps.routeKey !== this.props.routeKey ||
+      prevProps.statusFilter.value !== this.props.statusFilter.value ||
+      prevProps.isAdult !== this.props.isAdult ||
+      prevProps.sortKey !== this.props.sortKey ||
+      prevProps.sortOrder !== this.props.sortOrder ||
+      prevProps.itemsPerPage !== this.props.itemsPerPage
     ) {
-      loadData(nextProps, this.state);
+      loadData(this.props, this.state);
     }
   }
 

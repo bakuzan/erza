@@ -40,9 +40,9 @@ class DailyAnime extends Component {
     this.props.fetchDailyAnime(this.state.dateOffset);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.routeKey !== this.props.routeKey) {
-      nextProps.fetchDailyAnime(this.state.dateOffset);
+  componentDidUpdate(prevProps) {
+    if (prevProps.routeKey !== this.props.routeKey) {
+      this.props.fetchDailyAnime(this.state.dateOffset);
     }
   }
 

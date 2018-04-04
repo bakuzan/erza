@@ -13,10 +13,10 @@ export default function withLastLocation(WrappedComponent) {
       this.state = {};
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (UrlsToIgnore.includes(this.props.location.pathname)) return;
+    componentDidUpdate(prevProps) {
+      if (UrlsToIgnore.includes(prevProps.location.pathname)) return;
 
-      this.props._LastLocationActions.updateLastLocation(this.props.location);
+      this.props._LastLocationActions.updateLastLocation(prevProps.location);
     }
 
     render() {

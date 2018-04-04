@@ -28,14 +28,16 @@ class TagManagementDetails extends React.Component {
     this.props.actions.loadTag(this.props.tagId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
     if (
       !!nextProps.item &&
       !!nextProps.item.animeWithTag &&
       (!this.state.item || (!nextProps.isFetching && this.props.isFetching))
     ) {
-      this.setState({ item: nextProps.item });
+      return { item: nextProps.item };
     }
+
+    return null;
   }
 
   handleUserInput({ target }) {

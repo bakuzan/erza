@@ -28,11 +28,10 @@ class TagManagementList extends React.Component {
     loadData(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isAdult !== this.props.isAdult) {
-      loadData(nextProps);
-      this.setState(initialState);
-    }
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.isAdult === this.props.isAdult) return null;
+    loadData(nextProps);
+    return initialState;
   }
 
   handleUserInput(event) {

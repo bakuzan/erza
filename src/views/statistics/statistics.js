@@ -39,13 +39,13 @@ class Statistics extends Component {
     this.scrollController.remove();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      nextProps.contentType !== this.props.contentType ||
-      nextProps.isAdult !== this.props.isAdult
+      prevProps.contentType !== this.props.contentType ||
+      prevProps.isAdult !== this.props.isAdult
     ) {
-      this.ports.contentType.send(nextProps.contentType);
-      this.ports.isAdult.send(nextProps.isAdult);
+      this.ports.contentType.send(this.props.contentType);
+      this.ports.isAdult.send(this.props.isAdult);
     }
   }
 
