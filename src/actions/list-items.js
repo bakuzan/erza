@@ -43,13 +43,18 @@ const removeItemFromState = {
   [Strings.chapter]: dehydrateState(CHAPTER_REMOVE)
 };
 
-const redirectPostAction = type => {
+const redirectPostAction = (type, lastLocation) => {
   const baseUrl = `${Paths.base}${Paths[type].list}`;
   if (window.location.href.includes('list'))
     return Navigate.push(
       `${baseUrl}${window.location.href.replace(/^.*\//g, '')}`
     );
-  return Navigate.push(`${baseUrl}${Strings.filters.ongoing}`);
+
+  const targetUrl =
+    lastLocation && lastLocation.location
+      ? lastLocation.location.pathname
+      : `${baseUrl}${Strings.filters.ongoing}`;
+  return Navigate.push(targetUrl);
 };
 
 const startingGraphqlRequest = () => ({
@@ -63,7 +68,8 @@ const finishGraphqlRequest = () => ({
 });
 
 export const mutateItem = (type, item, queryBuilder) => {
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const { lastLocation } = getState();
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
     const mutation = queryBuilder(itemForCreation);
@@ -76,7 +82,7 @@ export const mutateItem = (type, item, queryBuilder) => {
           'Saved!',
           `Successfully saved '${data.record.title}' ${type}.`
         );
-        return redirectPostAction(type);
+        return redirectPostAction(type, lastLocation);
       }
     );
   };

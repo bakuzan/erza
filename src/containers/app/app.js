@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 
+import withLastLocation from '../../components/last-location';
 import Header from '../../components/header/header';
 import Sidebar from '../sidebar/sidebar';
 import RequestIndicator from '../request-indicator';
@@ -35,4 +36,4 @@ const mapStateToProps = state => ({
   sidebarState: state.sidebar
 });
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps)(withLastLocation(App)));

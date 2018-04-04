@@ -14,6 +14,7 @@ import { theme } from './theme';
 import { sidebar } from './sidebar';
 import requestIndicator from './request-indicator';
 import alert from './alert';
+import lastLocation from './last-location';
 
 const entities = combineReducers({
   anime,
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
   theme,
   sidebar,
   requestIndicator,
-  alert
+  alert,
+  lastLocation
 });
 
 export default rootReducer;
