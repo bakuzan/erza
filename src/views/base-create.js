@@ -161,6 +161,7 @@ class BaseCreate extends Component {
                 <div className="flex-column width-100">
                   <MalSearch
                     id={this.state.malId}
+                    itemId={this.state._id}
                     type={type}
                     search={this.state.title}
                     onUserInput={this.handleUserInput}

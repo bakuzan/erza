@@ -3,16 +3,31 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import fetchFromServer from '../../graphql/fetch';
+import DataChecks from '../../graphql/query/list-items';
 import AutocompleteInput from '../autocomplete-input/autocomplete-input';
 import LoadingSpinner from '../loaders/loading-spinner/loading-spinner';
 import MalSearchSuggestionItem from './mal-search-suggestion-item';
 
-import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
+import {
+  getEventValue,
+  getTimeoutSeconds,
+  debounce,
+  capitalise
+} from '../../utils/common';
 import { Paths } from '../../constants/paths';
 import './mal-search.css';
 
+const checkIfItemExistsAlready = query => search =>
+  fetchFromServer(`${Paths.graphql.base}${query(search)}`);
+
 const searchMyAnimeList = type => search =>
   fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
+
+const Errors = {
+  failed: () => 'Mal Search failed to get a response.',
+  missing: type => `Mal Search failed to find the ${type}.`,
+  exists: type => `${capitalise(type)} already exists.`
+};
 
 class MalSearch extends Component {
   constructor(props) {
@@ -21,31 +36,49 @@ class MalSearch extends Component {
       results: [],
       isFirstQuery: true,
       isFetching: false,
-      hasSelected: false
+      hasSelected: false,
+      error: null
     };
 
     this.queryMal = searchMyAnimeList(props.type);
+    this.checkIfExists = checkIfItemExistsAlready(
+      DataChecks.checkIfNameExists(props.type)
+    );
     this.handleMalSearch = this.handleMalSearch.bind(this);
     this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(
       this
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.props.id) return;
-    this.queryMal(this.props.search).then(response => {
-      const item = response.find(x => x.id === this.props.id);
-      if (!item) return; // TODO Present warning message that the search couldnt find the entry id you have saved...
-      this.props.selectMalItem(item);
-    });
+
+    const response = await this.queryMal(this.props.search);
+    if (!response) return this.setState({ error: Errors.failed });
+
+    const item = response.find(x => x.id === this.props.id);
+    if (!item) return this.setState({ error: Errors.missing });
+
+    this.props.selectMalItem(item);
   }
 
   fetchMalResults() {
     debounce(() => {
-      this.setState({ isFetching: true });
-      this.queryMal(this.props.search).then(response => {
+      this.setState({ isFetching: true }, async () => {
+        const response = await this.checkIfExists(this.props.search);
+        const results = await this.queryMal(this.props.search);
+        const alreadyExists =
+          !!response.data &&
+          !!response.data.alreadyExists &&
+          (!this.props.itemId ||
+            response.data.alreadyExists._id !== this.props.itemId);
+        const error = !results
+          ? Errors.failed
+          : alreadyExists ? Errors.exists : null;
         this.setState({
-          results: response,
+          alreadyExists,
+          results,
+          error,
           isFetching: false,
           isFirstQuery: false
         });
@@ -68,11 +101,12 @@ class MalSearch extends Component {
   }
 
   render() {
-    const { search } = this.props;
+    const { type, search } = this.props;
     const malSearchClasses = classNames('mal-search-container', {
       fresh: this.state.isFirstQuery,
       fetching: this.state.isFetching,
-      selected: this.state.hasSelected
+      selected: this.state.hasSelected,
+      exists: this.state.alreadyExists
     });
 
     return (
@@ -86,6 +120,9 @@ class MalSearch extends Component {
           disableLocalFilter={true}
           suggestionTemplate={MalSearchSuggestionItem}
         />
+        <span className="mal-search-messages">
+          {!!this.state.error && this.state.error(type)}
+        </span>
         {this.state.isFetching && <LoadingSpinner size="control" />}
       </div>
     );
@@ -94,6 +131,7 @@ class MalSearch extends Component {
 
 MalSearch.propTypes = {
   id: PropTypes.number,
+  itemId: PropTypes.string,
   type: PropTypes.string.isRequired,
   search: PropTypes.string,
   onUserInput: PropTypes.func.isRequired,
