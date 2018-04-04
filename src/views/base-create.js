@@ -78,20 +78,20 @@ class BaseCreate extends Component {
       this.props.type === Strings.anime ? animeValidator : mangaValidator;
   }
 
-  static getDerivedStateFromProps(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      !nextProps.item.tags ||
-      !nextProps.item.tags.find(x => x && isObject(x))
+      !this.props.item.tags ||
+      !this.props.item.tags.find(x => x && isObject(x))
     )
-      return null;
+      return;
     if (
-      objectsAreEqual(nextProps.item, this.props.item) &&
-      nextProps.isAdult === this.props.isAdult
+      objectsAreEqual(this.props.item, prevProps.item) &&
+      prevProps.isAdult === this.props.isAdult
     )
-      return null;
+      return;
 
-    nextProps.loadTags();
-    return { ...nextProps.item, isAdult: nextProps.isAdult };
+    this.props.loadTags();
+    this.setState({ ...this.props.item, isAdult: this.props.isAdult });
   }
 
   handleMalSelect(malItem) {
