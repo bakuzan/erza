@@ -68,7 +68,8 @@ export const convertToBase64 = (file, callback) => {
 };
 
 export const coalesceSeriesImage = (model, malItem) => {
-  return model.image && model.image.includes(Strings.imgur)
+  return (model.image && model.image.includes(Strings.imgur)) ||
+    (model.image && !malItem.image)
     ? model.image
     : malItem.image || '';
 };
