@@ -96,7 +96,6 @@ const resolverExtentions = (type, typeString, dbContext) => {
           ]
         })
         .limit(1);
-      console.log(item);
       return !!item;
     }
   });

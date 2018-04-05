@@ -80,7 +80,8 @@ class MalSearch extends Component {
   fetchMalResults() {
     debounce(() => {
       this.setState({ isFetching: true }, async () => {
-        const alreadyExists = await this.checkIfExists(this.props);
+        const response = await this.checkIfExists(this.props);
+        const alreadyExists = response.data && response.data.alreadyExists;
         const results = await this.queryMal(this.props.search);
 
         const error = !results
@@ -111,8 +112,7 @@ class MalSearch extends Component {
   }
 
   render() {
-    const { search } = this.state;
-    const { type } = this.props;
+    const { type, search } = this.props;
     const malSearchClasses = classNames('mal-search-container', {
       fresh: this.state.isFirstQuery,
       fetching: this.state.isFetching,

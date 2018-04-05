@@ -79,18 +79,13 @@ class BaseCreate extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      !this.props.item.tags ||
-      !this.props.item.tags.find(x => x && isObject(x))
-    )
-      return;
-    if (
-      objectsAreEqual(this.props.item, prevProps.item) &&
-      prevProps.isAdult === this.props.isAdult
-    )
-      return;
+    const itemUnchanged = objectsAreEqual(this.props.item, prevProps.item);
+    const isAdultUnchanged = this.props.isAdult === prevProps.isAdult;
+    if (itemUnchanged && isAdultUnchanged) return;
 
-    this.props.loadTags();
+    if (!isAdultUnchanged) {
+      this.props.loadTags();
+    }
     this.setState({ ...this.props.item, isAdult: this.props.isAdult });
   }
 
@@ -122,8 +117,14 @@ class BaseCreate extends Component {
   }
 
   render() {
-    if (this.props.isFetching)
-      return <Loaders.LoadingSpinner size="fullscreen" />;
+    if (
+      this.props.isFetching ||
+      !this.props.item.tags || (
+        this.props.item.tags.length > 0 &&
+        !this.props.item.tags.find(x => x && isObject(x))
+      )
+    ) return <Loaders.LoadingSpinner size="fullscreen" />;
+
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;
@@ -286,6 +287,7 @@ class BaseCreate extends Component {
                     text="is adult"
                     name="isAdult"
                     checked={this.state.isAdult}
+                    disabled={true}
                     onChange={this.handleUserInput}
                   />
                   <Tickbox
