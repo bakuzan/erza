@@ -68,6 +68,39 @@ const resolverExtentions = (type, typeString, dbContext) => {
     newResolver.addFilterArg(searchFilterArg)
   );
 
+  type.addResolver({
+    kind: 'query',
+    name: 'checkIfExists',
+    args: {
+      filter: `input ${typeString}CheckFilterInput {
+        id: ID
+        malId: Float
+        title: String
+      }`
+    },
+    type: 'Boolean',
+    resolve: async ({ args, context, rawQuery }) => {
+      const { id, malId, title } = args.filter || {};
+      const orArguments = [{ title: { $eq: title } }];
+      const idCondition = !!id ? { _id: { $ne: id } } : {};
+
+      const item = await dbContext
+        .findOne({
+          $and: [
+            { ...idCondition },
+            {
+              $or: !malId
+                ? orArguments
+                : [...orArguments, { malId: { $eq: malId } }]
+            }
+          ]
+        })
+        .limit(1);
+      console.log(item);
+      return !!item;
+    }
+  });
+
   type.wrapResolver('createOne', newResolver =>
     newResolver
       .wrapResolve(updateDateBeforeSave('createdDate'))

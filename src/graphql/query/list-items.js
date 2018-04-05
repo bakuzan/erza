@@ -1,9 +1,10 @@
-const checkIfNameExists = type => txt => `
+const checkIfNameExists = type => filter => `
 {
-  alreadyExists: ${type}One(filter: { title: "${txt}" }) {
-    _id
-    title
-  }
+  alreadyExists: ${type}CheckIfExists(filter: {
+    title: "${filter.title || ''}",
+    id: ${`"${filter.id}"` || null}
+    malId: ${filter.malId || null}
+  })
 }
 `;
 

@@ -17,8 +17,14 @@ import {
 import { Paths } from '../../constants/paths';
 import './mal-search.css';
 
-const checkIfItemExistsAlready = query => search =>
-  fetchFromServer(`${Paths.graphql.base}${query(search)}`);
+const getFilters = props => ({
+  title: props.search,
+  id: props.itemId,
+  malId: props.id
+});
+
+const checkIfItemExistsAlready = query => props =>
+  fetchFromServer(`${Paths.graphql.base}${query(getFilters(props))}`);
 
 const searchMyAnimeList = type => search =>
   fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
@@ -62,19 +68,25 @@ class MalSearch extends Component {
     this.props.selectMalItem(item);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.hasSelected !== this.state.hasSelected ||
+      this.props.search !== prevProps.search
+    ) {
+      this.fetchMalResults();
+    }
+  }
+
   fetchMalResults() {
     debounce(() => {
       this.setState({ isFetching: true }, async () => {
-        const response = await this.checkIfExists(this.props.search);
+        const alreadyExists = await this.checkIfExists(this.props);
         const results = await this.queryMal(this.props.search);
-        const alreadyExists =
-          !!response.data &&
-          !!response.data.alreadyExists &&
-          (!this.props.itemId ||
-            response.data.alreadyExists._id !== this.props.itemId);
+
         const error = !results
           ? Errors.failed
           : alreadyExists ? Errors.exists : null;
+
         this.setState({
           alreadyExists,
           results,
@@ -96,12 +108,11 @@ class MalSearch extends Component {
     const search = getEventValue(event.target);
     this.props.onUserInput(event);
     if (!search) return this.selectAutocompleteSuggestion(null);
-    if (this.state.hasSelected) return;
-    this.fetchMalResults();
   }
 
   render() {
-    const { type, search } = this.props;
+    const { search } = this.state;
+    const { type } = this.props;
     const malSearchClasses = classNames('mal-search-container', {
       fresh: this.state.isFirstQuery,
       fetching: this.state.isFetching,
