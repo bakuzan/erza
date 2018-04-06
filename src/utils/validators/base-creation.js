@@ -29,12 +29,14 @@ const historyChangeHandler = ({ current, total }) => item => {
 };
 
 const statusChangeHandler = item => {
-  const { planned, ongoing } = Enums.status;
+  const { planned, ongoing, completed } = Enums.status;
   switch (item.status) {
     case planned:
       return { start: '', end: '' };
     case ongoing:
       return { start: formatDateForInput(item.start || new Date()), end: '' };
+    case completed:
+      return { end: formatDateForInput(item.end || new Date()) };
     default:
       return {};
   }
