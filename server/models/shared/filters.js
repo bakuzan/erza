@@ -39,9 +39,21 @@ const timesCompletedMinFilterArg = {
   }
 };
 
+const isOwnedOnlyFilterArg = {
+  name: 'isOwnedOnly',
+  type: 'Boolean',
+  description: 'If true, only return owned, else return all',
+  query: (rawQuery, value, resolveParams) => {
+    if (value) {
+      rawQuery.owned = { $eq: value };
+    }
+  }
+};
+
 module.exports = {
   searchFilterArg,
   statusInFilterArg,
   ratingInFilterArg,
-  timesCompletedMinFilterArg
+  timesCompletedMinFilterArg,
+  isOwnedOnlyFilterArg
 };
