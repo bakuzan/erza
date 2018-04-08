@@ -90,6 +90,7 @@ class BaseCreate extends Component {
   }
 
   handleMalSelect(malItem) {
+    if (!malItem) return this.setState({ malId: null });
     if (!this.shouldHydrateMal(this.state, malItem)) return;
     this.setState(prevState => this.hydrateMalFields(prevState, malItem));
   }

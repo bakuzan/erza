@@ -27,6 +27,11 @@ class AutocompleteInput extends Component {
     this.handleBlur = this.handleBlur.bind(this);
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
+
   selectAutocompleteSuggestion(id) {
     if (!id && id !== 0 && !this.props.noSuggestionsItem) return;
     this.props.onSelect(id);
@@ -100,7 +105,10 @@ class AutocompleteInput extends Component {
   handleBlur(e) {
     clearTimeout(this.timer);
     this.timer = setTimeout(
-      () => this.setState({ inUse: false }),
+      () => {
+        if (!this.timer) return;
+        this.setState({ inUse: false })
+      },
       getTimeoutSeconds(1)
     );
   }

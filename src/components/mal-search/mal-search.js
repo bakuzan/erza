@@ -35,17 +35,22 @@ const Errors = {
   exists: type => `${capitalise(type)} already exists.`
 };
 
+const initialState = {
+  results: [],
+  isFirstQuery: true,
+  isFetching: false,
+  hasSelected: false,
+  error: null
+}
+
 class MalSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: [],
-      isFirstQuery: true,
-      isFetching: false,
-      hasSelected: false,
-      error: null
+      ...initialState
     };
 
+    this.timer = null;
     this.queryMal = searchMyAnimeList(props.type);
     this.checkIfExists = checkIfItemExistsAlready(
       DataChecks.checkIfNameExists(props.type)
@@ -73,30 +78,42 @@ class MalSearch extends Component {
       prevState.hasSelected !== this.state.hasSelected ||
       this.props.search !== prevProps.search
     ) {
-      this.fetchMalResults();
+      if (!!this.props.search) this.fetchMalResults()
+      if (!this.props.search) this.setState(initialState)
     }
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
+
   fetchMalResults() {
-    debounce(() => {
-      this.setState({ isFetching: true }, async () => {
-        const response = await this.checkIfExists(this.props);
-        const alreadyExists = response.data && response.data.alreadyExists;
-        const results = await this.queryMal(this.props.search);
-
-        const error = !results
-          ? Errors.failed
-          : alreadyExists ? Errors.exists : null;
-
-        this.setState({
-          alreadyExists,
-          results,
-          error,
-          isFetching: false,
-          isFirstQuery: false
-        });
-      });
+    this.timer = debounce(() => {
+      this.setState(
+        { isFetching: true },
+        this.handleQueries
+      );
     }, getTimeoutSeconds(2));
+  }
+
+  async handleQueries() {
+    const response = await this.checkIfExists(this.props);
+    const alreadyExists = response.data && response.data.alreadyExists;
+    const results = await this.queryMal(this.props.search);
+
+    const error = !results
+      ? Errors.failed
+      : alreadyExists ? Errors.exists : null;
+
+    if (!this.timer) return;
+    this.setState({
+      alreadyExists,
+      results,
+      error,
+      isFetching: false,
+      isFirstQuery: false
+    });
   }
 
   selectAutocompleteSuggestion(selectedId) {

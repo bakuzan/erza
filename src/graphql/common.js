@@ -45,7 +45,7 @@ export const constructFilterString = filters => {
   const properties = Object.keys(filters).reduce((acc, curr, i, arr) => {
     const value = processType(filters[curr]);
     const nextArg =
-      value || value.toString() === 'false' ? `${curr}: ${value}` : '';
+      value || `${value}` === 'false' ? `${curr}: ${value}` : '';
     const separator = arr.length === i + 1 || !value ? '' : ', ';
     return `${acc}${nextArg}${separator}`;
   }, '');
