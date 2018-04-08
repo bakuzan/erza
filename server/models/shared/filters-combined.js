@@ -9,7 +9,8 @@ const {
   searchFilterArg,
   statusInFilterArg,
   ratingInFilterArg,
-  timesCompletedMinFilterArg
+  timesCompletedMinFilterArg,
+  isOwnedOnlyFilterArg
 } = require('./filters');
 
 const resolverExtentions = (type, typeString, dbContext) => {
@@ -19,6 +20,7 @@ const resolverExtentions = (type, typeString, dbContext) => {
       .addFilterArg(statusInFilterArg(type))
       .addFilterArg(ratingInFilterArg(type))
       .addFilterArg(timesCompletedMinFilterArg)
+      .addFilterArg(isOwnedOnlyFilterArg)
   );
 
   type.wrapResolver('findMany', newResolver =>
@@ -27,6 +29,7 @@ const resolverExtentions = (type, typeString, dbContext) => {
       .addFilterArg(statusInFilterArg(type))
       .addFilterArg(ratingInFilterArg(type))
       .addFilterArg(timesCompletedMinFilterArg)
+      .addFilterArg(isOwnedOnlyFilterArg)
   );
 
   type.addResolver({

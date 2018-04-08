@@ -3,9 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FilterLink from '../filter-link/filter-link';
 import RadioButton from '../../components/radio-button/radio-button';
+import Tickbox from '../../components/tickbox/tickbox';
 import ClearableInput from '../../components/clearable-input/clearable-input';
 import SelectBox from '../../components/select-box/select-box';
 import { toggleSortOrder, setSortKey } from '../../actions/sorting';
+import { toggleIsOwnedOnly } from '../../actions/filters';
 import { Strings } from '../../constants/values';
 import { Paths } from '../../constants/paths';
 import './list-filter.css';
@@ -26,6 +28,8 @@ const ListFilter = ({
   onSortOrderToggle,
   sortKey,
   onChangeSortKey,
+  isOwnedOnly,
+  onChangeIsOwnedOnly,
   children
 }) => {
   const filterBase = FILTER_BASE(type);
@@ -44,6 +48,13 @@ const ListFilter = ({
 
       <div className="button-group">{statusLinks.slice(0, 3)}</div>
       <div className="button-group">{statusLinks.slice(3)}</div>
+
+      <Tickbox
+        text="Owned only"
+        name="isOwnedOnly"
+        checked={isOwnedOnly}
+        onChange={() => onChangeIsOwnedOnly(type)}
+      />
 
       <SelectBox
         name="sortKey"
@@ -81,17 +92,21 @@ ListFilter.propTypes = {
   sortOrder: PropTypes.string.isRequired,
   onSortOrderToggle: PropTypes.func.isRequired,
   sortKey: PropTypes.string.isRequired,
-  onChangeSortKey: PropTypes.func.isRequired
+  onChangeSortKey: PropTypes.func.isRequired,
+  isOwnedOnly: PropTypes.bool.isRequired,
+  onChangeIsOwnedOnly: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
   sortKey: state.sorting.sortKey,
-  sortOrder: state.sorting.sortOrder
+  sortOrder: state.sorting.sortOrder,
+  isOwnedOnly: state.filters[ownProps.type].isOwnedOnly
 });
 
 const mapDispatchToProps = {
   onSortOrderToggle: toggleSortOrder,
-  onChangeSortKey: setSortKey
+  onChangeSortKey: setSortKey,
+  onChangeIsOwnedOnly: toggleIsOwnedOnly
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListFilter);

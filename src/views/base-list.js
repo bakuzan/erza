@@ -18,7 +18,11 @@ const getStatusList = props => {
 
 const loadData = (props, state) => {
   const statusIn = getStatusList(props);
-  props.loadDataForTypedList({ statusIn, ...state });
+  props.loadDataForTypedList({
+    statusIn,
+    isOwnedOnly: props.isOwnedOnly,
+    ...state
+  });
 };
 
 const fetchPagedListForType = type =>
@@ -54,7 +58,8 @@ class BaseListView extends Component {
       prevProps.isAdult !== this.props.isAdult ||
       prevProps.sortKey !== this.props.sortKey ||
       prevProps.sortOrder !== this.props.sortOrder ||
-      prevProps.itemsPerPage !== this.props.itemsPerPage
+      prevProps.itemsPerPage !== this.props.itemsPerPage ||
+      prevProps.isOwnedOnly !== this.props.isOwnedOnly
     ) {
       loadData(this.props, this.state);
     }
@@ -67,9 +72,13 @@ class BaseListView extends Component {
   }
 
   render() {
-    const { type, items, isAdult, routeKey } = this.props;
+    const { type, items, isAdult, routeKey, isOwnedOnly } = this.props;
     const PagedTypedList = fetchPagedListForType(type);
-    const filters = { ...this.state, statusIn: getStatusList(this.props) };
+    const filters = {
+      ...this.state,
+      statusIn: getStatusList(this.props),
+      isOwnedOnly
+    };
 
     return (
       <div className="flex-row">
@@ -104,6 +113,7 @@ const mapStateToProps = (state, ownProps) => ({
   isAdult: state.isAdult,
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey,
+  isOwnedOnly: state.filters[ownProps.type].isOwnedOnly,
   itemsPerPage: state.paging.itemsPerPage
 });
 

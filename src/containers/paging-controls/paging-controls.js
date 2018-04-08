@@ -3,6 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { nextPage, prevPage, setItemsPerPage } from '../../actions/paging';
 import { pageSizes } from '../../constants/values';
+import SelectBox from '../../components/select-box/select-box';
+
+import './paging-controls.css';
 
 const PagingControls = ({
   listType,
@@ -15,44 +18,45 @@ const PagingControls = ({
 }) => {
   const { pageInfo, itemsPerPage, page } = paging;
   const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage[listType]) - 1;
+  const PAGE_SIZE_OPTIONS = pageSizeOptions.map(x => ({ value: x, text: x }));
+
   return (
-    <div className="flex-row">
-      <div className="button-group centered flex-grow">
-        <button
-          type="button"
-          className="button ripple"
-          onClick={() => goBackAPage(listType, filters)}
-          disabled={page === 0}
-        >
-          Previous
-        </button>
-        <div className="center-contents padding-5">
-          {`${page + 1}/${finalPage + 1}`}
+    <div className="paging-controls flex-row">
+      <div className="flex-grow">
+        <div className="button-group centered flex-grow">
+          <button
+            type="button"
+            className="button ripple"
+            onClick={() => goBackAPage(listType, filters)}
+            disabled={page === 0}
+          >
+            Previous
+          </button>
+          <div className="center-contents padding-5">
+            {`${page + 1}/${finalPage + 1}`}
+          </div>
+          <button
+            type="button"
+            className="button ripple"
+            onClick={() => goForwardAPage(listType, filters)}
+            disabled={page === finalPage}
+          >
+            Next
+          </button>
         </div>
-        <button
-          type="button"
-          className="button ripple"
-          onClick={() => goForwardAPage(listType, filters)}
-          disabled={page === finalPage}
-        >
-          Next
-        </button>
+        {!!pageInfo.totalCount && (
+          <div className="item-count">{`Found ${
+            pageInfo.totalCount
+          } item(s)`}</div>
+        )}
       </div>
-      <div className="has-float-label select-container">
-        <select
-          className="select-box"
-          name="itemsPerPage"
-          value={itemsPerPage[listType]}
-          onChange={e => changeItemsPerPage(e, listType)}
-        >
-          {pageSizeOptions.map(item => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-        <label>items per page</label>
-      </div>
+      <SelectBox
+        name="itemsPerPage"
+        text="items per page"
+        value={itemsPerPage[listType]}
+        onSelect={e => changeItemsPerPage(e, listType)}
+        options={PAGE_SIZE_OPTIONS}
+      />
     </div>
   );
 };

@@ -1,10 +1,16 @@
-
 .list-filter {
   display: flex;
   flex-direction: column;
   flex: 0 0 20%;
   height: calc(100vh - 50px);
   padding: 20px 5px;
+
+  .input-container {
+    margin: 5px 0;
+  }
+  .select-box {
+    min-height: 35px;
+  }
 }
 
 .list-filter-custom-content {
