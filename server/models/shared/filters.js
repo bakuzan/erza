@@ -44,7 +44,6 @@ const isOwnedOnlyFilterArg = {
   type: 'Boolean',
   description: 'If true, only return owned, else return all',
   query: (rawQuery, value, resolveParams) => {
-    console.log('FILTER ARG > ', rawQuery, value);
     if (value) {
       rawQuery.owned = { $eq: value };
     }
