@@ -58,7 +58,8 @@ class BaseListView extends Component {
       prevProps.isAdult !== this.props.isAdult ||
       prevProps.sortKey !== this.props.sortKey ||
       prevProps.sortOrder !== this.props.sortOrder ||
-      prevProps.itemsPerPage !== this.props.itemsPerPage
+      prevProps.itemsPerPage !== this.props.itemsPerPage ||
+      prevProps.isOwnedOnly !== this.props.isOwnedOnly
     ) {
       loadData(this.props, this.state);
     }

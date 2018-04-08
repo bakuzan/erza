@@ -37,9 +37,9 @@ $z-index: (
   wafer: 1,
   above-siblings: 10,
   header: 50,
-  alert: 100,
   popover: 100,
-  menu: 250
+  menu: 250,
+  alert: 1000
 );
 
 $sidebar-width-open: 200px;
