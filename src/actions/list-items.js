@@ -101,6 +101,7 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = getSingleObjectProperty(response.data);
+        if (!data) return null;
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
@@ -184,6 +185,7 @@ export const loadHistoryByDateRange = (
     fetchFromServer(`${Paths.graphql.base}${query}`)
       .then(response => {
         const data = getSingleObjectProperty(response.data);
+        if (!data) return null;
         dispatch(loadItemsToState[type](data.edges));
         dispatch(loadPageInfo({ count: data.count }));
       })
