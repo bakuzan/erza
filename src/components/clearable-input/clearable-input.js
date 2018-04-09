@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icons } from '../../constants/values';
@@ -27,9 +28,17 @@ class ClearableInput extends React.Component {
       onChange,
       ...props
     } = this.props;
+    const isTextInput = type === 'text';
+    const hasMaxNumber = type === 'number' && !isNaN(props.max);
+    const notClearable = !isTextInput;
 
     return (
-      <div className="has-float-label input-container clearable-input">
+      <div
+        className={classNames(
+          'has-float-label input-container clearable-input',
+          { 'not-clearable': notClearable }
+        )}
+      >
         <input
           ref={input => (this.inputField = input)}
           placeholder=" "
@@ -44,7 +53,7 @@ class ClearableInput extends React.Component {
         />
         <label>{label}</label>
         {!!value &&
-          type === 'text' && (
+          isTextInput && (
             <button
               type="button"
               className="button-icon small clear-input"
@@ -52,9 +61,10 @@ class ClearableInput extends React.Component {
               onClick={this.clearAndFocusInput}
             />
           )}
-        {!!maxLength && (
+        {(!!maxLength || hasMaxNumber) && (
           <span className="clearable-input-count">
-            {`${value.length}/${maxLength}`}
+            {maxLength && `${value.length}/${maxLength}`}
+            {hasMaxNumber && `out of ${props.max || '?'}`}
           </span>
         )}
       </div>

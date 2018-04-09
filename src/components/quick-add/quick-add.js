@@ -58,6 +58,12 @@ class QuickAdd extends React.Component {
       nextProps.originalItem,
       prevState.originalItem
     );
+    console.log(
+      '%c Derive State From: ',
+      'color: red;',
+      originalItemIsUnchanged,
+      nextProps.originalItem
+    );
     if (originalItemIsUnchanged) return null;
     return {
       originalItem: nextProps.originalItem
@@ -65,7 +71,8 @@ class QuickAdd extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const openStateHasChanged = prevProps.isOpen === this.props.isOpen;
+    const openStateHasChanged = prevProps.isOpen !== this.props.isOpen;
+    console.log('%c Did Update: ', 'color: purple;', openStateHasChanged);
     if (openStateHasChanged && this.props.isOpen) {
       this.onOpenEditDialog();
       this.dialog.showModal();
@@ -178,18 +185,15 @@ class QuickAdd extends React.Component {
           </span>
           {!!this.state.editItem._id && (
             <div>
-              <div className="has-float-label input-container">
-                <input
-                  type="number"
-                  name={current}
-                  value={this.state.editItem[current]}
-                  min={this.state.editItem.min}
-                  max={limitByTotal}
-                  placeholder=" "
-                  onChange={this.handleUserInput}
-                />
-                <label>{current}</label>
-              </div>
+              <ClearableInput
+                type="number"
+                name={current}
+                label={current}
+                value={this.state.editItem[current]}
+                min={this.state.editItem.min}
+                max={limitByTotal}
+                onChange={this.handleUserInput}
+              />
               {showSeriesOverallRating && (
                 <RatingControl
                   name="overallRating"
