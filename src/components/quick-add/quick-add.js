@@ -5,6 +5,7 @@ import fetchFromServer from '../../graphql/fetch';
 import Dialog from '../../components/dialog/dialog';
 import ClearableInput from '../../components/clearable-input/clearable-input';
 import RatingControl from '../../components/rating-control/rating-control';
+
 import { Paths } from '../../constants/paths';
 import { Strings } from '../../constants/values';
 import { getEventValue, updateNestedProperty } from '../../utils/common';
@@ -74,7 +75,7 @@ class QuickAdd extends React.Component {
     const openStateHasChanged = prevProps.isOpen !== this.props.isOpen;
     console.log('%c Did Update: ', 'color: purple;', openStateHasChanged);
     if (openStateHasChanged && this.props.isOpen) {
-      this.onOpenEditDialog();
+      this.props.loadItemById(this.props);
       this.dialog.showModal();
     } else if (openStateHasChanged) {
       this.dialog.close();
@@ -169,6 +170,7 @@ class QuickAdd extends React.Component {
           this.state.malUpdates.values[`${current}s`]
         : this.state.editItem[current] === this.state.editItem.max);
 
+    console.log('%c render >', 'color: orange', this.state);
     return (
       <Dialog
         name={`${type}Edit`}
@@ -243,6 +245,7 @@ QuickAdd.propTypes = {
   type: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   originalItem: PropTypes.object,
+  loadItemById: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 

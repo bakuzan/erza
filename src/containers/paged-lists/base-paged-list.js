@@ -3,12 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import PagingControls from '../../containers/paging-controls/paging-controls';
-import QuickAdd from '../../components/quick-add/quick-add';
+import QuickAdd from '../../containers/quick-add';
 
 import { capitalise } from '../../utils/common';
 import { getUniquePropertiesForItemType } from '../../utils/data';
-
-const EMPTY_OBJECT = {};
 
 class BasePagedList extends Component {
   constructor(props) {
@@ -34,8 +32,6 @@ class BasePagedList extends Component {
     const { type, filters, list, items } = this.props;
     const PagedList = list;
     const { current } = getUniquePropertiesForItemType(type);
-    const editItem =
-      items.find(x => x._id === this.state.isDialogOpen) || EMPTY_OBJECT;
 
     const dynamicListProps = {
       [`add${capitalise(current)}`]: this.openEditDialog
@@ -48,7 +44,7 @@ class BasePagedList extends Component {
         <QuickAdd
           isOpen={!!this.state.isDialogOpen}
           type={type}
-          originalItem={editItem}
+          seriesId={this.state.isDialogOpen}
           onSubmit={this.handleEdit}
         />
       </div>
