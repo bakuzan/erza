@@ -18,7 +18,8 @@ import './quick-add.css';
 const fetchMalEntry = type => search =>
   fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
-const getInitialState = current => ({
+const getInitialState = (current, originalItem = {}) => ({
+  originalItem,
   editItem: {
     _id: null,
     [current]: 0,
@@ -39,7 +40,9 @@ class QuickAdd extends React.Component {
   constructor(props) {
     super(props);
     this.itemProperties = getUniquePropertiesForItemType(props.type);
-    this.state = { ...getInitialState(this.itemProperties.current) };
+    this.state = {
+      ...getInitialState(this.itemProperties.current, props.originalItem)
+    };
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -50,13 +53,23 @@ class QuickAdd extends React.Component {
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.isOpen === this.props.isOpen) return;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const originalItemIsUnchanged = Object.is(
+      nextProps.originalItem,
+      prevState.originalItem
+    );
+    if (originalItemIsUnchanged) return null;
+    return {
+      originalItem: nextProps.originalItem
+    };
+  }
 
-    if (this.props.isOpen) {
+  componentDidUpdate(prevProps) {
+    const openStateHasChanged = prevProps.isOpen === this.props.isOpen;
+    if (openStateHasChanged && this.props.isOpen) {
       this.onOpenEditDialog();
       this.dialog.showModal();
-    } else {
+    } else if (openStateHasChanged) {
       this.dialog.close();
     }
   }
@@ -79,7 +92,7 @@ class QuickAdd extends React.Component {
   onOpenEditDialog() {
     const { originalItem } = this.props;
     const { current, total } = this.itemProperties;
-    const defaults = getInitialState(this.itemProperties.current);
+    const defaults = getInitialState(this.itemProperties.current, originalItem);
     if (originalItem.malId) this.refreshMalValues(originalItem);
     this.setState({
       ...defaults,
