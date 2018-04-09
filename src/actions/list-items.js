@@ -12,7 +12,9 @@ import {
   GRAPHQL_REQUEST,
   GRAPHQL_SUCCESS,
   ANIME_LOAD,
+  ADD_ANIME,
   MANGA_LOAD,
+  ADD_MANGA,
   EPISODE_LOAD,
   CHAPTER_LOAD,
   EPISODE_REFRESH,
@@ -31,6 +33,10 @@ const loadItemsToState = {
   [Strings.manga]: hydrateState(MANGA_LOAD),
   [Strings.episode]: hydrateState(EPISODE_LOAD),
   [Strings.chapter]: hydrateState(CHAPTER_LOAD)
+};
+const loadItemToState = {
+  [Strings.anime]: refreshState(ADD_ANIME),
+  [Strings.manga]: refreshState(ADD_MANGA)
 };
 
 const refreshItemInState = {
@@ -115,7 +121,7 @@ export const loadItemsById = (type, queryString) => {
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
       .then(response =>
         dispatch(
-          loadItemsToState[type]([
+          loadItemToState[type]([
             { node: getSingleObjectProperty(response.data) }
           ])
         )

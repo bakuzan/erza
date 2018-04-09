@@ -56,6 +56,7 @@ class Dialog extends Component {
 
   handleClose() {
     this.self.close();
+    if (this.props.onClose) this.props.onClose();
   }
 
   handleAction(event) {
@@ -124,6 +125,7 @@ Dialog.propTypes = {
   ]).isRequired,
   actionText: PropTypes.string,
   action: PropTypes.func,
+  onClose: PropTypes.func,
   isForm: PropTypes.bool,
   hasBackdrop: PropTypes.bool,
   hideCancel: PropTypes.bool

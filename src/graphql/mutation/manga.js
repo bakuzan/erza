@@ -1,4 +1,7 @@
-import { mangaEditFields } from '../query/manga';
+import { itemEditFields } from '../common';
+import { mangaSpecificKeyFields } from '../query/manga';
+
+const mangaEditFields = itemEditFields(mangaSpecificKeyFields);
 
 const createManga = manga => `
   mutation {

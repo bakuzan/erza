@@ -1,4 +1,7 @@
-import { animeEditFields } from '../query/anime';
+import { itemEditFields } from '../common';
+import { animeSpecificKeyFields } from '../query/anime';
+
+const animeEditFields = itemEditFields(animeSpecificKeyFields);
 
 const createAnime = anime => `
   mutation {

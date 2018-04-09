@@ -18,12 +18,12 @@ const mapStateToProps = (state, ownProps) => ({
       case Strings.anime:
         return props.actions.loadAnimeById(
           props.seriesId,
-          'getAnimeByIdForQuickAdd'
+          'getByIdForQuickAdd'
         );
       case Strings.manga:
         return props.actions.loadMangaById(
           props.seriesId,
-          'getMangaByIdForQuickAdd'
+          'getByIdForQuickAdd'
         );
       default:
         return console.log(

@@ -47,6 +47,7 @@ class QuickAdd extends React.Component {
 
     this.assignDialogRef = this.assignDialogRef.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -54,11 +55,10 @@ class QuickAdd extends React.Component {
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
   }
 
-  // REMOVE WHEN PACKAGES FIX THEIR SHIT
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const originalItemIsUnchanged = Object.is(
       nextProps.originalItem,
-      this.state.originalItem
+      prevState.originalItem
     );
     console.log(
       '%c Derive State From: ',
@@ -67,9 +67,9 @@ class QuickAdd extends React.Component {
       nextProps.originalItem
     );
     if (originalItemIsUnchanged) return null;
-    this.setState({
+    return {
       originalItem: nextProps.originalItem
-    });
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -80,6 +80,14 @@ class QuickAdd extends React.Component {
       this.dialog.showModal();
     } else if (openStateHasChanged) {
       this.dialog.close();
+    }
+
+    const originalItemHasChanged = !Object.is(
+      prevProps.originalItem,
+      this.props.originalItem
+    );
+    if (originalItemHasChanged) {
+      this.onOpenEditDialog();
     }
   }
 
@@ -153,8 +161,16 @@ class QuickAdd extends React.Component {
       });
   }
 
+  handleFormSubmit() {
+    const values = { ...this.state };
+    this.props.onSubmit(values);
+    this.setState({
+      ...getInitialState(this.itemProperties.current)
+    });
+  }
+
   render() {
-    const { type, originalItem, onSubmit } = this.props;
+    const { type, originalItem, onClose } = this.props;
     const { current } = this.itemProperties;
 
     const limitByTotal = this.state.editItem.max
@@ -178,7 +194,8 @@ class QuickAdd extends React.Component {
         title={`Edit ${originalItem.title}`}
         getDialogRef={this.assignDialogRef}
         actionText={Strings.edit}
-        action={onSubmit}
+        action={this.handleFormSubmit}
+        onClose={onClose}
       >
         <div className="paged-list-edit">
           <span

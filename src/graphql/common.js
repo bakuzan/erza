@@ -44,8 +44,7 @@ export const constructRecordForPost = record => {
 export const constructFilterString = filters => {
   const properties = Object.keys(filters).reduce((acc, curr, i, arr) => {
     const value = processType(filters[curr]);
-    const nextArg =
-      value || `${value}` === 'false' ? `${curr}: ${value}` : '';
+    const nextArg = value || `${value}` === 'false' ? `${curr}: ${value}` : '';
     const separator = arr.length === i + 1 ? '' : ', ';
     return `${acc}${nextArg}${separator}`;
   }, '');
@@ -64,27 +63,26 @@ export const pagedDataWrapper = fields => `
 export const itemKeyFields = uniqueFields => `
   _id
   title
-  start
-  end
   status
-  rating
-  isAdult
   isRepeat
   owned
   image
   link
   malId
-  series_type
-  series_start
-  series_end
-  timesCompleted
   updatedDate
   ${uniqueFields}
 `;
 
 export const itemEditFields = uniqueFields => `
   ${itemKeyFields(uniqueFields)}
-  tags
+  start
+  end
+  rating
+  isAdult
+  series_type
+  series_start
+  series_end
+  timesCompleted
 `;
 
 export const historyKeyFields = uniqueField => `

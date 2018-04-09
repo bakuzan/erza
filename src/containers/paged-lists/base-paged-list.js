@@ -16,6 +16,7 @@ class BasePagedList extends Component {
     };
 
     this.openEditDialog = this.openEditDialog.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
   }
 
@@ -23,8 +24,12 @@ class BasePagedList extends Component {
     this.setState({ isDialogOpen: _id });
   }
 
-  handleEdit(event) {
-    this.props.addHistoryToItem(this.state);
+  closeDialog() {
+    this.setState({ isDialogOpen: null });
+  }
+
+  handleEdit(values) {
+    this.props.addHistoryToItem(values);
     this.setState({ isDialogOpen: null });
   }
 
@@ -46,6 +51,7 @@ class BasePagedList extends Component {
           type={type}
           seriesId={this.state.isDialogOpen}
           onSubmit={this.handleEdit}
+          onClose={this.closeDialog}
         />
       </div>
     );

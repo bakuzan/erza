@@ -1,54 +1,33 @@
-import {
-  itemKeyFields,
-  itemEditFields,
-  pagedDataWrapper,
-  constructFilterString
-} from '../common';
+import { Strings } from 'constants/values';
+import GenericListQueries from './list-items';
 
-const animeSpecificKeyFields = `
+export const animeSpecificKeyFields = `
   episode
   series_episodes
 `;
-export const animeKeyFields = itemKeyFields(animeSpecificKeyFields);
-export const animeEditFields = itemEditFields(animeSpecificKeyFields);
 
-const getFilteredList = (pageParameters, filters) => `
-  {
-    animeConnection(${pageParameters}${constructFilterString(filters)}) {
-      ${pagedDataWrapper(animeKeyFields)}
-    }
-  }
-`;
-
-const getById = id => `
-  {
-    animeById(_id: "${id}") {
-      ${animeKeyFields}
-      rating
-      series_start
-      series_type
-	  _legacyIsSeason
-      season
-      tagList {
-        _id
-        name
-      }
-    }
-  }
-`;
-
-const getByIdForEdit = id => `
-  {
-    animeById(_id: "${id}") {
-      ${animeEditFields}
-    }
-  }
-`;
+const getFilteredList = GenericListQueries.getFilteredList(
+  Strings.anime,
+  animeSpecificKeyFields
+);
+const getById = GenericListQueries.getById(
+  Strings.anime,
+  animeSpecificKeyFields
+);
+const getByIdForEdit = GenericListQueries.getByIdForEdit(
+  Strings.anime,
+  animeSpecificKeyFields
+);
+const getByIdForQuickAdd = GenericListQueries.getByIdForQuickAdd(
+  Strings.anime,
+  animeSpecificKeyFields
+);
 
 const AnimeQL = {
   getById,
   getFilteredList,
-  getByIdForEdit
+  getByIdForEdit,
+  getByIdForQuickAdd
 };
 
 export default AnimeQL;

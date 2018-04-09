@@ -1,53 +1,35 @@
-import {
-  itemKeyFields,
-  itemEditFields,
-  pagedDataWrapper,
-  constructFilterString
-} from '../common';
+import { Strings } from 'constants/values';
+import GenericListQueries from './list-items';
 
-const mangaSpecificKeyFields = `
+export const mangaSpecificKeyFields = `
   chapter
   volume
   series_chapters
   series_volumes
 `;
-export const mangaKeyFields = itemKeyFields(mangaSpecificKeyFields);
-export const mangaEditFields = itemEditFields(mangaSpecificKeyFields);
 
-const getFilteredList = (pageParameters, filters) => `
-  {
-    mangaConnection(${pageParameters}${constructFilterString(filters)}) {
-      ${pagedDataWrapper(mangaKeyFields)}
-    }
-  }
-`;
-
-const getById = id => `
-  {
-    mangaById(_id: "${id}") {
-      ${mangaKeyFields}
-      rating
-      series_start
-      tagList {
-        _id
-        name
-      }
-    }
-  }
-`;
-
-const getByIdForEdit = id => `
-  {
-    mangaById(_id: "${id}") {
-      ${mangaEditFields}
-    }
-  }
-`;
+const getFilteredList = GenericListQueries.getFilteredList(
+  Strings.manga,
+  mangaSpecificKeyFields
+);
+const getById = GenericListQueries.getById(
+  Strings.manga,
+  mangaSpecificKeyFields
+);
+const getByIdForEdit = GenericListQueries.getByIdForEdit(
+  Strings.manga,
+  mangaSpecificKeyFields
+);
+const getByIdForQuickAdd = GenericListQueries.getByIdForQuickAdd(
+  Strings.manga,
+  mangaSpecificKeyFields
+);
 
 const MangaQL = {
   getById,
   getFilteredList,
-  getByIdForEdit
+  getByIdForEdit,
+  getByIdForQuickAdd
 };
 
 export default MangaQL;
