@@ -54,10 +54,11 @@ class QuickAdd extends React.Component {
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  // REMOVE WHEN PACKAGES FIX THEIR SHIT
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const originalItemIsUnchanged = Object.is(
       nextProps.originalItem,
-      prevState.originalItem
+      this.state.originalItem
     );
     console.log(
       '%c Derive State From: ',
@@ -66,9 +67,9 @@ class QuickAdd extends React.Component {
       nextProps.originalItem
     );
     if (originalItemIsUnchanged) return null;
-    return {
+    this.setState({
       originalItem: nextProps.originalItem
-    };
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -170,7 +171,7 @@ class QuickAdd extends React.Component {
           this.state.malUpdates.values[`${current}s`]
         : this.state.editItem[current] === this.state.editItem.max);
 
-    console.log('%c render >', 'color: orange', this.state);
+    console.log('%c render >', 'color: orange', this.state, this.props);
     return (
       <Dialog
         name={`${type}Edit`}
