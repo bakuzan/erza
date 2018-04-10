@@ -166,6 +166,14 @@ class QuickAdd extends React.Component {
     const { type, originalItem, onClose } = this.props;
     const { current } = this.itemProperties;
 
+    const isManga = type === Strings.manga;
+    const limitByTotalVolumes = !isManga
+      ? 0
+      : this.state.malUpdates.values &&
+        !!this.state.malUpdates.values.series_volumes
+        ? this.state.malUpdates.values.series_volumes
+        : this.state.originalItem.series_volumes;
+
     const limitByTotal = this.state.editItem.max
       ? this.state.editItem.max
       : this.state.malUpdates.values &&
@@ -206,15 +214,28 @@ class QuickAdd extends React.Component {
               </span>
               {!!this.state.editItem._id && (
                 <div>
-                  <ClearableInput
-                    type="number"
-                    name={current}
-                    label={current}
-                    value={this.state.editItem[current]}
-                    min={this.state.editItem.min}
-                    max={limitByTotal}
-                    onChange={this.handleUserInput}
-                  />
+                  <div>
+                    <ClearableInput
+                      type="number"
+                      name={current}
+                      label={current}
+                      value={this.state.editItem[current]}
+                      min={this.state.editItem.min}
+                      max={limitByTotal}
+                      onChange={this.handleUserInput}
+                    />
+                    {isManga && (
+                      <ClearableInput
+                        type="number"
+                        name="volumes"
+                        label="volumes"
+                        value={this.state.editItem.volumes}
+                        min={this.state.originalItem.volumes}
+                        max={limitByTotalVolumes}
+                        onChange={this.handleUserInput}
+                      />
+                    )}
+                  </div>
                   {showSeriesOverallRating && (
                     <RatingControl
                       name="overallRating"
