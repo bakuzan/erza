@@ -120,11 +120,7 @@ export const loadItemsById = (type, queryString) => {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
       .then(response =>
-        dispatch(
-          loadItemToState[type]([
-            { node: getSingleObjectProperty(response.data) }
-          ])
-        )
+        dispatch(loadItemToState[type](getSingleObjectProperty(response.data)))
       )
       .then(() => dispatch(finishGraphqlRequest()));
   };

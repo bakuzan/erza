@@ -199,6 +199,7 @@ class QuickAdd extends React.Component {
     console.log('%c render >', 'color: orange', this.state, this.props);
     return (
       <Portal targetTagName="main">
+        {!this.state.isOpen && <div>Nothing</div>}
         {this.state.isOpen && (
           <Form
             name={`${type}Edit`}
