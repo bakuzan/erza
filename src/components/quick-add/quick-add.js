@@ -60,12 +60,7 @@ class QuickAdd extends React.Component {
       nextProps.originalItem,
       prevState.originalItem
     );
-    console.log(
-      '%c Derive State From: ',
-      'color: red;',
-      originalItemIsUnchanged,
-      nextProps.originalItem
-    );
+
     if (originalItemIsUnchanged) return null;
     return {
       originalItem: nextProps.originalItem
@@ -74,7 +69,6 @@ class QuickAdd extends React.Component {
 
   componentDidUpdate(prevProps) {
     const openStateHasChanged = prevProps.isOpen !== this.props.isOpen;
-    console.log('%c Did Update: ', 'color: purple;', openStateHasChanged);
     if (openStateHasChanged && this.props.isOpen) {
       this.props.loadItemById(this.props);
     }
@@ -84,6 +78,11 @@ class QuickAdd extends React.Component {
       this.props.originalItem
     );
     if (originalItemHasChanged) {
+      console.log(
+        prevProps.originalItem,
+        'OPEN EDIT >',
+        this.props.originalItem
+      );
       this.onOpenEdit();
     }
   }
@@ -100,7 +99,8 @@ class QuickAdd extends React.Component {
   }
 
   onOpenEdit() {
-    const { originalItem } = this.props;
+    const { originalItem, type } = this.props;
+    const isManga = type === Strings.manga;
     const { current, total } = this.itemProperties;
     const defaults = getInitialState(this.itemProperties.current, originalItem);
     if (originalItem.malId) this.refreshMalValues(originalItem);
@@ -113,6 +113,9 @@ class QuickAdd extends React.Component {
         [current]: originalItem[current] || 0,
         min: originalItem[current] || 0,
         max: originalItem[total] || null,
+        volume: isManga ? originalItem.volume || 0 : undefined,
+        minVol: isManga ? originalItem.volume || 0 : undefined,
+        maxVol: isManga ? originalItem.series_volumes || null : undefined,
         overallRating: originalItem.rating
       },
       malUpdates: {
@@ -167,12 +170,14 @@ class QuickAdd extends React.Component {
     const { current } = this.itemProperties;
 
     const isManga = type === Strings.manga;
-    const limitByTotalVolumes = !isManga
+    const limitByTotalVolume = !isManga
       ? 0
-      : this.state.malUpdates.values &&
-        !!this.state.malUpdates.values.series_volumes
-        ? this.state.malUpdates.values.series_volumes
-        : this.state.originalItem.series_volumes;
+      : this.state.editItem.maxVol
+        ? this.state.editItem.maxVol
+        : this.state.malUpdates.values &&
+          !!this.state.malUpdates.values.series_volumes
+          ? this.state.malUpdates.values.series_volumes
+          : null;
 
     const limitByTotal = this.state.editItem.max
       ? this.state.editItem.max
@@ -196,7 +201,6 @@ class QuickAdd extends React.Component {
       onCancel: onClose
     };
 
-    console.log('%c render >', 'color: orange', this.state, this.props);
     return (
       <Portal targetTagName="main">
         {this.props.isOpen && (
@@ -215,7 +219,7 @@ class QuickAdd extends React.Component {
               </span>
               {!!this.state.editItem._id && (
                 <div>
-                  <div>
+                  <div className="updated-item-values-container">
                     <ClearableInput
                       type="number"
                       name={current}
@@ -228,11 +232,11 @@ class QuickAdd extends React.Component {
                     {isManga && (
                       <ClearableInput
                         type="number"
-                        name="volumes"
-                        label="volumes"
-                        value={this.state.editItem.volumes}
-                        min={this.state.originalItem.volumes}
-                        max={limitByTotalVolumes}
+                        name="volume"
+                        label="volume"
+                        value={this.state.editItem.volume}
+                        min={this.state.editItem.minVol}
+                        max={limitByTotalVolume}
                         onChange={this.handleUserInput}
                       />
                     )}

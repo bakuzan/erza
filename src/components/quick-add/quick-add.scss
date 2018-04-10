@@ -1,13 +1,14 @@
-@import '../../styles/partials/variables.scss';
+@import '../../styles/partials/_colours.scss';
+@import '../../styles/partials/_variables.scss';
 
-$base-message-colour: #aaa;
-$loading-message-colour: #ffa500;
-$success-message-colour: #228b22;
+$base-message-colour: $grey67;
+$loading-message-colour: $orange;
+$success-message-colour: $forest-green;
 
 #quick-add-form {
   position: absolute;
-  top: 50px;
-  left: 50px;
+  top: $header-height;
+  left: $sidebar-width-open;
   right: 0;
   bottom: 0;
   background: #fff;
@@ -17,6 +18,12 @@ $success-message-colour: #228b22;
   .form-title {
     margin: 5px 0;
   }
+  .updated-item-values-container {
+    display: flex;
+  }
+}
+.sidebar-collapsed #quick-add-form {
+  left: $sidebar-width-collapsed;
 }
 
 .mal-update-message {

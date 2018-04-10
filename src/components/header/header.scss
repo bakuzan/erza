@@ -1,12 +1,12 @@
-@import "../../styles/partials/_colours";
-@import "../../styles/partials/_variables";
+@import '../../styles/partials/_colours';
+@import '../../styles/partials/_variables';
 
 .application-header {
   position: fixed;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 50px;
+  height: $header-height;
   width: 100%;
   background-color: $primary-background;
   color: $primary-colour-contrast;
