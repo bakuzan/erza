@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import React, { Component } from 'react';
 
 import { Strings } from '../../constants/values';
 
@@ -21,12 +22,19 @@ class Form extends Component {
   }
 
   render() {
-    const { name, title, submitOptions, cancelOptions } = this.props;
+    const {
+      id,
+      className,
+      name,
+      title,
+      submitOptions,
+      cancelOptions
+    } = this.props;
     const hasTitle = !!title;
     const renderCancel = !cancelOptions.hide;
 
     return (
-      <div className="form-container">
+      <div id={id} className={classNames('form-container', className)}>
         {hasTitle && <h4 className="form-title">{title}</h4>}
         <form
           name={name}

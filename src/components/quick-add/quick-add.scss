@@ -1,6 +1,23 @@
+@import '../../styles/partials/variables.scss';
+
 $base-message-colour: #aaa;
 $loading-message-colour: #ffa500;
 $success-message-colour: #228b22;
+
+#quick-add-form {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  padding: 10px;
+  z-index: map-get($z-index, above-siblings);
+
+  .form-title {
+    margin: 5px 0;
+  }
+}
 
 .mal-update-message {
   position: absolute;
