@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import fetchFromServer from '../../graphql/fetch';
-import Dialog from '../../components/dialog/dialog';
-import ClearableInput from '../../components/clearable-input/clearable-input';
-import RatingControl from '../../components/rating-control/rating-control';
+import Portal from 'components/portal';
+import Form from 'components/form/form';
+import ClearableInput from 'components/clearable-input/clearable-input';
+import RatingControl from 'components/rating-control/rating-control';
 
 import { Paths } from '../../constants/paths';
 import { Strings } from '../../constants/values';
@@ -45,7 +46,6 @@ class QuickAdd extends React.Component {
       ...getInitialState(this.itemProperties.current, props.originalItem)
     };
 
-    this.assignDialogRef = this.assignDialogRef.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
@@ -77,9 +77,6 @@ class QuickAdd extends React.Component {
     console.log('%c Did Update: ', 'color: purple;', openStateHasChanged);
     if (openStateHasChanged && this.props.isOpen) {
       this.props.loadItemById(this.props);
-      this.dialog.showModal();
-    } else if (openStateHasChanged) {
-      this.dialog.close();
     }
 
     const originalItemHasChanged = !Object.is(
@@ -87,12 +84,8 @@ class QuickAdd extends React.Component {
       this.props.originalItem
     );
     if (originalItemHasChanged) {
-      this.onOpenEditDialog();
+      this.onOpenEdit();
     }
-  }
-
-  assignDialogRef(el) {
-    this.dialog = el;
   }
 
   handleUserInput(event) {
@@ -106,7 +99,7 @@ class QuickAdd extends React.Component {
     this.setState({ editItem: updateEditValues });
   }
 
-  onOpenEditDialog() {
+  onOpenEdit() {
     const { originalItem } = this.props;
     const { current, total } = this.itemProperties;
     const defaults = getInitialState(this.itemProperties.current, originalItem);
@@ -187,74 +180,88 @@ class QuickAdd extends React.Component {
           this.state.malUpdates.values[`${current}s`]
         : this.state.editItem[current] === this.state.editItem.max);
 
+    const submitOptions = {
+      text: Strings.edit,
+      onSubmit: this.handleFormSubmit
+    };
+    const cancelOptions = {
+      onCancel: onClose
+    };
+
     console.log('%c render >', 'color: orange', this.state, this.props);
     return (
-      <Dialog
-        name={`${type}Edit`}
-        title={`Edit ${originalItem.title}`}
-        getDialogRef={this.assignDialogRef}
-        actionText={Strings.edit}
-        action={this.handleFormSubmit}
-        onClose={onClose}
-      >
-        <div className="paged-list-edit">
-          <span
-            className={`mal-update-message ${this.state.malUpdates.status}`}
+      <Portal targetTagName="main">
+        {this.state.isOpen && (
+          <Form
+            name={`${type}Edit`}
+            title={`Edit ${originalItem.title}`}
+            submitOptions={submitOptions}
+            cancelOptions={cancelOptions}
           >
-            {this.state.malUpdates.message}
-          </span>
-          {!!this.state.editItem._id && (
-            <div>
-              <ClearableInput
-                type="number"
-                name={current}
-                label={current}
-                value={this.state.editItem[current]}
-                min={this.state.editItem.min}
-                max={limitByTotal}
-                onChange={this.handleUserInput}
-              />
-              {showSeriesOverallRating && (
-                <RatingControl
-                  name="overallRating"
-                  label="Rating"
-                  value={this.state.editItem.overallRating || 0}
-                  onChange={this.handleUserInput}
-                />
+            <div className="paged-list-edit">
+              <span
+                className={`mal-update-message ${this.state.malUpdates.status}`}
+              >
+                {this.state.malUpdates.message}
+              </span>
+              {!!this.state.editItem._id && (
+                <div>
+                  <ClearableInput
+                    type="number"
+                    name={current}
+                    label={current}
+                    value={this.state.editItem[current]}
+                    min={this.state.editItem.min}
+                    max={limitByTotal}
+                    onChange={this.handleUserInput}
+                  />
+                  {showSeriesOverallRating && (
+                    <RatingControl
+                      name="overallRating"
+                      label="Rating"
+                      value={this.state.editItem.overallRating || 0}
+                      onChange={this.handleUserInput}
+                    />
+                  )}
+                  <ul className="list column one">
+                    {!!this.state.editItem[current] &&
+                      Array(
+                        this.state.editItem[current] - this.state.editItem.min
+                      )
+                        .fill(null)
+                        .map((item, index) => {
+                          const historyNumber =
+                            this.state.editItem.min + 1 + index;
+                          return (
+                            <li key={index} className="flex-row">
+                              <RatingControl
+                                name={`ratings.${historyNumber}`}
+                                label={`rating for ${current} ${historyNumber}`}
+                                value={
+                                  this.state.editItem.ratings[historyNumber] ||
+                                  0
+                                }
+                                onChange={this.handleUserInput}
+                              />
+                              <ClearableInput
+                                name={`notes.${historyNumber}`}
+                                label={`note for ${historyNumber}`}
+                                value={
+                                  this.state.editItem.notes[historyNumber] || ''
+                                }
+                                maxLength={140}
+                                onChange={this.handleUserInput}
+                              />
+                            </li>
+                          );
+                        })}
+                  </ul>
+                </div>
               )}
-              <ul className="list column one">
-                {!!this.state.editItem[current] &&
-                  Array(this.state.editItem[current] - this.state.editItem.min)
-                    .fill(null)
-                    .map((item, index) => {
-                      const historyNumber = this.state.editItem.min + 1 + index;
-                      return (
-                        <li key={index} className="flex-row">
-                          <RatingControl
-                            name={`ratings.${historyNumber}`}
-                            label={`rating for ${current} ${historyNumber}`}
-                            value={
-                              this.state.editItem.ratings[historyNumber] || 0
-                            }
-                            onChange={this.handleUserInput}
-                          />
-                          <ClearableInput
-                            name={`notes.${historyNumber}`}
-                            label={`note for ${historyNumber}`}
-                            value={
-                              this.state.editItem.notes[historyNumber] || ''
-                            }
-                            maxLength={140}
-                            onChange={this.handleUserInput}
-                          />
-                        </li>
-                      );
-                    })}
-              </ul>
             </div>
-          )}
-        </div>
-      </Dialog>
+          </Form>
+        )}
+      </Portal>
     );
   }
 }
