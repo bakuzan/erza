@@ -12,7 +12,7 @@ class BasePagedList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDialogOpen: null
+      isQuickAddOpen: null
     };
 
     this.openEditDialog = this.openEditDialog.bind(this);
@@ -21,16 +21,16 @@ class BasePagedList extends Component {
   }
 
   openEditDialog(_id) {
-    this.setState({ isDialogOpen: _id });
+    this.setState({ isQuickAddOpen: _id });
   }
 
   closeDialog() {
-    this.setState({ isDialogOpen: null });
+    this.setState({ isQuickAddOpen: null });
   }
 
   handleEdit(values) {
     this.props.addHistoryToItem(values);
-    this.setState({ isDialogOpen: null });
+    this.setState({ isQuickAddOpen: null });
   }
 
   render() {
@@ -47,9 +47,9 @@ class BasePagedList extends Component {
         <PagingControls listType={type} filters={filters} />
         <PagedList items={items} {...dynamicListProps} />
         <QuickAdd
-          isOpen={!!this.state.isDialogOpen}
+          isOpen={!!this.state.isQuickAddOpen}
           type={type}
-          seriesId={this.state.isDialogOpen}
+          seriesId={this.state.isQuickAddOpen}
           onSubmit={this.handleEdit}
           onClose={this.closeDialog}
         />
