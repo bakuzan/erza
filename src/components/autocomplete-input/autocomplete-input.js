@@ -104,13 +104,10 @@ class AutocompleteInput extends Component {
 
   handleBlur(e) {
     clearTimeout(this.timer);
-    this.timer = setTimeout(
-      () => {
-        if (!this.timer) return;
-        this.setState({ inUse: false })
-      },
-      getTimeoutSeconds(1)
-    );
+    this.timer = setTimeout(() => {
+      if (!this.timer) return;
+      this.setState({ inUse: false });
+    }, getTimeoutSeconds(1));
   }
 
   render() {
@@ -157,6 +154,7 @@ class AutocompleteInput extends Component {
               {!hasSuggestions &&
                 (hasOptions || disableLocalFilter) && (
                   <li
+                    key="NONE"
                     id="no-suggestions-item"
                     className="autocomplete-suggestion active"
                   >

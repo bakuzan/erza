@@ -9,7 +9,11 @@ import RatingControl from 'components/rating-control/rating-control';
 
 import { Paths } from '../../constants/paths';
 import { Strings } from '../../constants/values';
-import { getEventValue, updateNestedProperty } from '../../utils/common';
+import {
+  getEventValue,
+  updateNestedProperty,
+  objectsAreEqual
+} from '../../utils/common';
 import {
   shouldIntergrateMalEntry,
   getUniquePropertiesForItemType
@@ -56,7 +60,7 @@ class QuickAdd extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const originalItemIsUnchanged = Object.is(
+    const originalItemIsUnchanged = objectsAreEqual(
       nextProps.originalItem,
       prevState.originalItem
     );
@@ -73,11 +77,14 @@ class QuickAdd extends React.Component {
       this.props.loadItemById(this.props);
     }
 
-    const originalItemHasChanged = !Object.is(
-      prevProps.originalItem,
-      this.props.originalItem
+    const originalItemHasChanged = !objectsAreEqual(
+      this.props.originalItem,
+      prevProps.originalItem
     );
-    if (originalItemHasChanged) {
+    if (
+      originalItemHasChanged &&
+      prevProps.originalItem.hasOwnProperty('_id')
+    ) {
       console.log(
         prevProps.originalItem,
         'OPEN EDIT >',
@@ -206,6 +213,7 @@ class QuickAdd extends React.Component {
         {this.props.isOpen && (
           <Form
             id="quick-add-form"
+            className="themed-background"
             name={`${type}Edit`}
             title={`Edit ${originalItem.title}`}
             submitOptions={submitOptions}

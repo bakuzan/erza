@@ -17,6 +17,10 @@
     background: $base-background;
     color: $base-colour;
 
+    .themed-background {
+      background: $base-background;
+    }
+
     // Generic components
     .input-container,
     .select-container {
@@ -47,7 +51,7 @@
       }
     }
 
-    #shortcuts-container ul {
+    .autocomplete-menu {
       background-color: $base-background;
     }
     .autocomplete-suggestion {
