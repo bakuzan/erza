@@ -85,11 +85,6 @@ class QuickAdd extends React.Component {
       originalItemHasChanged &&
       prevProps.originalItem.hasOwnProperty('_id')
     ) {
-      console.log(
-        prevProps.originalItem,
-        'OPEN EDIT >',
-        this.props.originalItem
-      );
       this.onOpenEdit();
     }
   }

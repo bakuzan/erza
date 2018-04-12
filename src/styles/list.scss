@@ -1,4 +1,4 @@
-@import "./partials/_colours";
+@import './partials/_colours';
 
 $columns: (
   one: 100%,
@@ -12,37 +12,36 @@ $columns: (
   display: flex;
   flex-direction: row;
   padding: 5px;
+
   margin: 5px 0;
   list-style-type: none;
-
   .formatting-container {
     display: flex;
     width: 100%;
   }
-
   &.column {
-    flex-direction: row;
-    flex-wrap: wrap;
-
+    flex-direction: column;
+    &:not(.one) {
+      flex-flow: wrap;
+    }
     .label:nth-child(odd):hover {
-      &, & + .value {
+      &,
+      & + .value {
         background-color: $primary-background;
         color: $primary-colour-contrast;
       }
     }
-
     @each $number, $percentage in $columns {
       &.#{$number} li {
         flex-basis: $percentage;
-        width: $percentage;
       }
     }
   }
-
   .label {
     font-weight: bold;
   }
-  .label, .value {
+  .label,
+  .value {
     display: flex;
     align-items: center;
     padding: 2px 10px;
@@ -52,7 +51,6 @@ $columns: (
     font-weight: bold;
   }
 }
-
 .list-item-actions {
   display: flex;
   align-items: center;
