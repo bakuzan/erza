@@ -6,13 +6,18 @@ export const animeSpecificKeyFields = `
   series_episodes
 `;
 
+const animeSpecificKeyFieldsWithSeason = `
+  ${animeSpecificKeyFields}
+  season
+`;
+
 const getFilteredList = GenericListQueries.getFilteredList(
   Strings.anime,
   animeSpecificKeyFields
 );
 const getById = GenericListQueries.getById(
   Strings.anime,
-  animeSpecificKeyFields
+  animeSpecificKeyFieldsWithSeason
 );
 const getByIdForEdit = GenericListQueries.getByIdForEdit(
   Strings.anime,
