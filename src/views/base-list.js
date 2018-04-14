@@ -83,6 +83,7 @@ class BaseListView extends Component {
     return (
       <div className="flex-row">
         <ListFilter
+          routeKey={routeKey}
           type={type}
           search={this.state.search}
           onChange={this.handleUserInput}
