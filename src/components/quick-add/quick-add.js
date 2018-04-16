@@ -89,6 +89,12 @@ class QuickAdd extends React.Component {
     }
   }
 
+  resetState() {
+    this.setState({
+      ...getInitialState(this.itemProperties.current)
+    });
+  }
+
   handleUserInput(event) {
     const target = event.target;
     const newValue = getEventValue(target);
@@ -162,9 +168,7 @@ class QuickAdd extends React.Component {
   handleFormSubmit() {
     const values = { ...this.state };
     this.props.onSubmit(values);
-    this.setState({
-      ...getInitialState(this.itemProperties.current)
-    });
+    this.resetState();
   }
 
   render() {
