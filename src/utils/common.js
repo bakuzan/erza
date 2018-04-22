@@ -120,8 +120,8 @@ export function curry(uncurried) {
 
 const parseSearchParamValue = compose(
   castStringToBool,
-  decodeURIComponent,
-  parseIfInt
+  parseIfInt,
+  decodeURIComponent
 );
 export const constructObjectFromSearchParams = (searchParam = '') =>
   searchParam
