@@ -14,10 +14,17 @@ const BaseCreate = Loadable({
   delay: 300
 });
 
-const AnimeCreate = ({ itemId, loadAnimeById, createAnime, editAnime }) => (
+const AnimeCreate = ({
+  itemId,
+  loadAnimeById,
+  createAnime,
+  editAnime,
+  ...props
+}) => (
   <BaseCreate
     type={Strings.anime}
     itemId={itemId}
+    location={props.location}
     actions={{
       loadById: loadAnimeById,
       create: createAnime,

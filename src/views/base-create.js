@@ -10,7 +10,8 @@ import {
   capitalise,
   getEventValue,
   isObject,
-  objectsAreEqual
+  objectsAreEqual,
+  constructObjectFromSearchParams
 } from '../utils/common';
 import { formatDateForInput } from '../utils/date';
 import {
@@ -76,6 +77,8 @@ class BaseCreate extends Component {
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
     this.validator =
       this.props.type === Strings.anime ? animeValidator : mangaValidator;
+
+    this.setState({ ...this.resolveSearchParams() });
   }
 
   componentDidUpdate(prevProps) {
@@ -86,7 +89,22 @@ class BaseCreate extends Component {
     if (!isAdultUnchanged) {
       this.props.loadTags();
     }
-    this.setState({ ...this.props.item, isAdult: this.props.isAdult });
+
+    this.setState({
+      ...this.props.item,
+      ...this.resolveSearchParams(),
+      isAdult: this.props.isAdult
+    });
+  }
+
+  resolveSearchParams() {
+    const { search } = this.props.location;
+    const test =
+      this.props.isCreate && search
+        ? constructObjectFromSearchParams(search)
+        : {};
+    console.log(test);
+    return test;
   }
 
   handleMalSelect(malItem) {
@@ -120,11 +138,11 @@ class BaseCreate extends Component {
   render() {
     if (
       this.props.isFetching ||
-      !this.props.item.tags || (
-        this.props.item.tags.length > 0 &&
-        !this.props.item.tags.find(x => x && isObject(x))
-      )
-    ) return <Loaders.LoadingSpinner size="fullscreen" />;
+      !this.props.item.tags ||
+      (this.props.item.tags.length > 0 &&
+        !this.props.item.tags.find(x => x && isObject(x)))
+    )
+      return <Loaders.LoadingSpinner size="fullscreen" />;
 
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);

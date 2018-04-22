@@ -41,7 +41,7 @@ const initialState = {
   isFetching: false,
   hasSelected: false,
   error: null
-}
+};
 
 class MalSearch extends Component {
   constructor(props) {
@@ -78,8 +78,8 @@ class MalSearch extends Component {
       prevState.hasSelected !== this.state.hasSelected ||
       this.props.search !== prevProps.search
     ) {
-      if (!!this.props.search) this.fetchMalResults()
-      if (!this.props.search) this.setState(initialState)
+      if (!!this.props.search) this.fetchMalResults();
+      if (!this.props.search) this.setState(initialState);
     }
   }
 
@@ -90,10 +90,7 @@ class MalSearch extends Component {
 
   fetchMalResults() {
     this.timer = debounce(() => {
-      this.setState(
-        { isFetching: true },
-        this.handleQueries
-      );
+      this.setState({ isFetching: true }, this.handleQueries);
     }, getTimeoutSeconds(2));
   }
 
@@ -107,13 +104,20 @@ class MalSearch extends Component {
       : alreadyExists ? Errors.exists : null;
 
     if (!this.timer) return;
-    this.setState({
-      alreadyExists,
-      results,
-      error,
-      isFetching: false,
-      isFirstQuery: false
-    });
+    this.setState(
+      {
+        alreadyExists,
+        results,
+        error,
+        isFetching: false,
+        isFirstQuery: false
+      },
+      () => {
+        if (this.props.id && !this.state.hasSelected) {
+          this.selectAutocompleteSuggestion(this.props.id);
+        }
+      }
+    );
   }
 
   selectAutocompleteSuggestion(selectedId) {

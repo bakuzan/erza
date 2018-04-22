@@ -3,12 +3,16 @@ import { Strings, Types } from '../constants/values';
 
 export const capitalise = str => str.charAt(0).toUpperCase() + str.slice(1);
 export const parseIfInt = val => parseInt(val, 10) || val;
+export const castStringToBool = val =>
+  val === 'true' ? true : val === 'false' ? false : val;
+
 export const getEventValue = ({ type, checked, value }) =>
   type === Strings.checkbox
     ? checked
     : type === Strings.date || type === Strings.text
       ? value
       : parseIfInt(value);
+
 export const padNumber = (n, width, z = 0) => {
   n += '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
@@ -113,3 +117,18 @@ export function curry(uncurried) {
     );
   };
 }
+
+const parseSearchParamValue = compose(
+  castStringToBool,
+  decodeURIComponent,
+  parseIfInt
+);
+export const constructObjectFromSearchParams = (searchParam = '') =>
+  searchParam
+    .slice(1)
+    .split('&')
+    .reduce((p, c) => {
+      const [key, raw] = c.split('=');
+      const value = parseSearchParamValue(raw);
+      return { ...p, [key]: value };
+    }, {});
