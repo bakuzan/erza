@@ -61,16 +61,9 @@ class MalSearch extends Component {
     );
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     if (!this.props.id) return;
-
-    const response = await this.queryMal(this.props.search);
-    if (!response) return this.setState({ error: Errors.failed });
-
-    const item = response.find(x => x.id === this.props.id);
-    if (!item) return this.setState({ error: Errors.missing });
-
-    this.props.selectMalItem(item);
+    this.handleQueries();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -103,7 +96,6 @@ class MalSearch extends Component {
       ? Errors.failed
       : alreadyExists ? Errors.exists : null;
 
-    if (!this.timer) return;
     this.setState(
       {
         alreadyExists,
@@ -123,7 +115,10 @@ class MalSearch extends Component {
   selectAutocompleteSuggestion(selectedId) {
     const item = this.state.results.find(x => x.id === selectedId);
     this.props.selectMalItem(item);
-    this.setState({ hasSelected: !!item });
+    this.setState({
+      hasSelected: !!item,
+      error: !item ? Errors.missing : null
+    });
   }
 
   handleMalSearch(event) {
