@@ -115,10 +115,10 @@ class MalSearch extends Component {
   selectAutocompleteSuggestion(selectedId) {
     const item = this.state.results.find(x => x.id === selectedId);
     this.props.selectMalItem(item);
-    this.setState({
+    this.setState(prev => ({
       hasSelected: !!item,
-      error: !item ? Errors.missing : null
-    });
+      error: !item ? Errors.missing : prev.error
+    }));
   }
 
   handleMalSearch(event) {

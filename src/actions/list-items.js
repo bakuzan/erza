@@ -51,7 +51,7 @@ const removeItemFromState = {
 
 const redirectPostAction = (type, lastLocation) => {
   const baseUrl = `${Paths.base}${Paths[type].list}`;
-  if (window.location.href.includes('list'))
+  if (window.location.href.includes(`${type}-list`))
     return Navigate.push(
       `${baseUrl}${window.location.href.replace(/^.*\//g, '')}`
     );
