@@ -6,6 +6,14 @@ import { coalesceSeriesImage } from './common';
 import { dateStringToISOString, preventDatesPre1970 } from './date';
 import { Enums, Strings, Properties } from '../constants/values';
 
+export const selectPageItems = (items, type, paging) => {
+  const { itemsPerPage, page } = paging;
+  const pageSize = itemsPerPage[type];
+  const startIndex = page * pageSize;
+  const endIndex = startIndex + pageSize;
+  return items.slice(startIndex, endIndex);
+};
+
 export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
   const happened = Date.now();
   return Array(episode - anime.episode)

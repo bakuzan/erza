@@ -53,6 +53,7 @@ AnimeView.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   itemId: ownProps.match.params.id,
   item: mapStateToEntity(state.entities.anime, ownProps.match.params.id),
   historyItems: mapStateToEntityList(state.entities.episode)

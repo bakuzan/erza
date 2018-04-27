@@ -4,18 +4,22 @@ import { connect } from 'react-redux';
 import PagingControls from '../../containers/paging-controls/paging-controls';
 import HistoryList from '../../components/list-components/history-list/history-list';
 import { pageSizes } from '../../constants/values';
-import { getHistoryNameForItemType } from '../../utils/data';
+import { getHistoryNameForItemType, selectPageItems } from '../../utils/data';
 
-const PagedHistoryList = ({ filters, items, type }) => (
-  <div className="flex-column flex-grow">
-    <PagingControls
-      pageSizeOptions={pageSizes.history}
-      listType={getHistoryNameForItemType(type)}
-      filters={filters}
-    />
-    <HistoryList type={type} items={items} />
-  </div>
-);
+const PagedHistoryList = ({ isFetching, filters, items, type, paging }) => {
+  const historyType = getHistoryNameForItemType(type);
+  const itemsForPage = selectPageItems(items, historyType, paging);
+  return (
+    <div className="flex-column flex-grow">
+      <PagingControls
+        pageSizeOptions={pageSizes.history}
+        listType={historyType}
+        filters={filters}
+      />
+      <HistoryList isFetching={isFetching} type={type} items={itemsForPage} />
+    </div>
+  );
+};
 
 PagedHistoryList.propTypes = {
   type: PropTypes.string.isRequired,
@@ -25,6 +29,7 @@ PagedHistoryList.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   paging: state.paging
 });
 

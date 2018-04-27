@@ -38,7 +38,9 @@ function addListEntity(state, action) {
 }
 
 export function loadEntityList(state, action) {
-  let latestState = { byId: {}, allIds: [] }; // I've opted to ditch current entities.
+  const isFirstPage = !action.page;
+  let latestState = isFirstPage ? { byId: {}, allIds: [] } : state;
+
   action.data.forEach(item => {
     latestState = addListEntity(latestState, { item });
   });

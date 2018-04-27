@@ -16,13 +16,17 @@ const getStatusList = props => {
   return !!value && !!value.length ? value : [value];
 };
 
-const loadData = (props, state) => {
+const KEEP_PAGE_ON_MOUNT = true;
+const loadData = (props, state, shouldKeepPage = false) => {
   const statusIn = getStatusList(props);
-  props.loadDataForTypedList({
-    statusIn,
-    isOwnedOnly: props.isOwnedOnly,
-    ...state
-  });
+  props.loadDataForTypedList(
+    {
+      statusIn,
+      isOwnedOnly: props.isOwnedOnly,
+      ...state
+    },
+    shouldKeepPage
+  );
 };
 
 const fetchPagedListForType = type =>
@@ -48,7 +52,7 @@ class BaseListView extends Component {
   }
 
   componentDidMount() {
-    loadData(this.props, this.state);
+    loadData(this.props, this.state, KEEP_PAGE_ON_MOUNT);
   }
 
   componentDidUpdate(prevProps) {

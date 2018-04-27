@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import Loaders from 'components/loaders';
 import HistoryListItem from './history-list-item';
+
 import { Paths } from '../../../constants/paths';
 import { getHistoryNameForItemType } from '../../../utils/data';
 import './history-list.css';
@@ -46,18 +49,25 @@ const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
   return list;
 };
 
-const HistoryList = ({ items, type, editAction, deleteAction }) => (
-  <ul className="list column one">
-    {items.length === 0 ? (
-      <li>
-        {' '}
-        <p>No items to display.</p>{' '}
-      </li>
-    ) : (
-      renderHistoryListItems(type, items, { editAction, deleteAction })
-    )}
-  </ul>
-);
+const HistoryList = ({ isFetching, items, type, editAction, deleteAction }) => {
+  const noItems = items.length === 0;
+  const noDataButFetching = isFetching && noItems;
+  const noDataNotFetching = !isFetching && noItems;
+  const hasData = !!items.length;
+  return (
+    <ul className="list column one">
+      {noDataButFetching && <Loaders.LoadingBouncer />}
+      {noDataNotFetching && (
+        <li>
+          {' '}
+          <p>No items to display.</p>{' '}
+        </li>
+      )}
+      {hasData &&
+        renderHistoryListItems(type, items, { editAction, deleteAction })}
+    </ul>
+  );
+};
 
 HistoryList.propTypes = {
   type: PropTypes.string.isRequired,

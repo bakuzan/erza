@@ -4,8 +4,9 @@ import ItemList from './item-list/item-list';
 import ItemListItem from './item-list/item-list-item';
 import { Strings } from '../../constants/values';
 
-const AnimeList = ({ items, addEpisode }) => (
+const AnimeList = ({ items, addEpisode, ...props }) => (
   <ItemList
+    {...props}
     items={items.map(item => (
       <ItemListItem
         key={item._id}

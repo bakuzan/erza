@@ -6,7 +6,10 @@ import PagingControls from '../../containers/paging-controls/paging-controls';
 import QuickAdd from '../../containers/quick-add';
 
 import { capitalise } from '../../utils/common';
-import { getUniquePropertiesForItemType } from '../../utils/data';
+import {
+  getUniquePropertiesForItemType,
+  selectPageItems
+} from '../../utils/data';
 
 class BasePagedList extends Component {
   constructor(props) {
@@ -34,7 +37,7 @@ class BasePagedList extends Component {
   }
 
   render() {
-    const { type, filters, list, items } = this.props;
+    const { isFetching, type, filters, list, items, paging } = this.props;
     const isQuickAddOpen = !!this.state.itemIdForQuickAdd;
     const PagedList = list;
     const { current } = getUniquePropertiesForItemType(type);
@@ -43,10 +46,16 @@ class BasePagedList extends Component {
       [`add${capitalise(current)}`]: this.openEditDialog
     };
 
+    const itemsForPage = selectPageItems(items, type, paging);
+
     return (
       <div className="flex-column flex-grow">
         <PagingControls listType={type} filters={filters} />
-        <PagedList items={items} {...dynamicListProps} />
+        <PagedList
+          isFetching={isFetching}
+          items={itemsForPage}
+          {...dynamicListProps}
+        />
         <QuickAdd
           isOpen={isQuickAddOpen}
           type={type}
@@ -67,6 +76,9 @@ BasePagedList.propTypes = {
   paging: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({ paging: state.paging });
+const mapStateToProps = state => ({
+  isFetching: state.isFetching,
+  paging: state.paging
+});
 
 export default connect(mapStateToProps)(BasePagedList);

@@ -59,7 +59,7 @@ class BaseView extends Component {
   }
 
   render() {
-    const { type, item, history, historyItems } = this.props;
+    const { isFetching, type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
 
     if (!item || !item._id) return <Loaders.LoadingSpinner size="fullscreen" />;
@@ -157,15 +157,13 @@ class BaseView extends Component {
                 {this.state.hasHistory && (
                   <LoadableContent spinnerSize="default">
                     <div>
-                      {!historyItems.length && <p>No history found.</p>}
-                      {!!historyItems.length && (
-                        <HistoryList
-                          type={type}
-                          items={historyItems}
-                          editAction={this.handleHistoryEdit}
-                          deleteAction={this.handleHistoryDelete}
-                        />
-                      )}
+                      <HistoryList
+                        isFetching={isFetching}
+                        type={type}
+                        items={isFetching ? [] : historyItems}
+                        editAction={this.handleHistoryEdit}
+                        deleteAction={this.handleHistoryDelete}
+                      />
                     </div>
                   </LoadableContent>
                 )}
