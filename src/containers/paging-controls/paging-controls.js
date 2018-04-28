@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+
+import SelectBox from '../../components/select-box/select-box';
+import { selectPagingForType } from 'reducers/paging';
 import { nextPage, prevPage, setItemsPerPage } from '../../actions/paging';
 import { pageSizes } from '../../constants/values';
-import SelectBox from '../../components/select-box/select-box';
 
 import './paging-controls.css';
 
@@ -17,7 +19,7 @@ const PagingControls = ({
   changeItemsPerPage
 }) => {
   const { pageInfo, itemsPerPage, page } = paging;
-  const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage[listType]) - 1;
+  const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage) - 1;
   const PAGE_SIZE_OPTIONS = pageSizeOptions.map(x => ({ value: x, text: x }));
 
   return (
@@ -53,7 +55,7 @@ const PagingControls = ({
       <SelectBox
         name="itemsPerPage"
         text="items per page"
-        value={itemsPerPage[listType]}
+        value={itemsPerPage}
         onSelect={e => changeItemsPerPage(e, listType)}
         options={PAGE_SIZE_OPTIONS}
       />
@@ -71,7 +73,7 @@ PagingControls.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  paging: state.paging
+  paging: selectPagingForType(state, ownProps)
 });
 
 const mapDispatchToProps = {

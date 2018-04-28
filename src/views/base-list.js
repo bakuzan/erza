@@ -110,7 +110,7 @@ BaseListView.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired,
-  itemsPerPage: PropTypes.object.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
   statusFilter: PropTypes.object.isRequired
 };
 
@@ -119,7 +119,7 @@ const mapStateToProps = (state, ownProps) => ({
   sortOrder: state.sorting.sortOrder,
   sortKey: state.sorting.sortKey,
   isOwnedOnly: state.filters[ownProps.type].isOwnedOnly,
-  itemsPerPage: state.paging.itemsPerPage
+  itemsPerPage: state.paging[ownProps.type].itemsPerPage
 });
 
 export default connect(mapStateToProps)(BaseListView);

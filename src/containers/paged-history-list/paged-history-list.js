@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+
 import PagingControls from '../../containers/paging-controls/paging-controls';
 import HistoryList from '../../components/list-components/history-list/history-list';
 import { pageSizes } from '../../constants/values';
@@ -30,7 +31,7 @@ PagedHistoryList.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
-  paging: state.paging
+  paging: state.paging[getHistoryNameForItemType(ownProps.type)]
 });
 
 export default connect(mapStateToProps)(PagedHistoryList);

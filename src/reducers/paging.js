@@ -1,67 +1,68 @@
+import { createReducer } from './utils';
 import {
   SET_ITEMS_PER_PAGE,
   NEXT_PAGE,
   PREV_PAGE,
   RESET_PAGE,
   LOAD_PAGE_INFO
-} from '../constants/actions';
-import {
-  getUserSettings,
-  persistUserSettings,
-  parseIfInt
-} from '../utils/common';
+} from 'constants/actions';
+import { Strings } from 'constants/values';
+
+const setStateDefaults = (overrides = {}) => ({
+  itemsPerPage: 5,
+  page: 0,
+  pageInfo: {},
+  ...overrides
+});
+const initialState = {
+  [Strings.anime]: setStateDefaults(),
+  [Strings.manga]: setStateDefaults(),
+  [Strings.episode]: setStateDefaults({ itemsPerPage: 25 }),
+  [Strings.chapter]: setStateDefaults({ itemsPerPage: 25 })
+};
+
+const applyStateUpdates = (state, action) => updates => ({
+  ...state,
+  [action.listType]: {
+    ...state[action.listType],
+    ...updates
+  }
+});
 
 const changePage = (state, action) => {
+  const typeState = state[action.listType];
+  const updateState = applyStateUpdates(state, action);
   switch (action.type) {
     case NEXT_PAGE:
-      return state + 1;
+      return updateState({ page: typeState.page + 1 });
     case PREV_PAGE:
-      return state - 1;
+      return updateState({ page: typeState.page - 1 });
     case RESET_PAGE:
-      return 0;
+      return updateState({ page: 0 });
     default:
       return state;
   }
-};
-
-const initialPageSizes = { anime: 5, manga: 5, episode: 25, chapter: 25 };
-const getUserItemsPerPage = () => {
-  const settings = getUserSettings();
-  if (!settings || !settings.itemsPerPage) return initialPageSizes;
-  return { ...initialPageSizes, ...settings.itemsPerPage };
-};
-
-const persistItemsPerPageChoice = (state, action) => {
-  const updatedSettings = persistUserSettings({
-    itemsPerPage: {
-      ...state,
-      [action.listType]: parseIfInt(action.itemsPerPage)
-    }
-  });
-  return updatedSettings.itemsPerPage;
 };
 
 const setItemsPerPage = (state, action) => {
-  switch (action.type) {
-    case SET_ITEMS_PER_PAGE:
-      return persistItemsPerPageChoice(state, action);
-    default:
-      return state;
-  }
+  const updateState = applyStateUpdates(state, action);
+  return updateState({ itemsPerPage: Number(action.itemsPerPage) });
 };
 
 const setPageInfo = (state, action) => {
-  if (action.type !== LOAD_PAGE_INFO) return state;
-  return { totalCount: action.paging.count };
+  const updateState = applyStateUpdates(state, action);
+  return updateState({ pageInfo: { totalCount: action.paging.count } });
 };
 
-export const paging = (
-  state = { itemsPerPage: getUserItemsPerPage(), page: 0, pageInfo: {} },
-  action
-) => {
-  return {
-    itemsPerPage: setItemsPerPage(state.itemsPerPage, action),
-    page: changePage(state.page, action),
-    pageInfo: setPageInfo(state.pageInfo, action)
-  };
-};
+export const paging = createReducer(initialState, {
+  [SET_ITEMS_PER_PAGE]: setItemsPerPage,
+  [NEXT_PAGE]: changePage,
+  [PREV_PAGE]: changePage,
+  [RESET_PAGE]: changePage,
+  [LOAD_PAGE_INFO]: setPageInfo
+});
+
+// Selectors
+
+export const selectPagingForType = (state, ownProps) =>
+  state.paging[ownProps.type || ownProps.listType];

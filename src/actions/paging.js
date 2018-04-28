@@ -26,21 +26,24 @@ const FetchData = dataType => {
   }
 };
 
-export const resetPageToZero = () => ({
-  type: RESET_PAGE
+export const resetPageToZero = listType => ({
+  type: RESET_PAGE,
+  listType
 });
 
-const fetchNextPage = () => ({
-  type: NEXT_PAGE
+const fetchNextPage = listType => ({
+  type: NEXT_PAGE,
+  listType
 });
 
-const fetchPrevPage = () => ({
-  type: PREV_PAGE
+const fetchPrevPage = listType => ({
+  type: PREV_PAGE,
+  listType
 });
 
 const changePage = (direction, changePage, type, filters) => {
   return function(dispatch) {
-    dispatch(changePage());
+    dispatch(changePage(type));
     dispatch(FetchData(type)(filters, direction));
   };
 };
@@ -55,7 +58,8 @@ export const setItemsPerPage = (event, listType) => ({
   listType
 });
 
-export const loadPageInfo = paging => ({
+export const loadPageInfo = (paging, listType) => ({
   type: LOAD_PAGE_INFO,
-  paging
+  paging,
+  listType
 });

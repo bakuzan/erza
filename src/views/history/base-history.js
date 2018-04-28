@@ -1,22 +1,24 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoadableContent from '../../containers/loadable-content';
-import PagedHistoryList from '../../containers/paged-history-list/paged-history-list';
-import { getEventValue, getTimeoutSeconds, debounce } from '../../utils/common';
-import {
-  startOfDay,
-  endOfDay,
-  dateAsMs,
-  formatDateForInput
-} from '../../utils/date';
+
+import LoadableContent from 'containers/loadable-content';
+import PagedHistoryList from 'containers/paged-history-list/paged-history-list';
+
+import { getEventValue, getTimeoutSeconds, debounce } from 'utils/common';
+import { startOfDay, endOfDay, dateAsMs, formatDateForInput } from 'utils/date';
+import { getHistoryNameForItemType } from 'utils/data';
 
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [
   dateAsMs(startOfDay(from)),
   dateAsMs(endOfDay(to))
 ];
-const loadData = (props, state) =>
-  props.loadHistory({ dateRange: dateRangeForQuery(state.from, state.to) });
+const KEEP_PAGE_ON_MOUNT = true;
+const loadData = (props, state, shouldKeepPage = false) =>
+  props.loadHistory(
+    { dateRange: dateRangeForQuery(state.from, state.to) },
+    shouldKeepPage
+  );
 
 const Datepicker = ({ label, ...props }) => (
   <div className="has-float-label input-container">
@@ -38,7 +40,7 @@ class BaseHistoryView extends Component {
   }
 
   componentDidMount() {
-    loadData(this.props, this.state);
+    loadData(this.props, this.state, KEEP_PAGE_ON_MOUNT);
   }
 
   componentDidUpdate(prevProps) {
@@ -95,12 +97,13 @@ BaseHistoryView.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadHistory: PropTypes.func.isRequired,
-  itemsPerPage: PropTypes.object.isRequired
+  itemsPerPage: PropTypes.number.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   isAdult: state.isAdult,
-  itemsPerPage: state.paging.itemsPerPage
+  itemsPerPage:
+    state.paging[getHistoryNameForItemType(ownProps.type)].itemsPerPage
 });
 
 export default connect(mapStateToProps)(BaseHistoryView);

@@ -25,7 +25,12 @@ import {
 import { Paths } from '../constants/paths';
 import { Strings } from '../constants/values';
 
-const hydrateState = type => (data, page) => ({ type, data, page });
+const hydrateState = type => (data, paging, pageChange) => ({
+  type,
+  data,
+  paging,
+  pageChange
+});
 const refreshState = type => item => ({ type, item });
 const dehydrateState = type => id => ({ type, id });
 const loadItemsToState = {
@@ -73,6 +78,11 @@ const finishGraphqlRequest = () => ({
   isFetching: false
 });
 
+const resolvePaging = (paging, pageChange) => ({
+  ...paging,
+  page: pageChange ? paging.page : 0
+});
+
 export const mutateItem = (type, item, queryBuilder) => {
   return function(dispatch, getState) {
     const { lastLocation } = getState();
@@ -98,12 +108,8 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
   return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     const { isAdult, paging, sorting } = getState();
-    const updatedPaging = { ...paging, page: pageChange ? paging.page : 0 };
-    const pageSettings = constructPagingAndSorting(
-      updatedPaging,
-      sorting,
-      type
-    );
+    const updatedPaging = resolvePaging(paging[type], pageChange);
+    const pageSettings = constructPagingAndSorting(updatedPaging, sorting);
     const query = queryBuilder(
       pageSettings,
       Object.assign({}, filters, { isAdult })
@@ -112,10 +118,9 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
       .then(response => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
-        dispatch(loadItemsToState[type](data.edges, updatedPaging.page));
-        dispatch(loadPageInfo({ count: data.count }));
-        console.log('FETCH > ', pageChange);
-        if (!pageChange) dispatch(resetPageToZero());
+        dispatch(loadItemsToState[type](data.edges, updatedPaging, pageChange));
+        dispatch(loadPageInfo({ count: data.count }, type));
+        if (!pageChange) dispatch(resetPageToZero(type));
       })
       .then(() => dispatch(finishGraphqlRequest()));
   };
@@ -180,12 +185,11 @@ export const loadHistoryByDateRange = (
   return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     const { paging, isAdult } = getState();
-    const updatedPaging = { ...paging, page: pageChange ? paging.page : 0 };
-    const pageSettings = constructPagingAndSorting(
-      updatedPaging,
-      { sortKey: 'date', sortOrder: 'DESC' },
-      type
-    );
+    const updatedPaging = resolvePaging(paging[type], pageChange);
+    const pageSettings = constructPagingAndSorting(updatedPaging, {
+      sortKey: 'date',
+      sortOrder: 'DESC'
+    });
     const query = queryBuilder(
       pageSettings,
       Object.assign({}, filters, { isAdult })
@@ -194,9 +198,9 @@ export const loadHistoryByDateRange = (
       .then(response => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
-        dispatch(loadItemsToState[type](data.edges, updatedPaging.page));
-        dispatch(loadPageInfo({ count: data.count }));
-        if (!pageChange) dispatch(resetPageToZero());
+        dispatch(loadItemsToState[type](data.edges, updatedPaging, pageChange));
+        dispatch(loadPageInfo({ count: data.count }, type));
+        if (!pageChange) dispatch(resetPageToZero(type));
       })
       .then(() => dispatch(finishGraphqlRequest()));
   };

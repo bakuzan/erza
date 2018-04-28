@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PagingControls from '../../containers/paging-controls/paging-controls';
 import QuickAdd from '../../containers/quick-add';
 
+import { selectPagingForType } from 'reducers/paging';
 import { capitalise } from '../../utils/common';
 import {
   getUniquePropertiesForItemType,
@@ -76,9 +77,9 @@ BasePagedList.propTypes = {
   paging: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
-  paging: state.paging
+  paging: selectPagingForType(state, ownProps)
 });
 
 export default connect(mapStateToProps)(BasePagedList);

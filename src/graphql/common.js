@@ -2,11 +2,10 @@ import { NonPostableProperties } from '../constants/values';
 import { isString, isArray } from '../utils/common';
 
 export const constructPagingAndSorting = (
-  { itemsPerPage, page },
-  { sortKey, sortOrder },
-  listType
+  { itemsPerPage: pageSize, page },
+  { sortKey, sortOrder }
 ) => {
-  const pageSize = itemsPerPage[listType];
+  console.log('PAGING!', pageSize, page);
   const first = page * pageSize + pageSize;
   return `
     first: ${first},

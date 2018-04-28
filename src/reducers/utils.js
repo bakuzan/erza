@@ -38,13 +38,30 @@ function addListEntity(state, action) {
 }
 
 export function loadEntityList(state, action) {
-  const isFirstPage = !action.page;
-  let latestState = isFirstPage ? { byId: {}, allIds: [] } : state;
+  const resetState = !action.pageChange;
+  const newIds = [];
+  let latestState = resetState ? { byId: {}, allIds: [] } : state;
 
   action.data.forEach(item => {
+    const data = getItem({ item });
+    newIds.push(data._id);
     latestState = addListEntity(latestState, { item });
   });
-  return latestState;
+  return resetState
+    ? latestState
+    : (() => {
+        const { itemsPerPage: pageSize, page } = action.paging;
+        const startIndex = page * pageSize;
+        const endIndex = startIndex + pageSize;
+        return {
+          ...latestState,
+          allIds: [
+            ...latestState.allIds.slice(0, startIndex),
+            ...newIds,
+            ...latestState.allIds.slice(endIndex)
+          ]
+        };
+      })();
 }
 
 export function createReducer(initialState, handlers) {
