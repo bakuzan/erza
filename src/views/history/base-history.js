@@ -13,7 +13,7 @@ const dateRangeForQuery = (from = new Date(), to = new Date()) => [
   dateAsMs(startOfDay(from)),
   dateAsMs(endOfDay(to))
 ];
-const KEEP_PAGE_ON_MOUNT = true;
+const KEEP_PAGE_ON_MOUNT = false;
 const loadData = (props, state, shouldKeepPage = false) =>
   props.loadHistory(
     { dateRange: dateRangeForQuery(state.from, state.to) },
@@ -32,11 +32,20 @@ class BaseHistoryView extends Component {
     super(props);
     const dr = dateRangeForQuery();
     this.state = {
+      displayList: false,
       from: formatDateForInput(dr[0]),
       to: formatDateForInput(dr[1])
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState.displayList && !nextProps.page) {
+      return { displayList: true };
+    }
+
+    return null;
   }
 
   componentDidMount() {
@@ -64,6 +73,7 @@ class BaseHistoryView extends Component {
     const filters = {
       dateRange: dateRangeForQuery(this.state.from, this.state.to)
     };
+    const historyItems = this.state.displayList ? items : [];
 
     return (
       <div className="flex-row">
@@ -85,7 +95,11 @@ class BaseHistoryView extends Component {
           </div>
         </div>
         <LoadableContent>
-          <PagedHistoryList type={type} filters={filters} items={items} />
+          <PagedHistoryList
+            type={type}
+            filters={filters}
+            items={historyItems}
+          />
         </LoadableContent>
       </div>
     );
@@ -102,8 +116,7 @@ BaseHistoryView.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   isAdult: state.isAdult,
-  itemsPerPage:
-    state.paging[getHistoryNameForItemType(ownProps.type)].itemsPerPage
+  ...state.paging[getHistoryNameForItemType(ownProps.type)]
 });
 
 export default connect(mapStateToProps)(BaseHistoryView);
