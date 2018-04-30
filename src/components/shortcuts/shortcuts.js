@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Dialog from '../dialog/dialog';
-import AutocompleteInput from '../autocomplete-input/autocomplete-input';
+
+import { AutocompleteInput, Dialog } from 'meiko';
 
 import { Enums } from '../../constants/values';
 import Menu from '../../constants/menu';

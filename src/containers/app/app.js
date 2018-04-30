@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 
+import { Toaster } from 'meiko';
 import withLastLocation from '../../components/last-location';
 import Header from '../../components/header/header';
 import Sidebar from '../sidebar/sidebar';
 import RequestIndicator from '../request-indicator';
-import Toaster from '../../components/toaster/toaster';
 import Shortcuts from '../../components/shortcuts/shortcuts';
 import Alert from '../alert';
 

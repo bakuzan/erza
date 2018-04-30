@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Alert from '../components/alert/alert';
+import { Alert } from 'meiko';
 import * as actions from '../actions/alert';
 
 const mapStateToProps = state => ({

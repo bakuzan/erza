@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import RequestIndicator from '../components/request-indicator/request-indicator';
+import { RequestIndicator } from 'meiko';
 
 const mapStateToProps = state => ({
   hide: state.requestIndicator.isHidden,

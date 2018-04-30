@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Portal from '../../components/portal';
-import SelectBox from '../../components/select-box/select-box';
-import Tickbox from '../../components/tickbox/tickbox';
+import { SelectBox, Tickbox, DropdownMenu } from 'meiko';
 
 import { setApplicationTheme, toggleTimedTheme } from '../../actions/theme';
 import { toggleSidebarVisibility } from '../../actions/sidebar';
@@ -49,13 +47,8 @@ const appThemes = Strings.themes.map(themeMapper);
 class AppSettings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isDropdownOpen: false
-    };
 
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.handleCloseAppSettings = this.handleCloseAppSettings.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
   }
 
   handleDropdownChange(onChange) {
@@ -63,14 +56,6 @@ class AppSettings extends React.Component {
       onChange(e.target.value);
       this.handleCloseAppSettings();
     };
-  }
-
-  handleCloseAppSettings() {
-    this.setState({ isDropdownOpen: false });
-  }
-
-  toggleDropdown() {
-    this.setState(prev => ({ isDropdownOpen: !prev.isDropdownOpen }));
   }
 
   render() {
@@ -90,72 +75,49 @@ class AppSettings extends React.Component {
     if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
 
     return (
-      <div id="app-settings">
-        <input
-          type="checkbox"
-          value={this.state.isDropdownOpen}
-          id="app-settings-toggler"
-          onChange={this.toggleDropdown}
-        />
-        <label
-          icon="&#x2699;"
-          htmlFor="app-settings-toggler"
-          title="App settings"
-        />
-        {this.state.isDropdownOpen && (
-          <Portal targetTagName="main">
-            <div
-              id="app-settings-backdrop"
-              role="button"
-              onClick={this.handleCloseAppSettings}
-            />
-            <ul id="app-settings-menu" className="dropdown-menu" role="menu">
-              <li className="dropdown-arrow" />
-              <li>
-                <SelectBox
-                  name="appTheme"
-                  text="App Theme"
-                  value={theme}
-                  options={appThemes}
-                  onSelect={this.handleDropdownChange(setApplicationTheme)}
-                />
-              </li>
-              <li>
-                <Tickbox
-                  text="timed theme change"
-                  name="isTimed"
-                  checked={isTimed}
-                  onChange={() => toggleTimedTheme()}
-                />
-              </li>
-              <li>
-                <Tickbox
-                  text="toggle adult lists"
-                  name="isAdult"
-                  checked={isAdult}
-                  onChange={() => toggleIsAdult()}
-                />
-              </li>
-              <li>
-                <Tickbox
-                  text="toggle sidebar visibility"
-                  name="isSidebarHidden"
-                  checked={!isSidebarHidden}
-                  onChange={() => toggleSidebarVisibility()}
-                />
-              </li>
-              <li>
-                <Tickbox
-                  text="toggle request indicator visibility"
-                  name="isRequestIndicatorHidden"
-                  checked={!isRequestIndicatorHidden}
-                  onChange={() => toggleRequestIndicatorVisibility()}
-                />
-              </li>
-            </ul>
-          </Portal>
-        )}
-      </div>
+      <DropdownMenu id="app-settings" portalTarget="main" align="right">
+        <li>
+          <SelectBox
+            name="appTheme"
+            text="App Theme"
+            value={theme}
+            options={appThemes}
+            onSelect={this.handleDropdownChange(setApplicationTheme)}
+          />
+        </li>
+        <li>
+          <Tickbox
+            text="timed theme change"
+            name="isTimed"
+            checked={isTimed}
+            onChange={() => toggleTimedTheme()}
+          />
+        </li>
+        <li>
+          <Tickbox
+            text="toggle adult lists"
+            name="isAdult"
+            checked={isAdult}
+            onChange={() => toggleIsAdult()}
+          />
+        </li>
+        <li>
+          <Tickbox
+            text="toggle sidebar visibility"
+            name="isSidebarHidden"
+            checked={!isSidebarHidden}
+            onChange={() => toggleSidebarVisibility()}
+          />
+        </li>
+        <li>
+          <Tickbox
+            text="toggle request indicator visibility"
+            name="isRequestIndicatorHidden"
+            checked={!isRequestIndicatorHidden}
+            onChange={() => toggleRequestIndicatorVisibility()}
+          />
+        </li>
+      </DropdownMenu>
     );
   }
 }

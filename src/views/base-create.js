@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Loadable from 'react-loadable';
 
 import { Strings, Enums } from '../constants/values';
 import { Paths } from '../constants/paths';
@@ -23,14 +22,18 @@ import {
 } from '../utils/data';
 import animeValidator from '../utils/validators/anime-creation';
 import mangaValidator from '../utils/validators/manga-creation';
-import Loaders from '../components/loaders/index';
-import RatingControl from '../components/rating-control/rating-control';
-import Tickbox from '../components/tickbox/tickbox';
-import SelectBox from '../components/select-box/select-box';
-import ChipListInput from '../components/chip-list-input/chip-list-input';
-import TabContainer from '../components/tab-container/tab-container';
-import TabView from '../components/tab-view/tab-view';
-import ClearableInput from '../components/clearable-input/clearable-input';
+
+import {
+  MalSearch,
+  ClearableInput,
+  Tabs,
+  ChipListInput,
+  SelectBox,
+  Tickbox,
+  Loaders,
+  RatingControl,
+  ImageSelector
+} from 'meiko';
 import { createTag, loadTags } from '../actions/tags';
 
 const loadData = props => {
@@ -43,19 +46,6 @@ const loadData = props => {
 const STATUS_OPTIONS = Object.keys(Enums.status)
   .filter(x => x !== 'all')
   .map(item => ({ text: capitalise(item), value: Enums.status[item] }));
-
-const MalSearch = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: 'mal-search' */ '../components/mal-search/mal-search'),
-  loading: Loaders.Loadables.SimpleLoading,
-  delay: 300
-});
-const ImageSelector = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: 'image-selector' */ '../components/image-selector/image-selector'),
-  loading: Loaders.Loadables.SimpleLoading,
-  delay: 300
-});
 
 class BaseCreate extends Component {
   constructor(props) {
@@ -177,8 +167,8 @@ class BaseCreate extends Component {
             noValidate=""
             onSubmit={this.handleSubmit}
           >
-            <TabContainer>
-              <TabView name="Required">
+            <Tabs.TabContainer>
+              <Tabs.TabView name="Required">
                 <div className="flex-column width-100">
                   <MalSearch
                     id={this.state.malId}
@@ -258,8 +248,8 @@ class BaseCreate extends Component {
                     createNew={this.props.createTag}
                   />
                 </div>
-              </TabView>
-              <TabView name="Additional">
+              </Tabs.TabView>
+              <Tabs.TabView name="Additional">
                 <div className="flex-column width-100">
                   <ClearableInput
                     type="number"
@@ -320,8 +310,8 @@ class BaseCreate extends Component {
                     }
                   />
                 </div>
-              </TabView>
-            </TabContainer>
+              </Tabs.TabView>
+            </Tabs.TabContainer>
             <div className="button-group">
               <button type="submit" className="button ripple">
                 {this.props.isCreate ? Strings.create : Strings.edit}

@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import LoadingSpinner from '../../components/loaders/loading-spinner/loading-spinner';
-import ClearableInput from '../../components/clearable-input/clearable-input';
+import { ClearableInput, Loaders } from 'meiko';
 import RelatedSeriesList from './tag-management-related-series-list';
 
 import { Paths } from '../../constants/paths';
@@ -64,7 +63,7 @@ class TagManagementDetails extends React.Component {
 
   render() {
     const { item } = this.state;
-    if (!item) return <LoadingSpinner size="fullscreen" />;
+    if (!item) return <Loaders.LoadingSpinner size="fullscreen" />;
 
     const canEdit = item.name.length > 1;
     const canDelete =

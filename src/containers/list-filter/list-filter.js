@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import FilterLink from '../filter-link/filter-link';
-import RadioButton from '../../components/radio-button/radio-button';
-import Tickbox from '../../components/tickbox/tickbox';
-import ClearableInput from '../../components/clearable-input/clearable-input';
-import SelectBox from '../../components/select-box/select-box';
+
+import { ClearableInput, Tickbox, RadioButton, SelectBox } from 'meiko';
+
 import { toggleSortOrder, setSortKey } from '../../actions/sorting';
 import { toggleIsOwnedOnly } from '../../actions/filters';
 import { Strings } from '../../constants/values';

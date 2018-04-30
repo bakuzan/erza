@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import fetchFromServer from '../../graphql/fetch';
-import Portal from 'components/portal';
-import Form from 'components/form/form';
-import ClearableInput from 'components/clearable-input/clearable-input';
-import RatingControl from 'components/rating-control/rating-control';
+import { Portal, Form, ClearableInput, RatingControl } from 'meiko';
 
 import { Paths } from '../../constants/paths';
 import { Strings } from '../../constants/values';
@@ -208,7 +205,7 @@ class QuickAdd extends React.Component {
     };
 
     return (
-      <Portal targetTagName="main">
+      <Portal querySelector="main">
         {this.props.isOpen && (
           <Form
             id="quick-add-form"

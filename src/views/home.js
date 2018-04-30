@@ -17,7 +17,7 @@ import {
 
 import { Main } from 'yoruichi/js/yoruichi';
 import 'yoruichi/css/yoruichi.css';
-import '../components/radio-button/radio-button.css';
+// import '../components/radio-button/radio-button.css';
 import '../components/list-components/item-list/item-list.css';
 
 const query = method => str =>

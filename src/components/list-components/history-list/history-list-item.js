@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import RatingControl from '../../rating-control/rating-control';
-import Dialog from '../../dialog/dialog';
-import ClearableInput from '../../clearable-input/clearable-input';
+
+import { ClearableInput, Dialog, RatingControl } from 'meiko';
 import { padNumber, capitalise } from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
 import { formatDateISO, formatDateTimeForDisplay } from '../../../utils/date';

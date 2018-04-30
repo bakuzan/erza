@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import LoadableContent from '../../containers/loadable-content';
-import ClearableInput from '../../components/clearable-input/clearable-input';
+import { ClearableInput, Loaders } from 'meiko';
 import TagList from '../../components/list-components/tag-list';
 
 import { mapStateToEntityList } from '../../utils/data';
@@ -54,9 +53,9 @@ class TagManagementList extends React.Component {
             />
           </div>
         </div>
-        <LoadableContent>
+        <Loaders.LoadableContent>
           <TagList items={items} />
-        </LoadableContent>
+        </Loaders.LoadableContent>
       </div>
     );
   }
