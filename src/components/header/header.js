@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Header } from 'meiko';
+import { Header, SVGLogo } from 'meiko';
 
 import AppSettings from 'containers/app-settings/app-settings';
 
@@ -12,7 +12,7 @@ class ErzaHeader extends Component {
       <Header
         navLeft={
           <Link className="ripple" id="logo-svg" to={Paths.base}>
-            {/* <SVGLogo text="Erza" /> */}
+            <SVGLogo text="Erza" />
           </Link>
         }
         title="ERZA"

@@ -37,10 +37,10 @@
       background-color: darken($primary-background, $darken-amount);
     }
     &.active {
-      background-color: $secondary-background;
+      background-color: $accent-background;
       color: $secondary-colour-contrast;
       &:hover {
-        background-color: darken($secondary-background, $darken-amount);
+        background-color: darken($accent-background, $darken-amount);
       }
     }
   }

@@ -1,193 +1,42 @@
 @import './partials/_colours';
-@import './partials/_mixins';
+@import '../../node_modules/meiko/dist/templates/_button-link-customise-template';
+@import '../../node_modules/meiko/dist/templates/_theme-template';
 
-@mixin shiftColourLightness($colour, $percentage) {
-  @include lightenOrDarken('background-color', $colour, $percentage);
-}
-
-@each $name, $values in $theme-maps {
-  $base-background: map-get($values, base-background);
-  $base-colour: map-get($values, base-colour);
-  $colour: map-get($values, colour);
-  $contrast: map-get($values, contrast);
-  $anchor-colour: map-get($values, anchor-colour);
-  $anchor-colour-hover: map-get($values, anchor-colour-hover);
-
-  .#{$name} {
-    background: $base-background;
-    color: $base-colour;
-
-    .themed-background {
-      background: $base-background;
-    }
-
-    // Generic components
-    .input-container,
-    .select-container {
-      input,
-      select {
-        background-color: $base-background;
-        color: $base-colour;
-        &:focus,
-        &:focus ~ .list {
-          border-bottom-color: $colour;
-        }
-      }
-
-      .tickbox input::before {
-        color: $contrast;
-      }
-      .tickbox input:checked::before {
-        color: $colour;
-      }
-    }
-
-    .input-chip-delete {
-      &:hover::before {
-        color: $colour;
-      }
-      &:not(.active):hover::before {
-        color: $contrast;
-      }
-    }
-
-    .autocomplete-menu {
-      background-color: $base-background;
-    }
-    .autocomplete-suggestion {
-      border: 1px solid $base-background;
-      &.active {
-        border-color: $colour;
-        .button {
-          color: $colour;
-        }
-      }
-    }
-
-    .rating-control {
-      .rating-control-option input[type='radio'] {
-        color: $contrast;
-      }
-    }
-
-    .button:not(.primary) {
-      background-color: $base-background;
-      color: $base-colour;
-      &:hover {
-        @include shiftColourLightness($base-background, $darken-amount);
-      }
-    }
-    .button-link:not(.active) {
+@include buttonStyles;
+@include applicationHeaderLinks;
+@include applicationTheme {
+  // satellizer theming
+  #satellizer {
+    a {
       color: $anchor-colour;
-      &:focus,
-      &:active,
-      &:visited {
-        color: $anchor-colour;
-      }
       &:hover {
         color: $anchor-colour-hover;
       }
     }
-    .button-icon.bold {
-      font-weight: bold;
+
+    #season-key {
+      background: $base-background;
     }
 
-    .radio input[type='radio']:checked::after {
-      color: $colour;
+    .history-breakdown-body__row.month-breakdown:hover,
+    .history-breakdown-body__row.year-breakdown:hover,
+    .history-breakdown-body__row.month-breakdown:hover a,
+    .history-breakdown-body__row.year-breakdown:hover a,
+    #series-by-ratings-list > li:hover,
+    #series-by-ratings-list > li:hover a,
+    .repeated-series-table-row:hover,
+    .repeated-series-table-row:hover a {
+      background-color: $anchor-colour-hover;
+      color: $anchor-colour;
     }
-    .radio input[type='radio']::after {
+
+    .history-breakdown-body__data-cell__background {
+      background-color: $contrast;
+    }
+
+    .rating-label.selected {
+      background-color: $colour;
       color: $contrast;
     }
-
-    .dropdown-menu {
-      background-color: $base-background;
-      box-shadow: 2px 2px 10px $contrast;
-      .dropdown-arrow {
-        border-bottom-color: $base-background; //20px solid $base-background;
-        -webkit-filter: drop-shadow(0 -2px 2px $contrast);
-      }
-    }
-
-    //dialogs
-    dialog {
-      background-color: $base-background;
-      color: $base-colour;
-
-      &.backdrop::backdrop {
-        background-color: $contrast;
-      }
-    }
-
-    .tab-controls li {
-      border-color: $contrast;
-      border-bottom-color: $base-background;
-      &.active {
-        border-color: $colour;
-        border-bottom-color: $base-background;
-      }
-    }
-
-    // history list
-    .history-list-item.series-title {
-      border-bottom-color: $colour;
-    }
-    .view-content .history-list-item:not(.series-title) {
-      border-bottom-color: $contrast;
-    }
-
-    // Unique UI elements
-    .application-header,
-    .site-map-list {
-      li:not(.dropdown-arrow) {
-        border-bottom: 1px solid $base-background;
-      }
-      .group-title {
-        background-color: $colour;
-        color: $contrast;
-      }
-    }
-
-    #request-indicator-loader {
-      @include shiftColourLightness($colour, $darken-amount * 3);
-    }
-
-    .loading-bouncer > div {
-      background: $colour;
-    }
-
-    // satellizer theming
-    #satellizer {
-      a {
-        color: $anchor-colour;
-        &:hover {
-          color: $anchor-colour-hover;
-        }
-      }
-
-      #season-key {
-        background: $base-background;
-      }
-
-      .history-breakdown-body__row.month-breakdown:hover,
-      .history-breakdown-body__row.year-breakdown:hover,
-      .history-breakdown-body__row.month-breakdown:hover a,
-      .history-breakdown-body__row.year-breakdown:hover a,
-      #series-by-ratings-list > li:hover,
-      #series-by-ratings-list > li:hover a,
-      .repeated-series-table-row:hover,
-      .repeated-series-table-row:hover a {
-        background-color: $anchor-colour-hover;
-        color: $anchor-colour;
-      }
-
-      .history-breakdown-body__data-cell__background {
-        background-color: $contrast;
-      }
-
-      .rating-label.selected {
-        background-color: $colour;
-        color: $contrast;
-      }
-    }
-  } // End of Theme block
-} // End of @each
+  }
+}
