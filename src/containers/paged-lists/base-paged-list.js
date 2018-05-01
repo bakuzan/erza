@@ -74,7 +74,8 @@ BasePagedList.propTypes = {
   list: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
-  paging: PropTypes.object.isRequired
+  paging: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ItemList from './item-list/item-list';
 import ItemListItem from './item-list/item-list-item';
+import withAsyncPageLoad from './withAsyncPageLoad';
 import { Strings } from '../../constants/values';
 
 const MangaList = ({ items, addChapter, ...props }) => (
@@ -23,4 +24,4 @@ MangaList.propTypes = {
   addChapter: PropTypes.func
 };
 
-export default MangaList;
+export default withAsyncPageLoad(MangaList);
