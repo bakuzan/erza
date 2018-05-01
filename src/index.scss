@@ -15,9 +15,10 @@ body {
   font: 16px 'Roboto mono', monospace;
 }
 
+$series-image-container--height: 150px;
 .series-image-container {
   height: auto;
-  max-height: 150px;
+  max-height: $series-image-container--height;
   max-width: 235px;
   padding: 0 5px;
   overflow: hidden;
@@ -29,7 +30,7 @@ body {
 
   img {
     width: 100%;
-    min-height: 100%;
+    min-height: $series-image-container--height;
     height: auto;
   }
   .mal-link > img {
