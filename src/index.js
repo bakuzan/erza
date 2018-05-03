@@ -4,7 +4,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import Root from './containers/root/root';
 import configureStore from './store/configure-store';
 import './index.css';
-import 'meiko/dist/bundle.css';
+import 'meiko/dist/bundle.min.css';
 import './styles/themes.css';
 
 export const history = createBrowserHistory();
