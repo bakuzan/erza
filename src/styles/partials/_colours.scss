@@ -67,27 +67,14 @@ $primary-background: $erza-red;
 $primary-colour: $erza-red;
 $primary-colour-contrast: $erza-silver;
 $accent-background: $erza-red-highlight;
-$secondary-colour: $erza-red-highlight;
-$secondary-colour-contrast: $erza-silver-shade;
+$accent-colour: $erza-red-highlight;
+$accent-colour-contrast: $erza-silver-shade;
 $spinner-colour-one: $erza-silver;
 $spinner-colour-two: $erza-red-highlight;
 $spinner-colour-three: $erza-silver;
 $spinner-colour-four: $erza-red-highlight;
-$anchor-colour: $secondary-colour;
-$anchor-colour-hover: $secondary-colour-contrast;
-$category-colours: (
-  anime: $orange,
-  develop: $dark-violet,
-  exercise: $very-dark-blue,
-  gaming: $yellow,
-  manga: $soft-blue,
-  other: $magenta,
-  passing: $dark-red,
-  sleep: $grey40,
-  social: $desaturated-green,
-  wasted: $brown-from-dark-yellow,
-  work: $grey94
-);
+$anchor-colour: $accent-colour;
+$anchor-colour-hover: $accent-colour-contrast;
 $info-colour: $cyan;
 $success-colour: $green;
 $alert-colour: $orange;

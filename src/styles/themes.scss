@@ -2,6 +2,11 @@
 @import '../../node_modules/meiko/dist/templates/_button-link-customise-template';
 @import '../../node_modules/meiko/dist/templates/_theme-template';
 
+$placeholder: transparent;
+$base-background: $placeholder;
+$contrast: $placeholder;
+$colour: $placeholder;
+
 @include buttonStyles;
 @include applicationHeaderLinks;
 @include applicationTheme {

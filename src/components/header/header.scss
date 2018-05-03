@@ -38,7 +38,7 @@
     }
     &.active {
       background-color: $accent-background;
-      color: $secondary-colour-contrast;
+      color: $accent-colour-contrast;
       &:hover {
         background-color: darken($accent-background, $darken-amount);
       }
