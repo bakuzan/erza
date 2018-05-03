@@ -3,10 +3,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import Loadable from 'react-loadable';
 
+import { Loaders } from 'meiko';
 import { Paths } from './constants/paths';
 import { Strings } from './constants/values';
 import App from './containers/app/app';
-import Loaders from './components/loaders/index';
 import Anime from './views/anime/anime';
 import AnimeView from './views/anime/anime-view';
 import AnimeCreate from './views/anime/anime-create';

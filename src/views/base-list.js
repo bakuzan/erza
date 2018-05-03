@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import Loaders from '../components/loaders/index';
-import LoadableContent from '../containers/loadable-content';
-import ListFilter from '../containers/list-filter/list-filter';
-import PagedAnimeList from '../containers/paged-lists/paged-anime-list';
-import PagedMangaList from '../containers/paged-lists/paged-manga-list';
-import { Strings } from '../constants/values';
-import { getEventValue, getTimeoutSeconds, debounce } from '../utils/common';
+import { Loaders } from 'meiko';
+import LoadableContent from 'containers/loadable-content';
+import ListFilter from 'containers/list-filter/list-filter';
+import PagedAnimeList from 'containers/paged-lists/paged-anime-list';
+import PagedMangaList from 'containers/paged-lists/paged-manga-list';
+import { Strings } from 'constants/values';
+import { getEventValue, getTimeoutSeconds, debounce } from 'utils/common';
 
 const getStatusList = props => {
   const { value } = props.statusFilter;

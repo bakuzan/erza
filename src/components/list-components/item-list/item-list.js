@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import Loaders from 'components/loaders';
+import { Loaders } from 'meiko';
 
 import './item-list.css';
 

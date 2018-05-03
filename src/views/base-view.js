@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import { RatingControl, Loaders } from 'meiko';
-
+import LoadableContent from 'containers/loadable-content';
 import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
 import { formatDateForDisplay } from '../utils/date';
@@ -153,7 +153,7 @@ class BaseView extends Component {
                   </button>
                 )}
                 {this.state.hasHistory && (
-                  <Loaders.LoadableContent spinnerSize="default">
+                  <LoadableContent spinnerSize="default">
                     <div>
                       <HistoryList
                         isFetching={isFetching}
@@ -163,7 +163,7 @@ class BaseView extends Component {
                         deleteAction={this.handleHistoryDelete}
                       />
                     </div>
-                  </Loaders.LoadableContent>
+                  </LoadableContent>
                 )}
               </div>
             </div>

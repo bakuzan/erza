@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import Loaders from '../../components/loaders/index';
+import { Loaders } from 'meiko';
 import { loadAnimeById } from '../../actions/anime';
 import {
   loadEpisodeForSeries,

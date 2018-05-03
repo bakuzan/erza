@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Loaders from 'components/loaders';
+import { Loaders } from 'meiko';
 import HistoryListItem from './history-list-item';
 
 import { Paths } from '../../../constants/paths';
