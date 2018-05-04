@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ClearableInput, Loaders } from 'meiko';
+import { ClearableInput, Loaders, Button } from 'meiko';
 import RelatedSeriesList from './tag-management-related-series-list';
 
 import { Paths } from '../../constants/paths';
@@ -82,26 +82,21 @@ class TagManagementDetails extends React.Component {
               onChange={this.handleUserInput}
             />
             <div>
-              <button
-                type="submit"
-                className="button ripple"
-                disabled={!canEdit}
-              >
+              <Button type="submit" className="ripple" disabled={!canEdit}>
                 {Strings.edit}
-              </button>
+              </Button>
             </div>
           </form>
         </div>
         <div className="padding-left-10 padding-right-10 margin-top-20">
           <div>
-            <button
-              type="button"
-              className="button primary ripple"
+            <Button
+              className="primary ripple"
               onClick={this.handleDelete}
               disabled={!canDelete}
             >
               {Strings.delete}
-            </button>
+            </Button>
           </div>
           <div className="flex-row">
             <RelatedSeriesList
@@ -117,13 +112,9 @@ class TagManagementDetails extends React.Component {
           </div>
         </div>
         <div className="button-group right-aligned">
-          <button
-            type="button"
-            className="button ripple"
-            onClick={this.handleDetailExit}
-          >
+          <Button className="ripple" onClick={this.handleDetailExit}>
             {Strings.ok}
-          </button>
+          </Button>
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { Strings, Enums } from '../constants/values';
 import { Paths } from '../constants/paths';
@@ -32,7 +32,9 @@ import {
   Tickbox,
   Loaders,
   RatingControl,
-  ImageSelector
+  ImageSelector,
+  Button,
+  Image
 } from 'meiko';
 import { createTag, loadTags } from '../actions/tags';
 
@@ -155,7 +157,7 @@ class BaseCreate extends Component {
                   <p>* This is a preview image</p>
                 </div>
               )}
-            <img
+            <Image
               src={this.state.image}
               alt={`Cover for ${this.state.title || `${type} under creation.`}`}
             />
@@ -313,17 +315,17 @@ class BaseCreate extends Component {
               </Tabs.TabView>
             </Tabs.TabContainer>
             <div className="button-group">
-              <button type="submit" className="button ripple">
+              <Button type="submit" className="ripple">
                 {this.props.isCreate ? Strings.create : Strings.edit}
-              </button>
-              <Link
+              </Button>
+              <NavLink
                 to={`${Paths.base}${Paths[type].list}${
                   Strings.filters.ongoing
                 }`}
                 className="button-link"
               >
                 {Strings.cancel}
-              </Link>
+              </NavLink>
             </div>
           </form>
         </div>

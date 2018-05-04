@@ -1,52 +1,7 @@
-@import '../../styles/partials/_colours';
-@import '../../styles/partials/_variables';
-
-.application-header {
-  position: fixed;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: $header-height;
-  width: 100%;
-  background-color: $primary-background;
-  color: $primary-colour-contrast;
-  // padding: 5px;
-  z-index: map-get($z-index, header);
-}
-
 #logo-svg {
   position: absolute;
   top: 0;
   left: 0;
+  padding: 0;
   cursor: pointer;
-}
-#navigation-links {
-  position: relative;
-  height: 100%;
-  div {
-    height: 100%;
-  }
-  a {
-    background-color: $primary-background;
-    color: $primary-colour-contrast;
-    height: 100%;
-    padding: 8px;
-    text-decoration: none;
-    box-sizing: border-box;
-    &:hover {
-      background-color: darken($primary-background, $darken-amount);
-    }
-    &.active {
-      background-color: $accent-background;
-      color: $accent-colour-contrast;
-      &:hover {
-        background-color: darken($accent-background, $darken-amount);
-      }
-    }
-  }
-}
-.flex-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }

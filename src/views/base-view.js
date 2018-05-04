@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import { RatingControl, Loaders } from 'meiko';
+import { RatingControl, Loaders, Button, Image } from 'meiko';
 import LoadableContent from 'containers/loadable-content';
 import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
@@ -70,19 +70,15 @@ class BaseView extends Component {
               <h2 className="no-margin">{item.title}</h2>
               <div className="flex-spacer" />
               <div className="button-group">
-                <button
-                  type="button"
-                  onClick={history.goBack}
-                  className="button ripple"
-                >
+                <Button onClick={history.goBack} className="ripple">
                   {Strings.back}
-                </button>
-                <Link
+                </Button>
+                <NavLink
                   to={`${Paths.base}${Paths[type].edit}${item._id}`}
                   className="button ripple"
                 >
                   {Strings.edit}
-                </Link>
+                </NavLink>
               </div>
             </header>
             <div className="view-content">
@@ -143,14 +139,13 @@ class BaseView extends Component {
               </ul>
               <div>
                 {!this.state.hasHistory && (
-                  <button
-                    type="button"
-                    className="button primary ripple"
+                  <Button
+                    className="primary ripple"
                     onMouseOver={this.preloadHistoryList}
                     onClick={this.fetchHistory}
                   >
                     View history
-                  </button>
+                  </Button>
                 )}
                 {this.state.hasHistory && (
                   <LoadableContent spinnerSize="default">
@@ -169,7 +164,7 @@ class BaseView extends Component {
             </div>
           </div>
           <div className="series-image-container full">
-            <img src={item.image} alt={`Cover for ${item.title}`} />
+            <Image src={item.image} alt={`Cover for ${item.title}`} />
             <div className="start-center-contents">
               {item.malId && (
                 <NewTabLink
@@ -177,7 +172,7 @@ class BaseView extends Component {
                   className="mal-link"
                   title="Open MAL entry in new tab."
                 >
-                  <img
+                  <Image
                     src="https://myanimelist.net/favicon.ico"
                     alt="MyAnimelist icon"
                   />

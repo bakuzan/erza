@@ -75,7 +75,7 @@ class AppSettings extends React.Component {
     if (isTimed) setTimedThemeCheck(theme, setApplicationTheme);
 
     return (
-      <DropdownMenu id="app-settings" portalTarget="main" align="right">
+      <DropdownMenu id="app-settings" portalTarget="#root" align="right">
         <li>
           <SelectBox
             name="appTheme"

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
+import { Button, Image } from 'meiko';
 import NewTabLink from '../../../components/new-tab-link';
 import { Paths } from '../../../constants/paths';
 import { Enums, Icons } from '../../../constants/values';
@@ -28,9 +29,8 @@ const ItemListItem = ({ type, item, addAction }) => {
         <h4>{item.title}</h4>
         <div className="flex-row start-center-contents">
           {!!addAction && (
-            <button
-              type="button"
-              className="button-icon small rounded primary"
+            <Button
+              className="small rounded primary"
               icon="+"
               onClick={() => addAction(item._id)}
               disabled={
@@ -48,18 +48,18 @@ const ItemListItem = ({ type, item, addAction }) => {
           )}
         </div>
         <div className="button-group fixed-width">
-          <Link
+          <NavLink
             to={`${Paths.base}${Paths[type].view}${item._id}`}
             className="button ripple"
           >
             View
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to={`${Paths.base}${Paths[type].edit}${item._id}`}
             className="button ripple"
           >
             Edit
-          </Link>
+          </NavLink>
         </div>
       </div>
       <div className="flex-spacer" />
@@ -88,7 +88,7 @@ const ItemListItem = ({ type, item, addAction }) => {
         </div>
       )}
       <div className="series-image-container">
-        <img src={item.image} alt={`Cover for ${item.title}`} />
+        <Image src={item.image} alt={`Cover for ${item.title}`} />
       </div>
     </li>
   );

@@ -8,7 +8,9 @@ $contrast: $placeholder;
 $colour: $placeholder;
 
 @include buttonStyles;
-@include applicationHeaderLinks;
+#erza-header {
+  @include applicationHeaderLinks;
+}
 @include applicationTheme {
   // satellizer theming
   #satellizer {

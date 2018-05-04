@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { ClearableInput, Dialog, RatingControl } from 'meiko';
+import { ClearableInput, Dialog, RatingControl, Button } from 'meiko';
 import { padNumber, capitalise } from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
 import { formatDateISO, formatDateTimeForDisplay } from '../../../utils/date';
@@ -92,19 +92,17 @@ class HistoryListItem extends Component {
         {(!!editAction || !!deleteAction) && (
           <div className="list-item-actions">
             {this.state.isEditing && (
-              <button
-                type="button"
-                className="button-icon small"
+              <Button
+                className="small"
                 title="Save entry"
                 icon={Icons.save}
                 onClick={this.confirmEdit}
               />
             )}
             {!!editAction && (
-              <button
-                type="button"
+              <Button
                 name="isEditing"
-                className="button-icon small"
+                className="small"
                 title={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
                 icon={this.state.isEditing ? Icons.cross : Icons.editable}
                 onClick={this.toggleEdit}
@@ -113,9 +111,8 @@ class HistoryListItem extends Component {
             {!!deleteAction &&
               !this.state.isEditing && (
                 <span className="delete-action">
-                  <button
-                    type="button"
-                    className="button-icon small"
+                  <Button
+                    className="small"
                     title="Delete entry"
                     icon={Icons.cross}
                     onClick={this.showDeleteDialog}

@@ -5,10 +5,13 @@ import { Header, SVGLogo } from 'meiko';
 import AppSettings from 'containers/app-settings/app-settings';
 import { Paths } from 'constants/paths';
 
+import './header.css';
+
 class ErzaHeader extends Component {
   render() {
     return (
       <Header
+        id="erza-header"
         navLeft={
           <NavLink className="ripple" id="logo-svg" to={Paths.base}>
             <SVGLogo text="Erza" />

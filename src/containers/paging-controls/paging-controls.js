@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { SelectBox } from 'meiko';
+import { SelectBox, Button } from 'meiko';
 import { selectPagingForType } from 'reducers/paging';
 import { nextPage, prevPage, setItemsPerPage } from '../../actions/paging';
 import { pageSizes } from '../../constants/values';
@@ -26,25 +26,23 @@ const PagingControls = ({
     <div className="paging-controls flex-row">
       <div className="flex-grow">
         <div className="button-group centered flex-grow">
-          <button
-            type="button"
-            className="button ripple"
+          <Button
+            className="ripple"
             onClick={() => goBackAPage(listType, filters)}
             disabled={page === 0}
           >
             Previous
-          </button>
+          </Button>
           <div className="center-contents padding-5">
             {`${page + 1}/${finalPage + 1}`}
           </div>
-          <button
-            type="button"
-            className="button ripple"
+          <Button
+            className="ripple"
             onClick={() => goForwardAPage(listType, filters)}
             disabled={page === finalPage}
           >
             Next
-          </button>
+          </Button>
         </div>
         {!!pageInfo.totalCount && (
           <div className="item-count">{`Found ${

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { Loaders } from 'meiko';
 import HistoryListItem from './history-list-item';
@@ -25,12 +25,12 @@ const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
             key={`${item.series._id}-${item._id}`}
             className="history-list-item series-title"
           >
-            <Link
+            <NavLink
               className="button-link"
               to={`${Paths.base}${Paths[type].view}${item.series._id}`}
             >
               {item.series.title}
-            </Link>
+            </NavLink>
           </li>
         );
         previousSeries = item.series._id;
