@@ -53,8 +53,8 @@ class AppSettings extends React.Component {
 
   handleDropdownChange(onChange) {
     return e => {
+      console.log(e.target.value, e.target.selected);
       onChange(e.target.value);
-      this.handleCloseAppSettings();
     };
   }
 

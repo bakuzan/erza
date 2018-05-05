@@ -12,7 +12,12 @@ const menuOptions = Menu.reduce((p, c) => p.concat(c.children), Array(0));
 
 const SidebarConnected = ({ location, ...props }) => {
   return (
-    <Sidebar {...props} items={menuOptions} customLinkTemplate={SidebarItem} />
+    <Sidebar
+      {...props}
+      id="erza-sidebar"
+      items={menuOptions}
+      customLinkTemplate={SidebarItem}
+    />
   );
 };
 

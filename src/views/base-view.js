@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import { RatingControl, Loaders, Button, Image } from 'meiko';
+import { RatingControl, Loaders, Button, Image, NewTabLink } from 'meiko';
 import LoadableContent from 'containers/loadable-content';
-import NewTabLink from '../components/new-tab-link';
 import { getKeyByValue } from '../utils/common';
 import { formatDateForDisplay } from '../utils/date';
 import { getUniquePropertiesForItemType } from '../utils/data';

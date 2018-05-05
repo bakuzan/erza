@@ -7,43 +7,47 @@ $base-background: $placeholder;
 $contrast: $placeholder;
 $colour: $placeholder;
 
-@include buttonStyles;
-#erza-header {
-  @include applicationHeaderLinks;
-}
-@include applicationTheme {
-  // satellizer theming
-  #satellizer {
-    a {
-      color: $anchor-colour;
-      &:hover {
-        color: $anchor-colour-hover;
+@mixin erzaThemeWrapper {
+  @include applicationTheme {
+    // satellizer theming
+    #satellizer {
+      a {
+        color: $anchor-colour;
+        &:hover {
+          color: $anchor-colour-hover;
+        }
       }
-    }
 
-    #season-key {
-      background: $base-background;
-    }
+      #season-key {
+        background: $base-background;
+      }
 
-    .history-breakdown-body__row.month-breakdown:hover,
-    .history-breakdown-body__row.year-breakdown:hover,
-    .history-breakdown-body__row.month-breakdown:hover a,
-    .history-breakdown-body__row.year-breakdown:hover a,
-    #series-by-ratings-list > li:hover,
-    #series-by-ratings-list > li:hover a,
-    .repeated-series-table-row:hover,
-    .repeated-series-table-row:hover a {
-      background-color: $anchor-colour-hover;
-      color: $anchor-colour;
-    }
+      .history-breakdown-body__row.month-breakdown:hover,
+      .history-breakdown-body__row.year-breakdown:hover,
+      .history-breakdown-body__row.month-breakdown:hover a,
+      .history-breakdown-body__row.year-breakdown:hover a,
+      #series-by-ratings-list > li:hover,
+      #series-by-ratings-list > li:hover a,
+      .repeated-series-table-row:hover,
+      .repeated-series-table-row:hover a {
+        background-color: $anchor-colour-hover;
+        color: $anchor-colour;
+      }
 
-    .history-breakdown-body__data-cell__background {
-      background-color: $contrast;
-    }
+      .history-breakdown-body__data-cell__background {
+        background-color: $contrast;
+      }
 
-    .rating-label.selected {
-      background-color: $colour;
-      color: $contrast;
+      .rating-label.selected {
+        background-color: $colour;
+        color: $contrast;
+      }
     }
   }
 }
+
+#erza-header {
+  @include applicationHeaderLinks;
+}
+@include buttonStyles;
+@include erzaThemeWrapper;

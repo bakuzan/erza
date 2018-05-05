@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button, withButtonisation, Image } from 'meiko';
+import { Button, withButtonisation, Image, NewTabLink } from 'meiko';
 import { ButtonisedNavLink, ButtonisedNewTabLink } from 'components/buttonised';
-import NewTabLink from '../../../components/new-tab-link';
 import { Paths } from '../../../constants/paths';
 import { Enums, Icons } from '../../../constants/values';
 import { getKeyByValue } from '../../../utils/common';

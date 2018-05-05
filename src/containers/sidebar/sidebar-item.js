@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { ButtonisedNavLink } from 'components/buttonised';
+import './sidebar-item.css';
 
 const isSidebarActive = targetPath => (match, { pathname }) => {
   if (!targetPath || !targetPath.includes('list')) return !!match;
@@ -7,8 +8,9 @@ const isSidebarActive = targetPath => (match, { pathname }) => {
 };
 
 const SidebarItem = ({ data, close }) => (
-  <NavLink
-    className="button primary"
+  <ButtonisedNavLink
+    className="sidebar-item"
+    btnStyle="primary"
     activeClassName="active"
     to={data.link}
     onClick={close}
@@ -16,7 +18,7 @@ const SidebarItem = ({ data, close }) => (
   >
     <div className="sidebar-item-icon center-contents">{data.icon}</div>
     <div className="sidebar-item-text">{data.title}</div>
-  </NavLink>
+  </ButtonisedNavLink>
 );
 
 export default SidebarItem;
