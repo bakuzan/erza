@@ -68,14 +68,14 @@ class DailyAnime extends Component {
       <section className="daily-anime-container">
         <header className="daily-anime-header">
           <Button
-            className="primary"
+            btnStyle="primary"
             icon={Icons.left}
             disabled={this.state.dateOffset > 6}
             onClick={() => this.handleDayChange(1)}
           />
           <div>{displayText}</div>
           <Button
-            className="primary"
+            btnStyle="primary"
             icon={Icons.right}
             disabled={this.state.dateOffset === 1}
             onClick={() => this.handleDayChange(-1)}

@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-import { Button, Image } from 'meiko';
+import { Button, withButtonisation, Image } from 'meiko';
+import { ButtonisedNavLink, ButtonisedNewTabLink } from 'components/buttonised';
 import NewTabLink from '../../../components/new-tab-link';
 import { Paths } from '../../../constants/paths';
 import { Enums, Icons } from '../../../constants/values';
 import { getKeyByValue } from '../../../utils/common';
 import { formatDateTimeForDisplay } from '../../../utils/date';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
+
+const SpanIcon = props => <span {...props} />;
+const ButtonisedSpan = withButtonisation(SpanIcon);
 
 const ItemListItem = ({ type, item, addAction }) => {
   const { current, total } = getUniquePropertiesForItemType(type);
@@ -30,7 +33,9 @@ const ItemListItem = ({ type, item, addAction }) => {
         <div className="flex-row start-center-contents">
           {!!addAction && (
             <Button
-              className="small rounded primary"
+              btnStyle="primary"
+              btnSize="small"
+              rounded
               icon="+"
               onClick={() => addAction(item._id)}
               disabled={
@@ -40,26 +45,27 @@ const ItemListItem = ({ type, item, addAction }) => {
           )}
           <span>{`${item[current]}/${item[total] || '??'}`}</span>
           {!!statusIcon && (
-            <span
-              className="button-icon small bold"
+            <ButtonisedSpan
+              btnSize="small"
+              className="bold"
               icon={statusIcon}
               title={getKeyByValue(Enums.status, item.status)}
             />
           )}
         </div>
         <div className="button-group fixed-width">
-          <NavLink
+          <ButtonisedNavLink
             to={`${Paths.base}${Paths[type].view}${item._id}`}
-            className="button ripple"
+            className="ripple"
           >
             View
-          </NavLink>
-          <NavLink
+          </ButtonisedNavLink>
+          <ButtonisedNavLink
             to={`${Paths.base}${Paths[type].edit}${item._id}`}
-            className="button ripple"
+            className="ripple"
           >
             Edit
-          </NavLink>
+          </ButtonisedNavLink>
         </div>
       </div>
       <div className="flex-spacer" />
@@ -78,9 +84,9 @@ const ItemListItem = ({ type, item, addAction }) => {
             </NewTabLink>
           )}
           {hasLink && (
-            <NewTabLink
+            <ButtonisedNewTabLink
               href={item.link}
-              className="button-icon small"
+              btnSize="small"
               icon={Icons.link}
               title="Open content link"
             />

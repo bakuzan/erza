@@ -140,7 +140,8 @@ class BaseView extends Component {
               <div>
                 {!this.state.hasHistory && (
                   <Button
-                    className="primary ripple"
+                    btnStyle="primary"
+                    className="ripple"
                     onMouseOver={this.preloadHistoryList}
                     onClick={this.fetchHistory}
                   >

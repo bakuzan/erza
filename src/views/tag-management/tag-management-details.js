@@ -91,7 +91,8 @@ class TagManagementDetails extends React.Component {
         <div className="padding-left-10 padding-right-10 margin-top-20">
           <div>
             <Button
-              className="primary ripple"
+              btnStyle="primary"
+              className="ripple"
               onClick={this.handleDelete}
               disabled={!canDelete}
             >
