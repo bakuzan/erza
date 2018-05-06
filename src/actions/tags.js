@@ -1,3 +1,4 @@
+import { Utils } from 'meiko';
 import {
   ADD_TAG,
   REMOVE_TAG,
@@ -8,7 +9,6 @@ import {
 import { Paths } from '../constants/paths';
 import fetchFromServer from '../graphql/fetch';
 import { constructRecordForPost } from '../graphql/common';
-import toaster from '../utils/toaster';
 import { getSingleObjectProperty } from '../utils/common';
 import TagQL from '../graphql/query/tag';
 import TagML from '../graphql/mutation/tag';
@@ -49,7 +49,7 @@ const mutateTag = (queryBuilder, item) => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
         dispatch(addTag(data.record));
-        toaster.success(
+        Utils.Toaster.success(
           'Saved!',
           `Successfully saved '${data.record.name}' tag.`
         );
@@ -69,7 +69,7 @@ export const deleteTag = tagId => {
         const data = getSingleObjectProperty(response.data);
         dispatch(removeTag(tagId));
         if (!data) return null;
-        toaster.success(
+        Utils.Toaster.success(
           'Removed!',
           `Successfully deleted '${data.record.name}' tag.`
         );

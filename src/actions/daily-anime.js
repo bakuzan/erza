@@ -1,9 +1,11 @@
+import { Utils } from 'meiko';
 import fetchFromServer from '../graphql/fetch';
 import DailyAnimeQL from '../graphql/query/daily-anime';
 import { Paths } from '../constants/paths';
 import { Enums } from '../constants/values';
-import { startOfDay, endOfDay, dateAsMs } from '../utils/date';
 import { DAILY_ANIME_LOAD } from '../constants/actions';
+
+const { startOfDay, endOfDay, dateAsMs } = Utils.Date;
 
 const loadDailyAnime = data => ({
   type: DAILY_ANIME_LOAD,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { Utils } from 'meiko';
 import ElmWrapper from '../components/elm-wrapper';
 import fetchFromServer from '../graphql/fetch';
 import { constructRecordForPost } from '../graphql/common';
@@ -7,18 +8,19 @@ import TaskQL from '../graphql/query/task';
 import TaskML from '../graphql/mutation/task';
 import { Paths } from '../constants/paths';
 import { Strings, Days } from '../constants/values';
-import {
+
+import { Main } from 'yoruichi/js/yoruichi';
+import '../styles/elm-sub-app-styles.css';
+import 'yoruichi/css/yoruichi.css';
+import '../components/list-components/item-list/item-list.css';
+
+const {
   formatDateForInput,
   dateStringToISOString,
   weekBeginning,
   weekEnding,
   daysDifferentBetweenDates
-} from '../utils/date';
-
-import { Main } from 'yoruichi/js/yoruichi';
-import 'yoruichi/css/yoruichi.css';
-// import '../components/radio-button/radio-button.css';
-import '../components/list-components/item-list/item-list.css';
+} = Utils.Date;
 
 const query = method => str =>
   fetchFromServer(`${Paths.graphql.base}${str}`, method);

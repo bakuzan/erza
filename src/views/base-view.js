@@ -3,10 +3,16 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import { RatingControl, Loaders, Button, Image, NewTabLink } from 'meiko';
+import {
+  RatingControl,
+  Loaders,
+  Button,
+  Image,
+  NewTabLink,
+  Utils
+} from 'meiko';
 import LoadableContent from 'containers/loadable-content';
 import { getKeyByValue } from '../utils/common';
-import { formatDateForDisplay } from '../utils/date';
 import { getUniquePropertiesForItemType } from '../utils/data';
 import { Paths } from '../constants/paths';
 import { Strings, Enums, Icons } from '../constants/values';
@@ -89,12 +95,14 @@ class BaseView extends Component {
               <ul className="list column two">
                 <li className="label">{Strings.start}</li>
                 <li className="value">
-                  {formatDateForDisplay(item.start) || Strings.notStarted}
+                  {Utils.Date.formatDateForDisplay(item.start) ||
+                    Strings.notStarted}
                 </li>
 
                 <li className="label">{Strings.end}</li>
                 <li className="value">
-                  {formatDateForDisplay(item.end) || Strings.unfinished}
+                  {Utils.Date.formatDateForDisplay(item.end) ||
+                    Strings.unfinished}
                 </li>
 
                 <li className="label">{Strings.isAdult}</li>

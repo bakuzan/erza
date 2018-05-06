@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { ClearableInput, Dialog, RatingControl, Button } from 'meiko';
+import { ClearableInput, Dialog, RatingControl, Button, Utils } from 'meiko';
 import { padNumber, capitalise } from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
-import { formatDateISO, formatDateTimeForDisplay } from '../../../utils/date';
 import { Strings, Icons } from '../../../constants/values';
+
+const { formatDateISO, formatDateTimeForDisplay } = Utils.Date;
 
 class HistoryListItem extends Component {
   constructor(props) {

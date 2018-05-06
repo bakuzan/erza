@@ -1,3 +1,4 @@
+import { Utils } from 'meiko';
 import { history as Navigate } from '../index';
 
 import fetchFromServer from '../graphql/fetch';
@@ -6,7 +7,6 @@ import {
   constructRecordForPost
 } from '../graphql/common';
 import { resetPageToZero, loadPageInfo } from './paging';
-import toaster from '../utils/toaster';
 import { getSingleObjectProperty } from '../utils/common';
 import {
   GRAPHQL_REQUEST,
@@ -94,7 +94,7 @@ export const mutateItem = (type, item, queryBuilder) => {
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
-        toaster.success(
+        Utils.Toaster.success(
           'Saved!',
           `Successfully saved '${data.record.title}' ${type}.`
         );
@@ -150,7 +150,7 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
         if (type) dispatch(refreshItemInState[type](data.record));
-        toaster.success(
+        Utils.Toaster.success(
           'Saved!',
           `Successfully saved '${data.record[type] || 'history'}'.`
         );
@@ -169,7 +169,7 @@ export const removeHistoryItem = (type, id, queryBuilder) => {
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
-        toaster.success(
+        Utils.Toaster.success(
           'Deleted!',
           `Successfully deleted '${data.record.series.title}' history entry.`
         );

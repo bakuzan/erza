@@ -1,5 +1,4 @@
 import { Utils } from 'meiko';
-import toaster from '../utils/toaster';
 import {
   addRequestIndicator,
   removeRequestIndicator

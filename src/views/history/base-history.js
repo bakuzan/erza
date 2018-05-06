@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Utils } from 'meiko';
 import LoadableContent from 'containers/loadable-content';
 import PagedHistoryList from 'containers/paged-history-list/paged-history-list';
 
 import { getEventValue, getTimeoutSeconds, debounce } from 'utils/common';
-import { startOfDay, endOfDay, dateAsMs, formatDateForInput } from 'utils/date';
 import { getHistoryNameForItemType } from 'utils/data';
+
+const { startOfDay, endOfDay, dateAsMs, formatDateForInput } = Utils.Date;
 
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [
   dateAsMs(startOfDay(from)),

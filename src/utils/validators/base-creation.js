@@ -1,9 +1,11 @@
+import { Utils } from 'meiko';
 import { Enums, Properties } from '../../constants/values';
-import { formatDateForInput, dateStringToISOString } from '../date';
 import {
   getUniquePropertiesForItemType,
   getHistoryNameForItemType
 } from '../data';
+
+const { formatDateForInput, dateStringToISOString } = Utils.Date;
 
 const historyChangeHandler = ({ current, total }) => item => {
   const changes = {};

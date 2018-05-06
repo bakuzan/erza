@@ -1,10 +1,12 @@
+import { Utils } from 'meiko';
 import AnimeModel from '../models/anime-model';
 import MangaModel from '../models/manga-model';
 import EpisodeModel from '../models/episode-model';
 import ChapterModel from '../models/chapter-model';
 import { coalesceSeriesImage } from './common';
-import { dateStringToISOString, preventDatesPre1970 } from './date';
 import { Enums, Strings, Properties } from '../constants/values';
+
+const { dateStringToISOString, preventDatesPre1970 } = Utils.Date;
 
 export const selectPageItems = (items, type, paging) => {
   const { itemsPerPage: pageSize, page } = paging;

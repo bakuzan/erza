@@ -12,7 +12,6 @@ import {
   objectsAreEqual,
   constructObjectFromSearchParams
 } from '../utils/common';
-import { formatDateForInput } from '../utils/date';
 import {
   mapStateToEntityList,
   shouldIntergrateMalEntry,
@@ -34,7 +33,8 @@ import {
   RatingControl,
   ImageSelector,
   Button,
-  Image
+  Image,
+  Utils
 } from 'meiko';
 import { createTag, loadTags } from '../actions/tags';
 
@@ -211,7 +211,7 @@ class BaseCreate extends Component {
                     type="date"
                     name="start"
                     label="start"
-                    value={formatDateForInput(this.state.start)}
+                    value={Utils.Date.formatDateForInput(this.state.start)}
                     max={this.state.end}
                     onChange={this.handleUserInput}
                   />
@@ -220,7 +220,7 @@ class BaseCreate extends Component {
                     type="date"
                     name="end"
                     label="end"
-                    value={formatDateForInput(this.state.end)}
+                    value={Utils.Date.formatDateForInput(this.state.end)}
                     min={this.state.start}
                     onChange={this.handleUserInput}
                     disabled={this.state.status !== Enums.status.completed}
