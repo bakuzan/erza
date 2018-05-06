@@ -1,18 +1,7 @@
+import { Constants } from 'meiko';
+
 export const Paths = {
-  build: (path, params) => {
-    let hasSearch = false;
-    for (let k in params) {
-      if (params.hasOwnProperty(k)) {
-        if (k === 'search') {
-          hasSearch = true;
-          continue;
-        }
-        path = path.replace(`:${k}`, params[k]);
-      }
-    }
-    const searchValue = hasSearch ? `?search=${params.search}` : '';
-    return `${path}${searchValue}`;
-  },
+  ...Constants.Urls,
   base: '/erza',
   home: '',
   anime: {
@@ -29,17 +18,7 @@ export const Paths = {
   },
   history: '/history/',
   statistics: '/statistics/',
-  tagManagement: '/tag-management/',
-  graphql: {
-    base: '/graphql?query='
-  },
-  malSearch: '/api/mal-search/:type',
-  sunrise_sunset:
-    'https://api.sunrise-sunset.org/json?lat=51.9451597&lng=-0.6565607&formatted=0',
-  imgur: {
-    postUrl: '/api/image-upload/url',
-    postFile: '/api/image-upload/file'
-  }
+  tagManagement: '/tag-management/'
 };
 
 export const ForceNavigate = {
