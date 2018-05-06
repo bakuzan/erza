@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 import { Strings, Enums } from '../constants/values';
 import { Paths } from '../constants/paths';
@@ -36,6 +35,7 @@ import {
   Image,
   Utils
 } from 'meiko';
+import { ButtonisedNavLink } from 'components/buttonised';
 import { createTag, loadTags } from '../actions/tags';
 
 const loadData = props => {
@@ -318,14 +318,15 @@ class BaseCreate extends Component {
               <Button type="submit" className="ripple">
                 {this.props.isCreate ? Strings.create : Strings.edit}
               </Button>
-              <NavLink
+              <ButtonisedNavLink
+                link
+                btnStyle="primary"
                 to={`${Paths.base}${Paths[type].list}${
                   Strings.filters.ongoing
                 }`}
-                className="button-link"
               >
                 {Strings.cancel}
-              </NavLink>
+              </ButtonisedNavLink>
             </div>
           </form>
         </div>

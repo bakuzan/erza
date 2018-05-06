@@ -5,7 +5,11 @@ export const constructRecordForPost = Utils.GraphqlProcessing.constructRecordFor
   NonPostableProperties
 );
 
-export const pagedDataWrapper = Utils.GraphqlProcessing.pagedDataWrapper;
+export const {
+  pagedDataWrapper,
+  constructPagingAndSorting,
+  constructFilterString
+} = Utils.GraphqlProcessing;
 
 export const itemKeyFields = uniqueFields => `
   _id

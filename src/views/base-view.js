@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import {
@@ -11,6 +10,7 @@ import {
   NewTabLink,
   Utils
 } from 'meiko';
+import { ButtonisedNavLink, ButtonisedNewTabLink } from 'components/buttonised';
 import LoadableContent from 'containers/loadable-content';
 import { getKeyByValue } from '../utils/common';
 import { getUniquePropertiesForItemType } from '../utils/data';
@@ -78,12 +78,12 @@ class BaseView extends Component {
                 <Button onClick={history.goBack} className="ripple">
                   {Strings.back}
                 </Button>
-                <NavLink
+                <ButtonisedNavLink
                   to={`${Paths.base}${Paths[type].edit}${item._id}`}
-                  className="button ripple"
+                  className="ripple"
                 >
                   {Strings.edit}
-                </NavLink>
+                </ButtonisedNavLink>
               </div>
             </header>
             <div className="view-content">
@@ -187,9 +187,9 @@ class BaseView extends Component {
                 </NewTabLink>
               )}
               {item.link && (
-                <NewTabLink
+                <ButtonisedNewTabLink
                   href={item.link}
-                  className="button-icon small"
+                  btnSize="small"
                   icon={Icons.link}
                   title="Open content link"
                 />

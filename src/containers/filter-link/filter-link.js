@@ -1,11 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { ButtonisedNavLink } from 'components/buttonised';
 
 const FilterLink = ({ filter, children }) => (
-  <NavLink to={filter} className="button-link" activeClassName="active">
+  <ButtonisedNavLink
+    to={filter}
+    link
+    btnStyle="primary"
+    className="filter-link"
+    activeClassName="active"
+  >
     {children}
-  </NavLink>
+  </ButtonisedNavLink>
 );
 
 FilterLink.propTypes = {

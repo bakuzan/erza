@@ -1,4 +1,4 @@
-import { Constnats } from 'meiko';
+import { Constants } from 'meiko';
 import combinedStrings from './strings';
 import combinedEnums from './enums';
 
@@ -30,7 +30,7 @@ export const NonPostableProperties = [
   Properties.mangaWithTag
 ];
 
-export const Days = combindedStrings.dayNames.map(s => s.slice(0, 2));
+export const Days = combinedStrings.dayNames.map(s => s.slice(0, 2));
 
 export const pageSizes = {
   default: [5, 10, 15, 25],

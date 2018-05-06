@@ -9,7 +9,7 @@ import { createListeners } from '../../utils/common';
 import './shortcuts.css';
 
 const shortcut = o => ({ ctrlKey, keyCode }) =>
-  ctrlKey && keyCode === Enums.keyCode.q ? o.toggleVisible() : null;
+  ctrlKey && keyCode === Enums.keyCodes.q ? o.toggleVisible() : null;
 
 class Shortcuts extends Component {
   constructor() {
