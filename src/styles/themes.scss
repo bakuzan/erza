@@ -82,13 +82,15 @@ a.filter-link.active {
       }
     }
 
-    .button:not(.primary) {
+    .button-group > *:not(.primary),
+    .daily-anime-container li > button {
       background-color: $base-background;
       color: $base-colour;
       &:hover {
         @include shiftColourLightness($base-background, $darken-amount);
       }
     }
+
     .filter-link:not(.active),
     .button-link:not(.active) {
       color: $anchor-colour;
@@ -105,7 +107,8 @@ a.filter-link.active {
       font-weight: bold;
     }
 
-    input[type='radio']::after {
+    input[type='radio']::after,
+    input[type='radio']::before {
       color: $contrast;
     }
     input[type='radio']:checked::after {
@@ -157,6 +160,13 @@ a.filter-link.active {
 
     .meiko-bouncer > div {
       background: $colour;
+    }
+
+    .history-list-item.series-title {
+      border-bottom-color: $colour;
+    }
+    .view-content .history-list-item:not(.series-title) {
+      border-bottom-color: $contrast;
     }
 
     // satellizer theming

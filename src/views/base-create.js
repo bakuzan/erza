@@ -169,7 +169,10 @@ class BaseCreate extends Component {
             noValidate=""
             onSubmit={this.handleSubmit}
           >
-            <Tabs.TabContainer>
+            <Tabs.TabContainer
+              className="tabs-component"
+              tabsClassName="tabs-container"
+            >
               <Tabs.TabView name="Required">
                 <div className="flex-column width-100">
                   <MalSearch
@@ -276,6 +279,8 @@ class BaseCreate extends Component {
                   )}
 
                   <ImageSelector
+                    className="uploader"
+                    uploaderClassName="uploader"
                     name="image"
                     url={this.state.image}
                     onChange={this.handleUserInput}

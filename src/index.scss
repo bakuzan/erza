@@ -1,3 +1,4 @@
+@import './styles/partials/_mixins';
 @import './styles/partials/_colours';
 @import './styles/partials/_variables';
 
@@ -60,6 +61,9 @@ body {
     flex-flow: column;
     width: 100%;
   }
+  .input-container {
+    flex-grow: 0;
+  }
 }
 
 // custom lists
@@ -73,6 +77,58 @@ body {
   }
 }
 
+.list {
+  .label:nth-child(odd):hover {
+    &,
+    & + .value {
+      background-color: $primary-background;
+      color: $primary-colour-contrast;
+    }
+  }
+  .label {
+    font-weight: bold;
+  }
+  .label,
+  .value {
+    display: flex;
+    align-items: center;
+    padding: 2px 10px;
+  }
+  .value::before {
+    content: attr(icon);
+    font-weight: bold;
+  }
+}
+
+// MISC
+
 .delete-action {
   position: relative;
+}
+
+.uploader {
+  border-bottom-color: $primary-colour;
+}
+
+.tabs-component .tabs-container {
+  border-top-color: $primary-colour;
+}
+
+#series-by-ratings-container .input-container {
+  flex-grow: 0;
+}
+
+// Button
+button.primary,
+button[icon].primary {
+  background-color: $primary-background;
+  color: $primary-colour-contrast;
+  &:hover,
+  &.active {
+    @include lightenOrDarken(
+      'background-color',
+      $primary-background,
+      $darken-amount * 3
+    );
+  }
 }
