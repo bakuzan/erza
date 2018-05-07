@@ -70,13 +70,14 @@ a.filter-link.active {
 
     .autocomplete-menu {
       background-color: $base-background;
-    }
-    .autocomplete-suggestion {
-      border: 1px solid $base-background;
-      &.active {
-        border-color: $colour;
-        button {
-          color: $colour;
+
+      li {
+        border: 1px solid $base-background;
+        &.active {
+          border-color: $colour;
+          button {
+            color: $colour;
+          }
         }
       }
     }
@@ -104,11 +105,11 @@ a.filter-link.active {
       font-weight: bold;
     }
 
-    input[type='radio']:checked::after {
-      color: $colour;
-    }
     input[type='radio']::after {
       color: $contrast;
+    }
+    input[type='radio']:checked::after {
+      color: $colour;
     }
 
     ul[role='menu'] {
@@ -150,11 +151,11 @@ a.filter-link.active {
       }
     }
 
-    #request-indicator > div {
+    .meiko-request-indicator > div {
       @include shiftColourLightness($colour, $darken-amount * 3);
     }
 
-    .loading-bouncer > div {
+    .meiko-bouncer > div {
       background: $colour;
     }
 

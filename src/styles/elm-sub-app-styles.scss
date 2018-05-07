@@ -2,158 +2,198 @@
 @import './partials/_variables';
 @import './partials/_mixins';
 
-// Button
-.button,
-.button-link,
-.button-icon {
-  appearance: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: inherit;
-  color: inherit;
-  padding: 5px;
-  border: none;
-  white-space: nowrap;
-  cursor: pointer;
-  &.rounded {
-    border-radius: 5px;
-  }
-  &.depress {
-    box-shadow: 0 0 5px $onyx;
-    &:active {
-      box-shadow: inset 0px 0px 5px $onyx;
-    }
-  }
-  &:disabled {
-    background-color: $grey80 !important;
-    color: $grey40 !important;
-    cursor: default;
-  }
-}
-
-.button {
-  min-width: 100px;
-  min-height: 25px;
-  text-decoration: none;
-
-  &:hover {
-    background-color: darken($white, $darken-amount);
-  }
-}
-
-.button-link {
-  color: $anchor-colour;
-  text-decoration: underline;
-  &:focus,
-  &:active {
-    color: $anchor-colour;
-  }
-  &:hover {
-    color: $anchor-colour-hover;
-  }
-}
-
-.button-icon {
-  flex: 0 1 0%;
-  padding: 3px 6px;
-  margin: 2px 5px;
-  text-decoration: none;
-
-  &:before {
-    content: attr(icon);
-    font-size: 1.5rem;
-    &:not(:disabled) {
-      cursor: pointer;
-    }
-  }
-  &.small:before {
-    font-size: 0.8rem;
-  }
-}
-
-// Clearable
-.clearable-input-count {
-  position: absolute;
-  right: 10px;
-  bottom: -5px;
-  top: auto;
-  left: auto;
-  font-size: 0.5rem;
-}
-
-// Radio buttons
-.radio {
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-
-  input[type='radio'] {
+#yoruichi,
+#satellizer {
+  // Button
+  .button,
+  .button-link,
+  .button-icon {
     appearance: none;
-    padding-right: 2px;
-    margin: 0;
-    pointer-events: none;
-
-    &::after {
-      content: '\25ef';
-      color: #aaa;
-      font-size: 1.2rem;
-      vertical-align: middle;
-    }
-
-    &:checked::after {
-      content: '\25c9';
-      color: #000;
-      font-size: 1.5rem;
-    }
-
-    &[disabled]::after,
-    &[disabled] + span {
-      color: #bbb !important;
-    }
-  }
-}
-
-// Tickbox
-.tickbox {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 2px;
-  cursor: pointer;
-  input[type='checkbox'] {
-    appearance: none;
-    transition: all 0.3s;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20px;
-    height: 20px;
-    margin: 0 5px;
+    background-color: inherit;
+    color: inherit;
+    padding: 5px;
+    border: none;
+    white-space: nowrap;
+    cursor: pointer;
+    &.rounded {
+      border-radius: 5px;
+    }
+    &.depress {
+      box-shadow: 0 0 5px $onyx;
+      &:active {
+        box-shadow: inset 0px 0px 5px $onyx;
+      }
+    }
+    &:disabled {
+      background-color: $grey80 !important;
+      color: $grey40 !important;
+      cursor: default;
+    }
   }
-}
 
-.tickbox input:before,
-.tickbox input:checked:before {
-  color: #000;
-  transition: all 0.3s;
-  cursor: pointer;
-  z-index: map-get($z-index, wafer);
-}
+  .button {
+    min-width: 100px;
+    min-height: 25px;
+    text-decoration: none;
 
-.tickbox input:before {
-  content: '\2610';
-  font-size: 2em;
-}
+    &:hover {
+      background-color: darken($white, $darken-amount);
+    }
+  }
 
-.tickbox input:disabled:before {
-  content: '\274c';
-  color: #666;
-  cursor: default;
-}
+  .button-link {
+    color: $anchor-colour;
+    text-decoration: underline;
+    &:focus,
+    &:active {
+      color: $anchor-colour;
+    }
+    &:hover {
+      color: $anchor-colour-hover;
+    }
+  }
 
-.tickbox input:checked:before {
-  content: '\2611';
-  color: #0f0;
+  .button-icon {
+    flex: 0 1 0%;
+    padding: 3px 6px;
+    margin: 2px 5px;
+    text-decoration: none;
+
+    &:before {
+      content: attr(icon);
+      font-size: 1.5rem;
+      &:not(:disabled) {
+        cursor: pointer;
+      }
+    }
+    &.small:before {
+      font-size: 0.8rem;
+    }
+  }
+
+  .button.primary,
+  .button-icon.primary {
+    background-color: $primary-background;
+    color: $primary-colour-contrast;
+    &:hover,
+    &.active {
+      @include lighten-or-darken(
+        'background-color',
+        $primary-background,
+        $darken-amount * 3
+      );
+    }
+  }
+
+  .button-link.primary {
+    color: $primary-colour;
+    &:focus,
+    &:active {
+      color: $primary-colour;
+    }
+    &:hover {
+      color: darken($primary-colour, $darken-amount);
+    }
+  }
+
+  .button.accent {
+    background-color: $accent-background;
+    color: $accent-colour-contrast;
+    &:hover {
+      @include lighten-or-darken(
+        'background-color',
+        $accent-background,
+        $darken-amount * 3
+      );
+    }
+  }
+
+  // Clearable
+  .clearable-input-count {
+    position: absolute;
+    right: 10px;
+    bottom: -5px;
+    top: auto;
+    left: auto;
+    font-size: 0.5rem;
+  }
+
+  // Radio buttons
+  .radio {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    input[type='radio'] {
+      appearance: none;
+      padding-right: 2px;
+      margin: 0;
+      pointer-events: none;
+
+      &::after {
+        content: '\25ef';
+        color: #aaa;
+        font-size: 1.2rem;
+        vertical-align: middle;
+      }
+
+      &:checked::after {
+        content: '\25c9';
+        color: $primary-colour;
+        font-size: 1.5rem;
+      }
+
+      &[disabled]::after,
+      &[disabled] + span {
+        color: #bbb !important;
+      }
+    }
+  }
+
+  // Tickbox
+  .tickbox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2px;
+    cursor: pointer;
+    input[type='checkbox'] {
+      appearance: none;
+      transition: all 0.3s;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      margin: 0 5px;
+    }
+  }
+
+  .tickbox input:before,
+  .tickbox input:checked:before {
+    color: #000;
+    transition: all 0.3s;
+    cursor: pointer;
+    z-index: map-get($z-index, wafer);
+  }
+
+  .tickbox input:before {
+    content: '\2610';
+    font-size: 2em;
+  }
+
+  .tickbox input:disabled:before {
+    content: '\274c';
+    color: #666;
+    cursor: default;
+  }
+
+  .tickbox input:checked:before {
+    content: '\2611';
+    color: #0f0;
+  }
 }

@@ -173,6 +173,7 @@ class BaseCreate extends Component {
               <Tabs.TabView name="Required">
                 <div className="flex-column width-100">
                   <MalSearch
+                    menuClassName="autocomplete-menu"
                     id={this.state.malId}
                     itemId={this.state._id}
                     type={type}
@@ -242,6 +243,7 @@ class BaseCreate extends Component {
                   />
 
                   <ChipListInput
+                    menuClassName="autocomplete-menu"
                     attr="name"
                     name="tags"
                     chipsSelected={this.state.tags}
