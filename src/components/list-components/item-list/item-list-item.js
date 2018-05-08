@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button, withButtonisation, Image, NewTabLink, Utils } from 'meiko';
-import { ButtonisedNavLink, ButtonisedNewTabLink } from 'components/buttonised';
+import { withButtonisation, Image, NewTabLink, Utils } from 'meiko';
+import {
+  ButtonisedNavLink,
+  ButtonisedNewTabLink,
+  ButtonIcon
+} from 'components/buttonised';
 import { Paths } from '../../../constants/paths';
 import { Enums, Icons } from '../../../constants/values';
 import { getKeyByValue } from '../../../utils/common';
@@ -30,7 +34,7 @@ const ItemListItem = ({ type, item, addAction }) => {
         <h4>{item.title}</h4>
         <div className="flex-row start-center-contents">
           {!!addAction && (
-            <Button
+            <ButtonIcon
               btnStyle="primary"
               btnSize="small"
               rounded

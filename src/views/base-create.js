@@ -31,11 +31,10 @@ import {
   Loaders,
   RatingControl,
   ImageSelector,
-  Button,
   Image,
   Utils
 } from 'meiko';
-import { ButtonisedNavLink } from 'components/buttonised';
+import { ButtonisedNavLink, Button } from 'components/buttonised';
 import { createTag, loadTags } from '../actions/tags';
 
 const loadData = props => {

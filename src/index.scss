@@ -119,15 +119,38 @@ body {
 }
 
 // Button
-button.primary,
-button[icon].primary {
+.erza-button.primary,
+.erza-button-icon.primary {
   background-color: $primary-background;
   color: $primary-colour-contrast;
   &:hover,
   &.active {
-    @include lightenOrDarken(
+    @include lighten-or-darken(
       'background-color',
       $primary-background,
+      $darken-amount * 3
+    );
+  }
+}
+
+.erza-button-link.primary {
+  color: $primary-colour;
+  &:focus,
+  &:active {
+    color: $primary-colour;
+  }
+  &:hover {
+    color: darken($primary-colour, $darken-amount);
+  }
+}
+
+.erza-button.accent {
+  background-color: $accent-background;
+  color: $accent-colour-contrast;
+  &:hover {
+    @include lighten-or-darken(
+      'background-color',
+      $accent-background,
       $darken-amount * 3
     );
   }

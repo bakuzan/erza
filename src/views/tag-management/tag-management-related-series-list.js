@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { ButtonisedNavLink } from 'components/buttonised';
 
 import { Paths } from '../../constants/paths';
 
@@ -10,12 +10,12 @@ const RelatedSeriesList = ({ seriesType, title, items }) => (
     <ul className="list column one">
       {items.map(x => (
         <li key={x._id}>
-          <NavLink
+          <ButtonisedNavLink
             className="button-link"
             to={`${Paths.base}${Paths[seriesType].view}${x._id}`}
           >
             {x.title}
-          </NavLink>
+          </ButtonisedNavLink>
         </li>
       ))}
     </ul>

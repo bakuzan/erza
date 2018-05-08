@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { ButtonisedNavLink } from 'components/buttonised';
 import ItemList from './item-list/item-list';
 import { Paths } from '../../constants/paths';
 
 const TagListItem = ({ item }) => (
   <li className="tag-item">
-    <NavLink
-      className="button-link ripple"
+    <ButtonisedNavLink
+      className="ripple"
       to={`${Paths.base}${Paths.tagManagement}${item._id}`}
     >
       {item.name}
-    </NavLink>
+    </ButtonisedNavLink>
   </li>
 );
 

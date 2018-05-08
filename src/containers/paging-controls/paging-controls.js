@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { SelectBox, Button } from 'meiko';
+import { SelectBox } from 'meiko';
+import { Button } from 'components/buttonised';
 import { selectPagingForType } from 'reducers/paging';
 import { nextPage, prevPage, setItemsPerPage } from '../../actions/paging';
 import { pageSizes } from '../../constants/values';

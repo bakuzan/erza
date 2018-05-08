@@ -2,15 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 
+import { RatingControl, Loaders, Image, NewTabLink, Utils } from 'meiko';
 import {
-  RatingControl,
-  Loaders,
-  Button,
-  Image,
-  NewTabLink,
-  Utils
-} from 'meiko';
-import { ButtonisedNavLink, ButtonisedNewTabLink } from 'components/buttonised';
+  ButtonisedNavLink,
+  ButtonisedNewTabLink,
+  Button
+} from 'components/buttonised';
 import LoadableContent from 'containers/loadable-content';
 import { getKeyByValue } from '../utils/common';
 import { getUniquePropertiesForItemType } from '../utils/data';

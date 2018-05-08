@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ClearableInput, Loaders, Button } from 'meiko';
+import { ClearableInput, Loaders } from 'meiko';
+import { Button } from 'components/buttonised';
 import RelatedSeriesList from './tag-management-related-series-list';
 
 import { Paths } from '../../constants/paths';

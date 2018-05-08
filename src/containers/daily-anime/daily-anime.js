@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Utils } from 'meiko';
+import { Utils } from 'meiko';
+import { ButtonIcon, Button } from 'components/buttonised';
 import { fetchDailyAnime } from '../../actions/daily-anime';
 import { Icons } from '../../constants/values';
 import { padNumber } from '../../utils/common';
@@ -66,14 +67,14 @@ class DailyAnime extends Component {
     return (
       <section className="daily-anime-container">
         <header className="daily-anime-header">
-          <Button
+          <ButtonIcon
             btnStyle="primary"
             icon={Icons.left}
             disabled={this.state.dateOffset > 6}
             onClick={() => this.handleDayChange(1)}
           />
           <div>{displayText}</div>
-          <Button
+          <ButtonIcon
             btnStyle="primary"
             icon={Icons.right}
             disabled={this.state.dateOffset === 1}
