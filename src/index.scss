@@ -122,13 +122,14 @@ $series-image-container--height: 150px;
 }
 
 // Button
+button.primary:not(.erza-button-link),
 .erza-button.primary,
 .erza-button-icon.primary {
   background-color: $primary-background;
   color: $primary-colour-contrast;
   &:hover,
   &.active {
-    @include lighten-or-darken(
+    @include lightenOrDarken(
       'background-color',
       $primary-background,
       $darken-amount * 3
@@ -146,12 +147,16 @@ $series-image-container--height: 150px;
     color: darken($primary-colour, $darken-amount);
   }
 }
+a.erza-button-link.active {
+  text-decoration: none;
+  color: $primary-colour-contrast;
+}
 
 .erza-button.accent {
   background-color: $accent-background;
   color: $accent-colour-contrast;
   &:hover {
-    @include lighten-or-darken(
+    @include lightenOrDarken(
       'background-color',
       $accent-background,
       $darken-amount * 3

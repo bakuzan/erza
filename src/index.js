@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import Root from './containers/root/root';
 import configureStore from './store/configure-store';
-import './index.css';
 import 'meiko/dist/bundle.min.css';
+import './index.css';
 import './styles/themes.css';
 
 export const history = createBrowserHistory();

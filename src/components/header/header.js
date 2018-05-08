@@ -13,7 +13,7 @@ class ErzaHeader extends Component {
       <Header
         id="erza-header"
         navLeft={
-          <NavLink className="ripple" id="logo-svg" to={Paths.base}>
+          <NavLink className="ripple erza-svg" id="logo-svg" to={Paths.base}>
             <SVGLogo text="Erza" />
           </NavLink>
         }

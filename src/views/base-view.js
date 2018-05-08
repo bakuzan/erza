@@ -4,7 +4,7 @@ import Loadable from 'react-loadable';
 
 import { RatingControl, Loaders, Image, NewTabLink, Utils } from 'meiko';
 import {
-  ButtonisedNavLink,
+  ButtonisedNavButton,
   ButtonisedNewTabLink,
   Button
 } from 'components/buttonised';
@@ -75,12 +75,12 @@ class BaseView extends Component {
                 <Button onClick={history.goBack} className="ripple">
                   {Strings.back}
                 </Button>
-                <ButtonisedNavLink
+                <ButtonisedNavButton
                   to={`${Paths.base}${Paths[type].edit}${item._id}`}
                   className="ripple"
                 >
                   {Strings.edit}
-                </ButtonisedNavLink>
+                </ButtonisedNavButton>
               </div>
             </header>
             <div className="view-content">

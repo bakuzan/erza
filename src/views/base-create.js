@@ -90,12 +90,9 @@ class BaseCreate extends Component {
 
   resolveSearchParams() {
     const { search } = this.props.location;
-    const test =
-      this.props.isCreate && search
-        ? constructObjectFromSearchParams(search)
-        : {};
-    console.log(test);
-    return test;
+    return this.props.isCreate && search
+      ? constructObjectFromSearchParams(search)
+      : {};
   }
 
   handleMalSelect(malItem) {
@@ -175,7 +172,7 @@ class BaseCreate extends Component {
               <Tabs.TabView name="Required">
                 <div className="flex-column width-100">
                   <MalSearch
-                    menuClassName="autocomplete-menu"
+                    menuClassName="erza-autocomplete-menu"
                     id={this.state.malId}
                     itemId={this.state._id}
                     type={type}
@@ -245,7 +242,7 @@ class BaseCreate extends Component {
                   />
 
                   <ChipListInput
-                    menuClassName="autocomplete-menu"
+                    menuClassName="erza-autocomplete-menu"
                     attr="name"
                     name="tags"
                     chipsSelected={this.state.tags}

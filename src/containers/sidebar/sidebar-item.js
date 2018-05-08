@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonisedNavLink } from 'components/buttonised';
+import { ButtonisedNavButton } from 'components/buttonised';
 import './sidebar-item.css';
 
 const isSidebarActive = targetPath => (match, { pathname }) => {
@@ -8,7 +8,7 @@ const isSidebarActive = targetPath => (match, { pathname }) => {
 };
 
 const SidebarItem = ({ data, close }) => (
-  <ButtonisedNavLink
+  <ButtonisedNavButton
     className="sidebar-item"
     btnStyle="primary"
     activeClassName="active"
@@ -18,7 +18,7 @@ const SidebarItem = ({ data, close }) => (
   >
     <div className="sidebar-item-icon center-contents">{data.icon}</div>
     <div className="sidebar-item-text">{data.title}</div>
-  </ButtonisedNavLink>
+  </ButtonisedNavButton>
 );
 
 export default SidebarItem;

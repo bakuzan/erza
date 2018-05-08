@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { withButtonisation, NewTabLink, Button as MButton } from 'meiko';
 
@@ -21,6 +23,9 @@ function withCustomButtonWrapper(
   };
 }
 
+export const ButtonisedNavButton = withButtonisation(
+  withCustomButtonWrapper(NavLink, { className: 'erza-button' })
+);
 export const ButtonisedNavLink = withButtonisation(
   withCustomButtonWrapper(NavLink, LINK_CUSTOM_PROPS)
 );

@@ -6,7 +6,6 @@ const FilterLink = ({ filter, children }) => (
   <ButtonisedNavLink
     to={filter}
     link
-    btnStyle="primary"
     className="filter-link"
     activeClassName="active"
   >

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { withButtonisation, Image, NewTabLink, Utils } from 'meiko';
 import {
-  ButtonisedNavLink,
+  ButtonisedNavButton,
   ButtonisedNewTabLink,
   ButtonIcon
 } from 'components/buttonised';
@@ -56,18 +56,18 @@ const ItemListItem = ({ type, item, addAction }) => {
           )}
         </div>
         <div className="button-group fixed-width">
-          <ButtonisedNavLink
+          <ButtonisedNavButton
             to={`${Paths.base}${Paths[type].view}${item._id}`}
             className="ripple"
           >
             View
-          </ButtonisedNavLink>
-          <ButtonisedNavLink
+          </ButtonisedNavButton>
+          <ButtonisedNavButton
             to={`${Paths.base}${Paths[type].edit}${item._id}`}
             className="ripple"
           >
             Edit
-          </ButtonisedNavLink>
+          </ButtonisedNavButton>
         </div>
       </div>
       <div className="flex-spacer" />

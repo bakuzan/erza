@@ -1,3 +1,4 @@
+@import './partials/_mixins';
 @import './partials/_colours';
 @import '../../node_modules/meiko/dist/templates/_header-links-template';
 
@@ -9,9 +10,12 @@
 #erza-sidebar {
   background: $primary-background;
 }
-#logo-svg {
+.erza-svg svg {
   background-color: $primary-background;
   color: $primary-colour-contrast;
+  &:hover {
+    background-color: darken($primary-background, $darken-amount);
+  }
 }
 
 @each $name, $values in $theme-maps {
@@ -60,7 +64,7 @@
       }
     }
 
-    .autocomplete-menu {
+    .erza-autocomplete-menu {
       background-color: $base-background;
 
       li {
@@ -74,6 +78,7 @@
       }
     }
 
+    .dialog-content button:not(.primary),
     .erza-button:not(.primary) {
       background-color: $base-background;
       color: $base-colour;

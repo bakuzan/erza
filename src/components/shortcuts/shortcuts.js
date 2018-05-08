@@ -64,7 +64,7 @@ class Shortcuts extends Component {
           getDialogRef={this.assignRef}
         >
           <AutocompleteInput
-            menuClassName="autocomplete-menu"
+            menuClassName="erza-autocomplete-menu"
             attr="title"
             items={this.items}
             filter={this.state.filter}
