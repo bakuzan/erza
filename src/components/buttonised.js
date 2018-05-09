@@ -23,14 +23,17 @@ function withCustomButtonWrapper(
   };
 }
 
-export const ButtonisedNavButton = withButtonisation(
-  withCustomButtonWrapper(NavLink, { className: 'erza-button' })
+export const ButtonisedNavButton = withCustomButtonWrapper(
+  withButtonisation(NavLink),
+  { className: 'erza-button' }
 );
-export const ButtonisedNavLink = withButtonisation(
-  withCustomButtonWrapper(NavLink, LINK_CUSTOM_PROPS)
+export const ButtonisedNavLink = withCustomButtonWrapper(
+  withButtonisation(NavLink),
+  LINK_CUSTOM_PROPS
 );
-export const ButtonisedNewTabLink = withButtonisation(
-  withCustomButtonWrapper(NewTabLink, LINK_CUSTOM_PROPS)
+export const ButtonisedNewTabLink = withCustomButtonWrapper(
+  withButtonisation(NewTabLink),
+  LINK_CUSTOM_PROPS
 );
 export const ButtonLink = withCustomButtonWrapper(MButton, LINK_CUSTOM_PROPS);
 export const Button = withCustomButtonWrapper(MButton, {

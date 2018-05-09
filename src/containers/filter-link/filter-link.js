@@ -5,7 +5,6 @@ import { ButtonisedNavLink } from 'components/buttonised';
 const FilterLink = ({ filter, children }) => (
   <ButtonisedNavLink
     to={filter}
-    link
     className="filter-link"
     activeClassName="active"
   >

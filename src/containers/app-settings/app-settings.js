@@ -89,7 +89,7 @@ class AppSettings extends React.Component {
             text="timed theme change"
             name="isTimed"
             checked={isTimed}
-            onChange={() => toggleTimedTheme()}
+            onChange={toggleTimedTheme}
           />
         </li>
         <li>
@@ -97,7 +97,7 @@ class AppSettings extends React.Component {
             text="toggle adult lists"
             name="isAdult"
             checked={isAdult}
-            onChange={() => toggleIsAdult()}
+            onChange={toggleIsAdult}
           />
         </li>
         <li>
@@ -105,7 +105,7 @@ class AppSettings extends React.Component {
             text="toggle sidebar visibility"
             name="isSidebarHidden"
             checked={!isSidebarHidden}
-            onChange={() => toggleSidebarVisibility()}
+            onChange={toggleSidebarVisibility}
           />
         </li>
         <li>
@@ -113,7 +113,7 @@ class AppSettings extends React.Component {
             text="toggle request indicator visibility"
             name="isRequestIndicatorHidden"
             checked={!isRequestIndicatorHidden}
-            onChange={() => toggleRequestIndicatorVisibility()}
+            onChange={toggleRequestIndicatorVisibility}
           />
         </li>
       </DropdownMenu>
