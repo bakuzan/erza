@@ -55,7 +55,8 @@
       }
     }
 
-    .input-chip-delete {
+    span > button {
+      background: inherit;
       &:hover::before {
         color: $colour;
       }
@@ -78,6 +79,7 @@
       }
     }
 
+    form button:not(.primary),
     .dialog-content button:not(.primary),
     .erza-button:not(.primary) {
       background-color: $base-background;
