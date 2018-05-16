@@ -19,7 +19,8 @@ export const Properties = {
   seriesChapters: 'series_chapters',
   dayOfWeek: 'dayOfWeek',
   animeWithTag: 'animeWithTag',
-  mangaWithTag: 'mangaWithTag'
+  mangaWithTag: 'mangaWithTag',
+  series: 'series'
 };
 
 export const NonPostableProperties = [
@@ -27,7 +28,8 @@ export const NonPostableProperties = [
   Properties.tagList,
   Properties.dayOfWeek,
   Properties.animeWithTag,
-  Properties.mangaWithTag
+  Properties.mangaWithTag,
+  Properties.series
 ];
 
 export const Days = combinedStrings.dayNames.map(s => s.slice(0, 2));
