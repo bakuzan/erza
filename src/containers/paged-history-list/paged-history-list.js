@@ -7,7 +7,14 @@ import HistoryList from '../../components/list-components/history-list/history-l
 import { pageSizes } from '../../constants/values';
 import { getHistoryNameForItemType, selectPageItems } from '../../utils/data';
 
-const PagedHistoryList = ({ isFetching, filters, items, type, paging }) => {
+const PagedHistoryList = ({
+  isFetching,
+  filters,
+  items,
+  type,
+  paging,
+  ...props
+}) => {
   const historyType = getHistoryNameForItemType(type);
   const itemsForPage = selectPageItems(items, historyType, paging);
   return (
@@ -17,7 +24,13 @@ const PagedHistoryList = ({ isFetching, filters, items, type, paging }) => {
         listType={historyType}
         filters={filters}
       />
-      <HistoryList isFetching={isFetching} type={type} items={itemsForPage} />
+      <HistoryList
+        isFetching={isFetching}
+        type={type}
+        items={itemsForPage}
+        editAction={props.editAction}
+        deleteAction={props.deleteAction}
+      />
     </div>
   );
 };

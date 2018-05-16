@@ -205,14 +205,3 @@ export const loadHistoryByDateRange = (
       .then(() => dispatch(finishGraphqlRequest()));
   };
 };
-
-export const loadHistoryForSeries = (type, queryString) => {
-  return function(dispatch) {
-    dispatch(startingGraphqlRequest());
-    fetchFromServer(`${Paths.graphql.base}${queryString}`)
-      .then(response =>
-        dispatch(loadItemsToState[type](getSingleObjectProperty(response.data)))
-      )
-      .then(() => dispatch(finishGraphqlRequest()));
-  };
-};

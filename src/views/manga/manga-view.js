@@ -6,7 +6,7 @@ import Loadable from 'react-loadable';
 import { Loaders } from 'meiko';
 import { loadMangaById } from '../../actions/manga';
 import {
-  loadChapterForSeries,
+  loadChaptersByDateRange,
   editChapter,
   deleteChapter
 } from '../../actions/chapter';
@@ -24,7 +24,7 @@ const MangaView = ({
   item,
   historyItems,
   loadMangaById,
-  loadChapterForSeries,
+  loadChaptersByDateRange,
   deleteChapter,
   editChapter,
   ...props
@@ -36,7 +36,7 @@ const MangaView = ({
     item={item}
     historyItems={historyItems}
     loadItemById={loadMangaById}
-    loadHistoryForSeries={loadChapterForSeries}
+    loadHistoryForSeries={loadChaptersByDateRange}
     editAction={editChapter}
     deleteAction={deleteChapter}
   />
@@ -47,7 +47,7 @@ MangaView.propTypes = {
   item: PropTypes.object.isRequired,
   historyItems: PropTypes.arrayOf(PropTypes.object),
   loadMangaById: PropTypes.func.isRequired,
-  loadChapterForSeries: PropTypes.func.isRequired,
+  loadChaptersByDateRange: PropTypes.func.isRequired,
   editChapter: PropTypes.func.isRequired,
   deleteChapter: PropTypes.func.isRequired
 };
@@ -61,7 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   loadMangaById,
-  loadChapterForSeries,
+  loadChaptersByDateRange,
   editChapter,
   deleteChapter
 };

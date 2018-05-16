@@ -1,15 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
 
-import { Utils } from 'meiko';
+import { Loaders, Utils } from 'meiko';
 import LoadableContent from 'containers/loadable-content';
-import PagedHistoryList from 'containers/paged-history-list/paged-history-list';
 
 import { getEventValue, getTimeoutSeconds, debounce } from 'utils/common';
 import { getHistoryNameForItemType } from 'utils/data';
 
 const { startOfDay, endOfDay, dateAsMs, formatDateForInput } = Utils.Date;
+
+const PagedHistoryList = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'history-list' */ '../../containers/paged-history-list/paged-history-list'),
+  loading: Loaders.Loadables.SimpleLoading,
+  delay: 300
+});
 
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [
   dateAsMs(startOfDay(from)),

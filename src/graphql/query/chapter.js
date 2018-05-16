@@ -2,11 +2,9 @@ import { Strings } from '../../constants/values';
 import {
   pagedDataWrapper,
   constructFilterString,
-  historyKeyFields,
   historyKeyFieldsWithSeries
 } from '../common';
 
-const chapterFields = historyKeyFields(Strings.chapter);
 const chapterFieldsWithSeries = historyKeyFieldsWithSeries(Strings.chapter);
 
 const getChaptersForDateRange = (pageParameters, filters) => `
@@ -17,17 +15,8 @@ const getChaptersForDateRange = (pageParameters, filters) => `
   }
 `;
 
-const getChaptersForParent = parentId => `
-  {
-    chapterMany(sort: DATE_DESC, filter: { parent: "${parentId}" }) {
-      ${chapterFields}
-    }
-  }
-`;
-
 const ChapterQl = {
-  getChaptersForDateRange,
-  getChaptersForParent
+  getChaptersForDateRange
 };
 
 export default ChapterQl;

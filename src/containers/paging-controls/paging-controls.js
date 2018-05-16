@@ -40,7 +40,7 @@ const PagingControls = ({
           <Button
             className="ripple"
             onClick={() => goForwardAPage(listType, filters)}
-            disabled={page === finalPage}
+            disabled={page === finalPage || !pageInfo.totalCount}
           >
             Next
           </Button>

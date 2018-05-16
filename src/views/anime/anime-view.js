@@ -6,7 +6,7 @@ import Loadable from 'react-loadable';
 import { Loaders } from 'meiko';
 import { loadAnimeById } from '../../actions/anime';
 import {
-  loadEpisodeForSeries,
+  loadEpisodesByDateRange,
   editEpisode,
   deleteEpisode
 } from '../../actions/episode';
@@ -24,7 +24,7 @@ const AnimeView = ({
   item,
   historyItems,
   loadAnimeById,
-  loadEpisodeForSeries,
+  loadEpisodesByDateRange,
   editEpisode,
   deleteEpisode,
   ...props
@@ -36,7 +36,7 @@ const AnimeView = ({
     item={item}
     historyItems={historyItems}
     loadItemById={loadAnimeById}
-    loadHistoryForSeries={loadEpisodeForSeries}
+    loadHistoryForSeries={loadEpisodesByDateRange}
     editAction={editEpisode}
     deleteAction={deleteEpisode}
   />
@@ -47,7 +47,7 @@ AnimeView.propTypes = {
   item: PropTypes.object.isRequired,
   historyItems: PropTypes.arrayOf(PropTypes.object),
   loadAnimeById: PropTypes.func.isRequired,
-  loadEpisodeForSeries: PropTypes.func.isRequired,
+  loadEpisodesByDateRange: PropTypes.func.isRequired,
   editEpisode: PropTypes.func.isRequired,
   deleteEpisode: PropTypes.func.isRequired
 };
@@ -61,7 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   loadAnimeById,
-  loadEpisodeForSeries,
+  loadEpisodesByDateRange,
   editEpisode,
   deleteEpisode
 };

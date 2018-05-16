@@ -2,11 +2,9 @@ import { Strings } from '../../constants/values';
 import {
   pagedDataWrapper,
   constructFilterString,
-  historyKeyFields,
   historyKeyFieldsWithSeries
 } from '../common';
 
-const episodeFields = historyKeyFields(Strings.episode);
 const episodeFieldsWithSeries = historyKeyFieldsWithSeries(Strings.episode);
 
 const getEpisodesForDateRange = (pageParameters, filters) => `
@@ -17,17 +15,8 @@ const getEpisodesForDateRange = (pageParameters, filters) => `
   }
 `;
 
-const getEpisodesForParent = parentId => `
-  {
-    episodeMany(sort: DATE_DESC, filter: { parent: "${parentId}" }) {
-      ${episodeFields}
-    }
-  }
-`;
-
 const EpisodeQl = {
-  getEpisodesForDateRange,
-  getEpisodesForParent
+  getEpisodesForDateRange
 };
 
 export default EpisodeQl;

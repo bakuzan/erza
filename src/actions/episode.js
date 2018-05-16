@@ -1,7 +1,6 @@
 import EpisodeQL from '../graphql/query/episode';
 import EpisodeML from '../graphql/mutation/episode';
 import {
-  loadHistoryForSeries,
   mutateHistoryItem,
   removeHistoryItem,
   loadHistoryByDateRange
@@ -26,6 +25,3 @@ export const loadEpisodesByDateRange = (filters = {}, pageChange = null) =>
     },
     EpisodeQL.getEpisodesForDateRange
   );
-
-export const loadEpisodeForSeries = parent =>
-  loadHistoryForSeries(Strings.episode, EpisodeQL.getEpisodesForParent(parent));

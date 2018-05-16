@@ -1,7 +1,6 @@
 import ChapterQL from '../graphql/query/chapter';
 import ChapterML from '../graphql/mutation/chapter';
 import {
-  loadHistoryForSeries,
   mutateHistoryItem,
   removeHistoryItem,
   loadHistoryByDateRange
@@ -26,6 +25,3 @@ export const loadChaptersByDateRange = (filters = {}, pageChange = null) =>
     },
     ChapterQL.getChaptersForDateRange
   );
-
-export const loadChapterForSeries = parent =>
-  loadHistoryForSeries(Strings.chapter, ChapterQL.getChaptersForParent(parent));

@@ -15,11 +15,12 @@ import { Paths } from '../constants/paths';
 import { Strings, Enums, Icons } from '../constants/values';
 
 const loadData = props => props.loadItemById(props.itemId);
-const loadHistory = props => props.loadHistoryForSeries(props.itemId);
+const loadHistory = props =>
+  props.loadHistoryForSeries({ parent: props.itemId });
 
-const HistoryList = Loadable({
+const PagedHistoryList = Loadable({
   loader: () =>
-    import(/* webpackChunkName: 'history-list' */ '../components/list-components/history-list/history-list'),
+    import(/* webpackChunkName: 'history-list' */ '../containers/paged-history-list/paged-history-list'),
   loading: Loaders.Loadables.SimpleLoading,
   delay: 300
 });
@@ -47,7 +48,7 @@ class BaseView extends Component {
   }
 
   preloadHistoryList() {
-    HistoryList.preload();
+    PagedHistoryList.preload();
   }
 
   handleHistoryEdit(item) {
@@ -59,7 +60,7 @@ class BaseView extends Component {
   }
 
   render() {
-    const { isFetching, type, item, history, historyItems } = this.props;
+    const { type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
 
     if (!item || !item._id) return <Loaders.LoadingSpinner size="fullscreen" />;
@@ -155,10 +156,10 @@ class BaseView extends Component {
                 {this.state.hasHistory && (
                   <LoadableContent spinnerSize="default">
                     <div>
-                      <HistoryList
-                        isFetching={isFetching}
+                      <PagedHistoryList
                         type={type}
-                        items={isFetching ? [] : historyItems}
+                        filters={{ parent: this.props.itemId }}
+                        items={historyItems}
                         editAction={this.handleHistoryEdit}
                         deleteAction={this.handleHistoryDelete}
                       />
