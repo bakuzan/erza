@@ -242,6 +242,7 @@ class BaseCreate extends Component {
                   />
 
                   <ChipListInput
+                    tagClassName="erza-tag"
                     menuClassName="erza-autocomplete-menu"
                     attr="name"
                     name="tags"

@@ -55,7 +55,7 @@
       }
     }
 
-    span > button[icon]:not(.primary) {
+    .erza-tag button {
       background: inherit;
       &:hover::before {
         color: $colour;
@@ -159,9 +159,10 @@
     }
 
     .history-list-item.series-title {
+      background-color: $base-background;
       border-bottom-color: $colour;
     }
-    .view-content .history-list-item:not(.series-title) {
+    .history-list-item:not(.series-title) {
       border-bottom-color: $contrast;
     }
 
@@ -176,6 +177,14 @@
 
       #season-key {
         background: $base-background;
+      }
+
+      .button:not(.primary) {
+        background-color: $base-background;
+        color: $base-colour;
+        &:hover {
+          @include shiftColourLightness($base-background, $darken-amount);
+        }
       }
 
       .history-breakdown-body__row.month-breakdown:hover,
