@@ -121,6 +121,11 @@ $series-image-container--height: 150px;
   flex-grow: 0;
 }
 
+.erza-tag button {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
 // Button
 button.primary:not(.erza-button-link),
 .erza-button.primary,

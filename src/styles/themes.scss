@@ -55,7 +55,7 @@
       }
     }
 
-    .erza-tag button {
+    .erza-tag button[icon] {
       background: inherit;
       &:hover::before {
         color: $colour;
