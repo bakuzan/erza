@@ -65,6 +65,7 @@ const ListFilter = ({
 
       <div className="radio-group" role="radiogroup">
         <RadioButton
+          id="sort-order-asc"
           name="sortOrder"
           label={Strings.ascending}
           value={Strings.ascending}
@@ -72,6 +73,7 @@ const ListFilter = ({
           onSelect={e => onSortOrderToggle(e)}
         />
         <RadioButton
+          id="sort-order-desc"
           name="sortOrder"
           label={Strings.descending}
           value={Strings.descending}
