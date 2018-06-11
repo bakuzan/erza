@@ -317,6 +317,31 @@ class BaseCreate extends Component {
                   />
                 </div>
               </Tabs.TabView>
+              <Tabs.TabView name="Seasonal">
+                <Tickbox
+                  text="Force In Season"
+                  name="_legacyInSeason"
+                  checked={this.state._legacyInSeason}
+                  onChange={this.handleUserInput}
+                />
+                <ClearableInput
+                  type="date"
+                  name="series_start"
+                  label="series start"
+                  value={Utils.Date.formatDateForInput(this.state.series_start)}
+                  max={this.state.series_end}
+                  onChange={this.handleUserInput}
+                />
+
+                <ClearableInput
+                  type="date"
+                  name="series_end"
+                  label="series end"
+                  value={Utils.Date.formatDateForInput(this.state.series_end)}
+                  min={this.state.series_start}
+                  onChange={this.handleUserInput}
+                />
+              </Tabs.TabView>
             </Tabs.TabContainer>
             <div className="button-group">
               <Button type="submit" className="ripple">
