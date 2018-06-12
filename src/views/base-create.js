@@ -44,9 +44,14 @@ const loadData = props => {
   }
 };
 
+const mapEnumToSelectBox = obj => item => ({
+  text: item.length > 3 ? capitalise(item) : item.toUpperCase(),
+  value: obj[item]
+});
+
 const STATUS_OPTIONS = Object.keys(Enums.status)
   .filter(x => x !== 'all')
-  .map(item => ({ text: capitalise(item), value: Enums.status[item] }));
+  .map(mapEnumToSelectBox(Enums.status));
 
 class BaseCreate extends Component {
   constructor(props) {
@@ -135,6 +140,11 @@ class BaseCreate extends Component {
     const { type } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;
+
+    const seriesTypes = Enums[type].type;
+    const SERIES_TYPE_OPTIONS = Object.keys(seriesTypes).map(
+      mapEnumToSelectBox(seriesTypes)
+    );
 
     return (
       <div className="flex-column center-contents padding-10">
@@ -318,29 +328,42 @@ class BaseCreate extends Component {
                 </div>
               </Tabs.TabView>
               <Tabs.TabView name="Seasonal">
-                <Tickbox
-                  text="Force In Season"
-                  name="_legacyInSeason"
-                  checked={this.state._legacyInSeason}
-                  onChange={this.handleUserInput}
-                />
-                <ClearableInput
-                  type="date"
-                  name="series_start"
-                  label="series start"
-                  value={Utils.Date.formatDateForInput(this.state.series_start)}
-                  max={this.state.series_end}
-                  onChange={this.handleUserInput}
-                />
+                <div className="flex-column width-100">
+                  <ClearableInput
+                    type="date"
+                    name="series_start"
+                    label="series start"
+                    value={Utils.Date.formatDateForInput(
+                      this.state.series_start
+                    )}
+                    max={this.state.series_end}
+                    onChange={this.handleUserInput}
+                  />
 
-                <ClearableInput
-                  type="date"
-                  name="series_end"
-                  label="series end"
-                  value={Utils.Date.formatDateForInput(this.state.series_end)}
-                  min={this.state.series_start}
-                  onChange={this.handleUserInput}
-                />
+                  <ClearableInput
+                    type="date"
+                    name="series_end"
+                    label="series end"
+                    value={Utils.Date.formatDateForInput(this.state.series_end)}
+                    min={this.state.series_start}
+                    onChange={this.handleUserInput}
+                  />
+
+                  <SelectBox
+                    name="series_type"
+                    text="series type"
+                    value={this.state.series_type}
+                    onSelect={this.handleUserInput}
+                    options={SERIES_TYPE_OPTIONS}
+                  />
+
+                  <Tickbox
+                    text="Force In Season"
+                    name="_legacyIsSeason"
+                    checked={this.state._legacyIsSeason || false}
+                    onChange={this.handleUserInput}
+                  />
+                </div>
               </Tabs.TabView>
             </Tabs.TabContainer>
             <div className="button-group">

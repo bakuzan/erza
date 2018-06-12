@@ -4,9 +4,10 @@ const getItem = action => action.item.node || action.item;
 
 export function updateById(state, action) {
   const item = getItem(action);
+  const staleItem = state.byId[item._id] || {};
   return update(state, {
     byId: {
-      [item._id]: { $set: item }
+      [item._id]: { $set: { ...staleItem, ...item } }
     }
   });
 }
