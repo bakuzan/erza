@@ -30,7 +30,6 @@ export const itemEditFields = uniqueFields => `
   end
   rating
   isAdult
-  _legacyIsSeason
   series_type
   series_start
   series_end

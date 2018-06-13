@@ -356,13 +356,13 @@ class BaseCreate extends Component {
                     onSelect={this.handleUserInput}
                     options={SERIES_TYPE_OPTIONS}
                   />
-
+                  {type !== Strings.manga && 
                   <Tickbox
                     text="Force In Season"
                     name="_legacyIsSeason"
                     checked={this.state._legacyIsSeason || false}
                     onChange={this.handleUserInput}
-                  />
+                  />}
                 </div>
               </Tabs.TabView>
             </Tabs.TabContainer>

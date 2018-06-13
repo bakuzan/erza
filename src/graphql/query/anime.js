@@ -11,6 +11,11 @@ const animeSpecificKeyFieldsWithSeason = `
   season
 `;
 
+const animeSpecificKeyFieldsWithLegacyFlag = `
+  ${animeSpecificKeyFields}
+  _legacyIsSeason
+`;
+
 const getFilteredList = GenericListQueries.getFilteredList(
   Strings.anime,
   animeSpecificKeyFields
@@ -21,7 +26,7 @@ const getById = GenericListQueries.getById(
 );
 const getByIdForEdit = GenericListQueries.getByIdForEdit(
   Strings.anime,
-  animeSpecificKeyFields
+  animeSpecificKeyFieldsWithLegacyFlag
 );
 const getByIdForQuickAdd = GenericListQueries.getByIdForQuickAdd(
   Strings.anime,
