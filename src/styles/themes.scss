@@ -21,6 +21,7 @@
 @each $name, $values in $theme-maps {
   $base-background: map-get($values, base-background);
   $base-colour: map-get($values, base-colour);
+  $base-colour-inverse: map-get($values, base-colour-inverse);
   $colour: map-get($values, colour);
   $contrast: map-get($values, contrast);
   $anchor-colour: map-get($values, anchor-colour);
@@ -147,6 +148,15 @@
       .group-title {
         background-color: $colour;
         color: $contrast;
+      }
+    }
+
+    .erza-calendar {
+      background-color: $base-background;
+
+      .selected {
+        background-color: $contrast !important;
+        color: $base-colour-inverse;
       }
     }
 

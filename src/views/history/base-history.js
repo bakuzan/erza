@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import { Loaders, Utils } from 'meiko';
+import DateSelector from 'components/date-selector';
 import LoadableContent from 'containers/loadable-content';
 
-import { getEventValue, getTimeoutSeconds, debounce } from 'utils/common';
+import { getTimeoutSeconds, debounce } from 'utils/common';
 import { getHistoryNameForItemType } from 'utils/data';
 
 const { startOfDay, endOfDay, dateAsMs, formatDateForInput } = Utils.Date;
@@ -28,13 +29,6 @@ const loadData = (props, state, shouldKeepPage = false) =>
     { dateRange: dateRangeForQuery(state.from, state.to) },
     shouldKeepPage
   );
-
-const Datepicker = ({ label, ...props }) => (
-  <div className="has-float-label input-container">
-    <input type="date" placeholder=" " {...props} />
-    <label>{label}</label>
-  </div>
-);
 
 class BaseHistoryView extends Component {
   constructor(props) {
@@ -71,10 +65,11 @@ class BaseHistoryView extends Component {
     }
   }
 
-  handleUserInput({ target }) {
-    const newValue = getEventValue(target);
-    this.setState({ [target.name]: newValue });
-    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
+  handleUserInput(date, name, hasError) {
+    if (hasError) return;
+    this.setState({ [name]: date }, () =>
+      debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1))
+    );
   }
 
   render() {
@@ -88,17 +83,19 @@ class BaseHistoryView extends Component {
       <div className="flex-row">
         <div className="filters-container">
           <div>
-            <Datepicker
+            <DateSelector
               name="from"
               label="from"
+              required
               value={this.state.from}
               onChange={this.handleUserInput}
             />
-            <Datepicker
+            <DateSelector
               name="to"
               label="to"
+              required
               value={this.state.to}
-              min={this.state.from}
+              afterDate={this.state.from}
               onChange={this.handleUserInput}
             />
           </div>

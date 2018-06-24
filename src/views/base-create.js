@@ -34,6 +34,7 @@ import {
   Image,
   Utils
 } from 'meiko';
+import DateSelector from 'components/date-selector';
 import { ButtonisedNavLink, Button } from 'components/buttonised';
 import { createTag, loadTags } from '../actions/tags';
 
@@ -63,6 +64,7 @@ class BaseCreate extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleDateInput = this.handleDateInput.bind(this);
     this.handleMalSelect = this.handleMalSelect.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
   }
@@ -113,6 +115,14 @@ class BaseCreate extends Component {
         [target.name]: updatedValue
       });
       return this.validator.validateChanges(updatedState, target.name);
+    });
+  }
+
+  handleDateInput(date, name, hasError) {
+    if (hasError) return;
+    this.setState(prev => {
+      const updated = { ...prev, [name]: date };
+      return this.validator.validateChanges(updated, name);
     });
   }
 
@@ -217,22 +227,20 @@ class BaseCreate extends Component {
                     />
                   )}
 
-                  <ClearableInput
-                    type="date"
+                  <DateSelector
                     name="start"
                     label="start"
                     value={Utils.Date.formatDateForInput(this.state.start)}
-                    max={this.state.end}
-                    onChange={this.handleUserInput}
+                    beforeDate={this.state.end}
+                    onChange={this.handleDateInput}
                   />
 
-                  <ClearableInput
-                    type="date"
+                  <DateSelector
                     name="end"
                     label="end"
                     value={Utils.Date.formatDateForInput(this.state.end)}
-                    min={this.state.start}
-                    onChange={this.handleUserInput}
+                    afterDate={this.state.start}
+                    onChange={this.handleDateInput}
                     disabled={this.state.status !== Enums.status.completed}
                   />
 
@@ -327,44 +335,46 @@ class BaseCreate extends Component {
                   />
                 </div>
               </Tabs.TabView>
-              <Tabs.TabView name="Seasonal">
-                <div className="flex-column width-100">
-                  <ClearableInput
-                    type="date"
-                    name="series_start"
-                    label="series start"
-                    value={Utils.Date.formatDateForInput(
-                      this.state.series_start
-                    )}
-                    max={this.state.series_end}
-                    onChange={this.handleUserInput}
-                  />
+              {type !== Strings.manga && (
+                <Tabs.TabView name="Seasonal">
+                  <div className="flex-column width-100">
+                    <DateSelector
+                      name="series_start"
+                      label="series start"
+                      value={Utils.Date.formatDateForInput(
+                        this.state.series_start
+                      )}
+                      beforeDate={this.state.series_end}
+                      onChange={this.handleDateInput}
+                    />
 
-                  <ClearableInput
-                    type="date"
-                    name="series_end"
-                    label="series end"
-                    value={Utils.Date.formatDateForInput(this.state.series_end)}
-                    min={this.state.series_start}
-                    onChange={this.handleUserInput}
-                  />
+                    <DateSelector
+                      name="series_end"
+                      label="series end"
+                      value={Utils.Date.formatDateForInput(
+                        this.state.series_end
+                      )}
+                      afterDate={this.state.series_start}
+                      onChange={this.handleDateInput}
+                    />
 
-                  <SelectBox
-                    name="series_type"
-                    text="series type"
-                    value={this.state.series_type}
-                    onSelect={this.handleUserInput}
-                    options={SERIES_TYPE_OPTIONS}
-                  />
-                  {type !== Strings.manga && 
-                  <Tickbox
-                    text="Force In Season"
-                    name="_legacyIsSeason"
-                    checked={this.state._legacyIsSeason || false}
-                    onChange={this.handleUserInput}
-                  />}
-                </div>
-              </Tabs.TabView>
+                    <SelectBox
+                      name="series_type"
+                      text="series type"
+                      value={this.state.series_type}
+                      onSelect={this.handleUserInput}
+                      options={SERIES_TYPE_OPTIONS}
+                    />
+
+                    <Tickbox
+                      text="Force In Season"
+                      name="_legacyIsSeason"
+                      checked={this.state._legacyIsSeason || false}
+                      onChange={this.handleUserInput}
+                    />
+                  </div>
+                </Tabs.TabView>
+              )}
             </Tabs.TabContainer>
             <div className="button-group">
               <Button type="submit" className="ripple">

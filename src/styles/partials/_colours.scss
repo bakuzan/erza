@@ -47,6 +47,7 @@ $theme-maps: (
     (
       base-background: $white,
       base-colour: $black,
+      base-colour-inverse: $white,
       colour: $erza-red,
       contrast: $erza-silver-shade,
       anchor-colour: $erza-red-highlight,
@@ -56,6 +57,7 @@ $theme-maps: (
     (
       base-background: $black-red,
       base-colour: $white,
+      base-colour-inverse: $black,
       colour: $erza-red-highlight,
       contrast: $erza-silver,
       anchor-colour: $erza-silver-shade,
