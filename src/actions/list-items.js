@@ -84,13 +84,13 @@ const resolvePaging = (paging, pageChange) => ({
 });
 
 export const mutateItem = (type, item, queryBuilder) => {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const { lastLocation } = getState();
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
-      response => {
+      (response = {}) => {
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
@@ -105,7 +105,7 @@ export const mutateItem = (type, item, queryBuilder) => {
 };
 
 export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
     const { isAdult, paging, sorting } = getState();
     const updatedPaging = resolvePaging(paging[type], pageChange);
@@ -127,7 +127,7 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
 };
 
 export const loadItemsById = (type, queryString) => {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
       .then(response =>
@@ -140,7 +140,7 @@ export const loadItemsById = (type, queryString) => {
 // HISTORY ACTION CREATORS
 
 export const mutateHistoryItem = (item, queryBuilder, type = null) => {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
     const mutation = queryBuilder(itemForCreation);
@@ -160,7 +160,7 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
 };
 
 export const removeHistoryItem = (type, id, queryBuilder) => {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(startingGraphqlRequest());
     const mutation = queryBuilder(id);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
@@ -182,7 +182,7 @@ export const loadHistoryByDateRange = (
   { type, filters, pageChange },
   queryBuilder
 ) => {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
     const { paging, isAdult } = getState();
     const updatedPaging = resolvePaging(paging[type], pageChange);
