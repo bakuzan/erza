@@ -97,9 +97,15 @@ $series-image-container--height: 150px;
     align-items: center;
     padding: 2px 10px;
   }
-  .value::before {
-    content: attr(icon);
-    font-weight: bold;
+  .value {
+    .erza-button-link {
+      padding: 0;
+    }
+
+    &::before {
+      content: attr(icon);
+      font-weight: bold;
+    }
   }
 }
 
@@ -124,6 +130,14 @@ $series-image-container--height: 150px;
 .erza-tag button {
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
+}
+
+.satellizer-content-types {
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0 {
+    left: 15px;
+  }
 }
 
 // Button
@@ -167,4 +181,8 @@ a.erza-button-link.active {
       $darken-amount * 3
     );
   }
+}
+
+.tag-item > .erza-button-link {
+  justify-content: flex-start;
 }

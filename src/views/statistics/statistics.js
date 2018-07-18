@@ -9,12 +9,13 @@ import {
   getTimeoutSeconds,
   createListeners
 } from '../../utils/common';
+import * as SU from './statistics-utils';
 
 import { Main } from 'satellizer/js/satellizer';
 import '../../styles/elm-sub-app-styles.css';
 import 'satellizer/css/satellizer.css';
 
-const processScroll = page => () => {
+const processScroll = (page) => () => {
   debounce(() => {
     const container = document.getElementById('history-breakdown-detail');
     const required = container && container.getBoundingClientRect().top < 55;
@@ -53,8 +54,12 @@ class Statistics extends Component {
   }
 
   render() {
-    const { isAdult, contentType } = this.props;
-    const flags = { isAdult, contentType };
+    const { isAdult, contentType, staticFlags } = this.props;
+    const flags = {
+      isAdult,
+      contentType,
+      ...staticFlags
+    };
 
     return (
       <div className="flex-column">
@@ -75,8 +80,8 @@ Statistics.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
-  isAdult: state.isAdult,
-  contentType: ownProps.match.params.type
+  ...SU.getDynamicProps(state, ownProps),
+  staticFlags: SU.getStaticFlags(ownProps)
 });
 
 export default connect(mapStateToProps)(Statistics);

@@ -26,6 +26,7 @@ export default {
   manga: 'manga',
   history: 'history',
   deleteConfirmation: 'Are you sure you want to delete this entry?',
+  unfinished: 'Unfinished',
   // mal update messages
   fetchingMalEntry: 'fetching mal entry',
   noLinkedMalEntry: 'no related mal entry',
@@ -43,3 +44,21 @@ export default {
     week: 'WEEK'
   }
 };
+
+export const SatellizerFlags = Object.freeze({
+  activeTab: {
+    history: 'History',
+    rating: 'Ratings',
+    repeat: 'Repeated'
+  },
+  breakdownType: {
+    month: 'MONTHS',
+    season: 'SEASON'
+  },
+  seasonMonths: new Map([
+    ['Winter', '01'],
+    ['Spring', '04'],
+    ['Summer', '07'],
+    ['Fall', '10']
+  ])
+});
