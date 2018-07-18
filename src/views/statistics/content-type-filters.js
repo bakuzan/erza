@@ -5,7 +5,7 @@ import { Paths } from '../../constants/paths';
 import { Strings } from '../../constants/values';
 
 const ContentTypeFilters = () => (
-  <div className="button-group">
+  <div className="button-group satellizer-content-types">
     <FilterLink filter={`${Paths.base}${Paths.statistics}${Strings.anime}`}>
       {Strings.anime}
     </FilterLink>

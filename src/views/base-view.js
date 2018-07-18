@@ -6,6 +6,7 @@ import { RatingControl, Loaders, Image, NewTabLink, Utils } from 'meiko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
+  ButtonisedNavLink,
   Button
 } from 'components/buttonised';
 import LoadableContent from 'containers/loadable-content';
@@ -14,8 +15,10 @@ import { getUniquePropertiesForItemType } from '../utils/data';
 import { Paths } from '../constants/paths';
 import { Strings, Enums, Icons } from '../constants/values';
 
-const loadData = props => props.loadItemById(props.itemId);
-const loadHistory = props =>
+const STATS_PATH = `${Paths.base}${Paths.statistics}${Strings.anime}`;
+
+const loadData = (props) => props.loadItemById(props.itemId);
+const loadHistory = (props) =>
   props.loadHistoryForSeries({ parent: props.itemId });
 
 const PagedHistoryList = Loadable({
@@ -36,6 +39,7 @@ class BaseView extends Component {
     this.preloadHistoryList = this.preloadHistoryList.bind(this);
     this.handleHistoryEdit = this.handleHistoryEdit.bind(this);
     this.handleHistoryDelete = this.handleHistoryDelete.bind(this);
+    this.setStatNavLink = this.setStatNavLink.bind(this);
   }
 
   componentDidMount() {
@@ -57,6 +61,13 @@ class BaseView extends Component {
 
   handleHistoryDelete(historyId) {
     this.props.deleteAction(historyId);
+  }
+
+  setStatNavLink(state) {
+    return {
+      pathname: STATS_PATH,
+      state
+    };
   }
 
   render() {
@@ -99,8 +110,15 @@ class BaseView extends Component {
 
                 <li className="label">{Strings.end}</li>
                 <li className="value">
-                  {Utils.Date.formatDateForDisplay(item.end) ||
-                    Strings.unfinished}
+                  {item.end ? (
+                    <ButtonisedNavLink
+                      to={this.setStatNavLink({ date: item.end })}
+                    >
+                      {Utils.Date.formatDateForDisplay(item.end)}
+                    </ButtonisedNavLink>
+                  ) : (
+                    Strings.unfinished
+                  )}
                 </li>
 
                 <li className="label">{Strings.isAdult}</li>
@@ -128,7 +146,17 @@ class BaseView extends Component {
                 {item.status === Enums.status.completed && (
                   <div className="formatting-container">
                     <li className="label">{Strings.timesCompleted}</li>
-                    <li className="value">{item.timesCompleted}</li>
+                    <li className="value">
+                      {item.timesCompleted === 0 ? (
+                        item.timesCompleted
+                      ) : (
+                        <ButtonisedNavLink
+                          to={this.setStatNavLink({ repeatTab: true })}
+                        >
+                          {item.timesCompleted}
+                        </ButtonisedNavLink>
+                      )}
+                    </li>
                   </div>
                 )}
                 {type === Strings.anime &&
@@ -136,9 +164,13 @@ class BaseView extends Component {
                   item.season.inSeason && (
                     <div className="formatting-container">
                       <li className="label">{Strings.season}</li>
-                      <li className="value">{`${item.season.season} ${
-                        item.season.year
-                      }`}</li>
+                      <li className="value">
+                        <ButtonisedNavLink
+                          to={this.setStatNavLink({ season: item.season })}
+                        >
+                          {`${item.season.season} ${item.season.year}`}
+                        </ButtonisedNavLink>
+                      </li>
                     </div>
                   )}
               </ul>
@@ -201,7 +233,15 @@ class BaseView extends Component {
                 </li>
               )}
               {!!item.tagList &&
-                item.tagList.map(item => <li key={item._id}>{item.name}</li>)}
+                item.tagList.map((item) => (
+                  <li key={item._id} className="tag-item">
+                    <ButtonisedNavLink
+                      to={`${Paths.base}${Paths.tagManagement}${item._id}`}
+                    >
+                      {item.name}
+                    </ButtonisedNavLink>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
