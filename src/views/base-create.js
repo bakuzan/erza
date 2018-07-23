@@ -37,21 +37,22 @@ import {
 import DateSelector from 'components/date-selector';
 import { ButtonisedNavLink, Button } from 'components/buttonised';
 import { createTag, loadTags } from '../actions/tags';
+import { showAlertError } from '../actions/alert';
 
-const loadData = props => {
+const loadData = (props) => {
   props.loadTags();
   if (!!props.itemId) {
     props.actions.loadById(props.itemId, 'getByIdForEdit');
   }
 };
 
-const mapEnumToSelectBox = obj => item => ({
+const mapEnumToSelectBox = (obj) => (item) => ({
   text: item.length > 3 ? capitalise(item) : item.toUpperCase(),
   value: obj[item]
 });
 
 const STATUS_OPTIONS = Object.keys(Enums.status)
-  .filter(x => x !== 'all')
+  .filter((x) => x !== 'all')
   .map(mapEnumToSelectBox(Enums.status));
 
 class BaseCreate extends Component {
@@ -67,6 +68,7 @@ class BaseCreate extends Component {
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleMalSelect = this.handleMalSelect.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
+    this.handleUploadError = this.handleUploadError.bind(this);
   }
 
   componentDidMount() {
@@ -105,12 +107,12 @@ class BaseCreate extends Component {
   handleMalSelect(malItem) {
     if (!malItem) return this.setState({ malId: null });
     if (!this.shouldHydrateMal(this.state, malItem)) return;
-    this.setState(prevState => this.hydrateMalFields(prevState, malItem));
+    this.setState((prevState) => this.hydrateMalFields(prevState, malItem));
   }
 
   handleUserInput({ target }) {
     const updatedValue = getEventValue(target);
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const updatedState = Object.assign({}, prevState, {
         [target.name]: updatedValue
       });
@@ -120,7 +122,7 @@ class BaseCreate extends Component {
 
   handleDateInput(date, name, hasError) {
     if (hasError) return;
-    this.setState(prev => {
+    this.setState((prev) => {
       const updated = { ...prev, [name]: date };
       return this.validator.validateChanges(updated, name);
     });
@@ -130,9 +132,15 @@ class BaseCreate extends Component {
     this.setState({ [name]: newList });
   }
 
+  handleUploadError(uploadError) {
+    const { message, error } = uploadError;
+    const detail = `HTTP ${error.statusCode}\n${error.message}`;
+    this.props.showAlertError({ message, detail });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    this.validator.validateSubmission(this.state).then(item => {
+    this.validator.validateSubmission(this.state).then((item) => {
       if (this.props.isCreate) return this.props.actions.create(item);
       return this.props.actions.edit(item);
     });
@@ -143,7 +151,7 @@ class BaseCreate extends Component {
       this.props.isFetching ||
       !this.props.item.tags ||
       (this.props.item.tags.length > 0 &&
-        !this.props.item.tags.find(x => x && isObject(x)))
+        !this.props.item.tags.find((x) => x && isObject(x)))
     )
       return <Loaders.LoadingSpinner size="fullscreen" />;
 
@@ -299,6 +307,7 @@ class BaseCreate extends Component {
                     name="image"
                     url={this.state.image}
                     onChange={this.handleUserInput}
+                    onError={this.handleUploadError}
                   />
 
                   <ClearableInput
@@ -411,7 +420,7 @@ BaseCreate.propTypes = {
 const setEntityTags = (entities, item) =>
   entities.tags.allIds.length === 0
     ? item.tags
-    : item.tags.map(_id => entities.tags.byId[_id]);
+    : item.tags.map((_id) => entities.tags.byId[_id]);
 const getInitalItem = (entities, props) => {
   if (!props.itemId) return itemModelForType(props.type)();
   const item = entities[props.type].byId[props.itemId];
@@ -433,7 +442,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   createTag,
-  loadTags
+  loadTags,
+  showAlertError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseCreate);

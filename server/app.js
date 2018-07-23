@@ -5,6 +5,7 @@ const favicon = require('serve-favicon');
 const path = require('path');
 
 const Constants = require('./constants');
+const defaultErrorHandler = require('./utils/default-error-handler');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -33,6 +34,9 @@ app.use(bodyParser.json());
 
 // Routes
 app.use(require('./routes'));
+
+// Non-route handlers
+app.use(defaultErrorHandler);
 
 // Always return the main index.html, so react-router render the route in the client
 if (process.env.NODE_ENV === Constants.environment.production) {
