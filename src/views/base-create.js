@@ -38,6 +38,7 @@ import DateSelector from 'components/date-selector';
 import { ButtonisedNavLink, Button } from 'components/buttonised';
 import { createTag, loadTags } from '../actions/tags';
 import { showAlertError } from '../actions/alert';
+import GQL from 'graphql/query/list-items';
 
 const loadData = (props) => {
   props.loadTags();
@@ -163,6 +164,7 @@ class BaseCreate extends Component {
     const SERIES_TYPE_OPTIONS = Object.keys(seriesTypes).map(
       mapEnumToSelectBox(seriesTypes)
     );
+    const queryIfExists = GQL.checkIfNameExists(type);
 
     return (
       <div className="flex-column center-contents padding-10">
@@ -207,6 +209,7 @@ class BaseCreate extends Component {
                     search={this.state.title}
                     onUserInput={this.handleUserInput}
                     selectMalItem={this.handleMalSelect}
+                    asyncCheckIfExists={queryIfExists}
                   />
 
                   <ClearableInput
