@@ -14,7 +14,7 @@ const clientAdult = popura(
   process.env.MAL_PASSWORD_ADULT
 );
 
-const convertUSDateFormat = d => {
+const convertUSDateFormat = (d) => {
   if (!d) return null;
 
   const date = new Date(d);
@@ -24,7 +24,7 @@ const convertUSDateFormat = d => {
   )}${date.getFullYear()}`;
 };
 
-const getMalAnime = animeitem => ({
+const getMalAnime = (animeitem) => ({
   episode: animeitem.episode,
   date_start: convertUSDateFormat(animeitem.start),
   date_finish: animeitem.end ? convertUSDateFormat(animeitem.end) : null,
@@ -34,7 +34,7 @@ const getMalAnime = animeitem => ({
   score: animeitem.rating || 0
 });
 
-const getMalManga = mangaitem => ({
+const getMalManga = (mangaitem) => ({
   chapter: mangaitem.chapter,
   volume: mangaitem.volume,
   date_start: convertUSDateFormat(mangaitem.start),
@@ -50,12 +50,12 @@ const getMalUpdateObject = {
   [Constants.type.manga]: getMalManga
 };
 
-const successMalEntry = t => result =>
+const successMalEntry = (t) => (result) =>
   console.log(chalk.cyan.bold(`${t}ed mal entry`));
-const failedEntry = err =>
+const failedEntry = (err) =>
   console.log(chalk.bgWhite.red.bold('Mal entry error : '), err);
 
-const getMalClient = isAdult => (isAdult ? clientAdult : client);
+const getMalClient = (isAdult) => (isAdult ? clientAdult : client);
 const addEntity = (type, isAdult, { id, values }) =>
   fetchTimeout(
     MAL_UPDATE_TIMEOUT,
@@ -68,20 +68,22 @@ const updateEntity = (type, isAdult, { id, values }) =>
   );
 
 exports.addOnMal = (type, item, secondFailure = false) => {
+  return; // MAL API Down
   const malValues = getMalUpdateObject[type](item);
   addEntity(type, item.isAdult, { id: item.malId, values: malValues })
     .then(successMalEntry('Add'))
-    .catch(err => {
+    .catch((err) => {
       failedEntry(err);
       if (!secondFailure) module.exports.updateOnMal(type, item, true);
     });
 };
 
 exports.updateOnMal = (type, item, secondFailure = false) => {
+  return; // MAL API Down
   const malValues = getMalUpdateObject[type](item);
   updateEntity(type, item.isAdult, { id: item.malId, values: malValues })
     .then(successMalEntry('Updat'))
-    .catch(err => {
+    .catch((err) => {
       failedEntry(err);
       if (!secondFailure) module.exports.addOnMal(type, item, true);
     });
