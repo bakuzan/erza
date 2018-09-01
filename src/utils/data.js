@@ -50,27 +50,27 @@ export const mapChapterData = (manga, { _id, chapter, ratings, notes }) => {
 };
 
 export const mapStateToEntity = (state, id) => state.byId[id] || {};
-export const mapStateToEntityList = state =>
-  state.allIds.map(id => state.byId[id]);
+export const mapStateToEntityList = (state) =>
+  state.allIds.map((id) => state.byId[id]);
 export const mapUrlFilterToEntityObject = ({ filter }) => ({
   name: filter,
   value: Enums.status[filter]
 });
 
-export const getUniquePropertiesForItemType = t =>
+export const getUniquePropertiesForItemType = (t) =>
   t === Strings.anime
     ? { current: Properties.episode, total: Properties.seriesEpisodes }
     : { current: Properties.chapter, total: Properties.seriesChapters };
 
-export const getHistoryNameForItemType = t =>
+export const getHistoryNameForItemType = (t) =>
   t === Strings.anime ? Properties.episode : Properties.chapter;
 
-export const itemModelForType = t => obj =>
+export const itemModelForType = (t) => (obj) =>
   t === Strings.anime ? new AnimeModel(obj) : new MangaModel(obj);
 
 const intergrateMalEntryOptionalFields = (t, { volumes }) =>
   t === Strings.manga ? { series_volumes: volumes || null } : {};
-export const intergrateMalEntry = type => (model, malItem) => {
+export const intergrateMalEntry = (type) => (model, malItem) => {
   if (!malItem) return Object.assign({}, model, { malId: null });
 
   const optionalFields = intergrateMalEntryOptionalFields(type, malItem);
@@ -81,7 +81,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
     {
       title: !!model._id ? model.title : malItem.title,
       image: coalesceSeriesImage(model, malItem),
-      malId: malItem.id,
+      malId: malItem.id || model.malId || null,
       series_type:
         Enums[type].type[malItem.type.replace(/\W/g, '').toLowerCase()],
       [total]: malItem[`${current}s`],
@@ -92,7 +92,7 @@ export const intergrateMalEntry = type => (model, malItem) => {
   );
 };
 
-export const shouldIntergrateMalEntry = type => (model, malItem) => {
+export const shouldIntergrateMalEntry = (type) => (model, malItem) => {
   if (!model || !malItem) return false;
   const {
     image,

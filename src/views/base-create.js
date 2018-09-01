@@ -318,6 +318,14 @@ class BaseCreate extends Component {
                     placeholder=" "
                     onChange={this.handleUserInput}
                   />
+                  <ClearableInput
+                    type="number"
+                    name="malId"
+                    label="mal id"
+                    value={this.state.malId || ''}
+                    min="0"
+                    onChange={this.handleUserInput}
+                  />
 
                   <Tickbox
                     text="owned"
