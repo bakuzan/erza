@@ -322,7 +322,7 @@ class BaseCreate extends Component {
                     type="number"
                     name="malId"
                     label="mal id"
-                    value={this.state.malId}
+                    value={this.state.malId || ''}
                     min="0"
                     onChange={this.handleUserInput}
                   />
