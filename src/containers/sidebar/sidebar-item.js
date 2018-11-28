@@ -1,8 +1,8 @@
 import React from 'react';
 import { ButtonisedNavButton } from 'components/buttonised';
-import './sidebar-item.css';
+import './sidebar-item.scss';
 
-const isSidebarActive = targetPath => (match, { pathname }) => {
+const isSidebarActive = (targetPath) => (match, { pathname }) => {
   if (!targetPath || !targetPath.includes('list')) return !!match;
   return targetPath.slice(0, 17) === pathname.slice(0, 17);
 };

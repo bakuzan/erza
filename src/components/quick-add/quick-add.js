@@ -16,9 +16,9 @@ import {
   getUniquePropertiesForItemType
 } from '../../utils/data';
 
-import './quick-add.css';
+import './quick-add.scss';
 
-const fetchMalEntry = type => search =>
+const fetchMalEntry = (type) => (search) =>
   fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
 const getInitialState = (current, originalItem = {}) => ({
@@ -136,9 +136,9 @@ class QuickAdd extends React.Component {
 
   refreshMalValues(editItem) {
     this.getMalEntry(editItem.title)
-      .then(response => {
+      .then((response) => {
         if (response.error) throw response.error;
-        const malItem = response.find(x => x.id === editItem.malId);
+        const malItem = response.find((x) => x.id === editItem.malId);
         const shouldUpdateMalEntry =
           this.shouldHydrateMal(editItem, malItem) && !!malItem;
         this.setState({
@@ -151,7 +151,7 @@ class QuickAdd extends React.Component {
           }
         });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           malUpdates: {
             values: null,

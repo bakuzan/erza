@@ -10,9 +10,9 @@ import { Paths } from '../constants/paths';
 import { Strings, Days } from '../constants/values';
 
 import { Main } from 'yoruichi/js/yoruichi';
-import '../styles/elm-sub-app-styles.css';
+import '../styles/elm-sub-app-styles.scss';
 import 'yoruichi/css/yoruichi.css';
-import '../components/list-components/item-list/item-list.css';
+import '../components/list-components/item-list/item-list.scss';
 
 const {
   formatDateForInput,
@@ -22,12 +22,12 @@ const {
   daysDifferentBetweenDates
 } = Utils.Date;
 
-const query = method => str =>
+const query = (method) => (str) =>
   fetchFromServer(`${Paths.graphql.base}${str}`, method);
 const getTasks = query('GET');
 const mutateTasks = query('POST');
 
-const fixRepeatDay = t => ({
+const fixRepeatDay = (t) => ({
   ...t,
   repeatDay: dateStringToISOString(t.repeatDay)
 });
@@ -61,15 +61,15 @@ const temporaryClientSideFilter = ([start, end]) => {
 const handleDailyEntries = ([start, end], requiresDailyDuplication, tasks) => {
   const startDoW = Days[new Date(start).getDay()];
   const reduction = requiresDailyDuplication
-    ? c => Days.map(dayOfWeek => ({ ...c, dayOfWeek }))
-    : c => [{ ...c, dayOfWeek: startDoW }];
+    ? (c) => Days.map((dayOfWeek) => ({ ...c, dayOfWeek }))
+    : (c) => [{ ...c, dayOfWeek: startDoW }];
 
   const processedDailyTasks = tasks
-    .filter(x => x.repeatFrequency === 1)
+    .filter((x) => x.repeatFrequency === 1)
     .reduce((p, c) => [...p, ...reduction(c)], []);
 
   return [
-    ...tasks.filter(x => x.repeatFrequency !== 1),
+    ...tasks.filter((x) => x.repeatFrequency !== 1),
     ...processedDailyTasks
   ];
 };
@@ -112,7 +112,7 @@ class Home extends Component {
       dateRange: range
     };
 
-    getTasks(TaskQL.getTasksForDateRange(query)).then(result => {
+    getTasks(TaskQL.getTasksForDateRange(query)).then((result) => {
       const { tasks } = result.data;
 
       this.ports.tasks.send(
@@ -134,7 +134,7 @@ class Home extends Component {
     const data = fixRepeatDay(task);
     const newTask = constructRecordForPost(data);
 
-    mutateTasks(TaskML.createTask(newTask)).then(result =>
+    mutateTasks(TaskML.createTask(newTask)).then((result) =>
       this.ports.task.send(result.data.createdTask.record)
     );
   }
@@ -143,7 +143,7 @@ class Home extends Component {
     const data = { _id: id, ...fixRepeatDay(task) };
     const updatedTask = constructRecordForPost(data);
 
-    mutateTasks(TaskML.updateTaskById(updatedTask)).then(result =>
+    mutateTasks(TaskML.updateTaskById(updatedTask)).then((result) =>
       this.ports.task.send(result.data.updatedTask.record)
     );
   }

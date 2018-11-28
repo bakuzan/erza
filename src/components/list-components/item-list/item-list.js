@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import './item-list.css';
+import './item-list.scss';
 
 class ItemList extends React.Component {
   render() {

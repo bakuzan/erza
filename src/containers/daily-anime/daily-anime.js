@@ -9,9 +9,9 @@ import { Icons } from '../../constants/values';
 import { padNumber } from '../../utils/common';
 import { mapStateToEntityList } from '../../utils/data';
 
-import './daily-anime.css';
+import './daily-anime.scss';
 
-const dummyEvent = value => ({
+const dummyEvent = (value) => ({
   target: { name: 'search', type: 'text', value }
 });
 
@@ -48,7 +48,7 @@ class DailyAnime extends Component {
   }
 
   handleDayChange(change) {
-    this.setState(prev => {
+    this.setState((prev) => {
       const dateOffset = prev.dateOffset + change;
       this.props.fetchDailyAnime(dateOffset);
       return { dateOffset };
@@ -83,7 +83,7 @@ class DailyAnime extends Component {
         </header>
         <ul className="list column one">
           {hasDailyAnime &&
-            items.map(item => (
+            items.map((item) => (
               <li key={item._id}>
                 <Button onClick={() => onSelect(dummyEvent(item.series.title))}>
                   {`${item.series.title} #${padNumber(item.episode + 1, 3)}`}
@@ -106,7 +106,7 @@ DailyAnime.propTypes = {
   onSelect: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   items: mapStateToEntityList(state.entities.dailyAnime)
 });
 

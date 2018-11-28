@@ -9,9 +9,9 @@ import { toggleSortOrder, setSortKey } from '../../actions/sorting';
 import { toggleIsOwnedOnly } from '../../actions/filters';
 import { Strings } from '../../constants/values';
 import { Paths } from '../../constants/paths';
-import './list-filter.css';
+import './list-filter.scss';
 
-const FILTER_BASE = type => `${Paths.base}${Paths[type].list}`;
+const FILTER_BASE = (type) => `${Paths.base}${Paths[type].list}`;
 
 const SORT_OPTIONS = [
   { text: 'Title', value: 'title' },
@@ -32,7 +32,7 @@ const ListFilter = ({
   children
 }) => {
   const filterBase = FILTER_BASE(type);
-  const statusLinks = Object.keys(Strings.filters).map(status => {
+  const statusLinks = Object.keys(Strings.filters).map((status) => {
     const statusUrl = Strings.filters[status];
     return (
       <FilterLink key={statusUrl} filter={`${filterBase}${statusUrl}`}>
@@ -59,7 +59,7 @@ const ListFilter = ({
         name="sortKey"
         text="sort on"
         value={sortKey}
-        onSelect={e => onChangeSortKey(e)}
+        onSelect={(e) => onChangeSortKey(e)}
         options={SORT_OPTIONS}
       />
 
@@ -70,7 +70,7 @@ const ListFilter = ({
           label={Strings.ascending}
           value={Strings.ascending}
           checked={sortOrder === Strings.ascending}
-          onSelect={e => onSortOrderToggle(e)}
+          onSelect={(e) => onSortOrderToggle(e)}
         />
         <RadioButton
           id="sort-order-desc"
@@ -78,7 +78,7 @@ const ListFilter = ({
           label={Strings.descending}
           value={Strings.descending}
           checked={sortOrder === Strings.descending}
-          onSelect={e => onSortOrderToggle(e)}
+          onSelect={(e) => onSortOrderToggle(e)}
         />
       </div>
       <div className="list-filter-custom-content">{children}</div>

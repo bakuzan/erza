@@ -7,7 +7,7 @@ import HistoryListItem from './history-list-item';
 
 import { Paths } from '../../../constants/paths';
 import { getHistoryNameForItemType } from '../../../utils/data';
-import './history-list.css';
+import './history-list.scss';
 
 const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
   const valueProperty = getHistoryNameForItemType(type);
@@ -18,7 +18,7 @@ const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
       const z = y.date - x.date;
       return z === 0 ? y[valueProperty] - x[valueProperty] : z;
     })
-    .forEach(item => {
+    .forEach((item) => {
       if (!!item.series && item.series._id !== previousSeries) {
         list.push(
           <li

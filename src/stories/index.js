@@ -1,10 +1,10 @@
-import '../index.css';
-import '../styles/list.css';
-import '../styles/float-label.css';
-import '../styles/ripple.css';
-import '../styles/button.css';
-import '../styles/form.css';
-import '../styles/themes.css';
+import '../index.scss';
+import '../styles/list.scss';
+import '../styles/float-label.scss';
+import '../styles/ripple.scss';
+import '../styles/button.scss';
+import '../styles/form.scss';
+import '../styles/themes.scss';
 
 import React from 'react';
 import { storiesOf } from '@storybook/react';

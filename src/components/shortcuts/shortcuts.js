@@ -6,9 +6,9 @@ import { Enums } from '../../constants/values';
 import Menu from '../../constants/menu';
 import { createListeners } from '../../utils/common';
 
-import './shortcuts.css';
+import './shortcuts.scss';
 
-const shortcut = o => ({ ctrlKey, keyCode }) =>
+const shortcut = (o) => ({ ctrlKey, keyCode }) =>
   ctrlKey && keyCode === Enums.keyCodes.q ? o.toggleVisible() : null;
 
 class Shortcuts extends Component {
@@ -47,7 +47,7 @@ class Shortcuts extends Component {
   }
 
   performAction(id) {
-    const { link, action } = this.items.find(x => x.id === id);
+    const { link, action } = this.items.find((x) => x.id === id);
     this.toggleVisible();
     if (!!link) return this.props.history.push(link);
     return action();

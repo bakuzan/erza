@@ -9,9 +9,9 @@ import TagList from '../../components/list-components/tag-list';
 import { mapStateToEntityList } from '../../utils/data';
 import * as actions from '../../actions/tags';
 
-import './tag-management.css';
+import './tag-management.scss';
 
-const loadData = props => props.actions.loadTagList();
+const loadData = (props) => props.actions.loadTagList();
 const initialState = {
   search: ''
 };
@@ -41,7 +41,7 @@ class TagManagementList extends React.Component {
 
   render() {
     const items = this.props.tags.filter(
-      x => x.name.indexOf(this.state.search) > -1
+      (x) => x.name.indexOf(this.state.search) > -1
     );
 
     return (
@@ -62,12 +62,12 @@ class TagManagementList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAdult: state.isAdult,
   tags: mapStateToEntityList(state.entities.tags)
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions, dispatch)
 });
 

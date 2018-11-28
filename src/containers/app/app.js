@@ -11,7 +11,7 @@ import RequestIndicator from '../request-indicator';
 import Shortcuts from '../../components/shortcuts/shortcuts';
 import Alert from '../alert';
 
-import './app.css';
+import './app.scss';
 
 const App = ({ history, children, sidebarState }) => {
   const appClasses = classNames('erza', {
@@ -32,7 +32,7 @@ const App = ({ history, children, sidebarState }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   sidebarState: state.sidebar
 });
 

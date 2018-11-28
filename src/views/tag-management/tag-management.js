@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import TagManagementList from './tag-management-list';
 import TagManagementDetails from './tag-management-details';
 
-import './tag-management.css';
+import './tag-management.scss';
 
 class TagManagement extends React.Component {
   render() {

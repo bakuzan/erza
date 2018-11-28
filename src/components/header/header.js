@@ -5,7 +5,7 @@ import { Header, SVGLogo } from 'meiko';
 import AppSettings from 'containers/app-settings/app-settings';
 import { Paths } from 'constants/paths';
 
-import './header.css';
+import './header.scss';
 
 class ErzaHeader extends Component {
   render() {

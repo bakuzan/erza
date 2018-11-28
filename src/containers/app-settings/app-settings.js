@@ -12,15 +12,15 @@ import { Strings } from '../../constants/values';
 import { Paths } from '../../constants/paths';
 import { getTimeoutMinutes } from '../../utils/common';
 
-import './app-settings.css';
+import './app-settings.scss';
 
 let timedTheme;
-const applyThemeToBody = theme => (document.body.className = theme);
+const applyThemeToBody = (theme) => (document.body.className = theme);
 const setTimedThemeCheck = (theme, updateTheme) => {
   const themes = Strings.themes.slice(0);
   fetch(Paths.sunrise_sunset)
-    .then(response => response.json())
-    .then(json => {
+    .then((response) => response.json())
+    .then((json) => {
       let timedThemeShade;
       const { sunrise, sunset } = json.results;
 
@@ -31,14 +31,14 @@ const setTimedThemeCheck = (theme, updateTheme) => {
         const now = Date.now();
         timedThemeShade =
           start < now && now < end ? Strings.light : Strings.dark;
-        const themeClass = themes.find(x => x.name === timedThemeShade).class;
+        const themeClass = themes.find((x) => x.name === timedThemeShade).class;
         if (theme !== themeClass) return updateTheme(themeClass);
       }, getTimeoutMinutes(5));
     })
-    .catch(error => console.error(error));
+    .catch((error) => console.error(error));
 };
 
-const themeMapper = theme => ({
+const themeMapper = (theme) => ({
   text: theme.name,
   value: theme.class
 });
@@ -52,7 +52,7 @@ class AppSettings extends React.Component {
   }
 
   handleDropdownChange(onChange) {
-    return e => {
+    return (e) => {
       onChange(e.target.value);
     };
   }
@@ -134,7 +134,7 @@ AppSettings.propTypes = {
   toggleRequestIndicatorVisibility: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.theme.class,
   isTimed: state.theme.isTimed,
   isAdult: state.isAdult,

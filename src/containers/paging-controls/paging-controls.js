@@ -8,7 +8,7 @@ import { selectPagingForType } from 'reducers/paging';
 import { nextPage, prevPage, setItemsPerPage } from '../../actions/paging';
 import { pageSizes } from '../../constants/values';
 
-import './paging-controls.css';
+import './paging-controls.scss';
 
 const PagingControls = ({
   listType,
@@ -21,7 +21,7 @@ const PagingControls = ({
 }) => {
   const { pageInfo, itemsPerPage, page } = paging;
   const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage) - 1;
-  const PAGE_SIZE_OPTIONS = pageSizeOptions.map(x => ({ value: x, text: x }));
+  const PAGE_SIZE_OPTIONS = pageSizeOptions.map((x) => ({ value: x, text: x }));
 
   return (
     <div className="paging-controls flex-row">
@@ -55,7 +55,7 @@ const PagingControls = ({
         name="itemsPerPage"
         text="items per page"
         value={itemsPerPage}
-        onSelect={e => changeItemsPerPage(e, listType)}
+        onSelect={(e) => changeItemsPerPage(e, listType)}
         options={PAGE_SIZE_OPTIONS}
       />
     </div>
