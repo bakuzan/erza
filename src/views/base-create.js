@@ -40,6 +40,8 @@ import { createTag, loadTags } from '../actions/tags';
 import { showAlertError } from '../actions/alert';
 import GQL from 'graphql/query/list-items';
 
+const { DateFormat } = Utils.Date;
+
 const loadData = (props) => {
   props.loadTags();
   if (!!props.itemId) {
@@ -241,7 +243,7 @@ class BaseCreate extends Component {
                   <DateSelector
                     name="start"
                     label="start"
-                    value={Utils.Date.formatDateForInput(this.state.start)}
+                    value={DateFormat.formatDateForInput(this.state.start)}
                     beforeDate={this.state.end}
                     onChange={this.handleDateInput}
                   />
@@ -249,7 +251,7 @@ class BaseCreate extends Component {
                   <DateSelector
                     name="end"
                     label="end"
-                    value={Utils.Date.formatDateForInput(this.state.end)}
+                    value={DateFormat.formatDateForInput(this.state.end)}
                     afterDate={this.state.start}
                     onChange={this.handleDateInput}
                     disabled={this.state.status !== Enums.status.completed}
@@ -361,7 +363,7 @@ class BaseCreate extends Component {
                     <DateSelector
                       name="series_start"
                       label="series start"
-                      value={Utils.Date.formatDateForInput(
+                      value={DateFormat.formatDateForInput(
                         this.state.series_start
                       )}
                       beforeDate={this.state.series_end}
@@ -371,7 +373,7 @@ class BaseCreate extends Component {
                     <DateSelector
                       name="series_end"
                       label="series end"
-                      value={Utils.Date.formatDateForInput(
+                      value={DateFormat.formatDateForInput(
                         this.state.series_end
                       )}
                       afterDate={this.state.series_start}

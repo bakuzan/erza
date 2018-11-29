@@ -3,7 +3,7 @@ import { Utils } from 'meiko';
 import { SatellizerFlags } from 'constants/strings';
 
 const getYYYYMMDate = (date) => {
-  const d = Utils.Date.formatDateForInput(date);
+  const d = Utils.Date.DateFormat.formatDateForInput(date);
   return d
     .split('-')
     .slice(0, 2)

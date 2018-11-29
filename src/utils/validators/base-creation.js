@@ -5,9 +5,9 @@ import {
   getHistoryNameForItemType
 } from '../data';
 
-const { formatDateForInput, dateStringToISOString } = Utils.Date;
+const { DateFormat, dateStringToISOString } = Utils.Date;
 
-const historyChangeHandler = ({ current, total }) => item => {
+const historyChangeHandler = ({ current, total }) => (item) => {
   const changes = {};
 
   if (item[current] > item[total] && item[total] !== 0) {
@@ -15,7 +15,7 @@ const historyChangeHandler = ({ current, total }) => item => {
   }
 
   if (item[current] >= item[total] && item[total] !== 0 && !item.isRepeat) {
-    changes.end = formatDateForInput(new Date());
+    changes.end = DateFormat.formatDateForInput(new Date());
     changes.status = Enums.status.completed;
   } else if (
     item.status === Enums.status.completed &&
@@ -30,21 +30,24 @@ const historyChangeHandler = ({ current, total }) => item => {
   return Object.assign({}, changes);
 };
 
-const statusChangeHandler = item => {
+const statusChangeHandler = (item) => {
   const { planned, ongoing, completed } = Enums.status;
   switch (item.status) {
     case planned:
       return { start: '', end: '' };
     case ongoing:
-      return { start: formatDateForInput(item.start || new Date()), end: '' };
+      return {
+        start: DateFormat.formatDateForInput(item.start || new Date()),
+        end: ''
+      };
     case completed:
-      return { end: formatDateForInput(item.end || new Date()) };
+      return { end: DateFormat.formatDateForInput(item.end || new Date()) };
     default:
       return {};
   }
 };
 
-const repeatChangeHandler = ({ current, total }) => item => ({
+const repeatChangeHandler = ({ current, total }) => (item) => ({
   [current]: item.isRepeat ? 0 : item[total]
 });
 
@@ -64,16 +67,16 @@ const processValidatorChanges = ({ history, uniqueProperties }) => (
   }
 };
 
-const validateChanges = props => (model, updateProperty) => {
+const validateChanges = (props) => (model, updateProperty) => {
   const processor = processValidatorChanges(props);
   return Object.assign({}, model, processor(model, updateProperty));
 };
 
-const validateSubmission = updateFunction => model => {
+const validateSubmission = (updateFunction) => (model) => {
   const { start, end, series_start, series_end } = model;
   return updateFunction(
     Object.assign({}, model, {
-      tags: model.tags.map(tag => tag._id),
+      tags: model.tags.map((tag) => tag._id),
       start: dateStringToISOString(start),
       end: dateStringToISOString(end),
       series_start: dateStringToISOString(series_start),

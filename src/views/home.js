@@ -15,11 +15,11 @@ import 'yoruichi/css/yoruichi.css';
 import '../components/list-components/item-list/item-list.scss';
 
 const {
-  formatDateForInput,
-  dateStringToISOString,
   weekBeginning,
   weekEnding,
-  daysDifferentBetweenDates
+  daysDifferentBetweenDates,
+  dateStringToISOString,
+  DateFormat
 } = Utils.Date;
 
 const query = (method) => (str) =>
@@ -100,11 +100,14 @@ class Home extends Component {
   handleFetch({ timePeriod, targetDate }) {
     let range;
     if (timePeriod === Strings.timePeriod.day) {
-      range = [formatDateForInput(targetDate), formatDateForInput(targetDate)];
+      range = [
+        DateFormat.formatDateForInput(targetDate),
+        DateFormat.formatDateForInput(targetDate)
+      ];
     } else if (timePeriod === Strings.timePeriod.week) {
       range = [
-        formatDateForInput(weekBeginning(targetDate)),
-        formatDateForInput(weekEnding(targetDate))
+        DateFormat.formatDateForInput(weekBeginning(targetDate)),
+        DateFormat.formatDateForInput(weekEnding(targetDate))
       ];
     }
 
@@ -123,7 +126,7 @@ class Home extends Component {
             .filter(temporaryClientSideFilter(range))
             .map(({ repeatDay, ...task }) => ({
               ...task,
-              repeatDay: formatDateForInput(repeatDay)
+              repeatDay: DateFormat.formatDateForInput(repeatDay)
             }))
         )
       );

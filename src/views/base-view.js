@@ -15,6 +15,8 @@ import { getUniquePropertiesForItemType } from '../utils/data';
 import { Paths } from '../constants/paths';
 import { Strings, Enums, Icons } from '../constants/values';
 
+const { DateFormat } = Utils.Date;
+
 const STATS_PATH = `${Paths.base}${Paths.statistics}${Strings.anime}`;
 
 const loadData = (props) => props.loadItemById(props.itemId);
@@ -104,7 +106,7 @@ class BaseView extends Component {
               <ul className="list column two">
                 <li className="label">{Strings.start}</li>
                 <li className="value">
-                  {Utils.Date.formatDateForDisplay(item.start) ||
+                  {DateFormat.formatDateForDisplay(item.start) ||
                     Strings.notStarted}
                 </li>
 
@@ -114,7 +116,7 @@ class BaseView extends Component {
                     <ButtonisedNavLink
                       to={this.setStatNavLink({ date: item.end })}
                     >
-                      {Utils.Date.formatDateForDisplay(item.end)}
+                      {DateFormat.formatDateForDisplay(item.end)}
                     </ButtonisedNavLink>
                   ) : (
                     Strings.unfinished

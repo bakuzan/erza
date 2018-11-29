@@ -7,13 +7,13 @@ const isSidebarActive = (targetPath) => (match, { pathname }) => {
   return targetPath.slice(0, 17) === pathname.slice(0, 17);
 };
 
-const SidebarItem = ({ data, close }) => (
+const SidebarItem = ({ data, onClick }) => (
   <ButtonisedNavButton
     className="sidebar-item"
     btnStyle="primary"
     activeClassName="active"
     to={data.link}
-    onClick={close}
+    onClick={onClick}
     isActive={isSidebarActive(data.link)}
   >
     <div className="sidebar-item-icon center-contents">{data.icon}</div>

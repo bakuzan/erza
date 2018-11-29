@@ -26,12 +26,12 @@ export const {
   curry,
   constructObjectFromSearchParams,
   getElementCoordinates
-} = Utils.Common;
+} = Utils;
 
 export const getUserSettings = () =>
-  Utils.Common.getObjectFromLocalStorageByProperty(Strings.localUserSettings);
+  Utils.getObjectFromLocalStorageByProperty(Strings.localUserSettings);
 
-export const persistUserSettings = Utils.Common.persistObjectToLocalStorage(
+export const persistUserSettings = Utils.persistObjectToLocalStorage(
   Strings.localUserSettings
 );
 

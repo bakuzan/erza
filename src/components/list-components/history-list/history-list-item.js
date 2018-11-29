@@ -7,7 +7,7 @@ import { padNumber, capitalise } from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
 import { Strings, Icons } from '../../../constants/values';
 
-const { formatDateISO, formatDateTimeForDisplay } = Utils.Date;
+const { formatDateISO, formatDateTimeForDisplay } = Utils.Date.DateFormat;
 
 class HistoryListItem extends Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class HistoryListItem extends Component {
   }
 
   toggleEdit() {
-    this.setState(prev => ({ isEditing: !prev.isEditing }));
+    this.setState((prev) => ({ isEditing: !prev.isEditing }));
   }
 
   confirmEdit() {

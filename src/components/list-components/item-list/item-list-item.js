@@ -12,7 +12,7 @@ import { Enums, Icons } from '../../../constants/values';
 import { getKeyByValue } from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
 
-const SpanIcon = props => <span {...props} />;
+const SpanIcon = (props) => <span {...props} />;
 const ButtonisedSpan = withButtonisation(SpanIcon);
 
 const ItemListItem = ({ type, item, addAction }) => {
@@ -29,7 +29,7 @@ const ItemListItem = ({ type, item, addAction }) => {
     <li className={`${type}-item`}>
       <div>
         <time dateTime={item.updatedDate}>
-          {Utils.Date.formatDateTimeForDisplay(item.updatedDate)}
+          {Utils.Date.DateFormat.formatDateTimeForDisplay(item.updatedDate)}
         </time>
         <h4>{item.title}</h4>
         <div className="flex-row start-center-contents">
