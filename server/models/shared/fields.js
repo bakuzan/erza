@@ -56,7 +56,7 @@ const itemSharedFields = {
   ],
   malId: {
     type: Number,
-    unique: true
+    default: null
   },
   series_type: {
     type: Number,
