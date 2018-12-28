@@ -12,7 +12,6 @@ import {
 import * as SU from './statistics-utils';
 
 import { Main } from 'satellizer/js/satellizer';
-import '../../styles/elm-sub-app-styles.scss';
 import 'satellizer/css/satellizer.css';
 
 const processScroll = (page) => () => {

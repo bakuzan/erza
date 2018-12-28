@@ -10,7 +10,6 @@ import { Paths } from '../constants/paths';
 import { Strings, Days } from '../constants/values';
 
 import { Main } from 'yoruichi/js/yoruichi';
-import '../styles/elm-sub-app-styles.scss';
 import 'yoruichi/css/yoruichi.css';
 import '../components/list-components/item-list/item-list.scss';
 

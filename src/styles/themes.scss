@@ -82,6 +82,7 @@
 
     form button:not(.primary),
     .dialog-content button:not(.primary),
+    .button:not(.primary),
     .erza-button:not(.primary) {
       background-color: $base-background;
       color: $base-colour;
@@ -131,13 +132,22 @@
       }
     }
 
-    .tabs-component > ul li {
+    .tabs-container {
+      border-top: 1px solid $primary-background;
+    }
+    [role='tab']:not(.active) {
+      color: $contrast;
       border-color: $contrast;
-      border-bottom-color: $base-background;
-      &.active {
-        border-color: $colour;
-        border-bottom-color: $base-background;
+      border-bottom: none;
+    }
+    [role='tab'].active {
+      border: {
+        color: $primary-background;
+        bottom-color: $base-background;
       }
+    }
+    .tab-container .tabs {
+      border-top-color: $primary-background;
     }
 
     // Unique UI elements
