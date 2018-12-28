@@ -12,7 +12,8 @@ const Anime = require('../models/anime.js').Anime;
 const Manga = require('../models/manga.js').Manga;
 const Episode = require('../models/episode.js').Episode;
 
-const getQueryModelForType = t => (t === Constants.type.anime ? Anime : Manga);
+const getQueryModelForType = (t) =>
+  t === Constants.type.anime ? Anime : Manga;
 
 const emptyEpisodeStatistic = () => ({
   _id: '',
@@ -112,14 +113,15 @@ const getHistoryCountsByYearsPartition = (req, res) => {
     .then(function(arr) {
       let ids = [];
 
-      counts = fixSeasonalResults(partition, breakdown, arr).map(item => {
-        const ratings = item.ratings.slice(0);
+      counts = fixSeasonalResults(partition, breakdown, arr).map((item) => {
+        const ratings = item.ratings.slice(0).sort();
         const series = item.series || [];
         ids = [...ids, ...series];
         delete item.ratings;
         delete item.series;
 
         return Object.assign({}, item, {
+          lowest: ratings.find((x) => x !== 0) || 0,
           average: Functions.getAverageRating(ratings),
           mode: Functions.getModeRating(ratings)
         });
@@ -149,11 +151,11 @@ const attachEpisodeStatistics = async ({ isAdult }, parents) => {
     match: { isAdult: stringToBool(isAdult), parent: { $in: parentIds } }
   });
 
-  return parents.map(item => {
+  return parents.map((item) => {
     const { _id, title, rating, start } = item;
     const parentId = _id.toString();
     const episodeStatistics =
-      arr.find(x => x._id.toString() === parentId) || {};
+      arr.find((x) => x._id.toString() === parentId) || {};
     const episodeRatings = (episodeStatistics.ratings || []).slice(0);
     delete episodeStatistics.ratings;
 
@@ -171,26 +173,36 @@ const attachEpisodeStatistics = async ({ isAdult }, parents) => {
   });
 };
 
-const isASeasonStartMonth = obj =>
-  ['01', '04', '07', '10'].some(y => y === obj._id);
+const isASeasonStartMonth = (obj) =>
+  ['01', '04', '07', '10'].some((y) => y === obj._id);
 
 const fixSeasonalResults = (year, breakdown, data) => {
   if (Functions.historyBreakdownIsMonths(breakdown)) return data;
 
   const seasonStarts = data.filter(isASeasonStartMonth);
-  const other = data.filter(x => !isASeasonStartMonth(x));
+  const other = data.filter((x) => !isASeasonStartMonth(x));
   if (!other.length) return seasonStarts;
 
   return other.reduce((p, c) => {
     const { _id, value, ratings, series } = c;
 
     const seasonNumber = `${Functions.getSeasonStartMonthForSeries(year, _id)}`;
-    const index = p.findIndex(x => x._id === seasonNumber);
+    const index = p.findIndex((x) => x._id === seasonNumber);
 
-    if (index === -1) return [...p, { ...c, _id: seasonNumber }];
+    if (index === -1) {
+      return [
+        ...p,
+        {
+          ...c,
+          _id: seasonNumber
+        }
+      ];
+    }
 
     const season = p[index];
-    if (!season) return [...p];
+    if (!season) {
+      return [...p];
+    }
 
     const orderedArray = [...season.ratings, ...ratings].sort();
     const length = orderedArray.length;
@@ -201,7 +213,7 @@ const fixSeasonalResults = (year, breakdown, data) => {
         value: season.value + value,
         average: Functions.getAverageRating(orderedArray),
         highest: orderedArray[length - 1],
-        lowest: orderedArray[0],
+        lowest: orderedArray.find((x) => x !== 0) || 0,
         ratings: orderedArray,
         series: !!series ? [...series, ...season.series] : undefined
       }

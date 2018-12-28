@@ -6,10 +6,10 @@ const {
   getSeasonIndex
 } = require('../utils/common.js');
 
-const fetchStatusGrouping = v =>
+const fetchStatusGrouping = (v) =>
   historyBreakdownIsMonths(v) ? 2 : { $in: [1, 2] };
 
-const fetchBreakdownObject = v =>
+const fetchBreakdownObject = (v) =>
   historyBreakdownIsMonths(v)
     ? { project: {}, match: {} }
     : {
@@ -43,14 +43,14 @@ const fetchBreakdownObject = v =>
         }
       };
 
-const historyBreakdownIsMonths = val => val === Constants.breakdown.months;
-const getDatePropertyString = b =>
+const historyBreakdownIsMonths = (val) => val === Constants.breakdown.months;
+const getDatePropertyString = (b) =>
   historyBreakdownIsMonths(b) ? '$end' : '$start';
 
-const aggregateIsSeasonStart = o =>
-  ['01', '04', '07', '10'].some(y => y === o._id.split('-')[1]);
+const aggregateIsSeasonStart = (o) =>
+  ['01', '04', '07', '10'].some((y) => y === o._id.split('-')[1]);
 
-const getSeasonStartMonthForCounts = dateStr => {
+const getSeasonStartMonthForCounts = (dateStr) => {
   const dateParts = getDateParts(dateStr);
   return getSeasonIndex(Constants.seasonMonths)(dateParts);
 };
@@ -74,29 +74,41 @@ const listOfMonths = (breakdown, partition) => {
       ];
 };
 
-const buildNestedList = arr => {
+const buildNestedList = (arr) => {
   const first = arr[0];
-  if (!first && first !== 0) return [];
-  return [arr.filter(x => x === first)].concat(
-    buildNestedList(arr.filter(x => x !== first))
+  if (!first && first !== 0) {
+    return [];
+  }
+
+  return [arr.filter((x) => x === first)].concat(
+    buildNestedList(arr.filter((x) => x !== first))
   );
 };
 
-const getModeRating = arr => {
+const getModeRating = (arr) => {
   const nested = buildNestedList(arr);
   const { number } = nested.reduce(
     (p, c) => {
       const length = c.length;
-      return length > p.length ? { length, number: c[0] } : p;
+      if (length > p.length) {
+        const number = c[0];
+
+        return number ? { length, number } : p;
+      }
+
+      return p;
     },
     { length: 0, number: 0 }
   );
   return number;
 };
 
-const getAverageRating = arr => {
-  const ratings = arr.filter(x => !!x);
-  if (!ratings.length) return 0;
+const getAverageRating = (arr) => {
+  const ratings = arr.filter((x) => !!x);
+  if (!ratings.length) {
+    return 0;
+  }
+
   return ratings.reduce((p, c) => p + c) / ratings.length;
 };
 
