@@ -2,7 +2,8 @@ const Constants = require('../constants');
 const {
   stringToBool,
   getSeasonText,
-  getDateParts
+  getDateParts,
+  sortNumbers
 } = require('../utils/common');
 const Functions = require('./common.js');
 const mongoose = require('mongoose');
@@ -114,7 +115,7 @@ const getHistoryCountsByYearsPartition = (req, res) => {
       let ids = [];
 
       counts = fixSeasonalResults(partition, breakdown, arr).map((item) => {
-        const ratings = item.ratings.slice(0).sort();
+        const ratings = item.ratings.slice(0).sort(sortNumbers);
         const series = item.series || [];
         ids = [...ids, ...series];
         delete item.ratings;
@@ -130,8 +131,9 @@ const getHistoryCountsByYearsPartition = (req, res) => {
       return model.findIn(ids);
     })
     .then(function(docs) {
-      if (Functions.historyBreakdownIsMonths(breakdown))
+      if (Functions.historyBreakdownIsMonths(breakdown)) {
         return docs.map(mapDocToHistoryDetail);
+      }
 
       return attachEpisodeStatistics({ isAdult }, docs);
     })
@@ -204,7 +206,7 @@ const fixSeasonalResults = (year, breakdown, data) => {
       return [...p];
     }
 
-    const orderedArray = [...season.ratings, ...ratings].sort();
+    const orderedArray = [...season.ratings, ...ratings].sort(sortNumbers);
     const length = orderedArray.length;
 
     return Object.assign([...p], {

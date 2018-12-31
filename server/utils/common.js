@@ -2,12 +2,12 @@ const chalk = require('chalk');
 const Constants = require('../constants.js');
 
 function getPreviousMonth(year, month) {
-  // -2 because e.g. april(04), needs to be last month (-1) and adjusted for date month (-1) 
+  // -2 because e.g. april(04), needs to be last month (-1) and adjusted for date month (-1)
   const date = getFormattedDateString(new Date(year, Number(month) - 2, 1));
   return date.substring(0, 7);
 }
 
-const getDateParts = date => {
+const getDateParts = (date) => {
   if (!date) return {};
   const d = new Date(date);
   return {
@@ -17,12 +17,12 @@ const getDateParts = date => {
   };
 };
 
-const getFormattedDateString = d => {
+const getFormattedDateString = (d) => {
   const { year, month, date } = getDateParts(d);
   return `${year}-${padNumber(month + 1, 2)}-${padNumber(date, 2)}`;
 };
 
-const getSeasonIndex = seasonArr => dateParts => {
+const getSeasonIndex = (seasonArr) => (dateParts) => {
   if (!dateParts) return null;
   const { month } = dateParts;
   if (!month && isNaN(month)) return null;
@@ -48,11 +48,11 @@ const handleErrorResponse = (err, res) => {
   return res ? res.status(400).send(error) : error;
 };
 
-const capitalise = str => str.charAt(0).toUpperCase() + str.slice(1);
+const capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const getKeyByValue = (o, v) => Object.keys(o).find(k => o[k] === v);
+const getKeyByValue = (o, v) => Object.keys(o).find((k) => o[k] === v);
 
-const stringToBool = s => s.toLowerCase() == 'true';
+const stringToBool = (s) => s.toLowerCase() == 'true';
 
 const padNumber = (n, width, z = 0) => {
   n += '';
@@ -70,6 +70,10 @@ const fetchTimeout = (t, promise) => {
   });
 };
 
+function sortNumbers(a, b) {
+  return a - b;
+}
+
 const Common = {
   handleErrorResponse,
   getPreviousMonth,
@@ -83,7 +87,8 @@ const Common = {
   padNumber,
   fetchTimeout,
   MAL_QUERY_TIMEOUT,
-  MAL_UPDATE_TIMEOUT
+  MAL_UPDATE_TIMEOUT,
+  sortNumbers
 };
 
 module.exports = Common;

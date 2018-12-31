@@ -207,6 +207,11 @@
         }
       }
 
+      .accordion-toggler + label:after,
+      .accordion-toggler + label:before {
+        background: $base-colour;
+      }
+
       .history-breakdown-body__row.month-breakdown:hover,
       .history-breakdown-body__row.year-breakdown:hover,
       .history-breakdown-body__row.month-breakdown:hover a,
