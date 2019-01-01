@@ -1,6 +1,6 @@
 @import './partials/_mixins';
 @import './partials/_colours';
-@import '../../node_modules/meiko/dist/templates/_header-links-template';
+@import '~meiko/dist/templates/_header-links-template';
 
 #erza-header {
   @include applicationHeaderLinks;

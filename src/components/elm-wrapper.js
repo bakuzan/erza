@@ -10,7 +10,14 @@ class ElmWrapper extends Component {
   }
 
   renderElm(node) {
-    const app = this.props.src.embed(node, this.props.flags);
+    const { src, flags } = this.props;
+    let app;
+
+    if (this.props.src.embed) {
+      app = src.embed(node, flags);
+    } else {
+      app = src.init({ node, flags });
+    }
 
     if (typeof this.props.ports !== 'undefined') {
       this.props.ports(app.ports);
@@ -18,7 +25,7 @@ class ElmWrapper extends Component {
   }
 
   render() {
-    return <div ref={el => (this.element = el)} />;
+    return <div ref={(el) => (this.element = el)} />;
   }
 }
 
