@@ -11,8 +11,8 @@ import {
 } from '../../utils/common';
 import * as SU from './statistics-utils';
 
-import { Main } from 'satellizer/js/satellizer';
-import 'satellizer/css/satellizer.css';
+import Satellizer from 'satellizer';
+import 'satellizer/styles.css';
 
 const processScroll = (page) => () => {
   debounce(() => {
@@ -64,7 +64,11 @@ class Statistics extends Component {
       <div className="flex-column">
         <ContentTypeFilters />
         <div id="satellizer">
-          <ElmWrapper src={Main} flags={flags} ports={this.setupPorts} />
+          <ElmWrapper
+            src={Satellizer.Elm.Main}
+            flags={flags}
+            ports={this.setupPorts}
+          />
         </div>
       </div>
     );

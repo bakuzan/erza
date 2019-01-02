@@ -13,6 +13,13 @@ class ElmWrapper extends Component {
     const { src, flags } = this.props;
     let app;
 
+    if (!src) {
+      console.error(
+        'Undefined Prop `src`: ElmWrapper was not provided with a `src` value'
+      );
+      return;
+    }
+
     if (this.props.src.embed) {
       app = src.embed(node, flags);
     } else {
