@@ -18,7 +18,7 @@ import MangaHistoryView from './views/history/manga-history';
 
 const loadableSettings = { loading: Loaders.Loadables.Loading, delay: 300 };
 const Home = Loadable({
-  loader: () => import(/* webpackChunkName: 'home' */ './views/home'),
+  loader: () => import(/* webpackChunkName: 'home' */ './views/home/index'),
   ...loadableSettings
 });
 const Statistics = Loadable({

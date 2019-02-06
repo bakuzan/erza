@@ -11,7 +11,7 @@ export const {
   constructFilterString
 } = Utils.GraphqlProcessing;
 
-export const itemKeyFields = uniqueFields => `
+export const itemKeyFields = (uniqueFields) => `
   _id
   title
   status
@@ -24,7 +24,7 @@ export const itemKeyFields = uniqueFields => `
   ${uniqueFields}
 `;
 
-export const itemEditFields = uniqueFields => `
+export const itemEditFields = (uniqueFields) => `
   ${itemKeyFields(uniqueFields)}
   start
   end
@@ -36,7 +36,7 @@ export const itemEditFields = uniqueFields => `
   timesCompleted
 `;
 
-export const historyKeyFields = uniqueField => `
+export const historyKeyFields = (uniqueField) => `
   _id
   parent
   date
@@ -45,20 +45,10 @@ export const historyKeyFields = uniqueField => `
   ${uniqueField}
 `;
 
-export const historyKeyFieldsWithSeries = uniqueField => `
+export const historyKeyFieldsWithSeries = (uniqueField) => `
   ${historyKeyFields(uniqueField)}
   series {
     _id
     title
   }
-`;
-
-export const taskKeyFields = `
-  id: _id
-  description
-  isComplete
-  repeatFrequency
-  repeatDay
-  completedOccurances
-  dayOfWeek
 `;

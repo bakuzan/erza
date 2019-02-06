@@ -13,15 +13,13 @@ const {
   ChapterTC,
   TagTC
 } = require('./relation-construction');
-const { TaskTC } = require('../models/task');
 
 const arrayOfModels = [
   { prefix: 'anime', type: AnimeTC },
   { prefix: 'manga', type: MangaTC },
   { prefix: 'tag', type: TagTC },
   { prefix: 'episode', type: EpisodeTC },
-  { prefix: 'chapter', type: ChapterTC },
-  { prefix: 'task', type: TaskTC }
+  { prefix: 'chapter', type: ChapterTC }
 ];
 
 const queries = arrayOfModels

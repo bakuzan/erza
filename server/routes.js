@@ -1,6 +1,7 @@
 const chalk = require('chalk');
-const express = require('express');
 const cors = require('cors');
+const proxy = require('express-http-proxy');
+const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
@@ -17,7 +18,7 @@ const environment = process.env.NODE_ENV || Constants.environment.development;
 const db = mongoose.connect(
   `mongodb://localhost/${Constants.appName}-${environment}`,
   { useMongoClient: true },
-  err => {
+  (err) => {
     if (!err)
       return console.log(
         chalk.magenta.bold(`Connected to ${Constants.appName}-${environment}`)
@@ -62,6 +63,9 @@ router.get(
   '/api/statistics/history-years/:type/:isAdult/:breakdown/:partition',
   statistics.getHistoryCountsByYearsPartition
 );
+
+// Yoruichi Route
+router.post('/yri-graphql', proxy('http://localhost:9933/yri-graphql'));
 
 // Graphql route
 router.use(

@@ -80,7 +80,7 @@
       }
     }
 
-    form button:not(.primary),
+    form button:not(.primary):not(.yri-button),
     .dialog-content button:not(.primary),
     .button:not(.primary),
     .erza-button:not(.primary) {
