@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
+import { Helmet } from 'react-helmet';
 
 import { Toaster } from 'meiko';
 import withLastLocation from '../../components/last-location';
@@ -21,6 +22,7 @@ const App = ({ history, children, sidebarState }) => {
 
   return (
     <div className={appClasses}>
+      <Helmet defaultTitle="Erza" titleTemplate="Erza - %s" />
       <Header />
       <Sidebar />
       <RequestIndicator />

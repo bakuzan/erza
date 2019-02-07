@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
+import { Helmet } from 'react-helmet';
 
 import { Loaders } from 'meiko';
 import LoadableContent from 'containers/loadable-content';
@@ -9,9 +10,14 @@ import ListFilter from 'containers/list-filter/list-filter';
 import PagedAnimeList from 'containers/paged-lists/paged-anime-list';
 import PagedMangaList from 'containers/paged-lists/paged-manga-list';
 import { Strings } from 'constants/values';
-import { getEventValue, getTimeoutSeconds, debounce } from 'utils/common';
+import {
+  getEventValue,
+  getTimeoutSeconds,
+  debounce,
+  capitalise
+} from 'utils/common';
 
-const getStatusList = props => {
+const getStatusList = (props) => {
   const { value } = props.statusFilter;
   return !!value && !!value.length ? value : [value];
 };
@@ -29,10 +35,12 @@ const loadData = (props, state, shouldKeepPage = false) => {
   );
 };
 
-const fetchPagedListForType = type =>
+const fetchPagedListForType = (type) =>
   type === Strings.anime
     ? PagedAnimeList
-    : type === Strings.manga ? PagedMangaList : null;
+    : type === Strings.manga
+    ? PagedMangaList
+    : null;
 
 const DailyAnime = Loadable({
   loader: () =>
@@ -86,16 +94,18 @@ class BaseListView extends Component {
 
     return (
       <div className="flex-row">
+        <Helmet>
+          <title>{`${capitalise(type)} List`}</title>
+        </Helmet>
         <ListFilter
           routeKey={routeKey}
           type={type}
           search={this.state.search}
           onChange={this.handleUserInput}
         >
-          {type === Strings.anime &&
-            !isAdult && (
-              <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />
-            )}
+          {type === Strings.anime && !isAdult && (
+            <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />
+          )}
         </ListFilter>
         <LoadableContent>
           <PagedTypedList filters={filters} items={items} />

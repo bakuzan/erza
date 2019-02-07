@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
+import { Helmet } from 'react-helmet';
 
 import { RatingControl, Loaders, Image, NewTabLink, Utils } from 'meiko';
 import {
@@ -10,7 +11,7 @@ import {
   Button
 } from 'components/buttonised';
 import LoadableContent from 'containers/loadable-content';
-import { getKeyByValue } from '../utils/common';
+import { getKeyByValue, capitalise } from '../utils/common';
 import { getUniquePropertiesForItemType } from '../utils/data';
 import { Paths } from '../constants/paths';
 import { Strings, Enums, Icons } from '../constants/values';
@@ -76,10 +77,15 @@ class BaseView extends Component {
     const { type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
 
-    if (!item || !item._id) return <Loaders.LoadingSpinner size="fullscreen" />;
+    if (!item || !item._id) {
+      return <Loaders.LoadingSpinner size="fullscreen" />;
+    }
 
     return (
       <section>
+        <Helmet>
+          <title>{`View ${capitalise(type)} - ${item.title}`}</title>
+        </Helmet>
         <div className="flex-row reverse">
           <div className="flex-all padding-10">
             <header className="flex-row center-contents">
@@ -161,20 +167,18 @@ class BaseView extends Component {
                     </li>
                   </div>
                 )}
-                {type === Strings.anime &&
-                  item.season &&
-                  item.season.inSeason && (
-                    <div className="formatting-container">
-                      <li className="label">{Strings.season}</li>
-                      <li className="value">
-                        <ButtonisedNavLink
-                          to={this.setStatNavLink({ season: item.season })}
-                        >
-                          {`${item.season.season} ${item.season.year}`}
-                        </ButtonisedNavLink>
-                      </li>
-                    </div>
-                  )}
+                {type === Strings.anime && item.season && item.season.inSeason && (
+                  <div className="formatting-container">
+                    <li className="label">{Strings.season}</li>
+                    <li className="value">
+                      <ButtonisedNavLink
+                        to={this.setStatNavLink({ season: item.season })}
+                      >
+                        {`${item.season.season} ${item.season.year}`}
+                      </ButtonisedNavLink>
+                    </li>
+                  </div>
+                )}
               </ul>
               <div>
                 {!this.state.hasHistory && (

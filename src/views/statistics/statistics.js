@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import ElmWrapper from '../../components/elm-wrapper';
 import ContentTypeFilters from './content-type-filters';
 import {
   debounce,
   getTimeoutSeconds,
-  createListeners
+  createListeners,
+  capitalise
 } from '../../utils/common';
 import * as SU from './statistics-utils';
 
@@ -62,6 +64,9 @@ class Statistics extends Component {
 
     return (
       <div className="flex-column">
+        <Helmet>
+          <title>{`${capitalise(contentType)} Statistics`}</title>
+        </Helmet>
         <ContentTypeFilters />
         <div id="satellizer">
           <ElmWrapper

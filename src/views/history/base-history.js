@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
+import { Helmet } from 'react-helmet';
 
 import { Loaders, Utils } from 'meiko';
 import DateSelector from 'components/date-selector';
 import LoadableContent from 'containers/loadable-content';
 
-import { getTimeoutSeconds, debounce } from 'utils/common';
+import { getTimeoutSeconds, debounce, capitalise } from 'utils/common';
 import { getHistoryNameForItemType } from 'utils/data';
 
 const { startOfDay, endOfDay, DateFormat } = Utils.Date;
@@ -81,6 +82,9 @@ class BaseHistoryView extends Component {
 
     return (
       <div className="flex-row">
+        <Helmet>
+          <title>{`${capitalise(type)} History`}</title>
+        </Helmet>
         <div className="filters-container">
           <div>
             <DateSelector

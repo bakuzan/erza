@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Helmet } from 'react-helmet';
 
 import { ClearableInput } from 'meiko';
 import LoadableContent from 'containers/loadable-content';
@@ -46,6 +47,9 @@ class TagManagementList extends React.Component {
 
     return (
       <div className="flex-row">
+        <Helmet>
+          <title>Tag Management</title>
+        </Helmet>
         <div className="filters-container">
           <div>
             <ClearableInput
@@ -71,4 +75,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagManagementList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TagManagementList);

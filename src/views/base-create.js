@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { Strings, Enums } from '../constants/values';
 import { Paths } from '../constants/paths';
@@ -87,7 +88,9 @@ class BaseCreate extends Component {
   componentDidUpdate(prevProps) {
     const itemUnchanged = objectsAreEqual(this.props.item, prevProps.item);
     const isAdultUnchanged = this.props.isAdult === prevProps.isAdult;
-    if (itemUnchanged && isAdultUnchanged) return;
+    if (itemUnchanged && isAdultUnchanged) {
+      return;
+    }
 
     if (!isAdultUnchanged) {
       this.props.loadTags();
@@ -108,8 +111,12 @@ class BaseCreate extends Component {
   }
 
   handleMalSelect(malItem) {
-    if (!malItem) return this.setState({ malId: null });
-    if (!this.shouldHydrateMal(this.state, malItem)) return;
+    if (!malItem) {
+      return this.setState({ malId: null });
+    }
+    if (!this.shouldHydrateMal(this.state, malItem)) {
+      return;
+    }
     this.setState((prevState) => this.hydrateMalFields(prevState, malItem));
   }
 
@@ -155,12 +162,16 @@ class BaseCreate extends Component {
       !this.props.item.tags ||
       (this.props.item.tags.length > 0 &&
         !this.props.item.tags.find((x) => x && isObject(x)))
-    )
+    ) {
       return <Loaders.LoadingSpinner size="fullscreen" />;
+    }
 
-    const { type } = this.props;
+    const { type, isCreate } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;
+    const titlePrefix = isCreate ? Strings.create : Strings.edit;
+    const titleSuffix =
+      isCreate || !this.state.title ? '' : ` - ${this.state.title}`;
 
     const seriesTypes = Enums[type].type;
     const SERIES_TYPE_OPTIONS = Object.keys(seriesTypes).map(
@@ -170,21 +181,21 @@ class BaseCreate extends Component {
 
     return (
       <div className="flex-column center-contents padding-10">
+        <Helmet>
+          <title>{`${titlePrefix} ${capitalise(
+            Strings[type]
+          )}${titleSuffix}`}</title>
+        </Helmet>
         <header>
-          <h4>
-            {`${this.props.isCreate ? Strings.create : Strings.edit} ${
-              Strings[type]
-            }`}
-          </h4>
+          <h4>{`${titlePrefix} ${Strings[type]}`}</h4>
         </header>
         <div className="width-100 flex-row">
           <div className="series-image-container full">
-            {this.state.image &&
-              this.state.image.startsWith('blob:') && (
-                <div>
-                  <p>* This is a preview image</p>
-                </div>
-              )}
+            {this.state.image && this.state.image.startsWith('blob:') && (
+              <div>
+                <p>* This is a preview image</p>
+              </div>
+            )}
             <Image
               src={this.state.image}
               alt={`Cover for ${this.state.title || `${type} under creation.`}`}
@@ -459,4 +470,7 @@ const mapDispatchToProps = {
   showAlertError
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BaseCreate);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BaseCreate);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import ElmWrapper from '../../components/elm-wrapper';
 import { themes, DEFAULT_THEME } from './themes';
@@ -37,6 +38,9 @@ class Home extends Component {
 
     return (
       <div id="yoruichi" className="flex-column">
+        <Helmet>
+          <title>Home</title>
+        </Helmet>
         <ElmWrapper
           src={Yoruichi.Elm.Main}
           flags={flags}

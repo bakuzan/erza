@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Helmet } from 'react-helmet';
 
 import { ClearableInput, Loaders } from 'meiko';
 import { Button } from 'components/buttonised';
@@ -40,7 +41,7 @@ class TagManagementDetails extends React.Component {
 
   handleUserInput({ target }) {
     const value = getEventValue(target);
-    this.setState(prev => ({
+    this.setState((prev) => ({
       item: {
         ...prev.item,
         [target.name]: value
@@ -64,7 +65,9 @@ class TagManagementDetails extends React.Component {
 
   render() {
     const { item } = this.state;
-    if (!item) return <Loaders.LoadingSpinner size="fullscreen" />;
+    if (!item) {
+      return <Loaders.LoadingSpinner size="fullscreen" />;
+    }
 
     const canEdit = item.name.length > 1;
     const canDelete =
@@ -73,6 +76,9 @@ class TagManagementDetails extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>{`Tag Management - ${item.name}`}</title>
+        </Helmet>
         <div className="flex width-50 padding-10">
           <form name="tag-edit" onSubmit={this.handleSubmit}>
             <ClearableInput
@@ -129,10 +135,11 @@ const mapStateToProps = (state, ownProps) => ({
   item: state.entities.tags.byId[ownProps.match.params.tagId]
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  TagManagementDetails
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TagManagementDetails);
