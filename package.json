@@ -1,6 +1,6 @@
 {
   "name": "erza",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "homepage": "http://localhost:3003/erza/",
   "proxy": "http://localhost:9003",
