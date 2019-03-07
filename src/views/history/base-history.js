@@ -4,14 +4,20 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { Helmet } from 'react-helmet';
 
-import { Loaders, Utils } from 'meiko';
+import { Loaders } from 'meiko';
 import DateSelector from 'components/date-selector';
 import LoadableContent from 'containers/loadable-content';
 
-import { getTimeoutSeconds, debounce, capitalise } from 'utils/common';
+import {
+  getTimeoutSeconds,
+  debounce,
+  capitalise,
+  startOfDay,
+  endOfDay,
+  dateAsMs,
+  formatDateForInput
+} from 'utils/common';
 import { getHistoryNameForItemType } from 'utils/data';
-
-const { startOfDay, endOfDay, DateFormat } = Utils.Date;
 
 const PagedHistoryList = Loadable({
   loader: () =>
@@ -21,8 +27,8 @@ const PagedHistoryList = Loadable({
 });
 
 const dateRangeForQuery = (from = new Date(), to = new Date()) => [
-  DateFormat.dateAsMs(startOfDay(from)),
-  DateFormat.dateAsMs(endOfDay(to))
+  dateAsMs(startOfDay(from)),
+  dateAsMs(endOfDay(to))
 ];
 const KEEP_PAGE_ON_MOUNT = false;
 const loadData = (props, state, shouldKeepPage = false) =>
@@ -37,8 +43,8 @@ class BaseHistoryView extends Component {
     const dr = dateRangeForQuery();
     this.state = {
       displayList: false,
-      from: DateFormat.formatDateForInput(dr[0]),
-      to: DateFormat.formatDateForInput(dr[1])
+      from: formatDateForInput(dr[0]),
+      to: formatDateForInput(dr[1])
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -85,9 +91,10 @@ class BaseHistoryView extends Component {
         <Helmet>
           <title>{`${capitalise(type)} History`}</title>
         </Helmet>
-        <div className="filters-container">
+        <div className="filters-container filters-container--wider">
           <div>
             <DateSelector
+              id="from"
               name="from"
               label="from"
               required
@@ -95,6 +102,7 @@ class BaseHistoryView extends Component {
               onChange={this.handleUserInput}
             />
             <DateSelector
+              id="to"
               name="to"
               label="to"
               required

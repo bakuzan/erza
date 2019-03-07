@@ -2,6 +2,9 @@ import { Constants } from 'meiko';
 
 export const Paths = {
   ...Constants.Urls,
+  malSearch: '/api/mal-search/:type',
+  sunrise_sunset:
+    'https://api.sunrise-sunset.org/json?lat=51.9451597&lng=-0.6565607&formatted=0',
   base: '/erza',
   home: '',
   anime: {

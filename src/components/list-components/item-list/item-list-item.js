@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { withButtonisation, Image, NewTabLink, Utils } from 'meiko';
+import { withButtonisation, Image, NewTabLink } from 'meiko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
@@ -9,7 +9,7 @@ import {
 } from 'components/buttonised';
 import { Paths } from '../../../constants/paths';
 import { Enums, Icons } from '../../../constants/values';
-import { getKeyByValue } from '../../../utils/common';
+import { getKeyByValue, formatDateTimeForDisplay } from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
 
 const SpanIcon = (props) => <span {...props} />;
@@ -22,14 +22,16 @@ const ItemListItem = ({ type, item, addAction }) => {
   const statusIcon = item.isRepeat
     ? Icons.clockwise
     : item.status === Enums.status.onhold
-      ? Icons.pause
-      : item.status === Enums.status.completed ? Icons.tick : null;
+    ? Icons.pause
+    : item.status === Enums.status.completed
+    ? Icons.tick
+    : null;
 
   return (
     <li className={`${type}-item`}>
       <div>
         <time dateTime={item.updatedDate}>
-          {Utils.Date.DateFormat.formatDateTimeForDisplay(item.updatedDate)}
+          {formatDateTimeForDisplay(item.updatedDate)}
         </time>
         <h4>{item.title}</h4>
         <div className="flex-row start-center-contents">

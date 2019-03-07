@@ -77,6 +77,7 @@ class AppSettings extends React.Component {
       <DropdownMenu id="app-settings" portalTarget="#root" align="right">
         <li>
           <SelectBox
+            id="appTheme"
             name="appTheme"
             text="App Theme"
             value={theme}
@@ -87,6 +88,7 @@ class AppSettings extends React.Component {
         <li>
           <Tickbox
             text="timed theme change"
+            id="isTimed"
             name="isTimed"
             checked={isTimed}
             onChange={toggleTimedTheme}
@@ -95,6 +97,7 @@ class AppSettings extends React.Component {
         <li>
           <Tickbox
             text="toggle adult lists"
+            id="isAdult"
             name="isAdult"
             checked={isAdult}
             onChange={toggleIsAdult}
@@ -103,6 +106,7 @@ class AppSettings extends React.Component {
         <li>
           <Tickbox
             text="toggle sidebar visibility"
+            id="isSidebarHidden"
             name="isSidebarHidden"
             checked={!isSidebarHidden}
             onChange={toggleSidebarVisibility}
@@ -111,6 +115,7 @@ class AppSettings extends React.Component {
         <li>
           <Tickbox
             text="toggle request indicator visibility"
+            id="isRequestIndicatorHidden"
             name="isRequestIndicatorHidden"
             checked={!isRequestIndicatorHidden}
             onChange={toggleRequestIndicatorVisibility}
@@ -150,4 +155,7 @@ const mapDispatchToProps = {
   toggleRequestIndicatorVisibility
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppSettings);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppSettings);

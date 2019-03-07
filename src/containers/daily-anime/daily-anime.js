@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Utils } from 'meiko';
 import { ButtonIcon, Button } from 'components/buttonised';
 import { fetchDailyAnime } from '../../actions/daily-anime';
 import { Icons } from '../../constants/values';
-import { padNumber } from '../../utils/common';
+import { padNumber, getDayName } from '../../utils/common';
 import { mapStateToEntityList } from '../../utils/data';
 
 import './daily-anime.scss';
@@ -22,7 +21,7 @@ function createOffsetText(dateOffset, date) {
     case 6:
       return 'Watch Tomorrow';
     default:
-      const day = Utils.Date.getDayName(date);
+      const day = getDayName(date);
       return `Watch on ${day}`;
   }
 }
@@ -114,4 +113,7 @@ const mapDispatchToState = {
   fetchDailyAnime
 };
 
-export default connect(mapStateToProps, mapDispatchToState)(DailyAnime);
+export default connect(
+  mapStateToProps,
+  mapDispatchToState
+)(DailyAnime);

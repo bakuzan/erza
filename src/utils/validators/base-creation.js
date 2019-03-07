@@ -1,11 +1,10 @@
-import { Utils } from 'meiko';
 import { Enums, Properties } from '../../constants/values';
 import {
   getUniquePropertiesForItemType,
   getHistoryNameForItemType
 } from '../data';
 
-const { DateFormat, dateStringToISOString } = Utils.Date;
+import { formatDateForInput, dateStringToISOString } from 'utils/common';
 
 const historyChangeHandler = ({ current, total }) => (item) => {
   const changes = {};
@@ -15,7 +14,7 @@ const historyChangeHandler = ({ current, total }) => (item) => {
   }
 
   if (item[current] >= item[total] && item[total] !== 0 && !item.isRepeat) {
-    changes.end = DateFormat.formatDateForInput(new Date());
+    changes.end = formatDateForInput(new Date());
     changes.status = Enums.status.completed;
   } else if (
     item.status === Enums.status.completed &&
@@ -37,11 +36,11 @@ const statusChangeHandler = (item) => {
       return { start: '', end: '' };
     case ongoing:
       return {
-        start: DateFormat.formatDateForInput(item.start || new Date()),
+        start: formatDateForInput(item.start || new Date()),
         end: ''
       };
     case completed:
-      return { end: DateFormat.formatDateForInput(item.end || new Date()) };
+      return { end: formatDateForInput(item.end || new Date()) };
     default:
       return {};
   }

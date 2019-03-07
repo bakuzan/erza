@@ -52,6 +52,7 @@ const PagingControls = ({
         )}
       </div>
       <SelectBox
+        id="itemsPerPage"
         name="itemsPerPage"
         text="items per page"
         value={itemsPerPage}
@@ -81,4 +82,7 @@ const mapDispatchToProps = {
   changeItemsPerPage: setItemsPerPage
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PagingControls);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PagingControls);

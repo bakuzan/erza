@@ -53,6 +53,7 @@ class TagManagementList extends React.Component {
         <div className="filters-container">
           <div>
             <ClearableInput
+              id="search"
               value={this.state.search}
               onChange={this.handleUserInput}
             />

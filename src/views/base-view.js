@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 import { Helmet } from 'react-helmet';
 
-import { RatingControl, Loaders, Image, NewTabLink, Utils } from 'meiko';
+import { RatingControl, Loaders, Image, NewTabLink } from 'meiko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
@@ -11,12 +11,14 @@ import {
   Button
 } from 'components/buttonised';
 import LoadableContent from 'containers/loadable-content';
-import { getKeyByValue, capitalise } from '../utils/common';
+import {
+  getKeyByValue,
+  capitalise,
+  formatDateForDisplay
+} from '../utils/common';
 import { getUniquePropertiesForItemType } from '../utils/data';
 import { Paths } from '../constants/paths';
 import { Strings, Enums, Icons } from '../constants/values';
-
-const { DateFormat } = Utils.Date;
 
 const STATS_PATH = `${Paths.base}${Paths.statistics}${Strings.anime}`;
 
@@ -108,12 +110,15 @@ class BaseView extends Component {
               {type === Strings.manga && (
                 <div>{`${item.volume} / ${item.series_volumes || '??'}`}</div>
               )}
-              <RatingControl name="rating" value={item.rating || 0} />
+              <RatingControl
+                id="rating"
+                name="rating"
+                value={item.rating || 0}
+              />
               <ul className="list column two">
                 <li className="label">{Strings.start}</li>
                 <li className="value">
-                  {DateFormat.formatDateForDisplay(item.start) ||
-                    Strings.notStarted}
+                  {formatDateForDisplay(item.start) || Strings.notStarted}
                 </li>
 
                 <li className="label">{Strings.end}</li>
@@ -122,7 +127,7 @@ class BaseView extends Component {
                     <ButtonisedNavLink
                       to={this.setStatNavLink({ date: item.end })}
                     >
-                      {DateFormat.formatDateForDisplay(item.end)}
+                      {formatDateForDisplay(item.end)}
                     </ButtonisedNavLink>
                   ) : (
                     Strings.unfinished
@@ -215,6 +220,7 @@ class BaseView extends Component {
                   href={`https://myanimelist.net/${type}/${item.malId}`}
                   className="mal-link"
                   title="Open MAL entry in new tab."
+                  aria-label="Open MAL entry in new tab."
                 >
                   <Image
                     src="https://myanimelist.net/favicon.ico"
@@ -228,6 +234,7 @@ class BaseView extends Component {
                   btnSize="small"
                   icon={Icons.link}
                   title="Open content link"
+                  aria-label="Open content link"
                 />
               )}
             </div>

@@ -3,6 +3,9 @@ import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import Root from './containers/root/root';
 import configureStore from './store/configure-store';
+
+import registerServiceWorker from './registerServiceWorker';
+
 import 'meiko/dist/bundle.min.css';
 import './index.scss';
 import './styles/themes.scss';
@@ -16,3 +19,4 @@ if (document.getElementById('root').children.length === 0) {
     document.getElementById('root')
   );
 }
+registerServiceWorker();

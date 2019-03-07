@@ -1,4 +1,4 @@
-import { Utils } from 'meiko';
+import { toaster } from 'meiko';
 import { history as Navigate } from '../index';
 
 import fetchFromServer from '../graphql/fetch';
@@ -8,6 +8,7 @@ import {
 } from '../graphql/common';
 import { resetPageToZero, loadPageInfo } from './paging';
 import { getSingleObjectProperty } from '../utils/common';
+
 import {
   GRAPHQL_REQUEST,
   GRAPHQL_SUCCESS,
@@ -25,14 +26,14 @@ import {
 import { Paths } from '../constants/paths';
 import { Strings } from '../constants/values';
 
-const hydrateState = type => (data, paging, pageChange) => ({
+const hydrateState = (type) => (data, paging, pageChange) => ({
   type,
   data,
   paging,
   pageChange
 });
-const refreshState = type => item => ({ type, item });
-const dehydrateState = type => id => ({ type, id });
+const refreshState = (type) => (item) => ({ type, item });
+const dehydrateState = (type) => (id) => ({ type, id });
 const loadItemsToState = {
   [Strings.anime]: hydrateState(ANIME_LOAD),
   [Strings.manga]: hydrateState(MANGA_LOAD),
@@ -84,7 +85,7 @@ const resolvePaging = (paging, pageChange) => ({
 });
 
 export const mutateItem = (type, item, queryBuilder) => {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     const { lastLocation } = getState();
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
@@ -94,7 +95,7 @@ export const mutateItem = (type, item, queryBuilder) => {
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
-        Utils.Toaster.success(
+        toaster.success(
           'Saved!',
           `Successfully saved '${data.record.title}' ${type}.`
         );
@@ -105,7 +106,7 @@ export const mutateItem = (type, item, queryBuilder) => {
 };
 
 export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     const { isAdult, paging, sorting } = getState();
     const updatedPaging = resolvePaging(paging[type], pageChange);
@@ -115,7 +116,7 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
       Object.assign({}, filters, { isAdult })
     );
     fetchFromServer(`${Paths.graphql.base}${query}`)
-      .then(response => {
+      .then((response) => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
         dispatch(loadItemsToState[type](data.edges, updatedPaging, pageChange));
@@ -127,10 +128,10 @@ export const loadItems = ({ type, filters, pageChange }, queryBuilder) => {
 };
 
 export const loadItemsById = (type, queryString) => {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     fetchFromServer(`${Paths.graphql.base}${queryString}`)
-      .then(response =>
+      .then((response) =>
         dispatch(loadItemToState[type](getSingleObjectProperty(response.data)))
       )
       .then(() => dispatch(finishGraphqlRequest()));
@@ -140,17 +141,17 @@ export const loadItemsById = (type, queryString) => {
 // HISTORY ACTION CREATORS
 
 export const mutateHistoryItem = (item, queryBuilder, type = null) => {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(startingGraphqlRequest());
     const itemForCreation = constructRecordForPost(item);
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
-      response => {
+      (response) => {
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
         if (type) dispatch(refreshItemInState[type](data.record));
-        Utils.Toaster.success(
+        toaster.success(
           'Saved!',
           `Successfully saved '${data.record[type] || 'history'}'.`
         );
@@ -160,16 +161,16 @@ export const mutateHistoryItem = (item, queryBuilder, type = null) => {
 };
 
 export const removeHistoryItem = (type, id, queryBuilder) => {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(startingGraphqlRequest());
     const mutation = queryBuilder(id);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
-      response => {
+      (response) => {
         dispatch(removeItemFromState[type](id));
         dispatch(finishGraphqlRequest());
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
-        Utils.Toaster.success(
+        toaster.success(
           'Deleted!',
           `Successfully deleted '${data.record.series.title}' history entry.`
         );
@@ -182,7 +183,7 @@ export const loadHistoryByDateRange = (
   { type, filters, pageChange },
   queryBuilder
 ) => {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
     const { paging, isAdult } = getState();
     const updatedPaging = resolvePaging(paging[type], pageChange);
@@ -195,7 +196,7 @@ export const loadHistoryByDateRange = (
       Object.assign({}, filters, { isAdult })
     );
     fetchFromServer(`${Paths.graphql.base}${query}`)
-      .then(response => {
+      .then((response) => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
         dispatch(loadItemsToState[type](data.edges, updatedPaging, pageChange));

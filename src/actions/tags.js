@@ -1,4 +1,4 @@
-import { Utils } from 'meiko';
+import { toaster } from 'meiko';
 import {
   ADD_TAG,
   REMOVE_TAG,
@@ -18,7 +18,7 @@ const startingTagsRequest = () => ({
   isFetching: true
 });
 
-const loadTagsData = data => ({
+const loadTagsData = (data) => ({
   type: TAGS_LOAD,
   data
 });
@@ -28,12 +28,12 @@ const finishTagsRequest = () => ({
   isFetching: false
 });
 
-const addTag = item => ({
+const addTag = (item) => ({
   type: ADD_TAG,
   item
 });
 
-const removeTag = id => ({
+const removeTag = (id) => ({
   type: REMOVE_TAG,
   id
 });
@@ -45,11 +45,11 @@ const mutateTag = (queryBuilder, item) => {
     const itemForCreation = constructRecordForPost({ ...item, isAdult });
     const mutation = queryBuilder(itemForCreation);
     fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
-      .then(response => {
+      .then((response) => {
         const data = getSingleObjectProperty(response.data);
         if (!data) return null;
         dispatch(addTag(data.record));
-        Utils.Toaster.success(
+        toaster.success(
           'Saved!',
           `Successfully saved '${data.record.name}' tag.`
         );
@@ -58,18 +58,18 @@ const mutateTag = (queryBuilder, item) => {
   };
 };
 
-export const createTag = item => mutateTag(TagML.createTag, item);
-export const updateTag = item => mutateTag(TagML.updateTag, item);
+export const createTag = (item) => mutateTag(TagML.createTag, item);
+export const updateTag = (item) => mutateTag(TagML.updateTag, item);
 
-export const deleteTag = tagId => {
+export const deleteTag = (tagId) => {
   return function(dispatch) {
     dispatch(startingTagsRequest());
     fetchFromServer(`${Paths.graphql.base}${TagML.deleteTag(tagId)}`, 'POST')
-      .then(response => {
+      .then((response) => {
         const data = getSingleObjectProperty(response.data);
         dispatch(removeTag(tagId));
         if (!data) return null;
-        Utils.Toaster.success(
+        toaster.success(
           'Removed!',
           `Successfully deleted '${data.record.name}' tag.`
         );
@@ -83,7 +83,7 @@ export const loadTags = () => {
     dispatch(startingTagsRequest());
     const { isAdult } = getState();
     fetchFromServer(`${Paths.graphql.base}${TagQL.getAll(isAdult)}`)
-      .then(response => dispatch(loadTagsData(response.data.tagMany)))
+      .then((response) => dispatch(loadTagsData(response.data.tagMany)))
       .then(() => dispatch(finishTagsRequest()));
   };
 };
@@ -93,16 +93,16 @@ export const loadTagList = () => {
     dispatch(startingTagsRequest());
     const { isAdult } = getState();
     fetchFromServer(`${Paths.graphql.base}${TagQL.getList(isAdult)}`)
-      .then(response => dispatch(loadTagsData(response.data.tagMany)))
+      .then((response) => dispatch(loadTagsData(response.data.tagMany)))
       .then(() => dispatch(finishTagsRequest()));
   };
 };
 
-export const loadTag = tagId => {
+export const loadTag = (tagId) => {
   return function(dispatch) {
     dispatch(startingTagsRequest());
     fetchFromServer(`${Paths.graphql.base}${TagQL.getById(tagId)}`)
-      .then(response => dispatch(addTag(response.data.tagById)))
+      .then((response) => dispatch(addTag(response.data.tagById)))
       .then(() => dispatch(finishTagsRequest()));
   };
 };

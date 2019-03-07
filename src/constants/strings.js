@@ -2,6 +2,32 @@ import { Constants } from 'meiko';
 
 export default {
   ...Constants.Strings,
+  // inputs
+  checkbox: 'checkbox',
+  selectbox: 'select-one',
+  date: 'date',
+  text: 'text',
+  // directions
+  ascending: 'ASC',
+  descending: 'DESC',
+  next: 'next',
+  prev: 'prev',
+  // page text
+  loading: 'loading',
+  success: 'success',
+  error: 'error',
+  create: 'Create',
+  edit: 'Edit',
+  delete: 'Delete',
+  back: 'Back',
+  ok: 'ok',
+  // theme
+  light: 'Light',
+  dark: 'Dark',
+  themes: [
+    { name: 'Light', class: 'theme-one' },
+    { name: 'Dark', class: 'theme-two' }
+  ],
   localUserSettings: 'settingState',
   // labels
   start: 'start',
@@ -34,10 +60,6 @@ export default {
   updatedMalEntry: 'updated mal values',
   malEntryUpToDate: 'mal already up to date',
   imgur: 'imgur',
-  // theme
-  light: 'Light',
-  dark: 'Dark',
-  themes: [...Constants.Strings.themes],
   // yoruichi filters
   timePeriod: {
     day: 'DAY',

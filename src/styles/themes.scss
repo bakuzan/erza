@@ -1,9 +1,22 @@
 @import './partials/_mixins';
 @import './partials/_colours';
-@import '~meiko/dist/templates/_header-links-template';
 
 #erza-header {
-  @include applicationHeaderLinks;
+  a {
+    background-color: $primary-background;
+    color: $primary-colour-contrast;
+
+    &:hover {
+      background-color: darken($primary-background, $darken-amount);
+    }
+    &.active {
+      background-color: $accent-background;
+      color: $accent-colour-contrast;
+      &:hover {
+        background-color: darken($accent-background, $darken-amount);
+      }
+    }
+  }
 }
 
 #erza-header,

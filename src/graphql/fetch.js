@@ -1,4 +1,3 @@
-import { Utils } from 'meiko';
 import {
   addRequestIndicator,
   removeRequestIndicator
@@ -8,31 +7,42 @@ import { showAlertError } from '../actions/alert';
 
 import { store } from '../index';
 
-
 const DEAD_RESPONSE = { data: null };
 
 function validateResponse(data) {
   return isObject(data) && !!data.errors;
 }
 
-const fetchFromServer = (url, method = 'GET', body = null) => {
-  store.dispatch(addRequestIndicator(url));
-  return Utils.MeikoFetch(url, method, body)
-    .then(jsonResult => {
-      const badResponse = validateResponse(jsonResult);
+function setOptions(method, body) {
+  return {
+    method,
+    body: !!body ? JSON.stringify(body) : null,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  };
+}
 
-      if (badResponse) {
+const fetchFromServer = (url, method = 'GET', body = null) => {
+  const options = setOptions(method, body);
+  store.dispatch(addRequestIndicator(url));
+
+  return fetch(url, options)
+    .then((r) => r.json())
+    .then((result) => {
+      const isBadResponse = validateResponse(result);
+
+      if (isBadResponse) {
         throw new Error(
-          (jsonResult.errors[0] &&
-            jsonResult.errors[0].message) ||
-          'Graphql Error'
+          (result.errors[0] && result.errors[0].message) || 'Graphql Error'
         );
       }
 
       store.dispatch(removeRequestIndicator(url));
-      return jsonResult;
+      return result;
     })
-    .catch(error => {
+    .catch((error) => {
       store.dispatch(
         showAlertError({
           message: 'Graphql Error',

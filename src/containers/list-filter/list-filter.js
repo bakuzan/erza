@@ -50,12 +50,14 @@ const ListFilter = ({
 
       <Tickbox
         text="Owned only"
+        id="isOwnedOnly"
         name="isOwnedOnly"
         checked={isOwnedOnly}
         onChange={() => onChangeIsOwnedOnly(type)}
       />
 
       <SelectBox
+        id="sortKey"
         name="sortKey"
         text="sort on"
         value={sortKey}
@@ -110,4 +112,7 @@ const mapDispatchToProps = {
   onChangeIsOwnedOnly: toggleIsOwnedOnly
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListFilter);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListFilter);

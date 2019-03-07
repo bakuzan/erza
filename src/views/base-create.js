@@ -10,7 +10,8 @@ import {
   getEventValue,
   isObject,
   objectsAreEqual,
-  constructObjectFromSearchParams
+  constructObjectFromSearchParams,
+  formatDateForInput
 } from '../utils/common';
 import {
   mapStateToEntityList,
@@ -32,16 +33,13 @@ import {
   Loaders,
   RatingControl,
   ImageSelector,
-  Image,
-  Utils
+  Image
 } from 'meiko';
 import DateSelector from 'components/date-selector';
 import { ButtonisedNavLink, Button } from 'components/buttonised';
 import { createTag, loadTags } from '../actions/tags';
 import { showAlertError } from '../actions/alert';
 import GQL from 'graphql/query/list-items';
-
-const { DateFormat } = Utils.Date;
 
 const loadData = (props) => {
   props.loadTags();
@@ -227,6 +225,7 @@ class BaseCreate extends Component {
 
                   <ClearableInput
                     type="number"
+                    id={current}
                     name={current}
                     label={current}
                     value={this.state[current]}
@@ -238,6 +237,7 @@ class BaseCreate extends Component {
                   {type === Strings.manga && (
                     <ClearableInput
                       type="number"
+                      id="volume"
                       name="volume"
                       label="volume"
                       value={this.state.volume}
@@ -252,23 +252,26 @@ class BaseCreate extends Component {
                   )}
 
                   <DateSelector
+                    id="start"
                     name="start"
                     label="start"
-                    value={DateFormat.formatDateForInput(this.state.start)}
+                    value={formatDateForInput(this.state.start)}
                     beforeDate={this.state.end}
                     onChange={this.handleDateInput}
                   />
 
                   <DateSelector
+                    id="end"
                     name="end"
                     label="end"
-                    value={DateFormat.formatDateForInput(this.state.end)}
+                    value={formatDateForInput(this.state.end)}
                     afterDate={this.state.start}
                     onChange={this.handleDateInput}
                     disabled={this.state.status !== Enums.status.completed}
                   />
 
                   <SelectBox
+                    id="status"
                     name="status"
                     text="status"
                     value={this.state.status}
@@ -277,6 +280,7 @@ class BaseCreate extends Component {
                   />
 
                   <RatingControl
+                    id="rating"
                     name="rating"
                     label="series rating"
                     value={this.state.rating}
@@ -299,6 +303,7 @@ class BaseCreate extends Component {
                 <div className="flex-column width-100">
                   <ClearableInput
                     type="number"
+                    id={total}
                     name={total}
                     label={`total ${current}s`}
                     value={this.state[total]}
@@ -309,6 +314,7 @@ class BaseCreate extends Component {
                   {type === Strings.manga && (
                     <ClearableInput
                       type="number"
+                      id="series_volumes"
                       name="series_volumes"
                       label="total volumes"
                       value={this.state.series_volumes}
@@ -320,6 +326,7 @@ class BaseCreate extends Component {
                   <ImageSelector
                     className="uploader"
                     uploaderClassName="uploader"
+                    id="image"
                     name="image"
                     url={this.state.image}
                     onChange={this.handleUserInput}
@@ -328,6 +335,7 @@ class BaseCreate extends Component {
 
                   <ClearableInput
                     type="url"
+                    id="link"
                     name="link"
                     label="link"
                     value={this.state.link}
@@ -336,6 +344,7 @@ class BaseCreate extends Component {
                   />
                   <ClearableInput
                     type="number"
+                    id="malId"
                     name="malId"
                     label="mal id"
                     value={this.state.malId || ''}
@@ -345,12 +354,14 @@ class BaseCreate extends Component {
 
                   <Tickbox
                     text="owned"
+                    id="owned"
                     name="owned"
                     checked={this.state.owned}
                     onChange={this.handleUserInput}
                   />
                   <Tickbox
                     text="is adult"
+                    id="isAdultSeries"
                     name="isAdult"
                     checked={this.state.isAdult}
                     disabled={true}
@@ -358,6 +369,7 @@ class BaseCreate extends Component {
                   />
                   <Tickbox
                     text="is repeat"
+                    id="isRepeat"
                     name="isRepeat"
                     checked={this.state.isRepeat}
                     onChange={this.handleUserInput}
@@ -372,26 +384,25 @@ class BaseCreate extends Component {
                 <Tabs.TabView name="Seasonal">
                   <div className="flex-column width-100">
                     <DateSelector
+                      id="series_start"
                       name="series_start"
                       label="series start"
-                      value={DateFormat.formatDateForInput(
-                        this.state.series_start
-                      )}
+                      value={formatDateForInput(this.state.series_start)}
                       beforeDate={this.state.series_end}
                       onChange={this.handleDateInput}
                     />
 
                     <DateSelector
+                      id="series_end"
                       name="series_end"
                       label="series end"
-                      value={DateFormat.formatDateForInput(
-                        this.state.series_end
-                      )}
+                      value={formatDateForInput(this.state.series_end)}
                       afterDate={this.state.series_start}
                       onChange={this.handleDateInput}
                     />
 
                     <SelectBox
+                      id="series_type"
                       name="series_type"
                       text="series type"
                       value={this.state.series_type}
@@ -401,6 +412,7 @@ class BaseCreate extends Component {
 
                     <Tickbox
                       text="Force In Season"
+                      id="legacyIsSeason"
                       name="_legacyIsSeason"
                       checked={this.state._legacyIsSeason || false}
                       onChange={this.handleUserInput}

@@ -176,18 +176,18 @@ class QuickAdd extends React.Component {
     const limitByTotalVolume = !isManga
       ? 0
       : this.state.editItem.maxVol
-        ? this.state.editItem.maxVol
-        : this.state.malUpdates.values &&
-          !!this.state.malUpdates.values.series_volumes
-          ? this.state.malUpdates.values.series_volumes
-          : null;
+      ? this.state.editItem.maxVol
+      : this.state.malUpdates.values &&
+        !!this.state.malUpdates.values.series_volumes
+      ? this.state.malUpdates.values.series_volumes
+      : null;
 
     const limitByTotal = this.state.editItem.max
       ? this.state.editItem.max
       : this.state.malUpdates.values &&
         !!this.state.malUpdates.values[`${current}s`]
-        ? this.state.malUpdates.values[`${current}s`]
-        : null;
+      ? this.state.malUpdates.values[`${current}s`]
+      : null;
 
     const showSeriesOverallRating =
       this.state.editItem[current] > 0 &&
@@ -236,6 +236,7 @@ class QuickAdd extends React.Component {
                     {isManga && (
                       <ClearableInput
                         type="number"
+                        id="volume"
                         name="volume"
                         label="volume"
                         value={this.state.editItem.volume}
@@ -247,6 +248,7 @@ class QuickAdd extends React.Component {
                   </div>
                   {showSeriesOverallRating && (
                     <RatingControl
+                      id="overallRating"
                       name="overallRating"
                       label="Rating"
                       value={this.state.editItem.overallRating || 0}
@@ -262,10 +264,14 @@ class QuickAdd extends React.Component {
                         .map((item, index) => {
                           const historyNumber =
                             this.state.editItem.min + 1 + index;
+                          const ratingId = `ratings.${historyNumber}`;
+                          const noteId = `notes.${historyNumber}`;
+
                           return (
                             <li key={index} className="flex-row">
                               <RatingControl
-                                name={`ratings.${historyNumber}`}
+                                id={ratingId}
+                                name={ratingId}
                                 label={`rating for ${current} ${historyNumber}`}
                                 value={
                                   this.state.editItem.ratings[historyNumber] ||
@@ -274,7 +280,8 @@ class QuickAdd extends React.Component {
                                 onChange={this.handleUserInput}
                               />
                               <ClearableInput
-                                name={`notes.${historyNumber}`}
+                                id={noteId}
+                                name={noteId}
                                 label={`note for ${historyNumber}`}
                                 value={
                                   this.state.editItem.notes[historyNumber] || ''

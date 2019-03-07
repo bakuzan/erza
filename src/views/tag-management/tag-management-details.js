@@ -82,6 +82,7 @@ class TagManagementDetails extends React.Component {
         <div className="flex width-50 padding-10">
           <form name="tag-edit" onSubmit={this.handleSubmit}>
             <ClearableInput
+              id="name"
               name="name"
               label="name"
               placeholder="name"

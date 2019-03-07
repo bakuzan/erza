@@ -1,9 +1,8 @@
-import { Utils } from 'meiko';
-
 import { SatellizerFlags } from 'constants/strings';
+import { formatDateForInput } from 'utils/common';
 
 const getYYYYMMDate = (date) => {
-  const d = Utils.Date.DateFormat.formatDateForInput(date);
+  const d = formatDateForInput(date);
   return d
     .split('-')
     .slice(0, 2)

@@ -1,11 +1,9 @@
-import { Utils } from 'meiko';
 import fetchFromServer from '../graphql/fetch';
 import DailyAnimeQL from '../graphql/query/daily-anime';
 import { Paths } from '../constants/paths';
 import { Enums } from '../constants/values';
 import { DAILY_ANIME_LOAD } from '../constants/actions';
-
-const { startOfDay, endOfDay, DateFormat } = Utils.Date;
+import { startOfDay, endOfDay, dateAsMs } from 'utils/common';
 
 const loadDailyAnime = (data) => ({
   type: DAILY_ANIME_LOAD,
@@ -17,10 +15,7 @@ export const fetchDailyAnime = (dateOffset) => {
     const date = new Date();
     date.setDate(date.getDate() - dateOffset);
 
-    const dateRange = [
-      DateFormat.dateAsMs(startOfDay(date)),
-      DateFormat.dateAsMs(endOfDay(date))
-    ];
+    const dateRange = [dateAsMs(startOfDay(date)), dateAsMs(endOfDay(date))];
     const query = DailyAnimeQL.getDailyAnimeForDateRange(dateRange);
     fetchFromServer(`${Paths.graphql.base}${query}`).then((response) => {
       const { episodes, anime } = response.data;

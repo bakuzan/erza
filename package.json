@@ -11,12 +11,13 @@
     "@storybook/react": "^3.3.14",
     "babel-core": "^6.26.0",
     "chalk": "^1.1.3",
-    "react-scripts": "2.1.3",
+    "react-scripts": "2.1.8",
     "redux-logger": "^2.6.1"
   },
   "dependencies": {
+    "ayaka": "file:../ayaka/build",
     "body-parser": "^1.16.0",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "concurrently": "^3.1.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -39,10 +40,10 @@
     "node-sass": "^4.10.0",
     "npm-run-all": "^4.1.1",
     "popura": "^1.2.5",
-    "prettier": "^1.9.2",
-    "prop-types": "^15.6.1",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "prettier": "^1.16.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.3.1",
     "react-redux": "^5.0.7",
@@ -55,19 +56,19 @@
     "yoruichi-shunko": "file:./yoruichi-shunko/build"
   },
   "lint-staged": {
-    "*.{js,jsx,json,scss}": [
+    "{,src,server}.{js,jsx,json,scss}": [
       "prettier --single-quote --write",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit-msg && npm run lint"
+      "pre-commit": "npm run precommit-msg && npm run pretty"
     }
   },
   "scripts": {
     "precommit-msg": "echo 'Precommit checks...'",
-    "lint": "lint-staged",
+    "pretty": "lint-staged",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p start-js server",
     "build": "react-scripts build",

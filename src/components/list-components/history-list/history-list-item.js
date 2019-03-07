@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { ClearableInput, Dialog, RatingControl, Utils } from 'meiko';
+import { ClearableInput, Dialog, RatingControl } from 'meiko';
 import { ButtonIcon } from 'components/buttonised';
-import { padNumber, capitalise } from '../../../utils/common';
+import {
+  padNumber,
+  capitalise,
+  formatDateISO,
+  formatDateTimeForDisplay
+} from '../../../utils/common';
 import { getUniquePropertiesForItemType } from '../../../utils/data';
 import { Strings, Icons } from '../../../constants/values';
-
-const { formatDateISO, formatDateTimeForDisplay } = Utils.Date.DateFormat;
 
 class HistoryListItem extends Component {
   constructor(props) {
@@ -74,6 +77,7 @@ class HistoryListItem extends Component {
             <span>Unrated</span>
           ) : (
             <RatingControl
+              id={`rating-${item._id}`}
               name="rating"
               value={this.state.rating}
               onChange={this.state.isEditing ? this.handleUserInput : null}
@@ -84,6 +88,7 @@ class HistoryListItem extends Component {
           <span>{item.note}</span>
         ) : (
           <ClearableInput
+            id={`note-${item._id}`}
             name="note"
             label="note"
             maxLength={140}
@@ -105,32 +110,33 @@ class HistoryListItem extends Component {
               <ButtonIcon
                 name="isEditing"
                 btnSize="small"
+                aria-label={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
                 title={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
                 icon={this.state.isEditing ? Icons.cross : Icons.editable}
                 onClick={this.toggleEdit}
               />
             )}
-            {!!deleteAction &&
-              !this.state.isEditing && (
-                <span className="delete-action">
-                  <ButtonIcon
-                    btnSize="small"
-                    title="Delete entry"
-                    icon={Icons.cross}
-                    onClick={this.showDeleteDialog}
-                  />
-                  <Dialog
-                    name="historyDelete"
-                    title={`Delete ${capitalisedCurrent} ${number}`}
-                    localised="true"
-                    getDialogRef={this.assignDialogRef}
-                    actionText={Strings.delete}
-                    action={this.confirmDelete}
-                  >
-                    <p>{Strings.deleteConfirmation}</p>
-                  </Dialog>
-                </span>
-              )}
+            {!!deleteAction && !this.state.isEditing && (
+              <span className="delete-action">
+                <ButtonIcon
+                  btnSize="small"
+                  aria-label="Delete entry"
+                  title="Delete entry"
+                  icon={Icons.cross}
+                  onClick={this.showDeleteDialog}
+                />
+                <Dialog
+                  name="historyDelete"
+                  title={`Delete ${capitalisedCurrent} ${number}`}
+                  localised="true"
+                  getDialogRef={this.assignDialogRef}
+                  actionText={Strings.delete}
+                  action={this.confirmDelete}
+                >
+                  <p>{Strings.deleteConfirmation}</p>
+                </Dialog>
+              </span>
+            )}
           </div>
         )}
       </li>
