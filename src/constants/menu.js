@@ -7,14 +7,14 @@ const Menu = [
     title: 'Anime',
     children: [
       {
-        id: 0,
+        id: 1,
         link: `${Paths.base}${Paths.anime.create}`,
         title: 'Create an Anime',
         description: 'Enter details about a new anime entry.',
         icon: 'AC'
       },
       {
-        id: 1,
+        id: 2,
         link: `${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`,
         title: 'Browse Anime',
         description: 'Search anime with a variable of filters and conditions',
@@ -27,14 +27,14 @@ const Menu = [
     title: 'Manga',
     children: [
       {
-        id: 2,
+        id: 3,
         link: `${Paths.base}${Paths.manga.create}`,
         title: 'Create an Manga',
         description: 'Enter details about a new manga entry.',
         icon: 'MC'
       },
       {
-        id: 3,
+        id: 4,
         link: `${Paths.base}${Paths.manga.list}${Strings.filters.ongoing}`,
         title: 'Browse Manga',
         description: 'Search manga with a variable of filters and conditions',
@@ -47,14 +47,14 @@ const Menu = [
     title: 'History',
     children: [
       {
-        id: 4,
+        id: 5,
         link: `${Paths.base}${Paths.history}${Strings.anime}`,
         title: 'View watched',
         description: 'View anime history by data range.',
         icon: 'AH'
       },
       {
-        id: 5,
+        id: 6,
         link: `${Paths.base}${Paths.history}${Strings.manga}`,
         title: 'View read',
         description: 'View manga history by data range.',
@@ -67,14 +67,14 @@ const Menu = [
     title: 'Statistics',
     children: [
       {
-        id: 6,
+        id: 7,
         link: `${Paths.base}${Paths.statistics}${Strings.anime}`,
         title: 'Explore anime',
         description: 'Investigate the aggregation on anime entries',
         icon: 'AS'
       },
       {
-        id: 7,
+        id: 8,
         link: `${Paths.base}${Paths.statistics}${Strings.manga}`,
         title: 'Explore manga',
         description: 'Investigate the aggregation on manga entries',
@@ -87,7 +87,7 @@ const Menu = [
     title: 'Tag Management',
     children: [
       {
-        id: 8,
+        id: 9,
         link: `${Paths.base}${Paths.tagManagement}`,
         title: 'Tag management',
         description: 'Manage tag changes and deletion',

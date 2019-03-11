@@ -9,23 +9,24 @@ import { createListeners } from '../../utils/common';
 import './shortcuts.scss';
 
 const shortcut = (o) => ({ ctrlKey, keyCode }) =>
-  ctrlKey && keyCode === Enums.keyCodes.q ? o.toggleVisible() : null;
+  ctrlKey && keyCode === Enums.KeyCodes.q ? o.toggleVisible() : null;
 
 class Shortcuts extends Component {
   constructor() {
     super();
     this.state = {
+      items: Menu.reduce((p, c) => p.concat(c.children), Array(0)),
       filter: ''
     };
-    this.items = Menu.reduce((p, c) => p.concat(c.children), Array(0));
-    this.controller = createListeners('keydown', shortcut(this))();
 
+    this.controller = null;
     this.assignRef = this.assignRef.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.performAction = this.performAction.bind(this);
   }
 
   componentDidMount() {
+    this.controller = createListeners('keydown', shortcut(this))();
     this.controller.listen();
   }
 
@@ -47,9 +48,13 @@ class Shortcuts extends Component {
   }
 
   performAction(id) {
-    const { link, action } = this.items.find((x) => x.id === id);
+    const { link, action } = this.state.items.find((x) => x.id === id);
     this.toggleVisible();
-    if (!!link) return this.props.history.push(link);
+
+    if (!!link) {
+      return this.props.history.push(link);
+    }
+
     return action();
   }
 
@@ -66,7 +71,7 @@ class Shortcuts extends Component {
           <AutocompleteInput
             menuClassName="erza-autocomplete-menu"
             attr="title"
-            items={this.items}
+            items={this.state.items}
             filter={this.state.filter}
             onChange={this.handleFilter}
             onSelect={this.performAction}
