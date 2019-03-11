@@ -112,7 +112,16 @@ const getAverageRating = (arr) => {
   return ratings.reduce((p, c) => p + c) / ratings.length;
 };
 
+const emptyEpisodeStatistic = () => ({
+  _id: '',
+  average: 0.0,
+  highest: 0,
+  lowest: 0,
+  mode: 0
+});
+
 module.exports = {
+  emptyEpisodeStatistic,
   fetchStatusGrouping,
   fetchBreakdownObject,
   historyBreakdownIsMonths,

@@ -16,22 +16,17 @@ const Episode = require('../models/episode.js').Episode;
 const getQueryModelForType = (t) =>
   t === Constants.type.anime ? Anime : Manga;
 
-const emptyEpisodeStatistic = () => ({
-  _id: '',
-  average: 0.0,
-  highest: 0,
-  lowest: 0,
-  mode: 0
-});
 const mapDocToHistoryDetail = ({ _id, title, rating }) => ({
   _id,
   title,
   rating,
   season: '',
-  episodeStatistics: emptyEpisodeStatistic()
+  episodeStatistics: Functions.emptyEpisodeStatistic()
 });
 const getHistoryCountsPartition = (req, res) => {
-  const { params: { type, isAdult, breakdown, partition } } = req;
+  const {
+    params: { type, isAdult, breakdown, partition }
+  } = req;
   const model = getQueryModelForType(type);
   const breakdownObj = Functions.fetchBreakdownObject(breakdown);
 
@@ -65,8 +60,9 @@ const getHistoryCountsPartition = (req, res) => {
       return model.findIn(list);
     })
     .then(function(docs) {
-      if (Functions.historyBreakdownIsMonths(breakdown))
+      if (Functions.historyBreakdownIsMonths(breakdown)) {
         return docs.map(mapDocToHistoryDetail);
+      }
 
       return attachEpisodeStatistics({ isAdult }, docs);
     })
@@ -76,7 +72,9 @@ const getHistoryCountsPartition = (req, res) => {
 };
 
 const getHistoryCountsByYearsPartition = (req, res) => {
-  const { params: { type, isAdult, breakdown, partition } } = req;
+  const {
+    params: { type, isAdult, breakdown, partition }
+  } = req;
   const model = getQueryModelForType(type);
   const breakdownObj = Functions.fetchBreakdownObject(breakdown);
   let counts = {};
@@ -167,7 +165,7 @@ const attachEpisodeStatistics = async ({ isAdult }, parents) => {
       rating,
       season: getSeasonText(getDateParts(new Date(start))),
       episodeStatistics: {
-        ...emptyEpisodeStatistic(),
+        ...Functions.emptyEpisodeStatistic(),
         ...episodeStatistics,
         mode: Functions.getModeRating(episodeRatings)
       }

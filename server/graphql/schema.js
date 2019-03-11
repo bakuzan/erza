@@ -32,6 +32,7 @@ const mutations = arrayOfModels
 
 GQC.rootQuery().addFields({
   ...queries,
+  animeManyAiring: AnimeTC.getResolver('findManyAiring'),
   animeManyRepeated: AnimeTC.getResolver('findManyRepeated'),
   mangaManyRepeated: MangaTC.getResolver('findManyRepeated'),
   animeCheckIfExists: AnimeTC.getResolver('checkIfExists'),

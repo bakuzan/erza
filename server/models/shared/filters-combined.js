@@ -1,10 +1,16 @@
-const { capitalise } = require('../../utils/common');
+const {
+  capitalise,
+  getSeasonText,
+  getDateParts
+} = require('../../utils/common');
 const {
   updateDateBeforeSave,
   preventDatesPre1970,
   addMalEntry,
   updateMalEntry
 } = require('../../graphql/common.js');
+const Functions = require('../../statistics/common.js');
+const Episode = require('../episode.js').Episode;
 const {
   searchFilterArg,
   statusInFilterArg,
@@ -14,7 +20,7 @@ const {
 } = require('./filters');
 
 const resolverExtentions = (type, typeString, dbContext) => {
-  type.wrapResolver('connection', newResolver =>
+  type.wrapResolver('connection', (newResolver) =>
     newResolver
       .addFilterArg(searchFilterArg)
       .addFilterArg(statusInFilterArg(type))
@@ -23,7 +29,7 @@ const resolverExtentions = (type, typeString, dbContext) => {
       .addFilterArg(isOwnedOnlyFilterArg)
   );
 
-  type.wrapResolver('findMany', newResolver =>
+  type.wrapResolver('findMany', (newResolver) =>
     newResolver
       .addFilterArg(searchFilterArg)
       .addFilterArg(statusInFilterArg(type))
@@ -67,7 +73,7 @@ const resolverExtentions = (type, typeString, dbContext) => {
     }
   });
 
-  type.wrapResolver('findManyRepeated', newResolver =>
+  type.wrapResolver('findManyRepeated', (newResolver) =>
     newResolver.addFilterArg(searchFilterArg)
   );
 
@@ -103,14 +109,67 @@ const resolverExtentions = (type, typeString, dbContext) => {
     }
   });
 
-  type.wrapResolver('createOne', newResolver =>
+  type.addResolver({
+    kind: 'query',
+    name: 'findManyAiring',
+    args: {
+      key: {
+        // Exists because elm-gql requires args?
+        type: 'String',
+        defaultValue: ''
+      }
+    },
+    type: [type],
+    resolve: async ({ args, context, rawQuery }) => {
+      // Get Series
+      const items = await dbContext.find({
+        ...rawQuery,
+        isAdult: false,
+        status: 1
+      });
+
+      const inSeasonItems = items.filter((x) => x.season && x.season.inSeason);
+      const seriesIds = inSeasonItems.map(({ _id }) => _id);
+
+      // Get Episodes
+      const episodes = await Episode.getGroupedAggregation({
+        groupBy: '$parent',
+        sort: 1,
+        match: { isAdult: false, parent: { $in: seriesIds } }
+      });
+
+      // Map and sort series
+      return inSeasonItems.map((item) => {
+        const { _id, title, rating, start } = item;
+        const parentId = _id.toString();
+        const epStats =
+          episodes.find((x) => x._id.toString() === parentId) || {};
+        const epRatings = (epStats.ratings || []).slice(0);
+        delete epStats.ratings;
+
+        return {
+          _id,
+          title,
+          rating,
+          season: getSeasonText(getDateParts(new Date(start))),
+          episodeStatistics: {
+            ...Functions.emptyEpisodeStatistic(),
+            ...episodeStatistics,
+            mode: Functions.getModeRating(epRatings)
+          }
+        };
+      });
+    }
+  });
+
+  type.wrapResolver('createOne', (newResolver) =>
     newResolver
       .wrapResolve(updateDateBeforeSave('createdDate'))
       .wrapResolve(addMalEntry(typeString))
       .wrapResolve(preventDatesPre1970)
   );
 
-  type.wrapResolver('updateById', newResolver =>
+  type.wrapResolver('updateById', (newResolver) =>
     newResolver
       .wrapResolve(updateDateBeforeSave('updatedDate'))
       .wrapResolve(updateMalEntry(typeString))
