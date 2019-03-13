@@ -1,24 +1,25 @@
 import React from 'react';
-import { ButtonisedNavButton } from 'components/buttonised';
+import { NavLink } from 'react-router-dom';
 import './sidebar-item.scss';
 
 const isSidebarActive = (targetPath) => (match, { pathname }) => {
-  if (!targetPath || !targetPath.includes('list')) return !!match;
+  if (!targetPath || !targetPath.includes('list')) {
+    return !!match;
+  }
   return targetPath.slice(0, 17) === pathname.slice(0, 17);
 };
 
 const SidebarItem = ({ data, onClick }) => (
-  <ButtonisedNavButton
-    className="sidebar-item"
-    btnStyle="primary"
+  <NavLink
+    className="sidebar-item__link"
     activeClassName="active"
     to={data.link}
     onClick={onClick}
     isActive={isSidebarActive(data.link)}
   >
-    <div className="sidebar-item-icon center-contents">{data.icon}</div>
-    <div className="sidebar-item-text">{data.title}</div>
-  </ButtonisedNavButton>
+    <div className="sidebar-item__link-icon center-contents">{data.icon}</div>
+    <div className="sidebar-item__link-text">{data.title}</div>
+  </NavLink>
 );
 
 export default SidebarItem;

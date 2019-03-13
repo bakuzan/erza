@@ -1,16 +1,22 @@
 .sidebar-collapsed {
-  .sidebar-item-text {
-    display: none;
-  }
-
-  .sidebar-item-icon {
+  .sidebar-item__link {
+    height: 50px;
     display: flex;
-    flex: 1 1 20%;
+
+    &-text {
+      display: none;
+    }
+
+    &-icon {
+      display: flex;
+      flex: 1 1 20%;
+      height: 100%;
+    }
   }
 }
 
 ul {
-  .sidebar-item-text {
+  .sidebar-item__link-text {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -18,7 +24,7 @@ ul {
     margin-left: 5px;
   }
 
-  .sidebar-item-icon {
+  .sidebar-item__link-icon {
     display: none;
   }
 }

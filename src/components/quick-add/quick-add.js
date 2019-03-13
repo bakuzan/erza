@@ -54,6 +54,14 @@ class QuickAdd extends React.Component {
   componentDidMount() {
     this.getMalEntry = fetchMalEntry(this.props.type);
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
+
+    // Lock scroll
+    document.body.style = 'overflow: hidden';
+  }
+
+  componentWillUnmount() {
+    // Unlock scroll
+    document.body.style = '';
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -62,7 +70,10 @@ class QuickAdd extends React.Component {
       prevState.originalItem
     );
 
-    if (originalItemIsUnchanged) return null;
+    if (originalItemIsUnchanged) {
+      return null;
+    }
+
     return {
       originalItem: nextProps.originalItem
     };
@@ -78,9 +89,11 @@ class QuickAdd extends React.Component {
       this.props.originalItem,
       prevProps.originalItem
     );
+
     if (
-      originalItemHasChanged &&
-      prevProps.originalItem.hasOwnProperty('_id')
+      (originalItemHasChanged &&
+        prevProps.originalItem.hasOwnProperty('_id')) ||
+      (!this.state.editItem._id && this.props.originalItem._id)
     ) {
       this.onOpenEdit();
     }
@@ -108,7 +121,11 @@ class QuickAdd extends React.Component {
     const isManga = type === Strings.manga;
     const { current, total } = this.itemProperties;
     const defaults = getInitialState(this.itemProperties.current, originalItem);
-    if (originalItem.malId) this.refreshMalValues(originalItem);
+
+    if (originalItem.malId) {
+      this.refreshMalValues(originalItem);
+    }
+
     this.setState({
       ...defaults,
       originalItem,
@@ -209,7 +226,7 @@ class QuickAdd extends React.Component {
         {this.props.isOpen && (
           <Form
             id="quick-add-form"
-            className="themed-background"
+            className="quick-add-form"
             name={`${type}Edit`}
             title={`Edit ${originalItem.title}`}
             submitOptions={submitOptions}

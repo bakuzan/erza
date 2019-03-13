@@ -103,7 +103,7 @@ class DailyAnime extends Component {
 }
 
 DailyAnime.propTypes = {
-  routeKey: PropTypes.string.isRequired,
+  routeKey: PropTypes.string,
   onSelect: PropTypes.func.isRequired
 };
 

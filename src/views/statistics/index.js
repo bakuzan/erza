@@ -71,7 +71,7 @@ class Statistics extends Component {
     };
 
     return (
-      <div className="flex-column">
+      <div className="flex-column padding-5">
         <Helmet>
           <title>{`${capitalise(contentType)} Statistics`}</title>
         </Helmet>

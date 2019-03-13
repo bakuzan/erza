@@ -88,13 +88,6 @@ $series-image-container--height: 150px;
 }
 
 .list {
-  .label:nth-child(odd):hover {
-    &,
-    & + .value {
-      background-color: $primary-background;
-      color: $primary-colour-contrast;
-    }
-  }
   .label {
     font-weight: bold;
   }
@@ -122,14 +115,6 @@ $series-image-container--height: 150px;
   position: relative;
 }
 
-.uploader {
-  border-bottom-color: $primary-colour;
-}
-
-.tabs-component .tabs-container {
-  border-top-color: $primary-colour;
-}
-
 #series-by-ratings-container .input-container {
   flex-grow: 0;
 }
@@ -144,51 +129,6 @@ $series-image-container--height: 150px;
   padding: 0;
   margin: 0 {
     left: 15px;
-  }
-}
-
-// Button
-button.primary:not(.erza-button-link),
-.erza-button.primary,
-.erza-button-icon.primary {
-  background-color: $primary-background;
-  color: $primary-colour-contrast;
-
-  &:hover,
-  &.active {
-    @include lightenOrDarken(
-      'background-color',
-      $primary-background,
-      $darken-amount * 3
-    );
-    color: $white;
-  }
-}
-
-.erza-button-link.primary {
-  color: $primary-colour;
-  &:focus,
-  &:active {
-    color: $primary-colour;
-  }
-  &:hover {
-    color: darken($primary-colour, $darken-amount);
-  }
-}
-a.erza-button-link.active {
-  text-decoration: none;
-  color: $primary-colour-contrast;
-}
-
-.erza-button.accent {
-  background-color: $accent-background;
-  color: $accent-colour-contrast;
-  &:hover {
-    @include lightenOrDarken(
-      'background-color',
-      $accent-background,
-      $darken-amount * 3
-    );
   }
 }
 

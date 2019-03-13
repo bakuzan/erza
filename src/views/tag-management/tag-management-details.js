@@ -107,7 +107,7 @@ class TagManagementDetails extends React.Component {
               {Strings.delete}
             </Button>
           </div>
-          <div className="flex-row">
+          <div className="related-series-lists">
             <RelatedSeriesList
               seriesType={Strings.anime}
               title="Anime series"

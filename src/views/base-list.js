@@ -116,7 +116,7 @@ class BaseListView extends Component {
 }
 
 BaseListView.propTypes = {
-  routeKey: PropTypes.string.isRequired,
+  routeKey: PropTypes.string,
   isAdult: PropTypes.bool.isRequired,
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired,

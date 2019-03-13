@@ -1,7 +1,6 @@
-.related-series-container {
-  display: flex;
-  flex-flow: column;
-  flex: 1;
+.related-series-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 50%);
 
   ul {
     max-height: 50vh;
