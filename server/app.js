@@ -20,12 +20,8 @@ app.use(
 
 // Serve static assets
 app.use(
-  `/${Constants.appName}/favicon.ico`,
-  favicon(path.join(__dirname, '..', 'build', 'favicon.ico'))
-);
-app.use(
-  `/${Constants.appName}/static`,
-  express.static(path.resolve(__dirname, '..', 'build/static'))
+  `/${Constants.appName}`,
+  express.static(path.resolve(__dirname, '..', 'build'))
 );
 
 //Body parsing for POST-ing
