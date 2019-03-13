@@ -227,6 +227,7 @@ class QuickAdd extends React.Component {
                     <ClearableInput
                       type="number"
                       name={current}
+                      id={`${current}`}
                       label={current}
                       value={this.state.editItem[current]}
                       min={this.state.editItem.min}

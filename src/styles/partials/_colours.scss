@@ -43,26 +43,24 @@ $bronze: #cc6633;
 
 // Super theme maps!
 $theme-maps: (
-  theme-one:
-    (
-      base-background: $white,
-      base-colour: $black,
-      base-colour-inverse: $white,
-      colour: $erza-red,
-      contrast: $erza-silver-shade,
-      anchor-colour: $erza-red-highlight,
-      anchor-colour-hover: $erza-silver
-    ),
-  theme-two:
-    (
-      base-background: $black-red,
-      base-colour: $white,
-      base-colour-inverse: $black,
-      colour: $erza-red-highlight,
-      contrast: $erza-silver,
-      anchor-colour: $erza-silver-shade,
-      anchor-colour-hover: $erza-red
-    )
+  theme-one: (
+    base-background: $white,
+    base-colour: $black,
+    base-colour-inverse: $white,
+    colour: $erza-red,
+    contrast: $erza-silver-shade,
+    anchor-colour: $erza-red-highlight,
+    anchor-colour-hover: $erza-silver
+  ),
+  theme-two: (
+    base-background: $black-red,
+    base-colour: $white,
+    base-colour-inverse: $black,
+    colour: $erza-red-highlight,
+    contrast: $erza-silver,
+    anchor-colour: $erza-silver-shade,
+    anchor-colour-hover: $erza-red
+  )
 );
 // Super theme maps end!
 $primary-background: $erza-red;
@@ -70,7 +68,7 @@ $primary-colour: $erza-red;
 $primary-colour-contrast: $erza-silver;
 $accent-background: $erza-red-highlight;
 $accent-colour: $erza-red-highlight;
-$accent-colour-contrast: $erza-silver-shade;
+$accent-colour-contrast: $white;
 $spinner-colour-one: $erza-silver;
 $spinner-colour-two: $erza-red-highlight;
 $spinner-colour-three: $erza-silver;
@@ -82,10 +80,26 @@ $success-colour: $green;
 $alert-colour: $orange;
 $danger-colour: $red;
 $ui-messaging: (
-  success: (background: $success-colour, colour: #000, icon: '\2713'),
-  error: (background: $danger-colour, colour: #fff, icon: '\0021'),
-  warning: (background: $alert-colour, colour: #000, icon: '\26a0'),
-  info: (background: $info-colour, colour: #000, icon: '\2139')
+  success: (
+    background: $success-colour,
+    colour: #000,
+    icon: '\2713'
+  ),
+  error: (
+    background: $danger-colour,
+    colour: #fff,
+    icon: '\0021'
+  ),
+  warning: (
+    background: $alert-colour,
+    colour: #000,
+    icon: '\26a0'
+  ),
+  info: (
+    background: $info-colour,
+    colour: #000,
+    icon: '\2139'
+  )
 );
 $toasts: $ui-messaging;
 $alerts: $ui-messaging;

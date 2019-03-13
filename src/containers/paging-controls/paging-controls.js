@@ -29,6 +29,7 @@ const PagingControls = ({
         <div className="button-group centered flex-grow">
           <Button
             className="ripple"
+            aria-label="Previous Page"
             onClick={() => goBackAPage(listType, filters)}
             disabled={page === 0}
           >
@@ -39,6 +40,7 @@ const PagingControls = ({
           </div>
           <Button
             className="ripple"
+            aria-label="Next Page"
             onClick={() => goForwardAPage(listType, filters)}
             disabled={page === finalPage || !pageInfo.totalCount}
           >

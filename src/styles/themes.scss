@@ -199,32 +199,9 @@
       border-bottom-color: $contrast;
     }
 
+    // TODO REMOVE
     // satellizer theming
     #satellizer {
-      a {
-        color: $anchor-colour;
-        &:hover {
-          color: $anchor-colour-hover;
-        }
-      }
-
-      #season-key {
-        background: $base-background;
-      }
-
-      .button:not(.primary) {
-        background-color: $base-background;
-        color: $base-colour;
-        &:hover {
-          @include shiftColourLightness($base-background, $darken-amount);
-        }
-      }
-
-      .accordion-toggler + label:after,
-      .accordion-toggler + label:before {
-        background: $base-colour;
-      }
-
       .history-breakdown-body__row.month-breakdown:hover,
       .history-breakdown-body__row.year-breakdown:hover,
       .history-breakdown-body__row.month-breakdown:hover a,
@@ -236,15 +213,7 @@
         background-color: $anchor-colour-hover;
         color: $anchor-colour;
       }
-
-      .history-breakdown-body__data-cell__background {
-        background-color: $contrast;
-      }
-
-      .rating-label.selected {
-        background-color: $colour;
-        color: $contrast;
-      }
     }
+    // satellizer theming
   } // End of Theme block
 } // End of @each

@@ -69,6 +69,7 @@ class DailyAnime extends Component {
           <ButtonIcon
             btnStyle="primary"
             icon={Icons.left}
+            aria-label="Previous Daily Anime"
             disabled={this.state.dateOffset > 6}
             onClick={() => this.handleDayChange(1)}
           />
@@ -76,6 +77,7 @@ class DailyAnime extends Component {
           <ButtonIcon
             btnStyle="primary"
             icon={Icons.right}
+            aria-label="Next Daily Anime"
             disabled={this.state.dateOffset === 1}
             onClick={() => this.handleDayChange(-1)}
           />

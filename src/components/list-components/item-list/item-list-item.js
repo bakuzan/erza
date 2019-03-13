@@ -19,12 +19,12 @@ const ItemListItem = ({ type, item, addAction }) => {
   const { current, total } = getUniquePropertiesForItemType(type);
   const hasMalId = !!item.malId;
   const hasLink = !!item.link;
-  const statusIcon = item.isRepeat
-    ? Icons.clockwise
+  const iconStatusProps = item.isRepeat
+    ? { icon: Icons.clockwise, [`aria-label`]: 'Is Repeat' }
     : item.status === Enums.status.onhold
-    ? Icons.pause
+    ? { icon: Icons.pause, [`aria-label`]: 'On hold' }
     : item.status === Enums.status.completed
-    ? Icons.tick
+    ? { icon: Icons.tick, [`aria-label`]: 'Completed' }
     : null;
 
   return (
@@ -41,6 +41,7 @@ const ItemListItem = ({ type, item, addAction }) => {
               btnSize="small"
               rounded
               icon="+"
+              aria-label={`Add ${item.title} ${current}s`}
               onClick={() => addAction(item._id)}
               disabled={
                 item.status === Enums.status.completed && !item.isRepeat
@@ -48,11 +49,11 @@ const ItemListItem = ({ type, item, addAction }) => {
             />
           )}
           <span>{`${item[current]}/${item[total] || '??'}`}</span>
-          {!!statusIcon && (
+          {!!iconStatusProps && (
             <ButtonisedSpan
               btnSize="small"
               className="bold"
-              icon={statusIcon}
+              {...iconStatusProps}
               title={getKeyByValue(Enums.status, item.status)}
             />
           )}
@@ -80,6 +81,7 @@ const ItemListItem = ({ type, item, addAction }) => {
               href={`https://myanimelist.net/${type}/${item.malId}`}
               className="mal-link"
               title="Open MAL entry in new tab."
+              aria-label={`Open MAL entry for ${item.title} in new tab.`}
             >
               <img
                 src="https://myanimelist.net/favicon.ico"
@@ -93,6 +95,7 @@ const ItemListItem = ({ type, item, addAction }) => {
               btnSize="small"
               icon={Icons.link}
               title="Open content link"
+              aria-label={`Open content link for ${item.title} in new tab.`}
             />
           )}
         </div>

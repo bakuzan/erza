@@ -21,7 +21,6 @@ const SORT_OPTIONS = [
 const ListFilter = ({
   type,
   search,
-  isAdult,
   onChange,
   sortOrder,
   onSortOrderToggle,
@@ -43,7 +42,7 @@ const ListFilter = ({
 
   return (
     <div className="list-filter">
-      <ClearableInput value={search} onChange={onChange} />
+      <ClearableInput id="search" value={search} onChange={onChange} />
 
       <div className="button-group">{statusLinks.slice(0, 3)}</div>
       <div className="button-group">{statusLinks.slice(3)}</div>

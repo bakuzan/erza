@@ -11,10 +11,10 @@ import {
   createListeners,
   capitalise
 } from '../../utils/common';
+import getTheme from '../../constants/elmThemes';
 import * as SU from './statistics-utils';
 
 import Satellizer from 'satellizer';
-import 'satellizer/styles.css';
 
 const processScroll = (page) => () => {
   debounce(() => {
@@ -27,6 +27,9 @@ const processScroll = (page) => () => {
 class Statistics extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      theme: getTheme(this.props.themeClass)
+    };
 
     this.setupPorts = this.setupPorts.bind(this);
     this.scrollController = createListeners('scroll', processScroll(this))();
@@ -48,6 +51,10 @@ class Statistics extends Component {
       this.ports.contentType.send(this.props.contentType);
       this.ports.isAdult.send(this.props.isAdult);
     }
+
+    if (prevProps.themeClass !== this.props.themeClass) {
+      this.ports.theme.send(getTheme(this.props.themeClass));
+    }
   }
 
   setupPorts(ports) {
@@ -59,7 +66,8 @@ class Statistics extends Component {
     const flags = {
       isAdult,
       contentType,
-      ...staticFlags
+      ...staticFlags,
+      ...this.state
     };
 
     return (
@@ -89,7 +97,8 @@ Statistics.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   ...SU.getDynamicProps(state, ownProps),
-  staticFlags: SU.getStaticFlags(ownProps)
+  staticFlags: SU.getStaticFlags(ownProps),
+  themeClass: state.theme ? state.theme.class : null
 });
 
 export default connect(mapStateToProps)(Statistics);

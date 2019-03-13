@@ -70,6 +70,7 @@ class Shortcuts extends Component {
         >
           <AutocompleteInput
             menuClassName="erza-autocomplete-menu"
+            id="shortcuts"
             attr="title"
             items={this.state.items}
             filter={this.state.filter}

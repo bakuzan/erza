@@ -3,13 +3,9 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import ElmWrapper from '../../components/elm-wrapper';
-import { themes, DEFAULT_THEME } from './themes';
+import getTheme from '../../constants/elmThemes';
 
 import Yoruichi from 'yoruichi-shunko';
-
-function getTheme(key) {
-  return themes.get(key) || DEFAULT_THEME;
-}
 
 class Home extends Component {
   constructor(props) {

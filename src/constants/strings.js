@@ -71,7 +71,8 @@ export const SatellizerFlags = Object.freeze({
   activeTab: {
     history: 'History',
     rating: 'Ratings',
-    repeat: 'Repeated'
+    repeat: 'Repeated',
+    airing: 'Airing'
   },
   breakdownType: {
     month: 'MONTHS',

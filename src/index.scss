@@ -4,6 +4,7 @@
 
 @font-face {
   font-family: 'Roboto Mono';
+  font-display: fallback;
   font-style: normal;
   font-weight: 400;
   src: local('Roboto Mono'), local('RobotoMono-Regular'),
@@ -152,6 +153,7 @@ button.primary:not(.erza-button-link),
 .erza-button-icon.primary {
   background-color: $primary-background;
   color: $primary-colour-contrast;
+
   &:hover,
   &.active {
     @include lightenOrDarken(
@@ -159,6 +161,7 @@ button.primary:not(.erza-button-link),
       $primary-background,
       $darken-amount * 3
     );
+    color: $white;
   }
 }
 

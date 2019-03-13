@@ -1,8 +1,5 @@
-const {
-  capitalise,
-  getSeasonText,
-  getDateParts
-} = require('../../utils/common');
+const { TypeComposer } = require('graphql-compose');
+const { getSeasonText, getDateParts } = require('../../utils/common');
 const {
   updateDateBeforeSave,
   preventDatesPre1970,
@@ -18,6 +15,26 @@ const {
   timesCompletedMinFilterArg,
   isOwnedOnlyFilterArg
 } = require('./filters');
+const inSeasonCalc = require('./in-season');
+
+const EpisodeStatisticsTC = TypeComposer.create(`
+  type EpisodeStatistics {
+    _id: String
+    average: Float
+    highest: Int
+    lowest: Int
+    mode: Int
+  }
+`);
+const AiringSeriesStatTC = TypeComposer.create(`
+  type AiringSeriesStat {
+    _id: String
+    title: String
+    rating: Int
+    season: String
+    episodeStatistics: EpisodeStatistics
+  }  
+`);
 
 const resolverExtentions = (type, typeString, dbContext) => {
   type.wrapResolver('connection', (newResolver) =>
@@ -119,16 +136,15 @@ const resolverExtentions = (type, typeString, dbContext) => {
         defaultValue: ''
       }
     },
-    type: [type],
-    resolve: async ({ args, context, rawQuery }) => {
+    type: [AiringSeriesStatTC],
+    resolve: async () => {
       // Get Series
       const items = await dbContext.find({
-        ...rawQuery,
         isAdult: false,
         status: 1
       });
 
-      const inSeasonItems = items.filter((x) => x.season && x.season.inSeason);
+      const inSeasonItems = items.filter((x) => inSeasonCalc(x).inSeason);
       const seriesIds = inSeasonItems.map(({ _id }) => _id);
 
       // Get Episodes
@@ -154,7 +170,7 @@ const resolverExtentions = (type, typeString, dbContext) => {
           season: getSeasonText(getDateParts(new Date(start))),
           episodeStatistics: {
             ...Functions.emptyEpisodeStatistic(),
-            ...episodeStatistics,
+            ...epStats,
             mode: Functions.getModeRating(epRatings)
           }
         };
