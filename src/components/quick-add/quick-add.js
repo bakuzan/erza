@@ -54,14 +54,6 @@ class QuickAdd extends React.Component {
   componentDidMount() {
     this.getMalEntry = fetchMalEntry(this.props.type);
     this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
-
-    // Lock scroll
-    document.body.style = 'overflow: hidden';
-  }
-
-  componentWillUnmount() {
-    // Unlock scroll
-    document.body.style = '';
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -96,6 +88,12 @@ class QuickAdd extends React.Component {
       (!this.state.editItem._id && this.props.originalItem._id)
     ) {
       this.onOpenEdit();
+    }
+
+    if (this.props.isOpen && !prevProps.isOpen) {
+      document.body.style = 'overflow: hidden';
+    } else if (!this.props.isOpen && prevProps.isOpen) {
+      document.body.style = '';
     }
   }
 
