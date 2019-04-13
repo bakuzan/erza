@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { withButtonisation, NewTabLink, Button as MButton } from 'meiko';
+import { withButtonisation, NewTabLink, Button as MButton } from 'mko';
 
 const LINK_CUSTOM_PROPS = {
   className: 'erza-button-link',

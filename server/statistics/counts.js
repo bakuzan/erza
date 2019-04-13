@@ -1,5 +1,5 @@
 const Constants = require('../constants');
-const { getKeyByValue, stringToBool } = require('../utils/common');
+const { getKeyByValue, stringToBool } = require('../utils');
 const Functions = require('./common.js');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
@@ -7,10 +7,13 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 const Anime = require('../models/anime.js').Anime;
 const Manga = require('../models/manga.js').Manga;
 
-const getQueryModelForType = t => (t === Constants.type.anime ? Anime : Manga);
+const getQueryModelForType = (t) =>
+  t === Constants.type.anime ? Anime : Manga;
 
 const getStatusCounts = (req, res) => {
-  const { params: { type, isAdult } } = req;
+  const {
+    params: { type, isAdult }
+  } = req;
   const model = getQueryModelForType(type);
   model
     .getGroupedCount({
@@ -29,7 +32,9 @@ const getStatusCounts = (req, res) => {
 };
 
 const getRatingCounts = (req, res) => {
-  const { params: { type, isAdult } } = req;
+  const {
+    params: { type, isAdult }
+  } = req;
   const model = getQueryModelForType(type);
   model
     .getGroupedCount({
@@ -43,7 +48,9 @@ const getRatingCounts = (req, res) => {
 };
 
 const getHistoryCounts = (req, res) => {
-  const { params: { type, isAdult, breakdown } } = req;
+  const {
+    params: { type, isAdult, breakdown }
+  } = req;
   const model = getQueryModelForType(type);
   const breakdownObj = Functions.fetchBreakdownObject(breakdown);
   model
@@ -78,7 +85,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
 
   const seasonStarts = arr.filter(Functions.aggregateIsSeasonStart);
   const additionalDates = arr
-    .filter(x => !Functions.aggregateIsSeasonStart(x))
+    .filter((x) => !Functions.aggregateIsSeasonStart(x))
     .reduce((p, c) => [...p, ...c.dates], []);
 
   if (!additionalDates.length) return seasonStarts.map(mapHistoryBreakdown);
@@ -91,7 +98,7 @@ const currateHistoryBreakdown = (breakdown, arr) => {
       const seasonText = `${year}-${Functions.getSeasonStartMonthForCounts(
         dateString
       )}`;
-      const index = p.findIndex(x => x._id === seasonText);
+      const index = p.findIndex((x) => x._id === seasonText);
 
       if (index === -1) return [...p, { _id: seasonText, value }];
       const season = p[index];

@@ -1,11 +1,9 @@
-import { Constants } from 'meiko';
 import combinedStrings from './strings';
 import combinedEnums from './enums';
+export { Icons, Types } from 'mko';
 
 export const Enums = combinedEnums;
 export const Strings = combinedStrings;
-export const Icons = Constants.Icons;
-export const Types = Constants.Types;
 
 export const Properties = {
   episode: 'episode',
@@ -32,7 +30,7 @@ export const NonPostableProperties = [
   Properties.series
 ];
 
-export const Days = combinedStrings.dayNames.map(s => s.slice(0, 2));
+export const Days = combinedStrings.dayNames.map((s) => s.slice(0, 2));
 
 export const pageSizes = {
   default: [5, 10, 15, 25],

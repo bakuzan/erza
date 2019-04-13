@@ -1,4 +1,4 @@
-import { toaster } from 'meiko';
+import { toaster } from 'mko';
 import {
   ADD_TAG,
   REMOVE_TAG,
@@ -9,7 +9,7 @@ import {
 import { Paths } from '../constants/paths';
 import fetchFromServer from '../graphql/fetch';
 import { constructRecordForPost } from '../graphql/common';
-import { getSingleObjectProperty } from '../utils/common';
+import { getSingleObjectProperty } from '../utils';
 import TagQL from '../graphql/query/tag';
 import TagML from '../graphql/mutation/tag';
 

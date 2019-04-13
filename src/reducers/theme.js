@@ -1,6 +1,6 @@
 import { SET_THEME_CLASS, TOGGLE_TIMED_THEME } from '../constants/actions';
 import { Strings } from '../constants/values';
-import { getUserSettings, persistUserSettings } from '../utils/common';
+import { getUserSettings, persistUserSettings } from '../utils';
 import { createReducer } from './utils';
 
 const getUserTheme = () => {

@@ -1,36 +1,29 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { ConnectedRouter } from 'react-router-redux';
-import Loadable from 'react-loadable';
+import { ConnectedRouter } from 'connected-react-router';
 
-import { Loaders } from 'meiko';
 import { Paths } from './constants/paths';
 import { Strings } from './constants/values';
-import App from './containers/app/app';
-import Anime from './views/anime/anime';
-import AnimeView from './views/anime/anime-view';
-import AnimeCreate from './views/anime/anime-create';
-import Manga from './views/manga/manga';
-import MangaView from './views/manga/manga-view';
-import MangaCreate from './views/manga/manga-create';
-import AnimeHistoryView from './views/history/anime-history';
-import MangaHistoryView from './views/history/manga-history';
+import { routeLazyLoader } from 'components/LazyLoaders';
+import App from './containers/App';
+import Anime from './views/Anime';
+import AnimeView from './views/Anime/AnimeView';
+import AnimeCreate from './views/Anime/AnimeCreate';
+import Manga from './views/Manga';
+import MangaView from './views/Manga/MangaView';
+import MangaCreate from './views/Manga/MangaCreate';
+import AnimeHistoryView from './views/History/AnimeHistory';
+import MangaHistoryView from './views/History/MangaHistory';
 
-const loadableSettings = { loading: Loaders.Loadables.Loading, delay: 300 };
-const Home = Loadable({
-  loader: () => import(/* webpackChunkName: 'home' */ './views/home/index'),
-  ...loadableSettings
-});
-const Statistics = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: 'statistics' */ './views/statistics/index'),
-  ...loadableSettings
-});
-const TagManagement = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: 'tag-management' */ './views/tag-management/tag-management'),
-  ...loadableSettings
-});
+const Home = routeLazyLoader(() =>
+  import(/* webpackChunkName: 'Home' */ './views/Home/index')
+);
+const Statistics = routeLazyLoader(() =>
+  import(/* webpackChunkName: 'Statistics' */ './views/Statistics')
+);
+const TagManagement = routeLazyLoader(() =>
+  import(/* webpackChunkName: 'TagManagement' */ './views/TagManagement')
+);
 
 const ErzaRoute = ({ component: PageComponent, ...routeProps }) => (
   <Route {...routeProps} component={PageComponent} />

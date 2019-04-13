@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
-import ElmWrapper from '../../components/elm-wrapper';
-import ContentTypeFilters from './content-type-filters';
+import ElmWrapper from 'components/ElmWrapper';
+import ContentTypeFilters from './ContentTypeFilters';
 import {
   debounce,
   getTimeoutSeconds,
   createListeners,
   capitalise
-} from '../../utils/common';
-import getTheme from '../../constants/elmThemes';
-import * as SU from './statistics-utils';
+} from 'utils';
+import getTheme from 'constants/elmThemes';
+import * as SU from './statisticsUtils';
 
 import Satellizer from 'satellizer';
 

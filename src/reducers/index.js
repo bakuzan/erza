@@ -1,20 +1,21 @@
 import { combineReducers } from 'redux';
-import { routerReducer as routing } from 'react-router-redux';
+import { connectRouter } from 'connected-react-router';
+
 import anime from './anime';
-import dailyAnime from './daily-anime';
+import dailyAnime from './dailyAnime';
 import manga from './manga';
 import episode from './episode';
 import chapter from './chapter';
 import tags from './tags';
 import { isFetching } from './loading';
-import { isAdult } from './is-adult';
+import { isAdult } from './isAdult';
 import { sorting } from './sorting';
 import { paging } from './paging';
 import { theme } from './theme';
 import { sidebar } from './sidebar';
-import requestIndicator from './request-indicator';
+import requestIndicator from './requestIndicator';
 import alert from './alert';
-import lastLocation from './last-location';
+import lastLocation from './lastLocation';
 import filters from './filters';
 
 const entities = combineReducers({
@@ -26,19 +27,20 @@ const entities = combineReducers({
   tags
 });
 
-const rootReducer = combineReducers({
-  routing,
-  entities,
-  isFetching,
-  isAdult,
-  sorting,
-  paging,
-  theme,
-  sidebar,
-  requestIndicator,
-  alert,
-  lastLocation,
-  filters
-});
+const createRootReducer = (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    entities,
+    isFetching,
+    isAdult,
+    sorting,
+    paging,
+    theme,
+    sidebar,
+    requestIndicator,
+    alert,
+    lastLocation,
+    filters
+  });
 
-export default rootReducer;
+export default createRootReducer;

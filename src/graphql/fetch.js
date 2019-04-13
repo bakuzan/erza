@@ -1,8 +1,8 @@
 import {
   addRequestIndicator,
   removeRequestIndicator
-} from '../actions/request-indicator';
-import { isObject } from '../utils/common';
+} from '../actions/requestIndicator';
+import { isObject } from '../utils';
 import { showAlertError } from '../actions/alert';
 
 import { store } from '../index';

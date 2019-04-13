@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const favicon = require('serve-favicon');
 const path = require('path');
 
 const Constants = require('./constants');

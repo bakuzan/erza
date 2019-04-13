@@ -1,7 +1,7 @@
-import { Constants } from 'meiko';
+import { Enums } from 'mko';
 
 export default {
-  ...Constants.Enums,
+  ...Enums,
   status: {
     ongoing: 1,
     completed: 2,

@@ -4,7 +4,7 @@ const {
   getDateParts,
   getPreviousMonth,
   getSeasonIndex
-} = require('../utils/common.js');
+} = require('../utils.js');
 
 const fetchStatusGrouping = (v) =>
   historyBreakdownIsMonths(v) ? 2 : { $in: [1, 2] };

@@ -1,7 +1,7 @@
-import { Constants } from 'meiko';
+import { Strings } from 'mko';
 
 export default {
-  ...Constants.Strings,
+  ...Strings,
   // inputs
   checkbox: 'checkbox',
   selectbox: 'select-one',

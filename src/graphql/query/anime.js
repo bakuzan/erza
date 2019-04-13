@@ -1,5 +1,5 @@
 import { Strings } from 'constants/values';
-import GenericListQueries from './list-items';
+import GenericListQueries from './listItems';
 
 export const animeSpecificKeyFields = `
   episode

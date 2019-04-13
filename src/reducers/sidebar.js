@@ -3,7 +3,7 @@ import {
   TOGGLE_SIDEBAR_COLLAPSE,
   CLOSE_SIDEBAR
 } from '../constants/actions';
-import { getUserSettings, persistUserSettings } from '../utils/common';
+import { getUserSettings, persistUserSettings } from '../utils';
 import { createReducer } from './utils';
 
 const getUserSidebar = () => {
@@ -20,7 +20,7 @@ const persistSidebarVisibility = (state, action) => {
   return updatedSettings.sidebar;
 };
 
-const persistSidebarCollapse = status => (state, action) => {
+const persistSidebarCollapse = (status) => (state, action) => {
   const isCollapsed = status || !state.isCollapsed;
   const updatedSettings = persistUserSettings({
     sidebar: { ...state, isCollapsed }

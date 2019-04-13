@@ -4,7 +4,7 @@ const {
   getSeasonText,
   getDateParts,
   sortNumbers
-} = require('../utils/common');
+} = require('../utils');
 const Functions = require('./common.js');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.

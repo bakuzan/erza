@@ -1,5 +1,5 @@
 const { TypeComposer } = require('graphql-compose');
-const { getSeasonText, getDateParts } = require('../../utils/common');
+const { getSeasonText, getDateParts } = require('../../utils');
 const {
   updateDateBeforeSave,
   preventDatesPre1970,

@@ -1,4 +1,4 @@
-import { curry, generateUniqueId } from '../utils/common';
+import { curry, generateUniqueId } from 'utils';
 
 const DEFAULT = 'default';
 const ERROR = 'error';
@@ -16,7 +16,7 @@ export const showAlertMessage = (alertType = DEFAULT, alert) => ({
 export const showAlertError = curry(showAlertMessage, ERROR);
 
 export const ALERT_DISMISS = 'ALERT_DISMISS';
-export const dismissAlertMessage = alertId => ({
+export const dismissAlertMessage = (alertId) => ({
   type: ALERT_DISMISS,
   alertId
 });

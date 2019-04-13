@@ -1,0 +1,42 @@
+@import '~styles/_variables.scss';
+
+.mal-search-container {
+  position: relative;
+
+  &.fetching .mal-clear-input,
+  &.selected .mal-results,
+  &.fresh .mal-results {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.mal-search-messages {
+  display: block;
+  color: $danger-colour;
+  padding-left: 0.5em;
+  margin-top: -5px;
+  font-size: 0.8em;
+}
+
+$base-img-height: 100px;
+.mal-search-suggestion-image {
+  height: $base-img-height;
+}
+
+.mal-search-suggestion {
+  span + span {
+    margin-left: 2px;
+  }
+  > button {
+    height: 25px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  &.active > button,
+  &:hover > button {
+    height: #{$base-img-height + 10px};
+    align-items: center;
+  }
+}

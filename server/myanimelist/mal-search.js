@@ -3,7 +3,7 @@ const {
   MAL_QUERY_TIMEOUT,
   fetchTimeout,
   handleErrorResponse
-} = require('../utils/common');
+} = require('../utils');
 
 const popura = require('popura');
 const client = popura(process.env.MAL_USER, process.env.MAL_PASSWORD);
@@ -23,7 +23,10 @@ const mangaSearch = (res, search) => {
 };
 
 const search = (req, res) => {
-  const { params: { type }, query: { search } } = req;
+  const {
+    params: { type },
+    query: { search }
+  } = req;
   return res.jsonp([]); // MAL API Down
   switch (type) {
     case Constants.type.anime:

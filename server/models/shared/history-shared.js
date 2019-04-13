@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Common = require('../../utils/common');
+const Common = require('../../utils');
 
 const historySharedSchema = {
   date: {
@@ -26,12 +26,12 @@ const additionalFields = {
   dateStr: {
     type: 'String',
     description: 'Date field as a String',
-    resolve: source => Common.getFormattedDateString(source.date),
+    resolve: (source) => Common.getFormattedDateString(source.date),
     projection: { date: true }
   }
 };
 
-const dateRangeSearch = type => ({
+const dateRangeSearch = (type) => ({
   name: 'dateRange',
   type: [type.getFieldType('date')],
   description: 'Array of 2 dates in ms creating a date range.',

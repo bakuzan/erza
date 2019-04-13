@@ -1,19 +1,22 @@
-import { dateStringToISOString, preventDatesPre1970 } from 'utils/common';
-import AnimeModel from '../models/anime-model';
-import MangaModel from '../models/manga-model';
-import EpisodeModel from '../models/episode-model';
-import ChapterModel from '../models/chapter-model';
-import { coalesceSeriesImage } from './common';
+import {
+  dateStringToISOString,
+  preventDatesPre1970,
+  coalesceSeriesImage
+} from 'utils';
+import AnimeModel from '../models/animeModel';
+import MangaModel from '../models/mangaModel';
+import EpisodeModel from '../models/episodeModel';
+import ChapterModel from '../models/chapterModel';
 import { Enums, Strings, Properties } from '../constants/values';
 
-export const selectPageItems = (items, type, paging) => {
+export function selectPageItems(items, type, paging) {
   const { itemsPerPage: pageSize, page } = paging;
   const startIndex = page * pageSize;
   const endIndex = startIndex + pageSize;
   return items.slice(startIndex, endIndex);
-};
+}
 
-export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
+export function mapEpisodeData(anime, { _id, episode, ratings, notes }) {
   const happened = Date.now();
   return Array(episode - anime.episode)
     .fill(null)
@@ -28,9 +31,9 @@ export const mapEpisodeData = (anime, { _id, episode, ratings, notes }) => {
         isAdult: anime.isAdult
       });
     });
-};
+}
 
-export const mapChapterData = (manga, { _id, chapter, ratings, notes }) => {
+export function mapChapterData(manga, { _id, chapter, ratings, notes }) {
   const happened = Date.now();
   return Array(chapter - manga.chapter)
     .fill(null)
@@ -45,11 +48,13 @@ export const mapChapterData = (manga, { _id, chapter, ratings, notes }) => {
         isAdult: manga.isAdult
       });
     });
-};
+}
 
 export const mapStateToEntity = (state, id) => state.byId[id] || {};
+
 export const mapStateToEntityList = (state) =>
   state.allIds.map((id) => state.byId[id]);
+
 export const mapUrlFilterToEntityObject = ({ filter }) => ({
   name: filter,
   value: Enums.status[filter]

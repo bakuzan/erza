@@ -1,4 +1,4 @@
-const Common = require('../../utils/common.js');
+const Common = require('../../utils.js');
 const Constants = require('../../constants.js');
 
 module.exports = function inSeasonCalc(item) {

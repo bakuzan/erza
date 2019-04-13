@@ -4,16 +4,16 @@ import {
   mutateHistoryItem,
   removeHistoryItem,
   loadHistoryByDateRange
-} from './list-items';
+} from './listItems';
 import { Strings } from '../constants/values';
 
-export const createEpisode = item =>
+export const createEpisode = (item) =>
   mutateHistoryItem(item, EpisodeML.createEpisode);
 
-export const editEpisode = item =>
+export const editEpisode = (item) =>
   mutateHistoryItem(item, EpisodeML.updateEpisodeById, Strings.episode);
 
-export const deleteEpisode = id =>
+export const deleteEpisode = (id) =>
   removeHistoryItem(Strings.episode, id, EpisodeML.removeEpisode);
 
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) =>

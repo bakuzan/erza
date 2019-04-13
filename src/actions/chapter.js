@@ -4,16 +4,16 @@ import {
   mutateHistoryItem,
   removeHistoryItem,
   loadHistoryByDateRange
-} from './list-items';
+} from './listItems';
 import { Strings } from '../constants/values';
 
-export const createChapter = item =>
+export const createChapter = (item) =>
   mutateHistoryItem(item, ChapterML.createChapter);
 
-export const editChapter = item =>
+export const editChapter = (item) =>
   mutateHistoryItem(item, ChapterML.updateChapterById, Strings.chapter);
 
-export const deleteChapter = id =>
+export const deleteChapter = (id) =>
   removeHistoryItem(Strings.chapter, id, ChapterML.removeChapter);
 
 export const loadChaptersByDateRange = (filters = {}, pageChange = null) =>
