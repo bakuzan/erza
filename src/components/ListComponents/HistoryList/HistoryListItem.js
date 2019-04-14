@@ -69,7 +69,7 @@ class HistoryListItem extends Component {
         <time dateTime={formatDateISO(item.date)}>
           {formatDateTimeForDisplay(item.date)}
         </time>
-        <div className="flex-column">
+        <div className="flex flex--column history-list-item__rating-block">
           <span>{`${capitalisedCurrent} ${number}`}</span>
           {!item.rating && !this.state.isEditing ? (
             <span>Unrated</span>

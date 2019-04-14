@@ -41,7 +41,13 @@ const ListFilter = ({
 
   return (
     <div className="list-filter">
-      <ClearableInput id="search" value={search} onChange={onChange} />
+      <ClearableInput
+        id="search"
+        name="search"
+        label="Search"
+        value={search}
+        onChange={onChange}
+      />
 
       <div className="button-group">{statusLinks.slice(0, 3)}</div>
       <div className="button-group">{statusLinks.slice(3)}</div>
@@ -70,7 +76,7 @@ const ListFilter = ({
           label={Strings.ascending}
           value={Strings.ascending}
           checked={sortOrder === Strings.ascending}
-          onSelect={(e) => onSortOrderToggle(e)}
+          onChange={(e) => onSortOrderToggle(e)}
         />
         <RadioButton
           id="sort-order-desc"
@@ -78,7 +84,7 @@ const ListFilter = ({
           label={Strings.descending}
           value={Strings.descending}
           checked={sortOrder === Strings.descending}
-          onSelect={(e) => onSortOrderToggle(e)}
+          onChange={(e) => onSortOrderToggle(e)}
         />
       </div>
       <div className="list-filter-custom-content">{children}</div>

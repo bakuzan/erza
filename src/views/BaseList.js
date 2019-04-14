@@ -84,7 +84,7 @@ class BaseListView extends Component {
     };
 
     return (
-      <div className="flex-row">
+      <div className="flex flex--row">
         <Helmet>
           <title>{`${capitalise(type)} List`}</title>
         </Helmet>

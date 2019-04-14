@@ -1,4 +1,21 @@
-.sidebar-collapsed {
+.sidebar {
+  .sidebar-item {
+    &__link-text {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 1 1 80%;
+      padding-left: 5px;
+      height: 100%;
+    }
+
+    &__link-icon {
+      display: none;
+    }
+  }
+}
+
+.sidebar--collapsed {
   .sidebar-item__link {
     height: 50px;
     display: flex;
@@ -12,19 +29,5 @@
       flex: 1 1 20%;
       height: 100%;
     }
-  }
-}
-
-ul {
-  .sidebar-item__link-text {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex: 1 1 80%;
-    margin-left: 5px;
-  }
-
-  .sidebar-item__link-icon {
-    display: none;
   }
 }

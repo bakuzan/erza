@@ -3,7 +3,7 @@ import {
   ADD_REQUEST_INDICATOR,
   REMOVE_REQUEST_INDICATOR
 } from '../constants/actions';
-import { getUserSettings, persistUserSettings } from '../utils';
+import { userSettings } from '../utils/storage';
 import { createReducer } from './utils';
 
 const initialState = {
@@ -11,18 +11,20 @@ const initialState = {
   requests: []
 };
 
-const getUserRequestIndicator = () => {
-  const settings = getUserSettings();
-  if (!settings || !settings.requestIndicator) return initialState;
+function getUserRequestIndicator() {
+  const settings = userSettings.get();
+  if (!settings || !settings.requestIndicator) {
+    return initialState;
+  }
   return { ...initialState, ...settings.requestIndicator };
-};
+}
 
-const persistRequestIndicatorVisibility = (state, action) => {
-  const updatedSettings = persistUserSettings({
+function persistRequestIndicatorVisibility(state) {
+  const updatedSettings = userSettings.set({
     requestIndicator: { isHidden: !state.isHidden }
   });
   return { ...state, ...updatedSettings.requestIndicator };
-};
+}
 
 const addRequestEndpoint = (state, action) => ({
   ...state,

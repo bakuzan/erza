@@ -9,7 +9,6 @@
 
   li {
     display: flex;
-    flex: 1 0 100%;
     padding: 2px;
 
     h4 {
@@ -23,5 +22,12 @@
 
   .button-group.fixed-width {
     max-width: 210px;
+  }
+}
+
+.list-item {
+  &__plus-button {
+    padding: 5px 10px;
+    margin: 0 5px 0 0;
   }
 }

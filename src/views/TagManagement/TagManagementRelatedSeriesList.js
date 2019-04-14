@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { List } from 'mko';
 import { ButtonisedNavLink } from 'components/Buttonised';
 import { Paths } from 'constants/paths';
 
 const RelatedSeriesList = ({ seriesType, title, items }) => (
   <div className="related-series-container">
     <h4>{`${items.length} ${title}`}</h4>
-    <ul className="list column one">
+    <List columns={1}>
       {items.map((x) => (
         <li key={x._id}>
           <ButtonisedNavLink
@@ -18,7 +19,7 @@ const RelatedSeriesList = ({ seriesType, title, items }) => (
           </ButtonisedNavLink>
         </li>
       ))}
-    </ul>
+    </List>
   </div>
 );
 

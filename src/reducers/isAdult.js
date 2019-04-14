@@ -1,16 +1,18 @@
 import { TOGGLE_IS_ADULT } from '../constants/actions';
-import { getUserSettings, persistUserSettings } from '../utils';
+import { userSettings } from '../utils/storage';
 
-const getUserIsAdult = () => {
-  const settings = getUserSettings();
-  if (!settings || !settings.isAdult) return false;
+function getUserIsAdult() {
+  const settings = userSettings.get();
+  if (!settings || !settings.isAdult) {
+    return false;
+  }
   return settings.isAdult;
-};
+}
 
-const persistIsAdultChoice = (state, action) => {
-  persistUserSettings({ isAdult: action.isAdult });
+function persistIsAdultChoice(_, action) {
+  userSettings.set({ isAdult: action.isAdult });
   return action.isAdult;
-};
+}
 
 export const isAdult = (state = getUserIsAdult(), action) =>
   action.type === TOGGLE_IS_ADULT

@@ -18,7 +18,7 @@ const TagListItem = ({ item }) => (
 
 const TagList = ({ items }) => (
   <ItemList
-    className="list column three"
+    columns={3}
     items={items.map((item) => (
       <TagListItem key={item._id} item={item} />
     ))}

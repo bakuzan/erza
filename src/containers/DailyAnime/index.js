@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { List } from 'mko';
 import { ButtonIcon, Button } from 'components/Buttonised';
 import { fetchDailyAnime } from 'actions/dailyAnime';
 import { Icons } from 'constants/values';
@@ -82,7 +83,7 @@ class DailyAnime extends Component {
             onClick={() => this.handleDayChange(-1)}
           />
         </header>
-        <ul className="list column one">
+        <List columns={1}>
           {hasDailyAnime &&
             items.map((item) => (
               <li key={item._id}>
@@ -96,7 +97,7 @@ class DailyAnime extends Component {
               <div>No daily anime found.</div>
             </li>
           )}
-        </ul>
+        </List>
       </section>
     );
   }

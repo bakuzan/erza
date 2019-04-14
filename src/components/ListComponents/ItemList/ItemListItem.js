@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { withButtonisation, Image, NewTabLink } from 'mko';
+import { withButtonisation, NewTabLink } from 'mko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
   ButtonIcon
 } from 'components/Buttonised';
+import SeriesImageContainer from 'components/SeriesImageContainer';
 import { Paths } from 'constants/paths';
 import { Enums, Icons } from 'constants/values';
 import { getKeyByValue, formatDateTimeForDisplay } from 'utils';
@@ -28,18 +29,18 @@ const ItemListItem = ({ type, item, addAction }) => {
     : null;
 
   return (
-    <li className={`${type}-item`}>
+    <li className={`${type}-item list-item`}>
       <div>
         <time dateTime={item.updatedDate}>
           {formatDateTimeForDisplay(item.updatedDate)}
         </time>
         <h4>{item.title}</h4>
-        <div className="flex-row start-center-contents">
+        <div className="flex flex--row start-center-contents">
           {!!addAction && (
             <ButtonIcon
               btnStyle="primary"
               btnSize="small"
-              rounded
+              className="list-item__plus-button"
               icon="+"
               aria-label={`Add ${item.title} ${current}s`}
               onClick={() => addAction(item._id)}
@@ -100,9 +101,7 @@ const ItemListItem = ({ type, item, addAction }) => {
           )}
         </div>
       )}
-      <div className="series-image-container">
-        <Image src={item.image} alt={`Cover for ${item.title}`} />
-      </div>
+      <SeriesImageContainer src={item.image} alt={`Cover for ${item.title}`} />
     </li>
   );
 };

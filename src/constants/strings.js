@@ -24,10 +24,7 @@ export default {
   // theme
   light: 'Light',
   dark: 'Dark',
-  themes: [
-    { name: 'Light', class: 'theme-one' },
-    { name: 'Dark', class: 'theme-two' }
-  ],
+  themes: [{ name: 'Light', value: 'one' }, { name: 'Dark', value: 'two' }],
   localUserSettings: 'settingState',
   // labels
   start: 'start',

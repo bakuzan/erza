@@ -18,7 +18,7 @@ const PagedHistoryList = ({
   const historyType = getHistoryNameForItemType(type);
   const itemsForPage = selectPageItems(items, historyType, paging);
   return (
-    <div className="flex-column flex-grow">
+    <div className="flex flex--column flex--grow">
       <PagingControls
         pageSizeOptions={pageSizes.history}
         listType={historyType}

@@ -4,13 +4,12 @@
   padding: 5px 0;
   border-bottom: 1px dashed transparent;
 
-  time {
-    min-width: 185px;
+  &__rating-block {
+    padding: 0 5px;
   }
 
-  > div {
-    min-width: 210px;
-    padding: 0 5px;
+  time {
+    min-width: 185px;
   }
 
   .rating-control {

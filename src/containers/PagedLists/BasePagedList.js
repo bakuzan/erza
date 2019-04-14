@@ -47,7 +47,7 @@ class BasePagedList extends Component {
     const itemsForPage = selectPageItems(items, type, paging);
 
     return (
-      <div className="flex-column flex-grow">
+      <div className="flex flex--column flex--grow">
         <PagingControls listType={type} filters={filters} />
         <PagedList
           isFetching={isFetching}

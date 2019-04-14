@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { RatingControl, Image, NewTabLink, LoadingSpinner } from 'mko';
+import { RatingControl, Image, NewTabLink, LoadingSpinner, List } from 'mko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
   ButtonisedNavLink,
   Button
 } from 'components/Buttonised';
+import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 import { getKeyByValue, capitalise, formatDateForDisplay } from 'utils';
@@ -81,18 +82,15 @@ class BaseView extends Component {
         <Helmet>
           <title>{`View ${capitalise(type)} - ${item.title}`}</title>
         </Helmet>
-        <div className="flex-row reverse">
-          <div className="flex-all padding-10">
-            <header className="flex-row center-contents">
+        <div className="flex flex--row flex--reverse">
+          <div className="flex flex--column flex--all padding-10">
+            <header className="flex flex--row center-contents">
               <h2 className="no-margin">{item.title}</h2>
               <div className="flex-spacer" />
               <div className="button-group">
-                <Button onClick={history.goBack} className="ripple">
-                  {Strings.back}
-                </Button>
+                <Button onClick={history.goBack}>{Strings.back}</Button>
                 <ButtonisedNavButton
                   to={`${Paths.base}${Paths[type].edit}${item._id}`}
-                  className="ripple"
                 >
                   {Strings.edit}
                 </ButtonisedNavButton>
@@ -108,7 +106,7 @@ class BaseView extends Component {
                 name="rating"
                 value={item.rating || 0}
               />
-              <ul className="list column two">
+              <List columns={2}>
                 <li className="label">{Strings.start}</li>
                 <li className="value">
                   {formatDateForDisplay(item.start) || Strings.notStarted}
@@ -177,12 +175,11 @@ class BaseView extends Component {
                     </li>
                   </div>
                 )}
-              </ul>
+              </List>
               <div>
                 {!this.state.hasHistory && (
                   <Button
                     btnStyle="primary"
-                    className="ripple"
                     onMouseOver={this.preloadHistoryList}
                     onClick={this.fetchHistory}
                   >
@@ -205,8 +202,11 @@ class BaseView extends Component {
               </div>
             </div>
           </div>
-          <div className="series-image-container full">
-            <Image src={item.image} alt={`Cover for ${item.title}`} />
+          <SeriesImageContainer
+            isFull
+            src={item.image}
+            alt={`Cover for ${item.title}`}
+          >
             <div className="start-center-contents">
               {item.malId && (
                 <NewTabLink
@@ -232,7 +232,7 @@ class BaseView extends Component {
               )}
             </div>
             <h4>Series tags</h4>
-            <ul className="list column one">
+            <List columns={1}>
               {!item.tagList && (
                 <li>
                   <p>{Strings.noItemsAvailable}</p>
@@ -248,8 +248,8 @@ class BaseView extends Component {
                     </ButtonisedNavLink>
                   </li>
                 ))}
-            </ul>
-          </div>
+            </List>
+          </SeriesImageContainer>
         </div>
       </section>
     );

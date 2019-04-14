@@ -75,11 +75,11 @@ class TagManagementDetails extends React.Component {
       (!item.mangaWithTag || item.mangaWithTag.length === 0);
 
     return (
-      <div>
+      <div className="tag-details">
         <Helmet>
           <title>{`Tag Management - ${item.name}`}</title>
         </Helmet>
-        <div className="flex width-50 padding-10">
+        <div className="tag-details__form">
           <form name="tag-edit" onSubmit={this.handleSubmit}>
             <ClearableInput
               id="name"
@@ -96,7 +96,7 @@ class TagManagementDetails extends React.Component {
             </div>
           </form>
         </div>
-        <div className="padding-left-10 padding-right-10 margin-top-20">
+        <div className="tag-details__content">
           <div>
             <Button
               btnStyle="primary"
@@ -120,7 +120,7 @@ class TagManagementDetails extends React.Component {
             />
           </div>
         </div>
-        <div className="button-group right-aligned">
+        <div className="button-group button-group--right">
           <Button className="ripple" onClick={this.handleDetailExit}>
             {Strings.ok}
           </Button>

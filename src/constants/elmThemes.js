@@ -29,7 +29,7 @@ const themeTwo = {
 const themeList = [themeOne, themeTwo];
 
 const DEFAULT_THEME = themeOne;
-const themes = new Map(Strings.themes.map((o, i) => [o.class, themeList[i]]));
+const themes = new Map(Strings.themes.map((o, i) => [o.value, themeList[i]]));
 
 export default function getTheme(key) {
   return themes.get(key) || DEFAULT_THEME;

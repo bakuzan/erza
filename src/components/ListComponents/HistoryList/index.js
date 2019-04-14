@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { LoadingBouncer } from 'mko';
+import { LoadingBouncer, List } from 'mko';
 import { ButtonisedNavLink } from 'components/Buttonised';
 import HistoryListItem from './HistoryListItem';
 import { Paths } from 'constants/paths';
@@ -9,10 +9,11 @@ import { getHistoryNameForItemType } from 'utils/data';
 
 import './HistoryList.scss';
 
-const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
+function renderHistoryListItems(type, items, { editAction, deleteAction }) {
   const valueProperty = getHistoryNameForItemType(type);
   let list = [],
     previousSeries = null;
+
   items
     .sort((x, y) => {
       const z = y.date - x.date;
@@ -45,8 +46,9 @@ const renderHistoryListItems = (type, items, { editAction, deleteAction }) => {
         />
       );
     });
+
   return list;
-};
+}
 
 const HistoryList = ({ isFetching, items, type, editAction, deleteAction }) => {
   const noItems = items.length === 0;
@@ -54,7 +56,7 @@ const HistoryList = ({ isFetching, items, type, editAction, deleteAction }) => {
   const noDataNotFetching = !isFetching && noItems;
   const hasData = !!items.length;
   return (
-    <ul className="list column one">
+    <List columns={1}>
       {noDataButFetching && <LoadingBouncer />}
       {noDataNotFetching && (
         <li>
@@ -64,7 +66,7 @@ const HistoryList = ({ isFetching, items, type, editAction, deleteAction }) => {
       )}
       {hasData &&
         renderHistoryListItems(type, items, { editAction, deleteAction })}
-    </ul>
+    </List>
   );
 };
 

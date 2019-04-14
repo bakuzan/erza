@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import fetchFromServer from 'graphql/fetch';
-import { Portal, Form, ClearableInput, RatingControl } from 'mko';
+import { Portal, Form, ClearableInput, RatingControl, List } from 'mko';
 
 import { Paths } from 'constants/paths';
 import { Strings } from 'constants/values';
@@ -267,7 +267,7 @@ class QuickAdd extends React.Component {
                       onChange={this.handleUserInput}
                     />
                   )}
-                  <ul className="list column one">
+                  <List columns={1}>
                     {!!this.state.editItem[current] &&
                       Array(
                         this.state.editItem[current] - this.state.editItem.min
@@ -280,7 +280,7 @@ class QuickAdd extends React.Component {
                           const noteId = `notes.${historyNumber}`;
 
                           return (
-                            <li key={index} className="flex-row">
+                            <li key={index} className="flex flex--row">
                               <RatingControl
                                 id={ratingId}
                                 name={ratingId}
@@ -304,7 +304,7 @@ class QuickAdd extends React.Component {
                             </li>
                           );
                         })}
-                  </ul>
+                  </List>
                 </div>
               )}
             </div>

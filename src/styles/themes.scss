@@ -4,7 +4,7 @@
 
 // Super theme maps!
 $theme-maps: (
-  theme-one: (
+  one: (
     base-background: $white,
     base-colour: $black,
     primary-background: $erza-red,
@@ -14,7 +14,7 @@ $theme-maps: (
     faded-out: $grey80,
     anchor-colour: $erza-red
   ),
-  theme-two: (
+  two: (
     base-background: $black-red,
     base-colour: $white,
     primary-background: $erza-silver-shade,
@@ -28,20 +28,47 @@ $theme-maps: (
 // Super theme maps end!
 
 @include appTheme($theme-maps) {
+  $anchor-colour: map-get($theme, anchor-colour);
+
   // Overrides
   .tickbox input:not(:checked):before {
     color: $base-colour;
   }
+
+  .dropdown-menu__toggler {
+    background-color: $primary-background;
+    color: $primary-colour;
+
+    &:focus,
+    &:hover {
+      @include lightenOrDarken('background-color', $primary-background, 10%);
+    }
+  }
   // Overrides END
 
-  .sidebar-item__link {
+  .sidebar-item__link,
+  .sidebar__toggler {
     text-decoration: none;
     background-color: $primary-background;
     color: $primary-colour;
 
+    &:focus,
     &:hover,
-    &.active {
+    &.active,
+    &:hover .sidebar-item__link-text,
+    &.active .sidebar-item__link-text {
       background-color: $active-background;
+      color: $active-colour;
+    }
+  }
+
+  .button--link {
+    color: $anchor-colour;
+
+    &:focus,
+    &:hover,
+    &:active,
+    &.active {
       color: $active-colour;
     }
   }

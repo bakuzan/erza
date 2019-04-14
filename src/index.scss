@@ -1,6 +1,7 @@
 @import './styles/_mixins';
 @import './styles/_colours';
 @import './styles/_variables';
+@import './styles/_helpers';
 
 @font-face {
   font-family: 'Roboto Mono';
@@ -16,38 +17,6 @@
 
 * {
   box-sizing: border-box;
-}
-
-$series-image-container--height: 150px;
-.series-image-container {
-  height: auto;
-  max-height: $series-image-container--height;
-  max-width: 235px;
-  padding: 0 5px;
-  overflow: hidden;
-
-  p {
-    padding: 5px;
-    margin: 5px;
-  }
-
-  img {
-    width: 100%;
-    min-height: $series-image-container--height;
-    height: auto;
-  }
-  .mal-link > img {
-    width: 27px;
-    min-height: 27px;
-  }
-
-  &.full {
-    max-height: none;
-    padding: 5px;
-    img {
-      padding: 5px;
-    }
-  }
 }
 
 .mal-link {
@@ -122,14 +91,6 @@ $series-image-container--height: 150px;
 .erza-tag button {
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
-}
-
-.satellizer-content-types {
-  justify-content: flex-start;
-  padding: 0;
-  margin: 0 {
-    left: 15px;
-  }
 }
 
 .tag-item > .erza-button-link {

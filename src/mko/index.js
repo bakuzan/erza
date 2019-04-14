@@ -12,6 +12,7 @@ export { default as Form } from 'meiko/Form';
 export { default as Header } from 'meiko/Header';
 export { default as Image } from 'meiko/Image';
 export { default as ImageSelector } from 'meiko/ImageSelector';
+export { default as List } from 'meiko/List';
 export { default as LoadableContent } from 'meiko/LoadableContent';
 export { Loading, SimpleLoading } from 'meiko/Loadable';
 export { default as LoadingBouncer } from 'meiko/LoadingBouncer';

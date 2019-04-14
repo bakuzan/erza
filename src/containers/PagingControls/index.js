@@ -24,11 +24,10 @@ const PagingControls = ({
   const PAGE_SIZE_OPTIONS = pageSizeOptions.map((x) => ({ value: x, text: x }));
 
   return (
-    <div className="paging-controls flex-row">
-      <div className="flex-grow">
-        <div className="button-group centered flex-grow">
+    <div className="paging-controls flex flex--row">
+      <div className="flex flex--grow">
+        <div className="button-group button-group--center flex flex--grow">
           <Button
-            className="ripple"
             aria-label="Previous Page"
             onClick={() => goBackAPage(listType, filters)}
             disabled={page === 0}
@@ -39,7 +38,6 @@ const PagingControls = ({
             {`${page + 1}/${finalPage + 1}`}
           </div>
           <Button
-            className="ripple"
             aria-label="Next Page"
             onClick={() => goForwardAPage(listType, filters)}
             disabled={page === finalPage || !pageInfo.totalCount}
@@ -48,7 +46,7 @@ const PagingControls = ({
           </Button>
         </div>
         {!!pageInfo.totalCount && (
-          <div className="item-count">{`Found ${
+          <div className="paging-controls__item-count">{`Found ${
             pageInfo.totalCount
           } item(s)`}</div>
         )}

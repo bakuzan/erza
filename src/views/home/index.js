@@ -33,7 +33,7 @@ class Home extends Component {
     };
 
     return (
-      <div id="yoruichi" className="flex-column">
+      <div id="yoruichi" className="flex flex--column">
         <Helmet>
           <title>Home</title>
         </Helmet>

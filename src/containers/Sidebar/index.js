@@ -10,11 +10,11 @@ import Menu from 'constants/menu';
 
 const menuOptions = Menu.reduce((p, c) => p.concat(c.children), Array(0));
 
-const SidebarConnected = ({ location, staticContext, ...props }) => {
-  console.log('SIDEBAR PROP?', staticContext);
+const SidebarConnected = ({ toggleCollapse, close, isHidden, isCollapsed }) => {
+  const passProps = { toggleCollapse, close, isHidden, isCollapsed };
   return (
     <Sidebar
-      {...props}
+      {...passProps}
       id="erza-sidebar"
       items={menuOptions}
       customLinkTemplate={SidebarItem}

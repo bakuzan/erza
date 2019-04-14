@@ -1,10 +1,10 @@
-const Constants = require('../constants.js');
+const Constants = require('../constants');
 const {
   padNumber,
   getDateParts,
   getPreviousMonth,
   getSeasonIndex
-} = require('../utils.js');
+} = require('../utils');
 
 const fetchStatusGrouping = (v) =>
   historyBreakdownIsMonths(v) ? 2 : { $in: [1, 2] };

@@ -46,7 +46,7 @@ class TagManagementList extends React.Component {
     );
 
     return (
-      <div className="flex-row">
+      <div className="flex flex--row">
         <Helmet>
           <title>Tag Management</title>
         </Helmet>
@@ -54,6 +54,8 @@ class TagManagementList extends React.Component {
           <div>
             <ClearableInput
               id="search"
+              name="search"
+              label="Search"
               value={this.state.search}
               onChange={this.handleUserInput}
             />

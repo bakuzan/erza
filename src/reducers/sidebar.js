@@ -3,26 +3,27 @@ import {
   TOGGLE_SIDEBAR_COLLAPSE,
   CLOSE_SIDEBAR
 } from '../constants/actions';
-import { getUserSettings, persistUserSettings } from '../utils';
+import { userSettings } from '../utils/storage';
 import { createReducer } from './utils';
 
-const getUserSidebar = () => {
-  const settings = getUserSettings();
-  if (!settings || !settings.sidebar)
+function getUserSidebar() {
+  const settings = userSettings.get();
+  if (!settings || !settings.sidebar) {
     return { isHidden: false, isCollapsed: false };
+  }
   return settings.sidebar;
-};
+}
 
-const persistSidebarVisibility = (state, action) => {
-  const updatedSettings = persistUserSettings({
+function persistSidebarVisibility(state) {
+  const updatedSettings = userSettings.set({
     sidebar: { ...state, isHidden: !state.isHidden }
   });
   return updatedSettings.sidebar;
-};
+}
 
-const persistSidebarCollapse = (status) => (state, action) => {
+const persistSidebarCollapse = (status) => (state) => {
   const isCollapsed = status || !state.isCollapsed;
-  const updatedSettings = persistUserSettings({
+  const updatedSettings = userSettings.set({
     sidebar: { ...state, isCollapsed }
   });
   return updatedSettings.sidebar;

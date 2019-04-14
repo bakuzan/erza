@@ -3,8 +3,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
+import {
+  ClearableInput,
+  Tabs,
+  ChipListInput,
+  SelectBox,
+  Tickbox,
+  LoadingSpinner,
+  RatingControl,
+  ImageSelector,
+  DateSelector
+} from 'mko';
+import { ButtonisedNavLink, Button } from 'components/Buttonised';
+import MalSearch from 'components/MalSearch';
+import SeriesImageContainer from 'components/SeriesImageContainer';
 import { Strings, Enums } from 'constants/values';
 import { Paths } from 'constants/paths';
+import { createTag, loadTags } from 'actions/tags';
+import { showAlertError } from 'actions/alert';
+import GQL from 'graphql/query/listItems';
 import {
   capitalise,
   getEventValue,
@@ -22,24 +39,6 @@ import {
 } from 'utils/data';
 import animeValidator from 'utils/validators/animeCreation';
 import mangaValidator from 'utils/validators/mangaCreation';
-
-import {
-  ClearableInput,
-  Tabs,
-  ChipListInput,
-  SelectBox,
-  Tickbox,
-  LoadingSpinner,
-  RatingControl,
-  ImageSelector,
-  Image,
-  DateSelector
-} from 'mko';
-import { ButtonisedNavLink, Button } from 'components/Buttonised';
-import MalSearch from 'components/MalSearch';
-import { createTag, loadTags } from 'actions/tags';
-import { showAlertError } from 'actions/alert';
-import GQL from 'graphql/query/listItems';
 
 const loadData = (props) => {
   props.loadTags();
@@ -178,7 +177,7 @@ class BaseCreate extends Component {
     const queryIfExists = GQL.checkIfNameExists(type);
 
     return (
-      <div className="flex-column center-contents padding-10">
+      <div className="flex flex--column center-contents padding-10">
         <Helmet>
           <title>{`${titlePrefix} ${capitalise(
             Strings[type]
@@ -187,21 +186,21 @@ class BaseCreate extends Component {
         <header>
           <h4>{`${titlePrefix} ${Strings[type]}`}</h4>
         </header>
-        <div className="width-100 flex-row">
-          <div className="series-image-container full">
+        <div className="width-100 flex flex--row">
+          <SeriesImageContainer
+            isFull
+            src={this.state.image}
+            alt={`Cover for ${this.state.title || `${type} under creation.`}`}
+          >
             {this.state.image && this.state.image.startsWith('blob:') && (
               <div>
                 <p>* This is a preview image</p>
               </div>
             )}
-            <Image
-              src={this.state.image}
-              alt={`Cover for ${this.state.title || `${type} under creation.`}`}
-            />
-          </div>
+          </SeriesImageContainer>
           <form
             name={`${type}Form`}
-            className="center-contents flex-column"
+            className="center-contents flex flex--column"
             autoComplete="false"
             noValidate=""
             onSubmit={this.handleSubmit}
@@ -211,7 +210,7 @@ class BaseCreate extends Component {
               tabsClassName="tabs-container"
             >
               <Tabs.TabView name="Required">
-                <div className="flex-column width-100">
+                <div className="flex flex--column width-100">
                   <MalSearch
                     menuClassName="erza-autocomplete-menu"
                     id={this.state.malId}
@@ -300,7 +299,7 @@ class BaseCreate extends Component {
                 </div>
               </Tabs.TabView>
               <Tabs.TabView name="Additional">
-                <div className="flex-column width-100">
+                <div className="flex flex--column width-100">
                   <ClearableInput
                     type="number"
                     id={total}
@@ -382,7 +381,7 @@ class BaseCreate extends Component {
               </Tabs.TabView>
               {type !== Strings.manga && (
                 <Tabs.TabView name="Seasonal">
-                  <div className="flex-column width-100">
+                  <div className="flex flex--column width-100">
                     <DateSelector
                       id="series_start"
                       name="series_start"

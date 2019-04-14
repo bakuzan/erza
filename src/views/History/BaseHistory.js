@@ -83,7 +83,7 @@ class BaseHistoryView extends Component {
     const historyItems = this.state.displayList ? items : [];
 
     return (
-      <div className="flex-row">
+      <div className="flex flex--row">
         <Helmet>
           <title>{`${capitalise(type)} History`}</title>
         </Helmet>

@@ -1,5 +1,5 @@
-const Common = require('../../utils.js');
-const Constants = require('../../constants.js');
+const Common = require('../../utils');
+const Constants = require('../../constants');
 
 module.exports = function inSeasonCalc(item) {
   const { _legacyIsSeason, start, end, series_start, series_type } = item;
