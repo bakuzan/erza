@@ -30,7 +30,7 @@ export { default as Tickbox } from 'meiko/Tickbox';
 export { default as Toaster } from 'meiko/Toaster';
 
 // Constants
-export { Enums, Icons, Strings, Types, Urls } from 'meiko/constants';
+export { KeyCodes, Icons, Strings, Types, Urls } from 'meiko/constants';
 
 // Hooks
 export { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';

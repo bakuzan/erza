@@ -56,6 +56,7 @@ export default {
   failedMalUpdate: 'Failed to update mal entry',
   updatedMalEntry: 'updated mal values',
   malEntryUpToDate: 'mal already up to date',
+  malFetchDisabled: 'MAL integration disabled',
   imgur: 'imgur',
   // yoruichi filters
   timePeriod: {

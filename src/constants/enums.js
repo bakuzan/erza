@@ -1,7 +1,7 @@
-import { Enums } from 'mko';
+import { KeyCodes } from 'mko';
 
 export default {
-  ...Enums,
+  KeyCodes,
   status: {
     ongoing: 1,
     completed: 2,

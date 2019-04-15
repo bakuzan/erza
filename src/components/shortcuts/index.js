@@ -60,13 +60,15 @@ class Shortcuts extends Component {
           name="shortcuts"
           isOpen={this.state.isOpen}
           isForm={false}
-          hideCancel={true}
           hasBackdrop={false}
+          hideCancel={true}
+          onCancel={() => this.setState({ isOpen: false })}
         >
           <AutocompleteInput
             menuClassName="erza-autocomplete-menu"
             id="shortcuts"
             attr="title"
+            label="Search for a page..."
             items={this.state.items}
             filter={this.state.filter}
             onChange={this.handleFilter}

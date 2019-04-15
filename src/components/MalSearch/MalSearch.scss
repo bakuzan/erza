@@ -13,10 +13,16 @@
 
 .mal-search-messages {
   display: block;
-  color: $danger-colour;
   padding-left: 0.5em;
   margin-top: -5px;
   font-size: 0.8em;
+
+  &--error {
+    color: $danger-colour;
+  }
+  &--warning {
+    color: $alert-colour;
+  }
 }
 
 $base-img-height: 100px;

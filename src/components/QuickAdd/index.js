@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import fetchFromServer from 'graphql/fetch';
 import { Portal, Form, ClearableInput, RatingControl, List } from 'mko';
-
-import { Paths } from 'constants/paths';
 import { Strings } from 'constants/values';
 import { getEventValue, updateNestedProperty, objectsAreEqual } from 'utils';
-import {
-  shouldIntergrateMalEntry,
-  getUniquePropertiesForItemType
-} from 'utils/data';
+import { getUniquePropertiesForItemType } from 'utils/data';
 
 import './QuickAdd.scss';
-
-const fetchMalEntry = (type) => (search) =>
-  fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
 
 const getInitialState = (current, originalItem = {}) => ({
   originalItem,
@@ -45,11 +36,6 @@ class QuickAdd extends React.Component {
 
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    this.getMalEntry = fetchMalEntry(this.props.type);
-    this.shouldHydrateMal = shouldIntergrateMalEntry(this.props.type);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -107,6 +93,7 @@ class QuickAdd extends React.Component {
       target.name,
       newValue
     );
+
     this.setState({ editItem: updateEditValues });
   }
 
@@ -115,10 +102,6 @@ class QuickAdd extends React.Component {
     const isManga = type === Strings.manga;
     const { current, total } = this.itemProperties;
     const defaults = getInitialState(this.itemProperties.current, originalItem);
-
-    if (originalItem.malId) {
-      this.refreshMalValues(originalItem);
-    }
 
     this.setState({
       ...defaults,
@@ -137,40 +120,9 @@ class QuickAdd extends React.Component {
       malUpdates: {
         ...defaults.malUpdates,
         values: null,
-        message: originalItem.malId
-          ? Strings.fetchingMalEntry
-          : Strings.noLinkedMalEntry,
-        status: originalItem.malId ? Strings.loading : ''
+        message: Strings.malFetchDisabled
       }
     });
-  }
-
-  refreshMalValues(editItem) {
-    this.getMalEntry(editItem.title)
-      .then((response) => {
-        if (response.error) throw response.error;
-        const malItem = response.find((x) => x.id === editItem.malId);
-        const shouldUpdateMalEntry =
-          this.shouldHydrateMal(editItem, malItem) && !!malItem;
-        this.setState({
-          malUpdates: {
-            values: malItem,
-            message: shouldUpdateMalEntry
-              ? Strings.updatedMalEntry
-              : Strings.malEntryUpToDate,
-            status: shouldUpdateMalEntry ? Strings.success : ''
-          }
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          malUpdates: {
-            values: null,
-            message: Strings.failedMalUpdate,
-            status: Strings.error
-          }
-        });
-      });
   }
 
   handleFormSubmit() {
@@ -211,6 +163,7 @@ class QuickAdd extends React.Component {
       text: Strings.edit,
       onSubmit: this.handleFormSubmit
     };
+
     const cancelOptions = {
       onCancel: onClose
     };

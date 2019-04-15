@@ -9,7 +9,6 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 const GraphqlSchema = require('./graphql/schema.js');
 
 const statistics = require('./statistics/index.js');
-const malSearch = require('./myanimelist/mal-search.js');
 const imageStore = require('./image-store/index.js');
 const Constants = require('./constants');
 
@@ -36,9 +35,6 @@ const db = mongoose.connect(
 
 const router = express.Router();
 router.use(cors());
-
-//Mal route
-router.get('/api/mal-search/:type', malSearch);
 
 //Imgur routes
 router.post('/api/image-upload/url', imageStore.upload);

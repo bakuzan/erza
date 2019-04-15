@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { withButtonisation, NewTabLink } from 'mko';
+import { withButtonisation } from 'mko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
   ButtonIcon
 } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
+import MalLink from 'components/MalLink';
 import { Paths } from 'constants/paths';
 import { Enums, Icons } from 'constants/values';
 import { getKeyByValue, formatDateTimeForDisplay } from 'utils';
@@ -78,17 +79,7 @@ const ItemListItem = ({ type, item, addAction }) => {
       {(hasMalId || hasLink) && (
         <div className="mal-image">
           {hasMalId && (
-            <NewTabLink
-              href={`https://myanimelist.net/${type}/${item.malId}`}
-              className="mal-link"
-              title="Open MAL entry in new tab."
-              aria-label={`Open MAL entry for ${item.title} in new tab.`}
-            >
-              <img
-                src="https://myanimelist.net/favicon.ico"
-                alt="MyAnimelist icon"
-              />
-            </NewTabLink>
+            <MalLink type={type} malId={item.malId} title={item.title} />
           )}
           {hasLink && (
             <ButtonisedNewTabLink

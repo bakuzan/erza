@@ -19,13 +19,6 @@
   box-sizing: border-box;
 }
 
-.mal-link {
-  padding: 3px 6px;
-  margin: 2px 5px {
-    left: 0;
-  }
-}
-
 .filters-container {
   display: flex;
   flex: 0 0 20%;
@@ -46,15 +39,6 @@
 }
 
 // custom lists
-.paged-list-edit .list {
-  height: 250px;
-  max-height: 250px;
-  overflow: auto;
-  li {
-    min-height: 60px;
-    max-height: 60px;
-  }
-}
 
 .list {
   .label {

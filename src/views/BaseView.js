@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { RatingControl, Image, NewTabLink, LoadingSpinner, List } from 'mko';
+import { RatingControl, LoadingSpinner, List } from 'mko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
@@ -11,6 +11,7 @@ import {
 } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
+import MalLink from 'components/MalLink';
 import LoadableContent from 'containers/LoadableContent';
 import { getKeyByValue, capitalise, formatDateForDisplay } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
@@ -209,17 +210,7 @@ class BaseView extends Component {
           >
             <div className="start-center-contents">
               {item.malId && (
-                <NewTabLink
-                  href={`https://myanimelist.net/${type}/${item.malId}`}
-                  className="mal-link"
-                  title="Open MAL entry in new tab."
-                  aria-label="Open MAL entry in new tab."
-                >
-                  <Image
-                    src="https://myanimelist.net/favicon.ico"
-                    alt="MyAnimelist icon"
-                  />
-                </NewTabLink>
+                <MalLink type={type} malId={item.malId} title={item.title} />
               )}
               {item.link && (
                 <ButtonisedNewTabLink

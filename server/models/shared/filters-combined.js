@@ -2,9 +2,7 @@ const { TypeComposer } = require('graphql-compose');
 const { getSeasonText, getDateParts } = require('../../utils');
 const {
   updateDateBeforeSave,
-  preventDatesPre1970,
-  addMalEntry,
-  updateMalEntry
+  preventDatesPre1970
 } = require('../../graphql/common.js');
 const Functions = require('../../statistics/common.js');
 const Episode = require('../episode.js').Episode;
@@ -181,14 +179,12 @@ const resolverExtentions = (type, typeString, dbContext) => {
   type.wrapResolver('createOne', (newResolver) =>
     newResolver
       .wrapResolve(updateDateBeforeSave('createdDate'))
-      .wrapResolve(addMalEntry(typeString))
       .wrapResolve(preventDatesPre1970)
   );
 
   type.wrapResolver('updateById', (newResolver) =>
     newResolver
       .wrapResolve(updateDateBeforeSave('updatedDate'))
-      .wrapResolve(updateMalEntry(typeString))
       .wrapResolve(preventDatesPre1970)
   );
 };

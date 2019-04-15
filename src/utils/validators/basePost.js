@@ -1,21 +1,6 @@
-import fetchFromServer from 'graphql/fetch';
-import { Paths } from 'constants/paths';
-import { Enums, Strings } from 'constants/values';
+import { Enums } from 'constants/values';
 import { coalesceSeriesImage } from '../index';
-import { getUniquePropertiesForItemType, intergrateMalEntry } from '../data';
-
-const searchMyAnimeList = (type) => (search) =>
-  fetchFromServer(Paths.build(Paths.malSearch, { type, search }));
-export const searchAnime = searchMyAnimeList(Strings.anime);
-export const searchManga = searchMyAnimeList(Strings.manga);
-
-export const malResponseGenerator = (type, postItem) => (response) => {
-  if (!Array.isArray(response)) return {};
-  const item = response.find((x) => x.id === postItem.malId);
-
-  if (!item) return {};
-  return intergrateMalEntry(type)({}, item);
-};
+import { getUniquePropertiesForItemType } from '../data';
 
 export const applyUpdates = (type) => (entity, malItem) => {
   const { current, total } = getUniquePropertiesForItemType(type);

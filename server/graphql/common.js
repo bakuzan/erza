@@ -1,5 +1,3 @@
-const { addOnMal, updateOnMal } = require('../myanimelist/mal-update');
-
 const combineArrayOfObjects = (prev, curr) => Object.assign({}, prev, curr);
 
 const constructQueryFields = ({ prefix, type }) => ({
@@ -21,14 +19,14 @@ const constructMutationFields = ({ prefix, type }) => ({
   [`${prefix}RemoveMany`]: type.getResolver('removeMany')
 });
 
-const updateDateBeforeSave = property => next => resolveParams => {
+const updateDateBeforeSave = (property) => (next) => (resolveParams) => {
   resolveParams.args.record[property] = new Date();
   return next(resolveParams);
 };
 
 const START_OF_1970 = new Date('1970-01-01');
-const isDatePre1970 = d => !!d && new Date(d) < START_OF_1970;
-const preventDatesPre1970 = next => resolveParams => {
+const isDatePre1970 = (d) => !!d && new Date(d) < START_OF_1970;
+const preventDatesPre1970 = (next) => (resolveParams) => {
   if (isDatePre1970(resolveParams.args.record.series_start)) {
     resolveParams.args.record.series_start = null;
   }
@@ -39,23 +37,9 @@ const preventDatesPre1970 = next => resolveParams => {
   return next(resolveParams);
 };
 
-const addMalEntry = type => next => resolveParams => {
-  const seriesItem = resolveParams.args.record;
-  if (seriesItem.malId) addOnMal(type, seriesItem);
-  return next(resolveParams);
-};
-
-const updateMalEntry = type => next => resolveParams => {
-  const seriesItem = resolveParams.args.record;
-  if (seriesItem.malId) updateOnMal(type, seriesItem);
-  return next(resolveParams);
-};
-
 module.exports = {
   updateDateBeforeSave,
   preventDatesPre1970,
-  addMalEntry,
-  updateMalEntry,
   combineArrayOfObjects,
   constructQueryFields,
   constructMutationFields

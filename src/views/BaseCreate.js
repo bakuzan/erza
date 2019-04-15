@@ -147,10 +147,13 @@ class BaseCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.validator.validateSubmission(this.state).then((item) => {
-      if (this.props.isCreate) return this.props.actions.create(item);
-      return this.props.actions.edit(item);
-    });
+    const item = this.validator.validateSubmission(this.state);
+
+    if (this.props.isCreate) {
+      this.props.actions.create(item);
+    } else {
+      this.props.actions.edit(item);
+    }
   }
 
   render() {
@@ -205,11 +208,11 @@ class BaseCreate extends Component {
             noValidate=""
             onSubmit={this.handleSubmit}
           >
-            <Tabs.TabContainer
+            <Tabs.Container
               className="tabs-component"
               tabsClassName="tabs-container"
             >
-              <Tabs.TabView name="Required">
+              <Tabs.View name="Required">
                 <div className="flex flex--column width-100">
                   <MalSearch
                     menuClassName="erza-autocomplete-menu"
@@ -289,6 +292,7 @@ class BaseCreate extends Component {
                   <ChipListInput
                     tagClassName="erza-tag"
                     menuClassName="erza-autocomplete-menu"
+                    id="tags"
                     attr="name"
                     name="tags"
                     chipsSelected={this.state.tags}
@@ -297,8 +301,8 @@ class BaseCreate extends Component {
                     createNew={this.props.createTag}
                   />
                 </div>
-              </Tabs.TabView>
-              <Tabs.TabView name="Additional">
+              </Tabs.View>
+              <Tabs.View name="Additional">
                 <div className="flex flex--column width-100">
                   <ClearableInput
                     type="number"
@@ -378,9 +382,9 @@ class BaseCreate extends Component {
                     }
                   />
                 </div>
-              </Tabs.TabView>
+              </Tabs.View>
               {type !== Strings.manga && (
-                <Tabs.TabView name="Seasonal">
+                <Tabs.View name="Seasonal">
                   <div className="flex flex--column width-100">
                     <DateSelector
                       id="series_start"
@@ -417,16 +421,15 @@ class BaseCreate extends Component {
                       onChange={this.handleUserInput}
                     />
                   </div>
-                </Tabs.TabView>
+                </Tabs.View>
               )}
-            </Tabs.TabContainer>
+            </Tabs.Container>
             <div className="button-group">
-              <Button type="submit" className="ripple">
+              <Button type="submit" btnStyle="primary">
                 {this.props.isCreate ? Strings.create : Strings.edit}
               </Button>
               <ButtonisedNavLink
                 link
-                btnStyle="primary"
                 to={`${Paths.base}${Paths[type].list}${
                   Strings.filters.ongoing
                 }`}
