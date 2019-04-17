@@ -37,3 +37,5 @@ export { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
 
 // Utils
 export { default as toaster } from 'meiko/utils/toasterService';
+
+export { nano } from 'meiko/styles/nano';

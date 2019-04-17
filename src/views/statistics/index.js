@@ -28,7 +28,7 @@ class Statistics extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: getTheme(this.props.themeClass)
+      theme: getTheme(this.props.themeValue)
     };
 
     this.setupPorts = this.setupPorts.bind(this);
@@ -52,8 +52,8 @@ class Statistics extends Component {
       this.ports.isAdult.send(this.props.isAdult);
     }
 
-    if (prevProps.themeClass !== this.props.themeClass) {
-      this.ports.theme.send(getTheme(this.props.themeClass));
+    if (prevProps.themeValue !== this.props.themeValue) {
+      this.ports.theme.send(getTheme(this.props.themeValue));
     }
   }
 
@@ -98,7 +98,7 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   ...SU.getDynamicProps(state, ownProps),
   staticFlags: SU.getStaticFlags(ownProps),
-  themeClass: state.theme ? state.theme.class : null
+  themeValue: state.theme ? state.theme.value : null
 });
 
 export default connect(mapStateToProps)(Statistics);

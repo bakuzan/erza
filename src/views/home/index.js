@@ -11,15 +11,15 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: getTheme(this.props.themeClass)
+      theme: getTheme(this.props.themeValue)
     };
 
     this.setupPorts = this.setupPorts.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.themeClass !== this.props.themeClass) {
-      this.ports.theme.send(getTheme(this.props.themeClass));
+    if (prevProps.themeValue !== this.props.themeValue) {
+      this.ports.theme.send(getTheme(this.props.themeValue));
     }
   }
 
@@ -48,7 +48,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  themeClass: state.theme ? state.theme.class : null
+  themeValue: state.theme ? state.theme.value : null
 });
 
 export default connect(mapStateToProps)(Home);

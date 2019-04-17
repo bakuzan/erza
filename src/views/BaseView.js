@@ -117,6 +117,7 @@ class BaseView extends Component {
                 <li className="value">
                   {item.end ? (
                     <ButtonisedNavLink
+                      className="erza-button-link--hover-override"
                       to={this.setStatNavLink({ date: item.end })}
                     >
                       {formatDateForDisplay(item.end)}
@@ -149,32 +150,34 @@ class BaseView extends Component {
                   {getKeyByValue(Enums.status, item.status)}
                 </li>
                 {item.status === Enums.status.completed && (
-                  <div className="formatting-container">
+                  <React.Fragment>
                     <li className="label">{Strings.timesCompleted}</li>
                     <li className="value">
                       {item.timesCompleted === 0 ? (
                         item.timesCompleted
                       ) : (
                         <ButtonisedNavLink
+                          className="erza-button-link--hover-override"
                           to={this.setStatNavLink({ repeatTab: true })}
                         >
                           {item.timesCompleted}
                         </ButtonisedNavLink>
                       )}
                     </li>
-                  </div>
+                  </React.Fragment>
                 )}
                 {type === Strings.anime && item.season && item.season.inSeason && (
-                  <div className="formatting-container">
+                  <React.Fragment>
                     <li className="label">{Strings.season}</li>
                     <li className="value">
                       <ButtonisedNavLink
+                        className="erza-button-link--hover-override"
                         to={this.setStatNavLink({ season: item.season })}
                       >
                         {`${item.season.season} ${item.season.year}`}
                       </ButtonisedNavLink>
                     </li>
-                  </div>
+                  </React.Fragment>
                 )}
               </List>
               <div>

@@ -95,6 +95,11 @@ class MalSearch extends React.Component {
   }
 
   async handleQueries() {
+    // Cancel setState callback if timer was cleared
+    if (!this.timer) {
+      return;
+    }
+
     const response = await this.checkIfExists(this.props);
     const alreadyExists = !!(response.data && response.data.alreadyExists);
 

@@ -31,9 +31,7 @@ export const addChapters = ({ editItem }) => {
     const history = mapChapterData(manga, editItem);
     history.forEach((item) => dispatch(createChapter(item)));
 
-    return updatePrePost(updatedManga).then((updatedItem) =>
-      dispatch(editManga(updatedItem))
-    );
+    dispatch(editManga(updatePrePost(updatedManga)));
   };
 };
 

@@ -30,9 +30,7 @@ export const addEpisodes = ({ editItem }) => {
     const history = mapEpisodeData(anime, editItem);
     history.forEach((item) => dispatch(createEpisode(item)));
 
-    return updatePrePost(updatedAnime).then((updatedItem) =>
-      dispatch(editAnime(updatedItem))
-    );
+    dispatch(editAnime(updatePrePost(updatedAnime)));
   };
 };
 

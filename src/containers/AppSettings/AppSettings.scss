@@ -5,7 +5,7 @@
   color: $white;
 
   &__tickbox {
-    max-height: unset;
+    max-height: unset !important;
   }
 
   .select-container {

@@ -1,7 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { withButtonisation, NewTabLink, Button as MButton } from 'mko';
+import { withButtonisation, NewTabLink, Button as MButton, nano } from 'mko';
+
+nano.put(
+  '.label:nth-child(odd):hover + .value .erza-button-link--hover-override',
+  {
+    color: 'inherit'
+  }
+);
 
 const LINK_CUSTOM_PROPS = {
   className: 'erza-button-link',
