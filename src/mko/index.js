@@ -34,6 +34,7 @@ export { KeyCodes, Icons, Strings, Types, Urls } from 'meiko/constants';
 
 // Hooks
 export { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
+export { useWindowSize } from 'meiko/hooks/useWindowSize';
 
 // Utils
 export { default as toaster } from 'meiko/utils/toasterService';

@@ -1,3 +1,5 @@
+@import '../../../styles/_mixins';
+
 .history-list-item {
   display: flex;
   flex-direction: row;
@@ -24,5 +26,16 @@
     }
     margin-top: -5px;
     font-weight: bold;
+  }
+
+  @include respondTo(xs) {
+    flex-direction: column;
+    > * {
+      margin: 5px 0;
+    }
+
+    &__rating-block {
+      padding: 0;
+    }
   }
 }

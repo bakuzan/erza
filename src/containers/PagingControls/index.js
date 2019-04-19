@@ -25,7 +25,7 @@ const PagingControls = ({
 
   return (
     <div className="paging-controls flex flex--row">
-      <div className="flex flex--grow">
+      <div className="flex flex--grow flex--row">
         <div className="button-group button-group--center flex flex--grow">
           <Button
             aria-label="Previous Page"

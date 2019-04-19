@@ -1,6 +1,7 @@
 .paging-controls {
   &__item-count {
     display: flex;
+    justify-content: flex-end;
     align-items: flex-end;
     padding-right: 10px;
     text-align: right;

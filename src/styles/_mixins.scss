@@ -1,3 +1,6 @@
+@import '~meiko/styles/_mixins';
+@import '~meiko/styles/_variables';
+
 @mixin lightenOrDarken($key, $colour, $percentage) {
   @if lightness($colour) < 50% {
     #{$key}: lighten($colour, $percentage);

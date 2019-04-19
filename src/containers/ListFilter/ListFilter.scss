@@ -1,12 +1,22 @@
+@import '../../styles/_mixins';
+
 .list-filter {
   display: flex;
   flex-direction: column;
-  max-width: 25%;
+  flex: 1;
   height: calc(100vh - 50px);
+  max-width: 23%;
+  min-width: 215px;
   padding: 20px 5px;
 
   .input-container {
     margin: 5px 0;
+  }
+
+  @include respondTo(xs) {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
   }
 }
 

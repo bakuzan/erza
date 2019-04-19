@@ -21,11 +21,18 @@
 
 .filters-container {
   display: flex;
-  flex: 0 0 20%;
+  flex: 1;
+  max-width: 22%;
+  min-width: 200px;
   padding: 20px 5px;
 
   &--wider {
-    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  @include respondTo(xs) {
+    width: 100%;
+    max-width: 100%;
   }
 
   > div {

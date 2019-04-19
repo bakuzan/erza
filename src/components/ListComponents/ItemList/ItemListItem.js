@@ -36,7 +36,7 @@ const ItemListItem = ({ type, item, addAction }) => {
           {formatDateTimeForDisplay(item.updatedDate)}
         </time>
         <h4>{item.title}</h4>
-        <div className="flex flex--row start-center-contents">
+        <div className="flex flex--row start-center-contents list-item__increment-data">
           {!!addAction && (
             <ButtonIcon
               btnStyle="primary"

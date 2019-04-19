@@ -8,6 +8,7 @@ import { toggleSortOrder, setSortKey } from 'actions/sorting';
 import { toggleIsOwnedOnly } from 'actions/filters';
 import { Strings } from 'constants/values';
 import { Paths } from 'constants/paths';
+
 import './ListFilter.scss';
 
 const FILTER_BASE = (type) => `${Paths.base}${Paths[type].list}`;

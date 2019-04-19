@@ -83,6 +83,8 @@ class BaseListView extends Component {
       isOwnedOnly
     };
 
+    const showDailyAnime = type === Strings.anime && !isAdult;
+
     return (
       <div className="flex flex--row">
         <Helmet>
@@ -94,13 +96,24 @@ class BaseListView extends Component {
           search={this.state.search}
           onChange={this.handleUserInput}
         >
-          {type === Strings.anime && !isAdult && (
-            <DailyAnime routeKey={routeKey} onSelect={this.handleUserInput} />
+          {showDailyAnime && (
+            <DailyAnime
+              hideOn="small"
+              routeKey={routeKey}
+              onSelect={this.handleUserInput}
+            />
           )}
         </ListFilter>
         <LoadableContent>
           <PagedTypedList filters={filters} items={items} />
         </LoadableContent>
+        {showDailyAnime && (
+          <DailyAnime
+            hideOn="large"
+            routeKey={routeKey}
+            onSelect={this.handleUserInput}
+          />
+        )}
       </div>
     );
   }
