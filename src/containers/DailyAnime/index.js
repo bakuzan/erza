@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { List, useWindowSize } from 'mko';
+import { List } from 'mko';
 import { ButtonIcon, Button } from 'components/Buttonised';
+import withMedia from 'components/withMedia';
 import { fetchDailyAnime } from 'actions/dailyAnime';
 import { Icons } from 'constants/values';
 import { padNumber, getDayName } from 'utils';
@@ -27,12 +28,8 @@ function createOffsetText(dateOffset, date) {
   }
 }
 
-function DailyAnime({ routeKey, hideOn, items, onSelect, ...props }) {
+function DailyAnime({ routeKey, items, onSelect, ...props }) {
   const [dateOffset, setDateOffset] = useState(7);
-  const size = useWindowSize();
-
-  const isHidden = dailyAnimeHideOn.get(hideOn);
-
   const date = new Date();
   date.setDate(date.getDate() - dateOffset);
 
@@ -44,11 +41,7 @@ function DailyAnime({ routeKey, hideOn, items, onSelect, ...props }) {
   }, [routeKey, dateOffset]);
 
   function handleDayChange(change) {
-    setDateOffset((prev) => prev.dateOffset + change);
-  }
-
-  if (isHidden(size.width)) {
-    return null;
+    setDateOffset((prev) => prev + change);
   }
 
   return (
@@ -91,7 +84,6 @@ function DailyAnime({ routeKey, hideOn, items, onSelect, ...props }) {
 
 DailyAnime.propTypes = {
   routeKey: PropTypes.string,
-  hideOn: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired
 };
 
@@ -106,4 +98,4 @@ const mapDispatchToState = {
 export default connect(
   mapStateToProps,
   mapDispatchToState
-)(DailyAnime);
+)(withMedia(DailyAnime, dailyAnimeHideOn));
