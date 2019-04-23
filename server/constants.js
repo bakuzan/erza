@@ -1,4 +1,5 @@
 const appName = 'erza';
+const whitelist = /^.*localhost:\d{4}/;
 
 const seasons = {
   winter: 'Winter',
@@ -46,6 +47,7 @@ const paths = {
 
 const Constants = {
   appName,
+  whitelist,
   seasons,
   seasonMonths,
   seasonalTypes,
