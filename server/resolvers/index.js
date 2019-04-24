@@ -1,5 +1,5 @@
 const Common = require('../utils');
-const inSeasonCalc = require('../models/shared/in-season');
+const inSeasonCalc = require('../utils/inSeason');
 
 const Query = require('./query');
 const Mutation = require('./mutation');
@@ -20,12 +20,12 @@ module.exports = {
   Manga: {},
   // History resolvers
   Episode: {
-    dateStr(instance) {
+    date(instance) {
       return Common.getFormattedDateString(instance.date);
     }
   },
   Chapter: {
-    dateStr(instance) {
+    date(instance) {
       return Common.getFormattedDateString(instance.date);
     }
   },

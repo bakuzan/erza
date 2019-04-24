@@ -2,7 +2,6 @@ module.exports = function historyFields(Types) {
   return {
     date: {
       type: Types.DATE,
-      defaultValue: Types.NOW,
       allowNull: false
     },
     rating: {
@@ -13,10 +12,6 @@ module.exports = function historyFields(Types) {
       type: Types.STRING,
       defaultValue: '',
       allowNull: false
-    },
-    isAdult: {
-      type: Types.BOOLEAN,
-      defaultValue: false
     }
   };
 };

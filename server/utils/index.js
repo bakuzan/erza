@@ -8,7 +8,10 @@ function getPreviousMonth(year, month) {
 }
 
 const getDateParts = (date) => {
-  if (!date) return {};
+  if (!date) {
+    return {};
+  }
+
   const d = new Date(date);
   return {
     year: d.getFullYear(),
@@ -23,9 +26,14 @@ const getFormattedDateString = (d) => {
 };
 
 const getSeasonIndex = (seasonArr) => (dateParts) => {
-  if (!dateParts) return null;
+  if (!dateParts) {
+    return null;
+  }
+
   const { month } = dateParts;
-  if (!month && isNaN(month)) return null;
+  if (!month && isNaN(month)) {
+    return null;
+  }
 
   const isLateInMonth = dateParts.date > 14;
   const modulus = dateParts.month % 3;
@@ -34,10 +42,12 @@ const getSeasonIndex = (seasonArr) => (dateParts) => {
   return monthAdjusted < 3
     ? seasonArr[0]
     : monthAdjusted < 6
-      ? seasonArr[1]
-      : monthAdjusted < 9
-        ? seasonArr[2]
-        : monthAdjusted < 12 ? seasonArr[3] : seasonArr[0];
+    ? seasonArr[1]
+    : monthAdjusted < 9
+    ? seasonArr[2]
+    : monthAdjusted < 12
+    ? seasonArr[3]
+    : seasonArr[0];
 };
 
 const getSeasonText = getSeasonIndex(Object.values(Constants.seasons));
@@ -52,7 +62,7 @@ const capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const getKeyByValue = (o, v) => Object.keys(o).find((k) => o[k] === v);
 
-const stringToBool = (s) => s.toLowerCase() == 'true';
+const stringToBool = (s) => s && s.toLowerCase() == 'true';
 
 const padNumber = (n, width, z = 0) => {
   n += '';

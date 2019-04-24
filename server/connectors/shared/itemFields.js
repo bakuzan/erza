@@ -6,12 +6,11 @@ module.exports = function itemFields(Types) {
       unique: true
     },
     start: {
-      type: Date,
-      defaultValue: Types.NOW,
+      type: Types.DATE,
       allowNull: true
     },
     end: {
-      type: Date,
+      type: Types.DATE,
       allowNull: true
     },
     status: {
@@ -64,12 +63,10 @@ module.exports = function itemFields(Types) {
       allowNull: true
     },
     updatedAt: {
-      type: Types.DATE,
-      defaultValue: Date.now
+      type: Types.DATE
     },
     createdAt: {
-      type: Types.DATE,
-      defaultValue: Date.now
+      type: Types.DATE
     }
   };
 };

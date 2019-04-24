@@ -6,9 +6,7 @@ module.exports = gql`
     title: String
     start: String
     end: String
-    """
-    1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned
-    """
+    "Values: 1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned"
     status: Int
     owned: Boolean
     rating: Int
@@ -28,5 +26,11 @@ module.exports = gql`
     series_chapters: Int
     series_volumes: Int
     tags: [Tag]
+  }
+
+  type MangaPage {
+    nodes: [Manga]
+    total: Int
+    hasMore: Boolean
   }
 `;

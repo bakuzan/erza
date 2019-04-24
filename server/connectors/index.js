@@ -5,12 +5,13 @@ const Constants = require('../constants');
 const Utils = require('../utils');
 const migrate = require('../config');
 
+const initialDataInsert = require('../config/initialDataInsert');
+
 const db = new Sequelize(Constants.appName, null, null, {
   dialect: 'sqlite',
   storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${
     process.env.NODE_ENV
-  }.sqlite`,
-  operatorsAliases: false
+  }.sqlite`
 });
 
 const AnimeModel = db.import('./anime');
@@ -20,16 +21,24 @@ const ChapterModel = db.import('./chapter');
 const TagModel = db.import('./tag');
 
 // Anime-Tag
-AnimeModel.Tag = AnimeModel.hasMany(TagModel);
-TagModel.Anime = TagModel.belongsToMany(AnimeModel);
+AnimeModel.Tag = AnimeModel.belongsToMany(TagModel, {
+  through: 'AnimeTag'
+});
+TagModel.Anime = TagModel.belongsToMany(AnimeModel, {
+  through: 'AnimeTag'
+});
 
 // Anime-Episode
 AnimeModel.Episode = AnimeModel.hasMany(EpisodeModel);
 EpisodeModel.Anime = EpisodeModel.belongsTo(AnimeModel);
 
 // Manga-Tag
-MangaModel.Tag = MangaModel.hasMany(TagModel);
-TagModel.Manga = TagModel.belongsToMany(MangaModel);
+MangaModel.Tag = MangaModel.belongsToMany(TagModel, {
+  through: 'MangaTag'
+});
+TagModel.Manga = TagModel.belongsToMany(MangaModel, {
+  through: 'MangaTag'
+});
 
 // Manga-Chapter
 MangaModel.Chapter = MangaModel.hasMany(ChapterModel);
@@ -45,7 +54,8 @@ db.sync({ force: FORCE_DB_REBUILD })
   .then(() => migrate(db))
   .then(async () => {
     if (FORCE_DB_REBUILD && SEED_DB) {
-      console.log(chalk.greenBright('Seed Data Not Setup.'));
+      console.log(chalk.greenBright('Migrating data files to SQLITE.'));
+      await initialDataInsert(db);
     }
   });
 

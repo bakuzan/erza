@@ -6,9 +6,7 @@ module.exports = gql`
     title: String
     start: String
     end: String
-    """
-    1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned
-    """
+    "Status values are 1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned"
     status: Int
     owned: Boolean
     rating: Int
@@ -26,6 +24,19 @@ module.exports = gql`
     episode: Int
     series_episodes: Int
     _legacyIsSeason: Boolean
+    season: AnimeSeason
     tags: [Tag]
+  }
+
+  type AnimeSeason {
+    inSeason: Boolean
+    year: Int
+    season: String
+  }
+
+  type AnimePage {
+    nodes: [Anime]
+    total: Int
+    hasMore: Boolean
   }
 `;

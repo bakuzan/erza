@@ -1,10 +1,17 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 
 const Constants = require('./constants');
 const typeDefs = require('./type-definitions');
 const resolvers = require('./resolvers');
 const context = require('./context');
-const app = require('./app');
+const defaultErrorHandler = require('./utils/defaultErrorHandler');
+
+const app = express();
 
 const server = new ApolloServer({
   typeDefs,
@@ -24,6 +31,24 @@ const server = new ApolloServer({
     return error;
   }
 });
+
+// Serve static assets
+app.use(
+  `/${Constants.appName}`,
+  express.static(path.resolve(__dirname, '..', 'build'))
+);
+
+// Routes
+app.use(require('./routes'));
+
+// Non-route handlers
+app.use(defaultErrorHandler);
+
+if (process.env.NODE_ENV === Constants.environment.production) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
+}
 
 const GRAPHQL_PATH = '/erz-graphql';
 const PORT =

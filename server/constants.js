@@ -45,7 +45,7 @@ const paths = {
   }
 };
 
-const Constants = {
+module.exports = {
   appName,
   whitelist,
   seasons,
@@ -58,5 +58,3 @@ const Constants = {
   dayNames,
   paths
 };
-
-module.exports = Constants;

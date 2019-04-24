@@ -6,9 +6,14 @@ module.exports = gql`
     date: String
     rating: Int
     note: String
-    isAdult: Boolean
     chapter: Int
     mangaId: Int
     manga: Manga
+  }
+
+  type ChapterPage {
+    nodes: [Chapter]
+    total: Int
+    hasMore: Boolean
   }
 `;

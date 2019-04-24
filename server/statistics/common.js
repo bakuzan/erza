@@ -44,6 +44,7 @@ const fetchBreakdownObject = (v) =>
       };
 
 const historyBreakdownIsMonths = (val) => val === Constants.breakdown.months;
+
 const getDatePropertyString = (b) =>
   historyBreakdownIsMonths(b) ? '$end' : '$start';
 

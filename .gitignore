@@ -10,6 +10,8 @@
 /iisnode
 /build
 *.css
+*.sqlite
+*.sqlite-journal
 
 # misc
 .DS_Store
@@ -18,3 +20,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 web.config*
+
+# db migration
+server/config/data
