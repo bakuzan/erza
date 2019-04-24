@@ -26,6 +26,7 @@ module.exports = gql`
     _legacyIsSeason: Boolean
     season: AnimeSeason
     tags: [Tag]
+    episodes: [Episode]
   }
 
   type AnimeSeason {

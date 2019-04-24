@@ -1,0 +1,11 @@
+query TagOne($id: Int!) {
+    tags(id: $id) {
+        id
+        name
+        isAdult
+    }
+}
+
+{
+    id: 1
+}

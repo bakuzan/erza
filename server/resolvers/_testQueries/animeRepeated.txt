@@ -1,0 +1,14 @@
+query AnimeRepeated($search: String, $minTimes:Int,$isAdult:Boolean) {
+  animeRepeated(search: $search, minTimesCompleted: $minTimes, isAdult: $isAdult) {
+    id
+    title
+    rating
+    timesCompleted
+  }
+}
+
+{
+  "search": "",
+  "minTimes": 1,
+  "isAdult": false
+}

@@ -1,0 +1,21 @@
+query AnimeOne($id: Int!) {
+  animeById(id: $id) {
+    id
+    title
+    rating
+    status
+    season {
+      inSeason
+      year
+      season
+    }
+    tags {
+      id
+      name
+    }
+  }
+}
+
+{
+  "id": 1
+}

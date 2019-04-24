@@ -26,6 +26,7 @@ module.exports = gql`
     series_chapters: Int
     series_volumes: Int
     tags: [Tag]
+    chapters: [Chapter]
   }
 
   type MangaPage {

@@ -1,0 +1,21 @@
+query AnimePage($search: String, $status: [Int], $isAdult: Boolean, $paging: Paging) {
+  animePaged(search: $search, status: $status, isAdult: $isAdult, paging: $paging) {
+    total
+    hasMore
+    nodes {
+      id
+      title
+      rating
+    }
+  }
+}
+
+{
+  "search": "",
+  "status": [1],
+  "isAdult": false,
+  "paging": {
+    "size": 10,
+    "page": 0
+  }
+}

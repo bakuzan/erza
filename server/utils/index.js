@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const Constants = require('../constants.js');
+const Constants = require('../constants');
 
 function getPreviousMonth(year, month) {
   // -2 because e.g. april(04), needs to be last month (-1) and adjusted for date month (-1)

@@ -5,6 +5,8 @@ const Manga = require('./manga');
 const Episode = require('./episode');
 const Chapter = require('./chapter');
 const Tag = require('./tag');
+const Statistics = require('./statistics');
+const Enums = require('./enums');
 
 const Query = gql`
   type Query {
@@ -59,6 +61,14 @@ const Query = gql`
 
     tagById(id: Int!): Tag
     tags(search: String, isAdult: Boolean): [Tag]
+
+    statsStatusCounts(type: StatType, isAdult: Boolean): [StatCount]
+    statsRatingCounts(type: StatType, isAdult: Boolean): [StatCount]
+    statsHistoryCounts(
+      type: StatType
+      isAdult: Boolean
+      breakdown: StatBreakdown
+    ): [StatCount]
   }
 `;
 
@@ -76,6 +86,8 @@ module.exports = [
   Episode,
   Chapter,
   Tag,
+  Statistics,
+  Enums,
   gql`
     input Paging {
       size: Int

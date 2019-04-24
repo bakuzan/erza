@@ -1,9 +1,9 @@
 const { Anime, Manga } = require('../connectors');
 
-const Constants = require('../constants');
+const { StatType } = require('../constants/enums');
 
 function resolveModel(t) {
-  return t === Constants.type.anime ? Anime : Manga;
+  return t === StatType.Anime ? Anime : Manga;
 }
 
 module.exports = {

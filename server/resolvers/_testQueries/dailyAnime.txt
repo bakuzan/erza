@@ -1,0 +1,11 @@
+query DailyAnime($date:String) {
+  dailyAnime(date: $date) {
+    id
+    title
+    episode
+  }
+}
+
+{
+  "date": "2019-04-24"
+}

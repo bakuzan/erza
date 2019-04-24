@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -32,6 +33,12 @@ const server = new ApolloServer({
   }
 });
 
+// Overide origin if it doesn't exist
+app.use(function(req, _, next) {
+  req.headers.origin = req.headers.origin || req.headers.host;
+  next();
+});
+
 // Serve static assets
 app.use(
   `/${Constants.appName}`,
@@ -46,11 +53,14 @@ app.use(defaultErrorHandler);
 
 if (process.env.NODE_ENV === Constants.environment.production) {
   app.get('*', (req, res) => {
+    if (req.url.includes('graphql')) {
+      next();
+    }
+
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
 }
 
-const GRAPHQL_PATH = '/erz-graphql';
 const PORT =
   process.env.NODE_ENV === Constants.environment.production
     ? process.env.PORT
@@ -58,7 +68,6 @@ const PORT =
 
 server.applyMiddleware({
   app,
-  path: GRAPHQL_PATH,
   cors: {
     origin: function(origin, callback) {
       if (Constants.whitelist.test(origin)) {
