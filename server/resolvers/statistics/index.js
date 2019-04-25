@@ -1,5 +1,6 @@
-const { db } = require('../../connectors');
+const { db, Anime } = require('../../connectors');
 
+const { Status, StatBreakdown } = require('../../constants/enums');
 const getBreakdownSettings = require('./getBreakdownSettings');
 const fmtYYYYMM = require('./formatDateColumn');
 
@@ -24,6 +25,7 @@ module.exports = {
     const opts = getBreakdownSettings(breakdown);
 
     const counts = await model.findAll({
+      raw: true,
       group: [fmtYYYYMM(opts.grouping)],
       where: {
         isAdult,
@@ -36,8 +38,8 @@ module.exports = {
       order: []
     });
 
-    return counts;
-  }
+    return opts.mapper(counts);
+  },
   // async statsHistoryCountsPartition(
   //   _,
   //   { type, isAdult, breakdown, partition }
@@ -46,4 +48,21 @@ module.exports = {
   //   _,
   //   { type, isAdult, breakdown, partition }
   // ) {}
+  async currentSeason() {
+    const today = new Date();
+    const seasonMonths = getListPartitions(StatBreakdown.Season, today);
+    // TODO get stats avg,max,min,mode
+    const series = await Anime.findAll({
+      where: {
+        isAdult: { [Op.eq]: false },
+        status: { [Op.eq]: Status.Ongoing },
+        start: db.where(fmtYYYYMM('start'), {
+          [Op.in]: seasonMonths
+        })
+      }
+    });
+    console.log('SEASON MONTHS', seasonMonths);
+    console.log('SEASON SERIES', series);
+    return series;
+  }
 };

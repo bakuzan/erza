@@ -1,5 +1,5 @@
 const Common = require('./index');
-const Constants = require('../constants');
+const { SeasonTypes } = require('../constants/enums');
 
 module.exports = function inSeasonCalc(item) {
   const { _legacyIsSeason, start, end, series_start, series_type } = item;
@@ -9,7 +9,7 @@ module.exports = function inSeasonCalc(item) {
   const dateParts = seriesStart.month ? seriesStart : from;
 
   // check type
-  const isValidType = Constants.seasonalTypes.indexOf(series_type) !== -1;
+  const isValidType = SeasonTypes.indexOf(series_type) !== -1;
 
   // prevent 1 episode specials
   const noSingleEp = from.year !== to.year || from.month !== to.month;

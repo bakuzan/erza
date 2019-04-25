@@ -1,0 +1,10 @@
+query RatingCounts($type: StatType) {
+  statsRatingCounts(type: $type, isAdult: false) {
+    key
+    value
+  }
+}
+
+{
+  "type": "Anime"
+}

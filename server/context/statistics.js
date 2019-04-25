@@ -1,4 +1,4 @@
-const { Anime, Manga } = require('../connectors');
+const { db, Anime, Manga } = require('../connectors');
 
 const { StatType } = require('../constants/enums');
 
@@ -12,12 +12,13 @@ module.exports = {
     const model = resolveModel(type);
 
     const counts = await model.findAll({
+      raw: true,
       group: column,
       where: { isAdult },
-      attributes: [column, [db.fn('COUNT', db.col('id')), 'count']],
-      order: [[column, sortDirection]]
+      attributes: [[column, 'key'], [db.fn('COUNT', db.col('id')), 'value']],
+      order: sortDirection ? [[column, sortDirection]] : undefined
     });
 
-    return counts;
+    return counts.map((x) => ({ ...x, key: `${x.key}` }));
   }
 };

@@ -17,7 +17,7 @@ query Episodes($from: String, $to: String, $isAdult: Boolean, $paging: Paging, $
 }
 
 {
-  "from": "2018-12-31",
+  "from": "2019-04-23",
   "to": "2019-04-24",
   "isAdult": false,
   "paging": {

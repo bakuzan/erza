@@ -4,6 +4,7 @@ const { db, Anime, Manga, Episode, Chapter, Tag } = require('../connectors');
 const statistics = require('./statistics');
 const { Status } = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
+const inSeasonCalc = require('../utils/inSeason');
 
 module.exports = {
   ...statistics,
@@ -21,8 +22,10 @@ module.exports = {
     return await context.findAllRepeated(Anime, args);
   },
   async dailyAnime(_, { date }) {
+    // Get this day last week
     const d = new Date(date);
-    d.setDate(-7);
+    d.setDate(d.getDate() - 7);
+
     const [from, to] = dateRange(d, d);
 
     const ongoingAnimeWithEpisodes = await Anime.findAll({
@@ -43,18 +46,14 @@ module.exports = {
       ]
     });
 
-    return ongoingAnimeWithEpisodes.filter((x) => x.episodes.length);
-  },
-  async animeAiring() {
-    // TODO
-    // this is part of the statistics rewriting that needs to be done
-    return await Anime.findAll({
-      where: {
-        isAdult: { [Op.eq]: false },
-        status: { [Op.eq]: Status.Ongoing }
-      },
-      order: []
-    });
+    return ongoingAnimeWithEpisodes
+      .map((x) => ({ anime: x, ep: x.episodes.pop().get({ raw: true }) }))
+      .filter(
+        ({ anime, ep }) =>
+          anime.episode === ep.episode && inSeasonCalc(anime).inSeason
+      )
+      .sort((a, b) => (a.ep.date > b.ep.date ? 1 : -1))
+      .map(({ anime }) => anime);
   },
   // Manga
   async mangaById(_, { id }) {
@@ -100,7 +99,7 @@ module.exports = {
     return await Tag.findByPk(id);
   },
   async tags(_, { search = '', isAdult = false }) {
-    return Tag.findAndCountAll({
+    return Tag.findAll({
       where: {
         name: {
           [Op.like]: `%${search}%`

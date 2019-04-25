@@ -13,7 +13,7 @@ const Query = gql`
     animeById(id: Int!): Anime
     animePaged(
       search: String
-      status: [Int]
+      status: [Status]
       isOwnedOnly: Boolean
       isAdult: Boolean
       sorting: [String]
@@ -25,13 +25,12 @@ const Query = gql`
       minTimesCompleted: Int
       isAdult: Boolean
     ): [Anime]
-    dailyAnime(date: String): [Anime]
-    animeAiring: [Anime]
+    dailyAnime(date: String!): [Anime]
 
     mangaById(id: Int!): Manga
     mangaPaged(
       search: String
-      status: [Int]
+      status: [Status]
       isOwnedOnly: Boolean
       isAdult: Boolean
       sorting: [String]
@@ -69,6 +68,7 @@ const Query = gql`
       isAdult: Boolean
       breakdown: StatBreakdown
     ): [StatCount]
+    currentSeason: [Anime]
   }
 `;
 

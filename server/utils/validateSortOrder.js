@@ -1,9 +1,9 @@
 module.exports = function validateSortOrder(defaults, sorting) {
-  const value = sorting || defaults;
+  const [field, direction] = sorting || defaults;
 
-  if (value.length != 2) {
-    return defaults;
+  if (!['ASC', 'DESC'].includes(direction)) {
+    throw new Error("Sort direction invalid. Must be one of: 'ASC', 'DESC'");
   }
 
-  return sorting;
+  return [field, direction];
 };

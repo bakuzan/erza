@@ -1,0 +1,11 @@
+query HistoryCounts($type: StatType, $breakdown: StatBreakdown) {
+  statsHistoryCounts(type: $type, breakdown: $breakdown, isAdult: false) {
+    key
+    value
+  }
+}
+
+{
+  "type": "Anime",
+  "breakdown": "Month"
+}

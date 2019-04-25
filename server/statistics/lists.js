@@ -1,4 +1,3 @@
-const Constants = require('../constants');
 const {
   stringToBool,
   getSeasonText,

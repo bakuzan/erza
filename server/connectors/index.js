@@ -29,7 +29,9 @@ TagModel.Anime = TagModel.belongsToMany(AnimeModel, {
 });
 
 // Anime-Episode
-AnimeModel.Episode = AnimeModel.hasMany(EpisodeModel);
+AnimeModel.Episode = AnimeModel.hasMany(EpisodeModel, {
+  onDelete: 'cascade'
+});
 EpisodeModel.Anime = EpisodeModel.belongsTo(AnimeModel);
 
 // Manga-Tag
@@ -41,7 +43,9 @@ TagModel.Manga = TagModel.belongsToMany(MangaModel, {
 });
 
 // Manga-Chapter
-MangaModel.Chapter = MangaModel.hasMany(ChapterModel);
+MangaModel.Chapter = MangaModel.hasMany(ChapterModel, {
+  onDelete: 'cascade'
+});
 ChapterModel.Manga = ChapterModel.belongsTo(MangaModel);
 
 // Sync and Migrate db

@@ -1,4 +1,4 @@
-query AnimePage($search: String, $status: [Int], $isAdult: Boolean, $paging: Paging) {
+query AnimePage($search: String, $status: [Status], $isAdult: Boolean, $paging: Paging) {
   animePaged(search: $search, status: $status, isAdult: $isAdult, paging: $paging) {
     total
     hasMore
@@ -12,7 +12,7 @@ query AnimePage($search: String, $status: [Int], $isAdult: Boolean, $paging: Pag
 
 {
   "search": "",
-  "status": [1],
+  "status": ["Ongoing"],
   "isAdult": false,
   "paging": {
     "size": 10,

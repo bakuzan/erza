@@ -1,0 +1,10 @@
+query StatusCounts($type: StatType) {
+  statsStatusCounts(type: $type, isAdult: false) {
+    key
+    value
+  }
+}
+
+{
+  "type": "Anime"
+}

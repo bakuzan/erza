@@ -7,5 +7,5 @@ query DailyAnime($date:String) {
 }
 
 {
-  "date": "2019-04-24"
+  "date": "2019-04-25"
 }

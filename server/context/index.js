@@ -6,6 +6,7 @@ const isOwnedOnlyArgs = require('../utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('../utils/setHasMoreFlag');
 const validateSortOrder = require('../utils/validateSortOrder');
 const dateRange = require('../utils/dateRange');
+const resolveWhereIn = require('../utils/resolveWhereIn');
 
 async function pagedSeries(
   model,
@@ -18,8 +19,9 @@ async function pagedSeries(
     paging = { page: 0, size: 10 }
   }
 ) {
-  const resolvedArgs = isOwnedOnlyArgs(isOwnedOnly);
+  const isOwnedWhere = isOwnedOnlyArgs(isOwnedOnly);
   const sortOrder = validateSortOrder(['title', 'ASC'], sorting);
+  const statusWhere = resolveWhereIn(status, 'status');
 
   return model
     .findAndCountAll({
@@ -27,9 +29,9 @@ async function pagedSeries(
         title: {
           [Op.like]: `%${search}%`
         },
-        status: { [Op.in]: status },
         isAdult: { [Op.eq]: isAdult },
-        ...resolvedArgs
+        ...statusWhere,
+        ...isOwnedWhere
       },
       order: [sortOrder],
       limit: paging.size,
@@ -44,11 +46,13 @@ async function pagedSeries(
 
 async function pagedHistory(
   model,
+  { fromDate, toDate, ratings = [], paging = { page: 0, size: 10 } },
   where,
-  options,
-  { fromDate, toDate, ratings = [], paging = { page: 0, size: 10 } }
+  options
 ) {
   const [from, to] = dateRange(fromDate, toDate);
+  const ratingWhere = resolveWhereIn(ratings, 'rating');
+
   return model
     .findAndCountAll({
       where: {
@@ -56,9 +60,7 @@ async function pagedHistory(
           [Op.gte]: from,
           [Op.lt]: to
         },
-        rating: {
-          [Op.in]: ratings
-        },
+        ...ratingWhere,
         ...where
       },
       order: [['date', 'DESC']],
@@ -74,10 +76,12 @@ async function pagedHistory(
 }
 
 async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
+  const orArgs = [{ title: { [Op.eq]: title } }];
+
   const series = await model.findOne({
     where: {
       id: { [Op.ne]: id },
-      [Op.or]: [{ malId: { [Op.eq]: malId } }, { title: { [Op.eq]: title } }]
+      [Op.or]: malId ? [...orArgs, { malId: { [Op.eq]: malId } }] : orArgs
     }
   });
 

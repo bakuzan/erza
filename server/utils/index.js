@@ -7,7 +7,7 @@ function getPreviousMonth(year, month) {
   return date.substring(0, 7);
 }
 
-const getDateParts = (date) => {
+function getDateParts(date) {
   if (!date) {
     return {};
   }
@@ -18,7 +18,7 @@ const getDateParts = (date) => {
     month: d.getMonth(),
     date: d.getDate()
   };
-};
+}
 
 const getFormattedDateString = (d) => {
   const { year, month, date } = getDateParts(d);
