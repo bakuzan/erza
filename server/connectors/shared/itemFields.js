@@ -1,3 +1,5 @@
+const { Statuses } = require('../../constants/enums');
+
 module.exports = function itemFields(Types) {
   return {
     title: {
@@ -14,11 +16,12 @@ module.exports = function itemFields(Types) {
       allowNull: true
     },
     status: {
-      type: Types.INTEGER,
-      defaultValue: 6 // 1 / ongoing, 2 / completed, 3 / onhold, 4 / dropped, 6 / planned
+      type: Types.ENUM,
+      values: [...Statuses]
     },
     owned: {
       type: Types.BOOLEAN,
+      allowNull: false,
       defaultValue: false
     },
     rating: {
@@ -31,10 +34,12 @@ module.exports = function itemFields(Types) {
     },
     isRepeat: {
       type: Types.BOOLEAN,
+      allowNull: false,
       defaultValue: false
     },
     timesCompleted: {
       type: Types.INTEGER,
+      allowNull: false,
       defaultValue: 0
     },
     image: {
@@ -49,10 +54,6 @@ module.exports = function itemFields(Types) {
       type: Types.INTEGER,
       defaultValue: null,
       allowNull: true
-    },
-    series_type: {
-      type: Types.INTEGER,
-      defaultValue: 0
     },
     series_start: {
       type: Types.DATE,

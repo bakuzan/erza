@@ -1,7 +1,7 @@
 const Op = require('sequelize').Op;
 
 const { db } = require('../../connectors');
-const Constants = require('../../constants');
+const { Status, SeasonTypes } = require('../../constants/enums');
 const { StatBreakdown } = require('../../constants/enums');
 const fmtYYYYMM = require('./formatDateColumn');
 
@@ -14,10 +14,10 @@ module.exports = function getBreakdownSettings(v) {
     isMonth,
     grouping: isMonth ? 'end' : 'start',
     where: isMonth
-      ? { status: Constants.status.completed }
+      ? { status: Status.Completed }
       : {
           status: {
-            [Op.in]: [Constants.status.ongoing, Constants.status.completed]
+            [Op.in]: [Status.Ongoing, Status.Completed]
           },
           [Op.or]: [
             { _legacyIsSeason: true },
@@ -29,7 +29,7 @@ module.exports = function getBreakdownSettings(v) {
                 db.where(fmtYYYYMM('start'), {
                   [Op.ne]: fmtYYYYMM('end')
                 }), // start not in same month as end
-                { series_type: { [Op.in]: Constants.seasonalTypes } }
+                { series_type: { [Op.in]: SeasonTypes } }
               ]
             }
           ]

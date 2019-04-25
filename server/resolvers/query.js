@@ -2,7 +2,7 @@ const Op = require('sequelize').Op;
 const { db, Anime, Manga, Episode, Chapter, Tag } = require('../connectors');
 
 const statistics = require('./statistics');
-const Constants = require('../constants');
+const { Status } = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
 
     const ongoingAnimeWithEpisodes = await Anime.findAll({
       where: {
-        status: { [Op.eq]: Constants.status.ongoing },
+        status: { [Op.eq]: Status.Ongoing },
         isAdult: { [Op.eq]: false }
       },
       include: [
@@ -51,7 +51,7 @@ module.exports = {
     return await Anime.findAll({
       where: {
         isAdult: { [Op.eq]: false },
-        status: { [Op.eq]: Constants.status.ongoing }
+        status: { [Op.eq]: Status.Ongoing }
       },
       order: []
     });

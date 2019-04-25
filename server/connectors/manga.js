@@ -1,3 +1,5 @@
+const { MangaType, MangaTypes } = require('../constants/enums');
+
 const getSharedFields = require('./shared/itemFields');
 
 module.exports = (db, Types) => {
@@ -22,6 +24,11 @@ module.exports = (db, Types) => {
     series_volumes: {
       type: Types.INTEGER,
       defaultValue: 0
+    },
+    series_type: {
+      type: Types.ENUM,
+      values: [...MangaTypes],
+      defaultValue: MangaType.Unknown
     }
   });
 };

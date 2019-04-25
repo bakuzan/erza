@@ -9,6 +9,40 @@ const tags = require('./data/tag.json');
 // To get data, run command in folder with mongoexport.exe
 // mongoexport -d <db-name> -c <collection> -o /path/to/project/data/<collection>.json
 
+const statuses = [
+  'Planned',
+  'Ongoing',
+  'Completed',
+  'Onhold',
+  'Dropped',
+  'Planned'
+];
+
+const enums = new Map([
+  [
+    'status',
+    {
+      animeId: statuses,
+      mangaId: statuses
+    }
+  ],
+  [
+    'series_type',
+    {
+      animeId: ['Unknown', 'TV', 'OVA', 'Movie', 'Special', 'ONA', 'Music'],
+      mangaId: [
+        'Unknown',
+        'Manga',
+        'Novel',
+        'Oneshot',
+        'Doujinshi',
+        'Manhwa',
+        'Manhua'
+      ]
+    }
+  ]
+]);
+
 async function insertTags(table, callback) {
   const tagMap = new Map([]);
 
@@ -35,7 +69,7 @@ const renamed = {
 };
 const mapKey = (k) => renamed[k] || k;
 
-function processProperties({ _id, parent, ...instance }) {
+function processProperties({ parentAttr, _id, parent, ...instance }) {
   return Object.keys(instance).reduce((p, k) => {
     let value = instance[k];
 
@@ -52,6 +86,11 @@ function processProperties({ _id, parent, ...instance }) {
       }
     } else if (['series_start', 'series_end'].includes(k)) {
       value = null; // Fix empty string dates.
+    }
+
+    if (enums.has(k)) {
+      const enumObj = enums.get(k)[parentAttr];
+      value = enumObj[value] || enumObj[0];
     }
 
     p[mapKey(k)] = value;
@@ -74,7 +113,7 @@ async function insertItemData({
     async function iteratee(instance) {
       const { tags, ...props } = instance;
       const oldSeriesId = props._id.$oid;
-      const data = processProperties(props);
+      const data = processProperties({ parentAttr, ...props });
       const newTagIds = tags
         .map((t) => tagMap.get(t.$oid))
         .filter((x, i, arr) => arr.indexOf(x) === i);
@@ -109,7 +148,7 @@ module.exports = async function initialDataInsert(db) {
     chapter: Chapter,
     tag: Tag
   } = db.models;
-
+  const start = new Date().toISOString();
   async.waterfall(
     [
       (callback) => insertTags(Tag, callback),
@@ -142,7 +181,9 @@ module.exports = async function initialDataInsert(db) {
         process.exit(1);
       }
 
-      console.log(`Finished @ ${new Date().toISOString()}`);
+      const finish = new Date().toISOString();
+      console.log(`Started @ ${start}`);
+      console.log(`Finished @ ${finish}`);
     }
   );
 };

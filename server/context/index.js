@@ -1,7 +1,7 @@
 const Op = require('sequelize').Op;
 
 const Stats = require('./statistics');
-const Constants = require('../constants');
+const { Status } = require('../constants/enums');
 const isOwnedOnlyArgs = require('../utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('../utils/setHasMoreFlag');
 const validateSortOrder = require('../utils/validateSortOrder');
@@ -94,7 +94,7 @@ async function findAllRepeated(
         [Op.like]: `%${search}%`
       },
       isAdult: { [Op.eq]: isAdult },
-      status: { [Op.eq]: Constants.status.completed },
+      status: { [Op.eq]: Status.Completed },
       [Op.or]: [
         { isRepeat: true },
         { timesCompleted: { [Op.gte]: minTimesCompleted } }

@@ -1,3 +1,5 @@
+const { AnimeType, AnimeTypes } = require('../constants/enums');
+
 const getSharedFields = require('./shared/itemFields');
 
 module.exports = (db, Types) => {
@@ -13,6 +15,11 @@ module.exports = (db, Types) => {
     series_episodes: {
       type: Types.INTEGER,
       defaultValue: 0
+    },
+    series_type: {
+      type: Types.ENUM,
+      values: [...AnimeTypes],
+      defaultValue: AnimeType.Unknown
     },
     _legacyIsSeason: {
       type: Types.BOOLEAN,
