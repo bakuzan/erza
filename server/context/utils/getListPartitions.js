@@ -1,5 +1,5 @@
 const { padNumber } = require('../../utils');
-const getSeasonStartMonthForCounts = require('../../utils/getSeasonStartMonthForCounts');
+const getSeasonStartMonth = require('../../utils/getSeasonStartMonth');
 const isMonthBreakdown = require('./isMonthBreakdown');
 
 module.exports = function getListPartitions(breakdown, partition) {
@@ -11,7 +11,7 @@ module.exports = function getListPartitions(breakdown, partition) {
 
   const dStr = new Date(partition).toISOString();
   const [year] = dStr.split('-');
-  const month = getSeasonStartMonthForCounts(dStr);
+  const month = getSeasonStartMonth(dStr);
   const monthNum = Number(month);
 
   return [

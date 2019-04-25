@@ -2,11 +2,12 @@ const Op = require('sequelize').Op;
 
 const Stats = require('./statistics');
 const { Status } = require('../constants/enums');
-const isOwnedOnlyArgs = require('../utils/isOwnedOnlyArgs');
-const setHasMoreFlag = require('../utils/setHasMoreFlag');
-const validateSortOrder = require('../utils/validateSortOrder');
 const dateRange = require('../utils/dateRange');
-const resolveWhereIn = require('../utils/resolveWhereIn');
+
+const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
+const setHasMoreFlag = require('./utils/setHasMoreFlag');
+const validateSortOrder = require('./utils/validateSortOrder');
+const resolveWhereIn = require('./utils/resolveWhereIn');
 
 async function pagedSeries(
   model,

@@ -1,0 +1,13 @@
+query HistoryDetail($type: StatType, $breakdown: StatBreakdown, $partition: HistoryPartition) {
+  statsHistoryDetail(type: $type, breakdown: $breakdown, partition: $partition, isAdult: false) {
+    id
+    title
+    rating
+  }
+}
+
+{
+  "type": "Anime",
+  "breakdown": "Month",
+  "partition": "2019-03"
+}

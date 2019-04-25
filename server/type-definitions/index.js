@@ -9,6 +9,8 @@ const Statistics = require('./statistics');
 const Enums = require('./enums');
 
 const Query = gql`
+  scalar HistoryPartition
+
   type Query {
     animeById(id: Int!): Anime
     animePaged(
@@ -68,6 +70,19 @@ const Query = gql`
       isAdult: Boolean
       breakdown: StatBreakdown
     ): [StatCount]
+    statsHistoryDetail(
+      type: StatType
+      isAdult: Boolean
+      breakdown: StatBreakdown
+      partition: HistoryPartition
+    ): [StatSeriesRow]
+    statsHistoryDetailYear(
+      type: StatType
+      isAdult: Boolean
+      breakdown: StatBreakdown
+      partition: HistoryPartition
+    ): [StatSeriesRow]
+
     currentSeason: [Anime]
   }
 `;
