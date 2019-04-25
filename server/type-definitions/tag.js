@@ -5,5 +5,7 @@ module.exports = gql`
     id: Int
     name: String
     isAdult: Boolean
+    anime: [Anime]
+    manga: [Manga]
   }
 `;

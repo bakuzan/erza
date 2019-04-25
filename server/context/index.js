@@ -109,10 +109,18 @@ async function findAllRepeated(
   });
 }
 
+async function deleteEntity(model, where) {
+  const deletedCount = await model.destroy({
+    where
+  });
+  return handleDeleteResponse(where, deletedCount);
+}
+
 module.exports = {
   pagedSeries,
   pagedHistory,
   checkIfSeriesAlreadyExists,
   findAllRepeated,
+  deleteEntity,
   Stats
 };

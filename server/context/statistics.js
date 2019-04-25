@@ -48,10 +48,11 @@ module.exports = {
       }
     });
 
+    console.log('HISTORY', series.length);
+
     /** TODO for breakdown === Season
      *  Query episodes and aggregate to get rating -> avg, max, min, and mode
      */
-    console.log('HISTORY', series.length);
 
     return series;
   }

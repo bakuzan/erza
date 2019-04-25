@@ -1,9 +1,7 @@
 const gql = require('graphql-tag');
 
-const Anime = require('./anime');
-const Manga = require('./manga');
-const Episode = require('./episode');
-const Chapter = require('./chapter');
+const Series = require('./series');
+const History = require('./history');
 const Tag = require('./tag');
 const Statistics = require('./statistics');
 const Enums = require('./enums');
@@ -70,6 +68,7 @@ const Query = gql`
       isAdult: Boolean
       breakdown: StatBreakdown
     ): [StatCount]
+
     statsHistoryDetail(
       type: StatType
       isAdult: Boolean
@@ -82,24 +81,41 @@ const Query = gql`
       breakdown: StatBreakdown
       partition: HistoryPartition
     ): [StatSeriesRow]
+    currentSeason: [StatSeriesRow]
+  }
 
-    currentSeason: [Anime]
+  interface PageResponse {
+    total: Int
+    hasMore: Boolean
   }
 `;
 
 const Mutation = gql`
   type Mutation {
-    noop: Boolean
+    animeRemove(id: Int!): DeleteResponse
+
+    mangaRemove(id: Int!): DeleteResponse
+
+    episodeRemove(id: Int!): DeleteResponse
+
+    chapterRemove(id: Int!): DeleteResponse
+
+    tagRemove(id: Int!): DeleteResponse
   }
+
+  interface BaseResponse {
+    success: Boolean
+    errorMessages: [String]
+  }
+
+  type DeleteResponse implements BaseResponse {}
 `;
 
 module.exports = [
   Query,
   Mutation,
-  Anime,
-  Manga,
-  Episode,
-  Chapter,
+  Series,
+  History,
   Tag,
   Statistics,
   Enums,

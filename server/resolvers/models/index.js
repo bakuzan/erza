@@ -52,5 +52,20 @@ module.exports = {
     }
   },
   // Tag resolvers
-  Tag: {}
+  Tag: {
+    anime(inst) {
+      if (inst.animes) {
+        return inst.animes;
+      }
+
+      return inst.getAnimes();
+    },
+    manga(inst) {
+      if (inst.mangas) {
+        return inst.mangas;
+      }
+
+      return inst.getMangas();
+    }
+  }
 };
