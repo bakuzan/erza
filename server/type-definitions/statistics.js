@@ -7,9 +7,15 @@ module.exports = gql`
     key: String
     value: Int
   }
+
   type StatSeriesRow {
-    id: Int
-    title: String
-    rating: Int
+    id: Int!
+    title: String!
+    rating: Int!
+    season: String
+    average: Float
+    highest: Int
+    lowest: Int
+    mode: Int
   }
 `;

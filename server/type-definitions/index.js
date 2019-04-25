@@ -83,11 +83,6 @@ const Query = gql`
     ): [StatSeriesRow]
     currentSeason: [StatSeriesRow]
   }
-
-  interface PageResponse {
-    total: Int
-    hasMore: Boolean
-  }
 `;
 
 const Mutation = gql`
@@ -103,12 +98,10 @@ const Mutation = gql`
     tagRemove(id: Int!): DeleteResponse
   }
 
-  interface BaseResponse {
+  type DeleteResponse {
     success: Boolean
     errorMessages: [String]
   }
-
-  type DeleteResponse implements BaseResponse {}
 `;
 
 module.exports = [

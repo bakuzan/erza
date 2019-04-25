@@ -9,22 +9,34 @@ module.exports = gql`
   }
 
   type Episode implements History {
+    id: Int
+    date: String
+    rating: Int
+    note: String
     episode: Int
     animeId: Int
     anime: Anime
   }
 
-  type EpisodePage implements PageResponse {
+  type EpisodePage {
+    total: Int
+    hasMore: Boolean
     nodes: [Episode]
   }
 
   type Chapter implements History {
+    id: Int
+    date: String
+    rating: Int
+    note: String
     chapter: Int
     mangaId: Int
     manga: Manga
   }
 
-  type ChapterPage implements PageResponse {
+  type ChapterPage {
+    total: Int
+    hasMore: Boolean
     nodes: [Chapter]
   }
 `;

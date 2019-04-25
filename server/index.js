@@ -4,8 +4,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');
+const proxy = require('express-http-proxy');
 const { ApolloServer } = require('apollo-server-express');
 
+const imageStore = require('./image-store');
 const Constants = require('./constants');
 const typeDefs = require('./type-definitions');
 const resolvers = require('./resolvers');
@@ -45,8 +47,12 @@ app.use(
   express.static(path.resolve(__dirname, '..', 'build'))
 );
 
-// Routes
-app.use(require('./routes'));
+//Imgur routes
+app.post('/api/image-upload/url', imageStore.upload);
+app.post('/api/image-upload/file', imageStore.uploadFromLocal);
+
+// Yoruichi Route
+app.post('/yri-graphql', proxy('http://localhost:9933/yri-graphql'));
 
 // Non-route handlers
 app.use(defaultErrorHandler);
