@@ -1,45 +1,40 @@
-import update from 'immutability-helper';
-
-import MangaML from '../graphql/mutation/manga';
 import {
   getMangaById,
   getMangaByIdForEdit,
   getMangaPaged
 } from 'erzaGQL/query';
+import {
+  mangaCreate,
+  mangaUpdate,
+  mangaUpdateWithHistory
+} from 'erzaGQL/mutation';
 
 import { loadItems, loadItemsById, mutateItem } from './utils/series';
-
+import { mutateSeriesWithHistory } from './utils/combined';
 import { UPDATE_MANGA } from '../constants/actions';
 import { Strings } from '../constants/values';
-import updatePrePost from '../utils/validators/mangaPost';
-import { mapChapterData } from '../utils/data';
 
 export const createManga = (item) =>
-  mutateItem(Strings.manga, item, MangaML.createManga);
+  mutateItem(mangaCreate, item, Strings.manga);
 
-export const editManga = (item) =>
-  mutateItem(Strings.manga, item, MangaML.updateMangaById);
+export const editManga = (item) => mutateItem(mangaUpdate, item, Strings.manga);
 
 const updateMangaInState = (item) => ({
   type: UPDATE_MANGA,
   item
 });
 
-export const addChapters = ({ editItem }) => {
-  return function(dispatch, getState) {
-    const manga = getState().entities.manga.byId[editItem.id];
-    const updatedManga = update(manga, {
-      chapter: { $set: editItem.chapter },
-      volume: { $set: editItem.volume || manga.volume },
-      rating: { $set: editItem.overallRating || manga.rating }
-    });
-    dispatch(updateMangaInState(updatedManga));
-    const history = mapChapterData(manga, editItem);
-    history.forEach((item) => dispatch(createChapter(item)));
-
-    dispatch(editManga(updatePrePost(updatedManga)));
-  };
-};
+export const addChapters = ({ editItem }) =>
+  mutateSeriesWithHistory(mangaUpdateWithHistory, editItem, {
+    type: Strings.manga,
+    updateInState: updateMangaInState,
+    mapSeries: (item, editItem) => ({
+      id: item.id,
+      current: editItem.chapter,
+      volume: editItem.volume || item.volume,
+      rating: editItem.overallRating || item.rating
+    })
+  });
 
 export const loadManga = (filters = {}, pageChange = null) =>
   loadItems(getMangaPaged, filters, {

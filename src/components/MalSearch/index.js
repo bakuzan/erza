@@ -5,9 +5,8 @@ import classNames from 'classnames';
 import { AutocompleteInput, LoadingSpinner } from 'mko';
 import MalSearchSuggestionItem from './MalSearchSuggestionItem';
 
+import erzaGQL from 'graphql/fetch';
 import { getEventValue, getTimeoutSeconds, debounce, capitalise } from 'utils';
-import fetchFromServer from 'graphql/fetch';
-import { Paths } from 'constants/paths';
 
 import './MalSearch.scss';
 
@@ -19,7 +18,7 @@ const getFilters = (props) => ({
 
 const checkIfItemExistsAlready = (query) => (props) => {
   const filters = getFilters(props);
-  return fetchFromServer(`${Paths.graphql.base}${query(filters)}`);
+  return erzaGQL({ query, variables: { ...filters } });
 };
 
 const Errors = {

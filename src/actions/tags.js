@@ -2,7 +2,7 @@ import { toaster } from 'mko';
 
 import erzaGQL from 'erzaGQL';
 import { getTagById, getTags, getTagsMinimal } from 'erzaGQL/query';
-import { tagCreate, tagUpdate, tagRemove } from 'erzaGQL/mutation';
+import { tagUpdate, tagRemove } from 'erzaGQL/mutation';
 
 import { startingGraphqlRequest, finishGraphqlRequest } from './utils/helpers';
 import { ADD_TAG, REMOVE_TAG, TAGS_LOAD } from 'constants/actions';
@@ -68,15 +68,13 @@ export function loadTag(id) {
 
 // Mutate
 
-function mutateTag(query, item) {
-  return async function(dispatch, getState) {
+export function updateTag(item) {
+  return async function(dispatch) {
     dispatch(startingGraphqlRequest());
 
-    const { isAdult } = getState();
-
     const response = await erzaGQL({
-      query,
-      variables: { ...item, isAdult }
+      query: tagUpdate,
+      variables: { ...item }
     });
 
     const data = getSingleObjectProperty(response);
@@ -91,9 +89,6 @@ function mutateTag(query, item) {
     dispatch(finishGraphqlRequest());
   };
 }
-
-export const createTag = (item) => mutateTag(tagCreate, item);
-export const updateTag = (item) => mutateTag(tagUpdate, item);
 
 export function deleteTag(id) {
   return async function(dispatch) {

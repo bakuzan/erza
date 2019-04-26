@@ -1,10 +1,8 @@
 import { toaster } from 'mko';
 import erzaGQL from 'erzaGQL';
-import fetchFromServer from 'graphql/fetch';
-import { constructRecordForPost } from 'graphql/common';
+
 import { resetPageToZero, loadPageInfo } from 'actions/paging';
 import { getSingleObjectProperty } from 'utils';
-import { Paths } from 'constants/paths';
 
 import {
   startingGraphqlRequest,

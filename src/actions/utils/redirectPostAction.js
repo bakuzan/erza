@@ -1,6 +1,6 @@
 import { history as Navigate } from '../../index';
 import { Paths } from 'constants/paths';
-import { Strings } from 'constants/values';
+import Enums from 'constants/enums';
 
 export default function redirectPostAction(type, lastLocation) {
   const baseUrl = `${Paths.base}${Paths[type].list}`;
@@ -14,7 +14,7 @@ export default function redirectPostAction(type, lastLocation) {
   const hasPrev = lastLocation && lastLocation.location;
   const targetUrl = hasPrev
     ? lastLocation.location.pathname
-    : `${baseUrl}${Strings.filters.ongoing}`;
+    : `${baseUrl}${Enums.status.Ongoing}`;
 
   return Navigate.push(targetUrl);
 }

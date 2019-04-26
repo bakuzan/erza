@@ -1,4 +1,3 @@
-import ChapterML from '../graphql/mutation/chapter';
 import { getChapters } from 'erzaGQL/query';
 import { chapterUpdate, chapterRemove } from 'erzaGQL/mutation';
 

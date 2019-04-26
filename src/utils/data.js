@@ -6,8 +6,6 @@ import {
 } from 'utils';
 import AnimeModel from '../models/animeModel';
 import MangaModel from '../models/mangaModel';
-import EpisodeModel from '../models/episodeModel';
-import ChapterModel from '../models/chapterModel';
 import { Enums, Strings, Properties } from '../constants/values';
 
 export function selectPageItems(items, type, paging) {
@@ -15,40 +13,6 @@ export function selectPageItems(items, type, paging) {
   const startIndex = page * size;
   const endIndex = startIndex + size;
   return items.slice(startIndex, endIndex);
-}
-
-export function mapEpisodeData(anime, { id, episode, ratings, notes }) {
-  const happened = Date.now();
-  return Array(episode - anime.episode)
-    .fill(null)
-    .map((item, index) => {
-      const episodeNumber = anime.episode + 1 + index;
-      return new EpisodeModel({
-        parent: id,
-        date: happened + index,
-        rating: ratings[episodeNumber] || 0,
-        note: notes[episodeNumber] || '',
-        episode: episodeNumber,
-        isAdult: anime.isAdult
-      });
-    });
-}
-
-export function mapChapterData(manga, { id, chapter, ratings, notes }) {
-  const happened = Date.now();
-  return Array(chapter - manga.chapter)
-    .fill(null)
-    .map((item, index) => {
-      const chapterNumber = manga.chapter + 1 + index;
-      return new ChapterModel({
-        parent: id,
-        date: happened + index,
-        rating: ratings[chapterNumber] || 0,
-        note: notes[chapterNumber] || '',
-        chapter: chapterNumber,
-        isAdult: manga.isAdult
-      });
-    });
 }
 
 export const mapStateToEntity = (state, id) => state.byId[id] || {};

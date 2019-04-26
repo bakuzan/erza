@@ -1,10 +1,8 @@
 import { toaster } from 'mko';
+
 import erzaGQL from 'erzaGQL';
-import fetchFromServer from 'graphql/fetch';
-import { constructRecordForPost } from 'graphql/common';
 import { resetPageToZero, loadPageInfo } from 'actions/paging';
 import { getSingleObjectProperty } from 'utils';
-import { Paths } from 'constants/paths';
 
 import {
   startingGraphqlRequest,
@@ -69,23 +67,30 @@ export const loadItemsById = (query, variables, type) => {
 
 // Mutate
 
-export const mutateItem = (type, item, queryBuilder) => {
-  return function(dispatch, getState) {
-    const { lastLocation } = getState();
+export function mutateItem(query, item, type) {
+  return async function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
-    const itemForCreation = constructRecordForPost(item);
-    const mutation = queryBuilder(itemForCreation);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST').then(
-      (response = {}) => {
-        dispatch(finishGraphqlRequest());
-        const data = getSingleObjectProperty(response.data);
-        if (!data) return null;
-        toaster.success(
-          'Saved!',
-          `Successfully saved '${data.record.title}' ${type}.`
-        );
-        return redirectPostAction(type, lastLocation);
-      }
+
+    const { lastLocation } = getState();
+
+    const response = await erzaGQL({
+      query,
+      variables: { ...item }
+    });
+
+    dispatch(finishGraphqlRequest());
+
+    const data = getSingleObjectProperty(response);
+    if (!data || !data.success) {
+      // TODO error handling with alert
+      return null;
+    }
+
+    toaster.success(
+      'Saved!',
+      `Successfully saved '${data.data.title}' ${type}.`
     );
+
+    return redirectPostAction(type, lastLocation);
   };
-};
+}

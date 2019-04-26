@@ -94,4 +94,96 @@ module.exports = gql`
     hasMore: Boolean
     nodes: [Manga]
   }
+
+  input SeriesInput {
+    id: Int!
+    current: Int!
+    volume: Int
+    rating: Int
+  }
+  input AnimeCreateInput {
+    title: String
+    start: String
+    end: String
+    status: Status
+    owned: Boolean
+    rating: Int
+    isAdult: Boolean
+    isRepeat: Boolean
+    image: String
+    link: String
+    malId: Int
+    series_type: AnimeType
+    series_start: String
+    series_end: String
+    tags: [TagInput]
+    episode: Int
+    series_episodes: Int
+    _legacyIsSeason: Boolean
+  }
+  input AnimeInput {
+    id: Int!
+    title: String
+    start: String
+    end: String
+    status: Status
+    owned: Boolean
+    rating: Int
+    isAdult: Boolean
+    isRepeat: Boolean
+    image: String
+    link: String
+    malId: Int
+    series_type: AnimeType
+    series_start: String
+    series_end: String
+    tags: [TagInput]
+    episode: Int
+    series_episodes: Int
+    _legacyIsSeason: Boolean
+  }
+
+  input MangaCreateInput {
+    title: String
+    start: String
+    end: String
+    status: Status
+    owned: Boolean
+    rating: Int
+    isAdult: Boolean
+    isRepeat: Boolean
+    image: String
+    link: String
+    malId: Int
+    series_type: AnimeType
+    series_start: String
+    series_end: String
+    tags: [TagInput]
+    chapter: Int
+    volume: Int
+    series_chapters: Int
+    series_volumes: Int
+  }
+  input MangaInput {
+    id: Int!
+    title: String
+    start: String
+    end: String
+    status: Status
+    owned: Boolean
+    rating: Int
+    isAdult: Boolean
+    isRepeat: Boolean
+    image: String
+    link: String
+    malId: Int
+    series_type: AnimeType
+    series_start: String
+    series_end: String
+    tags: [TagInput]
+    chapter: Int
+    volume: Int
+    series_chapters: Int
+    series_volumes: Int
+  }
 `;

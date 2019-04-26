@@ -1,6 +1,8 @@
 import { Paths } from './paths';
 import { Strings } from './values';
+import Enums from './enums';
 
+const defaultStatus = Enums.status.Ongoing;
 const Menu = [
   {
     id: 0,
@@ -15,7 +17,7 @@ const Menu = [
       },
       {
         id: 2,
-        link: `${Paths.base}${Paths.anime.list}${Strings.filters.ongoing}`,
+        link: `${Paths.base}${Paths.anime.list}${defaultStatus}`,
         title: 'Browse Anime',
         description: 'Search anime with a variable of filters and conditions',
         icon: 'AL'
@@ -35,7 +37,7 @@ const Menu = [
       },
       {
         id: 4,
-        link: `${Paths.base}${Paths.manga.list}${Strings.filters.ongoing}`,
+        link: `${Paths.base}${Paths.manga.list}${defaultStatus}`,
         title: 'Browse Manga',
         description: 'Search manga with a variable of filters and conditions',
         icon: 'ML'

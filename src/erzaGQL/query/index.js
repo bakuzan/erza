@@ -7,8 +7,8 @@ export {
   getMangaByIdForEdit,
   getAnimePaged,
   getMangaPaged,
-  getAnimeExists,
-  getMangaExists,
+  checkAnimeExists,
+  checkMangaExists,
   getAnimeRepeated,
   getMangaRepeated,
   getDailyAnime

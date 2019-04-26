@@ -6,7 +6,7 @@ import { ClearableInput, Tickbox, RadioButton, SelectBox } from 'mko';
 import FilterLink from '../FilterLink';
 import { toggleSortOrder, setSortKey } from 'actions/sorting';
 import { toggleIsOwnedOnly } from 'actions/filters';
-import { Strings } from 'constants/values';
+import { Strings, Enums } from 'constants/values';
 import { Paths } from 'constants/paths';
 
 import './ListFilter.scss';
@@ -31,14 +31,11 @@ const ListFilter = ({
 }) => {
   const [sortKey, sortOrder] = sorting;
   const filterBase = FILTER_BASE(type);
-  const statusLinks = Object.keys(Strings.filters).map((status) => {
-    const statusUrl = Strings.filters[status];
-    return (
-      <FilterLink key={statusUrl} filter={`${filterBase}${statusUrl}`}>
-        {statusUrl}
-      </FilterLink>
-    );
-  });
+  const statusLinks = Object.keys(Enums.status).map((status) => (
+    <FilterLink key={status} filter={`${filterBase}${status}`}>
+      {status}
+    </FilterLink>
+  ));
 
   return (
     <div className="list-filter">

@@ -9,6 +9,7 @@ import {
   createAnime,
   editAnime
 } from '../../actions/anime';
+import { checkAnimeExists } from 'erzaGQL/query';
 import { Strings } from '../../constants/values';
 
 const BaseCreate = Loadable({
@@ -17,7 +18,14 @@ const BaseCreate = Loadable({
   delay: 300
 });
 
-const AnimeCreate = ({ itemId, loadById, create, edit, ...props }) => (
+const AnimeCreate = ({
+  itemId,
+  loadById,
+  create,
+  edit,
+  checkSeriesExists,
+  ...props
+}) => (
   <BaseCreate
     type={Strings.anime}
     itemId={itemId}
@@ -25,7 +33,8 @@ const AnimeCreate = ({ itemId, loadById, create, edit, ...props }) => (
     actions={{
       loadById,
       create,
-      edit
+      edit,
+      checkSeriesExists
     }}
   />
 );
@@ -41,7 +50,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = {
   loadById: loadAnimeByIdForEdit,
   create: createAnime,
-  edit: editAnime
+  edit: editAnime,
+  checkSeriesExists: checkAnimeExists
 };
 
 export default connect(

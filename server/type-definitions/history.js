@@ -39,4 +39,14 @@ module.exports = gql`
     hasMore: Boolean
     nodes: [Chapter]
   }
+
+  input HistoryCreateInput {
+    note: String
+    rating: Int
+  }
+  input HistoryInput {
+    id: Int!
+    note: String
+    rating: Int
+  }
 `;

@@ -19,7 +19,6 @@ const seriesFields = gql`
 const seriesByIdFields = gql`
   ${seriesFields}
   fragment SeriesByIdFields on Series {
-    ...SeriesFields
     start
     end
     rating
@@ -35,7 +34,6 @@ const seriesByIdFields = gql`
 const seriesByIdEditFields = gql`
   ${seriesFields}
   fragment SeriesEditFields on Series {
-    ...SeriesFields
     start
     end
     rating
@@ -85,6 +83,7 @@ const mangaFields = gql`
 export const getAnimeById = gql`
   query AnimeOne($id: Int!) {
     animeById(id: $id) {
+      ...SeriesFields
       ...SeriesByIdFields
       ...AnimeFields
       season {
@@ -101,6 +100,7 @@ export const getAnimeById = gql`
 export const getAnimeByIdForEdit = gql`
   query AnimeOneEdit($id: Int!) {
     animeById(id: $id) {
+      ...SeriesFields
       ...SeriesEditFields
       ...AnimeFields
     }
@@ -112,6 +112,7 @@ export const getAnimeByIdForEdit = gql`
 export const getMangaById = gql`
   query MangaOne($id: Int!) {
     mangaById(id: $id) {
+      ...SeriesFields
       ...SeriesByIdFields
       ...MangaFields
     }
@@ -123,6 +124,7 @@ export const getMangaById = gql`
 export const getMangaByIdForEdit = gql`
   query MangaOneEdit($id: Int!) {
     mangaById(id: $id) {
+      ...SeriesFields
       ...SeriesEditFields
       ...MangaFields
     }
@@ -192,13 +194,13 @@ export const getMangaPaged = gql`
 `;
 
 // Check Exists
-export const getAnimeExists = gql`
+export const checkAnimeExists = gql`
   query AnimeExists($id: Int, $malId: Int, $title: String) {
     animeExists(id: $id, malId: $malId, title: $title)
   }
 `;
 
-export const getMangaExists = gql`
+export const checkMangaExists = gql`
   query MangaExists($id: Int, $malId: Int, $title: String) {
     mangaExists(id: $id, malId: $malId, title: $title)
   }

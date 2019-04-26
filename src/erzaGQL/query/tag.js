@@ -6,6 +6,14 @@ export const getTagById = gql`
       id
       name
       isAdult
+      anime {
+        id
+        title
+      }
+      manga {
+        id
+        title
+      }
     }
   }
 `;

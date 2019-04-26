@@ -87,20 +87,65 @@ const Query = gql`
 
 const Mutation = gql`
   type Mutation {
+    animeCreate(payload: AnimeCreateInput!): SeriesResponse
+    animeUpdate(payload: AnimeInput!): SeriesResponse
     animeRemove(id: Int!): DeleteResponse
 
+    mangaCreate(payload: MangaCreateInput!): SeriesResponse
+    mangaUpdate(payload: MangaInput!): SeriesResponse
     mangaRemove(id: Int!): DeleteResponse
 
+    animeUpdateWithHistory(
+      series: SeriesInput
+      history: [HistoryCreateInput]
+    ): SeriesResponse
+    mangaUpdateWithHistory(
+      series: SeriesInput
+      history: [HistoryCreateInput]
+    ): SeriesResponse
+
+    episodeUpdate(payload: HistoryInput!): HistoryResponse
     episodeRemove(id: Int!): DeleteResponse
 
+    chapterUpdate(payload: HistoryInput!): HistoryResponse
     chapterRemove(id: Int!): DeleteResponse
 
+    tagUpdate(payload: TagInput!): TagResponse
     tagRemove(id: Int!): DeleteResponse
   }
 
   type DeleteResponse {
     success: Boolean
     errorMessages: [String]
+  }
+
+  type SeriesData {
+    id: Int
+    title: String
+  }
+
+  type SeriesResponse {
+    success: Boolean
+    errorMessages: [String]
+    data: SeriesData
+  }
+
+  type HistoryData {
+    id: Int
+    note: String
+    rating: Int
+  }
+
+  type HistoryResponse {
+    success: Boolean
+    errorMessages: [String]
+    data: HistoryData
+  }
+
+  type TagResponse {
+    success: Boolean
+    errorMessages: [String]
+    data: Tag
   }
 `;
 

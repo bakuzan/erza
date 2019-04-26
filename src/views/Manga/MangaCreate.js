@@ -8,13 +8,21 @@ import {
   createManga,
   editManga
 } from '../../actions/manga';
+import { checkMangaExists } from 'erzaGQL/query';
 import { Strings } from '../../constants/values';
 
 const BaseCreate = lazyLoader(() =>
   import(/* webpackChunkName: 'ItemCreation' */ '../BaseCreate')
 );
 
-const MangaCreate = ({ itemId, loadById, create, edit, ...props }) => (
+const MangaCreate = ({
+  itemId,
+  loadById,
+  create,
+  edit,
+  checkSeriesExists,
+  ...props
+}) => (
   <BaseCreate
     type={Strings.manga}
     itemId={itemId}
@@ -22,7 +30,8 @@ const MangaCreate = ({ itemId, loadById, create, edit, ...props }) => (
     actions={{
       loadById,
       create,
-      edit
+      edit,
+      checkSeriesExists
     }}
   />
 );
@@ -38,7 +47,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = {
   loadById: loadMangaByIdForEdit,
   create: createManga,
-  edit: editManga
+  edit: editManga,
+  checkSeriesExists: checkMangaExists
 };
 
 export default connect(

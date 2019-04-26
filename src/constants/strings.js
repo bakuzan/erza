@@ -38,13 +38,6 @@ export default {
   season: 'season',
   timesCompleted: 'times revisited',
   // page text
-  filters: {
-    all: 'all',
-    ongoing: 'ongoing',
-    completed: 'completed',
-    onhold: 'onhold',
-    planned: 'planned'
-  },
   anime: 'anime',
   manga: 'manga',
   history: 'history',

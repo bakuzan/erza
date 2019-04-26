@@ -19,9 +19,9 @@ import MalSearch from 'components/MalSearch';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import { Strings, Enums } from 'constants/values';
 import { Paths } from 'constants/paths';
-import { createTag, loadTags } from 'actions/tags';
+import { loadTags } from 'actions/tags';
 import { showAlertError } from 'actions/alert';
-import GQL from 'graphql/query/listItems';
+
 import {
   capitalise,
   getEventValue,
@@ -166,7 +166,7 @@ class BaseCreate extends Component {
       return <LoadingSpinner size="fullscreen" />;
     }
 
-    const { type, isCreate } = this.props;
+    const { type, isCreate, actions } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;
     const titlePrefix = isCreate ? Strings.create : Strings.edit;
@@ -177,7 +177,6 @@ class BaseCreate extends Component {
     const SERIES_TYPE_OPTIONS = Object.keys(seriesTypes).map(
       mapEnumToSelectBox(seriesTypes)
     );
-    const queryIfExists = GQL.checkIfNameExists(type);
 
     return (
       <div className="flex flex--column center-contents padding-10">
@@ -222,7 +221,7 @@ class BaseCreate extends Component {
                     search={this.state.title}
                     onUserInput={this.handleUserInput}
                     selectMalItem={this.handleMalSelect}
-                    asyncCheckIfExists={queryIfExists}
+                    asyncCheckIfExists={actions.checkSeriesExists}
                   />
 
                   <ClearableInput
@@ -298,7 +297,12 @@ class BaseCreate extends Component {
                     chipsSelected={this.state.tags}
                     chipOptions={availableTags}
                     updateChipList={this.handleListUpdate}
-                    createNew={this.props.createTag}
+                    createNew={(item) => {
+                      this.handleListUpdate('tags', [
+                        ...this.state.tags,
+                        { ...item, id: -1 }
+                      ]);
+                    }}
                   />
                 </div>
               </Tabs.View>
@@ -430,9 +434,7 @@ class BaseCreate extends Component {
               </Button>
               <ButtonisedNavLink
                 link
-                to={`${Paths.base}${Paths[type].list}${
-                  Strings.filters.ongoing
-                }`}
+                to={`${Paths.base}${Paths[type].list}${Enums.status.Ongoing}`}
               >
                 {Strings.cancel}
               </ButtonisedNavLink>
@@ -446,7 +448,12 @@ class BaseCreate extends Component {
 
 BaseCreate.propTypes = {
   type: PropTypes.string.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.shape({
+    loadById: PropTypes.func.isRequired,
+    create: PropTypes.func,
+    edit: PropTypes.func,
+    checkSeriesExists: PropTypes.func
+  }).isRequired,
   isCreate: PropTypes.bool.isRequired,
   itemId: PropTypes.string,
   item: PropTypes.object.isRequired,
@@ -486,7 +493,6 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = {
-  createTag,
   loadTags,
   showAlertError
 };

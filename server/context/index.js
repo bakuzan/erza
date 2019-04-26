@@ -8,73 +8,10 @@ const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('./utils/setHasMoreFlag');
 const validateSortOrder = require('./utils/validateSortOrder');
 const resolveWhereIn = require('./utils/resolveWhereIn');
+const separateNewVsExistingTags = require('./utils/separateNewVsExistingTags');
+const validateSeries = require('./validators/validateSeries');
 
-async function pagedSeries(
-  model,
-  {
-    search = '',
-    status = [],
-    isOwnedOnly = false,
-    isAdult = false,
-    sorting,
-    paging = { page: 0, size: 10 }
-  }
-) {
-  const isOwnedWhere = isOwnedOnlyArgs(isOwnedOnly);
-  const sortOrder = validateSortOrder(['title', 'ASC'], sorting);
-  const statusWhere = resolveWhereIn(status, 'status');
-
-  return model
-    .findAndCountAll({
-      where: {
-        title: {
-          [Op.like]: `%${search}%`
-        },
-        isAdult: { [Op.eq]: isAdult },
-        ...statusWhere,
-        ...isOwnedWhere
-      },
-      order: [sortOrder],
-      limit: paging.size,
-      offset: paging.size * paging.page
-    })
-    .then((result) => ({
-      nodes: result.rows,
-      total: result.count,
-      hasMore: setHasMoreFlag(result.count, paging)
-    }));
-}
-
-async function pagedHistory(
-  model,
-  { fromDate, toDate, ratings = [], paging = { page: 0, size: 10 } },
-  where,
-  options
-) {
-  const [from, to] = dateRange(fromDate, toDate);
-  const ratingWhere = resolveWhereIn(ratings, 'rating');
-
-  return model
-    .findAndCountAll({
-      where: {
-        date: {
-          [Op.gte]: from,
-          [Op.lt]: to
-        },
-        ...ratingWhere,
-        ...where
-      },
-      order: [['date', 'DESC']],
-      limit: paging.size,
-      offset: paging.size * paging.page,
-      ...options
-    })
-    .then((result) => ({
-      nodes: result.rows,
-      total: result.count,
-      hasMore: setHasMoreFlag(result.count, paging)
-    }));
-}
+// Query
 
 async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
   const orArgs = [{ title: { [Op.eq]: title } }];
@@ -109,6 +46,43 @@ async function findAllRepeated(
   });
 }
 
+// Mutation
+
+async function createSeries(model, payload, mappers) {
+  const { tags, ...values } = payload;
+  const { newTags, existingTags } = separateNewVsExistingTags(tags);
+
+  const series = validateSeries(values, mappers);
+  const exists = checkIfSeriesAlreadyExists(model, series);
+
+  if (exists) {
+    return {
+      success: false,
+      errorMessages: [
+        `Series "${series.title}" already exists. (Id: ${series.id}, Mal: ${
+          series.malId
+        })`
+      ],
+      data: null
+    };
+  }
+
+  const created = await model.create(
+    { ...series, tags: newTags },
+    { include: [model.Tag] }
+  );
+
+  await created.addTags(existingTags);
+
+  return { success: true, errorMessages: [], data: created };
+}
+
+async function updateEntity(model, args, id) {
+  const updated = await model.update(args, { where: { id } });
+  console.log('UPDATED?', updated);
+  return { success: true, errorMessages: [], data: updated };
+}
+
 async function deleteEntity(model, where) {
   const deletedCount = await model.destroy({
     where
@@ -117,10 +91,10 @@ async function deleteEntity(model, where) {
 }
 
 module.exports = {
-  pagedSeries,
-  pagedHistory,
-  checkIfSeriesAlreadyExists,
+  Stats,
   findAllRepeated,
+  createSeries,
+  updateEntity,
   deleteEntity,
-  Stats
+  ...paged
 };

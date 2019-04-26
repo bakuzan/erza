@@ -8,4 +8,10 @@ module.exports = gql`
     anime: [Anime]
     manga: [Manga]
   }
+
+  input TagInput {
+    id: Int!
+    name: String
+    isAdult: Boolean
+  }
 `;
