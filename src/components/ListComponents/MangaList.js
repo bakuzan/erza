@@ -11,7 +11,7 @@ const MangaList = ({ items, addChapter, ...props }) => (
     {...props}
     items={items.map((item) => (
       <ItemListItem
-        key={item._id}
+        key={item.id}
         type={Strings.manga}
         item={item}
         addAction={addChapter}

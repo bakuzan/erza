@@ -1,31 +1,16 @@
 import { toaster } from 'mko';
-import {
-  ADD_TAG,
-  REMOVE_TAG,
-  TAGS_LOAD,
-  TAGS_REQUEST,
-  TAGS_SUCCESS
-} from '../constants/actions';
-import { Paths } from '../constants/paths';
-import fetchFromServer from '../graphql/fetch';
-import { constructRecordForPost } from '../graphql/common';
-import { getSingleObjectProperty } from '../utils';
-import TagQL from '../graphql/query/tag';
-import TagML from '../graphql/mutation/tag';
 
-const startingTagsRequest = () => ({
-  type: TAGS_REQUEST,
-  isFetching: true
-});
+import erzaGQL from 'erzaGQL';
+import { getTagById, getTags, getTagsMinimal } from 'erzaGQL/query';
+import { tagCreate, tagUpdate, tagRemove } from 'erzaGQL/mutation';
+
+import { startingGraphqlRequest, finishGraphqlRequest } from './utils/helpers';
+import { ADD_TAG, REMOVE_TAG, TAGS_LOAD } from 'constants/actions';
+import { getSingleObjectProperty } from 'utils';
 
 const loadTagsData = (data) => ({
   type: TAGS_LOAD,
   data
-});
-
-const finishTagsRequest = () => ({
-  type: TAGS_SUCCESS,
-  isFetching: false
 });
 
 const addTag = (item) => ({
@@ -38,71 +23,93 @@ const removeTag = (id) => ({
   id
 });
 
-const mutateTag = (queryBuilder, item) => {
-  return function(dispatch, getState) {
-    dispatch(startingTagsRequest());
+// Query
+
+export function loadTags() {
+  return async function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+
     const { isAdult } = getState();
-    const itemForCreation = constructRecordForPost({ ...item, isAdult });
-    const mutation = queryBuilder(itemForCreation);
-    fetchFromServer(`${Paths.graphql.base}${mutation}`, 'POST')
-      .then((response) => {
-        const data = getSingleObjectProperty(response.data);
-        if (!data) return null;
-        dispatch(addTag(data.record));
-        toaster.success(
-          'Saved!',
-          `Successfully saved '${data.record.name}' tag.`
-        );
-      })
-      .then(() => dispatch(finishTagsRequest()));
+    const response = await erzaGQL({ query: getTags, variables: { isAdult } });
+
+    dispatch(loadTagsData(response.tags));
+    dispatch(finishGraphqlRequest());
   };
-};
+}
 
-export const createTag = (item) => mutateTag(TagML.createTag, item);
-export const updateTag = (item) => mutateTag(TagML.updateTag, item);
+export function loadTagList() {
+  return async function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
 
-export const deleteTag = (tagId) => {
-  return function(dispatch) {
-    dispatch(startingTagsRequest());
-    fetchFromServer(`${Paths.graphql.base}${TagML.deleteTag(tagId)}`, 'POST')
-      .then((response) => {
-        const data = getSingleObjectProperty(response.data);
-        dispatch(removeTag(tagId));
-        if (!data) return null;
-        toaster.success(
-          'Removed!',
-          `Successfully deleted '${data.record.name}' tag.`
-        );
-      })
-      .then(() => dispatch(finishTagsRequest()));
-  };
-};
-
-export const loadTags = () => {
-  return function(dispatch, getState) {
-    dispatch(startingTagsRequest());
     const { isAdult } = getState();
-    fetchFromServer(`${Paths.graphql.base}${TagQL.getAll(isAdult)}`)
-      .then((response) => dispatch(loadTagsData(response.data.tagMany)))
-      .then(() => dispatch(finishTagsRequest()));
-  };
-};
+    const response = await erzaGQL({
+      query: getTagsMinimal,
+      variables: { isAdult }
+    });
 
-export const loadTagList = () => {
-  return function(dispatch, getState) {
-    dispatch(startingTagsRequest());
+    dispatch(loadTagsData(response.tags));
+    dispatch(finishGraphqlRequest());
+  };
+}
+
+export function loadTag(id) {
+  return async function(dispatch) {
+    dispatch(startingGraphqlRequest());
+
+    const response = await erzaGQL({
+      query: getTagById,
+      variables: { id }
+    });
+
+    dispatch(loadTagsData(response.tagById));
+    dispatch(finishGraphqlRequest());
+  };
+}
+
+// Mutate
+
+function mutateTag(query, item) {
+  return async function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+
     const { isAdult } = getState();
-    fetchFromServer(`${Paths.graphql.base}${TagQL.getList(isAdult)}`)
-      .then((response) => dispatch(loadTagsData(response.data.tagMany)))
-      .then(() => dispatch(finishTagsRequest()));
-  };
-};
 
-export const loadTag = (tagId) => {
-  return function(dispatch) {
-    dispatch(startingTagsRequest());
-    fetchFromServer(`${Paths.graphql.base}${TagQL.getById(tagId)}`)
-      .then((response) => dispatch(addTag(response.data.tagById)))
-      .then(() => dispatch(finishTagsRequest()));
+    const response = await erzaGQL({
+      query,
+      variables: { ...item, isAdult }
+    });
+
+    const data = getSingleObjectProperty(response);
+
+    if (!data || !data.success) {
+      return null;
+    }
+
+    dispatch(addTag(data.data));
+    toaster.success('Saved!', `Successfully saved '${data.data.name}' tag.`);
+
+    dispatch(finishGraphqlRequest());
   };
-};
+}
+
+export const createTag = (item) => mutateTag(tagCreate, item);
+export const updateTag = (item) => mutateTag(tagUpdate, item);
+
+export function deleteTag(id) {
+  return async function(dispatch) {
+    dispatch(startingGraphqlRequest());
+
+    const response = await erzaGQL({ query: tagRemove, variables: { id } });
+    const data = response.tagRemove;
+
+    dispatch(removeTag(id));
+    dispatch(finishGraphqlRequest());
+
+    if (!data || !data.success) {
+      // TODO handle error alert
+      return null;
+    }
+
+    toaster.success('Deleted!', `Successfully deleted tag.`);
+  };
+}

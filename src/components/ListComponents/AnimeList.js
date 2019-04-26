@@ -11,7 +11,7 @@ const AnimeList = ({ items, addEpisode, ...props }) => (
     {...props}
     items={items.map((item) => (
       <ItemListItem
-        key={item._id}
+        key={item.id}
         type={Strings.anime}
         item={item}
         addAction={addEpisode}

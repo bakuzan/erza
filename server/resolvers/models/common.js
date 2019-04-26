@@ -27,6 +27,9 @@ module.exports = {
     },
     series_end(inst) {
       return formatDateInput(inst.series_end);
+    },
+    updatedAt(inst) {
+      return formatDateTimeInput(inst.updatedAt);
     }
   },
   History: {

@@ -11,7 +11,7 @@ import './QuickAdd.scss';
 const getInitialState = (current, originalItem = {}) => ({
   originalItem,
   editItem: {
-    _id: null,
+    id: null,
     [current]: 0,
     min: 0,
     max: null,
@@ -65,9 +65,8 @@ class QuickAdd extends React.Component {
     );
 
     if (
-      (originalItemHasChanged &&
-        prevProps.originalItem.hasOwnProperty('_id')) ||
-      (!this.state.editItem._id && this.props.originalItem._id)
+      (originalItemHasChanged && prevProps.originalItem.hasOwnProperty('id')) ||
+      (!this.state.editItem.id && this.props.originalItem.id)
     ) {
       this.onOpenEdit();
     }
@@ -108,7 +107,7 @@ class QuickAdd extends React.Component {
       originalItem,
       editItem: {
         ...defaults.editItem,
-        _id: originalItem._id,
+        id: originalItem.id,
         [current]: originalItem[current] || 0,
         min: originalItem[current] || 0,
         max: originalItem[total] || null,
@@ -185,7 +184,7 @@ class QuickAdd extends React.Component {
               >
                 {this.state.malUpdates.message}
               </span>
-              {!!this.state.editItem._id && (
+              {!!this.state.editItem.id && (
                 <div>
                   <div className="updated-item-values-container">
                     <ClearableInput

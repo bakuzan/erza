@@ -22,7 +22,7 @@ export const applyUpdates = (type) => (entity, malItem) => {
 
   // STATUS
   if (!!item.end || !!updates.end) {
-    updates.status = Enums.status.completed;
+    updates.status = Enums.status.Completed;
   }
 
   // IS REPEAT

@@ -19,8 +19,8 @@ const PagingControls = ({
   goForwardAPage,
   changeItemsPerPage
 }) => {
-  const { pageInfo, itemsPerPage, page } = paging;
-  const finalPage = Math.ceil(pageInfo.totalCount / itemsPerPage) - 1;
+  const { pageInfo, size, page } = paging;
+  const finalPage = Math.ceil(pageInfo.total / size) - 1;
   const PAGE_SIZE_OPTIONS = pageSizeOptions.map((x) => ({ value: x, text: x }));
 
   return (
@@ -40,14 +40,14 @@ const PagingControls = ({
           <Button
             aria-label="Next Page"
             onClick={() => goForwardAPage(listType, filters)}
-            disabled={page === finalPage || !pageInfo.totalCount}
+            disabled={page === finalPage || !pageInfo.total}
           >
             Next
           </Button>
         </div>
         {!!pageInfo.totalCount && (
           <div className="paging-controls__item-count">{`Found ${
-            pageInfo.totalCount
+            pageInfo.total
           } item(s)`}</div>
         )}
       </div>
@@ -55,7 +55,7 @@ const PagingControls = ({
         id="itemsPerPage"
         name="itemsPerPage"
         text="items per page"
-        value={itemsPerPage}
+        value={size}
         onChange={(e) => changeItemsPerPage(e, listType)}
         options={PAGE_SIZE_OPTIONS}
       />

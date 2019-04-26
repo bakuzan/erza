@@ -50,7 +50,7 @@ class TagManagementDetails extends React.Component {
   }
 
   handleDelete() {
-    this.props.actions.deleteTag(this.props.item._id);
+    this.props.actions.deleteTag(this.props.item.id);
     this.handleDetailExit();
   }
 

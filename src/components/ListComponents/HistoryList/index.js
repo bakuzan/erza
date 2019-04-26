@@ -20,25 +20,25 @@ function renderHistoryListItems(type, items, { editAction, deleteAction }) {
       return z === 0 ? y[valueProperty] - x[valueProperty] : z;
     })
     .forEach((item) => {
-      if (!!item.series && item.series._id !== previousSeries) {
+      if (!!item.series && item.series.id !== previousSeries) {
         list.push(
           <li
-            key={`${item.series._id}-${item._id}`}
+            key={`${item.series.id}-${item.id}`}
             className="history-list-item series-title"
           >
             <ButtonisedNavLink
-              to={`${Paths.base}${Paths[type].view}${item.series._id}`}
+              to={`${Paths.base}${Paths[type].view}${item.series.id}`}
             >
               {item.series.title}
             </ButtonisedNavLink>
           </li>
         );
-        previousSeries = item.series._id;
+        previousSeries = item.series.id;
       }
 
       list.push(
         <HistoryListItem
-          key={item._id}
+          key={item.id}
           type={type}
           item={item}
           editAction={editAction}

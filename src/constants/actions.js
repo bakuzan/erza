@@ -17,9 +17,7 @@ export const MANGA_LOAD = 'MANGA_LOAD';
 export const ADD_TAG = 'ADD_TAG';
 export const REMOVE_TAG = 'REMOVE_TAG';
 
-export const TAGS_REQUEST = 'TAGS_REQUEST';
 export const TAGS_LOAD = 'TAGS_LOAD';
-export const TAGS_SUCCESS = 'TAGS_SUCCESS';
 export const TAGS_FAILURE = 'TAGS_FAILURE';
 
 export const EPISODE_REQUEST = 'EPISODE_REQUEST';

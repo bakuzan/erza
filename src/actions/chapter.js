@@ -1,27 +1,22 @@
-import ChapterQL from '../graphql/query/chapter';
 import ChapterML from '../graphql/mutation/chapter';
+import { getChapters } from 'erzaGQL/query';
+import { chapterUpdate, chapterRemove } from 'erzaGQL/mutation';
+
 import {
   mutateHistoryItem,
   removeHistoryItem,
   loadHistoryByDateRange
-} from './listItems';
+} from './utils/history';
 import { Strings } from '../constants/values';
 
-export const createChapter = (item) =>
-  mutateHistoryItem(item, ChapterML.createChapter);
-
 export const editChapter = (item) =>
-  mutateHistoryItem(item, ChapterML.updateChapterById, Strings.chapter);
+  mutateHistoryItem(chapterUpdate, item, Strings.chapter);
 
 export const deleteChapter = (id) =>
-  removeHistoryItem(Strings.chapter, id, ChapterML.removeChapter);
+  removeHistoryItem(chapterRemove, { id }, Strings.chapter);
 
 export const loadChaptersByDateRange = (filters = {}, pageChange = null) =>
-  loadHistoryByDateRange(
-    {
-      pageChange,
-      filters,
-      type: Strings.chapter
-    },
-    ChapterQL.getChaptersForDateRange
-  );
+  loadHistoryByDateRange(getChapters, filters, {
+    pageChange,
+    type: Strings.chapter
+  });

@@ -1,27 +1,22 @@
-import EpisodeQL from '../graphql/query/episode';
 import EpisodeML from '../graphql/mutation/episode';
+import { getEpisodes } from 'erzaGQL/query';
+import { episodeUpdate, episodeRemove } from 'erzaGQL/mutation';
+
 import {
   mutateHistoryItem,
   removeHistoryItem,
   loadHistoryByDateRange
-} from './listItems';
+} from './utils/history';
 import { Strings } from '../constants/values';
 
-export const createEpisode = (item) =>
-  mutateHistoryItem(item, EpisodeML.createEpisode);
-
 export const editEpisode = (item) =>
-  mutateHistoryItem(item, EpisodeML.updateEpisodeById, Strings.episode);
+  mutateHistoryItem(episodeUpdate, item, Strings.episode);
 
 export const deleteEpisode = (id) =>
-  removeHistoryItem(Strings.episode, id, EpisodeML.removeEpisode);
+  removeHistoryItem(episodeRemove, { id }, Strings.episode);
 
 export const loadEpisodesByDateRange = (filters = {}, pageChange = null) =>
-  loadHistoryByDateRange(
-    {
-      pageChange,
-      filters,
-      type: Strings.episode
-    },
-    EpisodeQL.getEpisodesForDateRange
-  );
+  loadHistoryByDateRange(getEpisodes, filters, {
+    pageChange,
+    type: Strings.episode
+  });

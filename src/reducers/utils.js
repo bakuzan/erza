@@ -1,13 +1,14 @@
 import update from 'immutability-helper';
 
-const getItem = action => action.item.node || action.item;
+const getItem = (action) => action.item.node || action.item;
 
 export function updateById(state, action) {
   const item = getItem(action);
-  const staleItem = state.byId[item._id] || {};
+  const staleItem = state.byId[item.id] || {};
+
   return update(state, {
     byId: {
-      [item._id]: { $set: { ...staleItem, ...item } }
+      [item.id]: { $set: { ...staleItem, ...item } }
     }
   });
 }
@@ -15,11 +16,14 @@ export function updateById(state, action) {
 export function addEntity(state, action) {
   const updatedById = updateById(state, action);
   const item = getItem(action);
-  const idExists = updatedById.allIds.find(x => x === item._id);
-  if (idExists) return updatedById;
+  const idExists = updatedById.allIds.find((x) => x === item.id);
+
+  if (idExists) {
+    return updatedById;
+  }
 
   return update(updatedById, {
-    allIds: { $push: [item._id] }
+    allIds: { $push: [item.id] }
   });
 }
 
@@ -27,14 +31,18 @@ function addListEntity(state, action) {
   const item = getItem(action);
   const updatedById = update(state, {
     byId: {
-      [item._id]: { $set: item }
+      [item.id]: { $set: item }
     }
   });
-  const idExists = updatedById.allIds.find(x => x === item._id);
-  if (idExists) return updatedById;
+
+  const idExists = updatedById.allIds.find((x) => x === item.id);
+
+  if (idExists) {
+    return updatedById;
+  }
 
   return update(updatedById, {
-    allIds: { $push: [item._id] }
+    allIds: { $push: [item.id] }
   });
 }
 
@@ -43,11 +51,12 @@ export function loadEntityList(state, action) {
   const newIds = [];
   let latestState = resetState ? { byId: {}, allIds: [] } : state;
 
-  action.data.forEach(item => {
+  action.data.forEach((item) => {
     const data = getItem({ item });
-    newIds.push(data._id);
+    newIds.push(data.id);
     latestState = addListEntity(latestState, { item });
   });
+
   return resetState
     ? latestState
     : (() => {
@@ -77,7 +86,7 @@ export function createReducer(initialState, handlers) {
 
 export function removeEntityById(state, action) {
   return update(state, {
-    allIds: { $set: state.allIds.filter(x => x !== action.id) },
+    allIds: { $set: state.allIds.filter((x) => x !== action.id) },
     byId: {
       $set: Object.keys(state.byId).reduce((o, k) => {
         if (k !== action.id) o[k] = state.byId[k];

@@ -34,7 +34,7 @@ class HistoryListItem extends Component {
   }
 
   confirmDelete() {
-    this.props.deleteAction(this.props.item._id);
+    this.props.deleteAction(this.props.item.id);
     this.setState({ isOpen: false });
   }
 
@@ -75,7 +75,7 @@ class HistoryListItem extends Component {
             <span>Unrated</span>
           ) : (
             <RatingControl
-              id={`rating-${item._id}`}
+              id={`rating-${item.id}`}
               name="rating"
               value={this.state.rating}
               onChange={this.state.isEditing ? this.handleUserInput : null}
@@ -86,7 +86,7 @@ class HistoryListItem extends Component {
           <span>{item.note}</span>
         ) : (
           <ClearableInput
-            id={`note-${item._id}`}
+            id={`note-${item.id}`}
             name="note"
             label="note"
             maxLength={140}

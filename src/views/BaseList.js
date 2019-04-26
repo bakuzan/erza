@@ -18,10 +18,10 @@ const getStatusList = (props) => {
 
 const KEEP_PAGE_ON_MOUNT = true;
 const loadData = (props, state, shouldKeepPage = false) => {
-  const statusIn = getStatusList(props);
+  const status = getStatusList(props);
   props.loadDataForTypedList(
     {
-      statusIn,
+      status,
       isOwnedOnly: props.isOwnedOnly,
       ...state
     },
@@ -59,8 +59,7 @@ class BaseListView extends Component {
       prevProps.routeKey !== this.props.routeKey ||
       prevProps.statusFilter.value !== this.props.statusFilter.value ||
       prevProps.isAdult !== this.props.isAdult ||
-      prevProps.sortKey !== this.props.sortKey ||
-      prevProps.sortOrder !== this.props.sortOrder ||
+      prevProps.sorting !== this.props.sorting ||
       prevProps.itemsPerPage !== this.props.itemsPerPage ||
       prevProps.isOwnedOnly !== this.props.isOwnedOnly
     ) {
@@ -79,7 +78,7 @@ class BaseListView extends Component {
     const PagedTypedList = fetchPagedListForType(type);
     const filters = {
       ...this.state,
-      statusIn: getStatusList(this.props),
+      status: getStatusList(this.props),
       isOwnedOnly
     };
 
@@ -122,18 +121,16 @@ class BaseListView extends Component {
 BaseListView.propTypes = {
   routeKey: PropTypes.string,
   isAdult: PropTypes.bool.isRequired,
-  sortOrder: PropTypes.string.isRequired,
-  sortKey: PropTypes.string.isRequired,
+  sorting: PropTypes.arrayOf(PropTypes.string).isRequired,
   itemsPerPage: PropTypes.number.isRequired,
   statusFilter: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
   isAdult: state.isAdult,
-  sortOrder: state.sorting.sortOrder,
-  sortKey: state.sorting.sortKey,
+  sorting: state.sorting,
   isOwnedOnly: state.filters[ownProps.type].isOwnedOnly,
-  itemsPerPage: state.paging[ownProps.type].itemsPerPage
+  itemsPerPage: state.paging[ownProps.type].size
 });
 
 export default connect(mapStateToProps)(BaseListView);

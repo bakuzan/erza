@@ -1,8 +1,14 @@
 import update from 'immutability-helper';
-import MangaQL from '../graphql/query/manga';
+
 import MangaML from '../graphql/mutation/manga';
-import { loadItems, loadItemsById, mutateItem } from './listItems';
-import { createChapter } from './chapter';
+import {
+  getMangaById,
+  getMangaByIdForEdit,
+  getMangaPaged
+} from 'erzaGQL/query';
+
+import { loadItems, loadItemsById, mutateItem } from './utils/series';
+
 import { UPDATE_MANGA } from '../constants/actions';
 import { Strings } from '../constants/values';
 import updatePrePost from '../utils/validators/mangaPost';
@@ -21,7 +27,7 @@ const updateMangaInState = (item) => ({
 
 export const addChapters = ({ editItem }) => {
   return function(dispatch, getState) {
-    const manga = getState().entities.manga.byId[editItem._id];
+    const manga = getState().entities.manga.byId[editItem.id];
     const updatedManga = update(manga, {
       chapter: { $set: editItem.chapter },
       volume: { $set: editItem.volume || manga.volume },
@@ -36,14 +42,13 @@ export const addChapters = ({ editItem }) => {
 };
 
 export const loadManga = (filters = {}, pageChange = null) =>
-  loadItems(
-    {
-      pageChange,
-      filters,
-      type: Strings.manga
-    },
-    MangaQL.getFilteredList
-  );
+  loadItems(getMangaPaged, filters, {
+    pageChange,
+    type: Strings.manga
+  });
 
-export const loadMangaById = (id, type = 'getById') =>
-  loadItemsById(Strings.manga, MangaQL[type](id));
+export const loadMangaById = (id) =>
+  loadItemsById(getMangaById, { id }, Strings.manga);
+
+export const loadMangaByIdForEdit = (id) =>
+  loadItemsById(getMangaByIdForEdit, { id }, Strings.manga);

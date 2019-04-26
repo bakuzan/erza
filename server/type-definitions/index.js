@@ -25,7 +25,7 @@ const Query = gql`
       minTimesCompleted: Int
       isAdult: Boolean
     ): [Anime]
-    dailyAnime(date: String!): [Anime]
+    dailyAnime(dateOffset: Int!): [Anime]
 
     mangaById(id: Int!): Manga
     mangaPaged(

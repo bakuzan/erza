@@ -13,7 +13,7 @@ import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
 import MalLink from 'components/MalLink';
 import LoadableContent from 'containers/LoadableContent';
-import { getKeyByValue, capitalise, formatDateForDisplay } from 'utils';
+import { capitalise, formatDateForDisplay } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
 import { Paths } from 'constants/paths';
 import { Strings, Enums, Icons } from 'constants/values';
@@ -74,7 +74,7 @@ class BaseView extends Component {
     const { type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
 
-    if (!item || !item._id) {
+    if (!item || !item.id) {
       return <LoadingSpinner size="fullscreen" />;
     }
 
@@ -91,7 +91,7 @@ class BaseView extends Component {
               <div className="button-group">
                 <Button onClick={history.goBack}>{Strings.back}</Button>
                 <ButtonisedNavButton
-                  to={`${Paths.base}${Paths[type].edit}${item._id}`}
+                  to={`${Paths.base}${Paths[type].edit}${item.id}`}
                 >
                   {Strings.edit}
                 </ButtonisedNavButton>
@@ -146,10 +146,8 @@ class BaseView extends Component {
                 />
 
                 <li className="label">{Strings.status}</li>
-                <li className="value">
-                  {getKeyByValue(Enums.status, item.status)}
-                </li>
-                {item.status === Enums.status.completed && (
+                <li className="value">{item.status}</li>
+                {item.status === Enums.status.Completed && (
                   <React.Fragment>
                     <li className="label">{Strings.timesCompleted}</li>
                     <li className="value">
@@ -234,9 +232,9 @@ class BaseView extends Component {
               )}
               {!!item.tagList &&
                 item.tagList.map((item) => (
-                  <li key={item._id} className="tag-item">
+                  <li key={item.id} className="tag-item">
                     <ButtonisedNavLink
-                      to={`${Paths.base}${Paths.tagManagement}${item._id}`}
+                      to={`${Paths.base}${Paths.tagManagement}${item.id}`}
                     >
                       {item.name}
                     </ButtonisedNavLink>

@@ -15,31 +15,32 @@ const historyChangeHandler = ({ current, total }) => (item) => {
 
   if (item[current] >= item[total] && item[total] !== 0 && !item.isRepeat) {
     changes.end = formatDateForInput(new Date());
-    changes.status = Enums.status.completed;
+    changes.status = Enums.status.Completed;
   } else if (
-    item.status === Enums.status.completed &&
+    item.status === Enums.status.Completed &&
     item[current] !== item[total] &&
     item[total] !== 0 &&
     !item.isRepeat
   ) {
     changes.end = null;
-    changes.status = Enums.status.ongoing;
+    changes.status = Enums.status.Ongoing;
   }
 
   return Object.assign({}, changes);
 };
 
 const statusChangeHandler = (item) => {
-  const { planned, ongoing, completed } = Enums.status;
+  const { Planned, Ongoing, Completed } = Enums.status;
+
   switch (item.status) {
-    case planned:
+    case Planned:
       return { start: '', end: '' };
-    case ongoing:
+    case Ongoing:
       return {
         start: formatDateForInput(item.start || new Date()),
         end: ''
       };
-    case completed:
+    case Completed:
       return { end: formatDateForInput(item.end || new Date()) };
     default:
       return {};
@@ -75,7 +76,7 @@ const validateSubmission = (updateFunction) => (model) => {
   const { start, end, series_start, series_end } = model;
   return updateFunction(
     Object.assign({}, model, {
-      tags: model.tags.map((tag) => tag._id),
+      tags: model.tags.map((tag) => tag.id),
       start: dateStringToISOString(start),
       end: dateStringToISOString(end),
       series_start: dateStringToISOString(series_start),

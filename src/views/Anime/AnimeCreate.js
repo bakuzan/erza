@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import { SimpleLoading } from 'mko';
-import { loadAnimeById, createAnime, editAnime } from '../../actions/anime';
+import {
+  loadAnimeByIdForEdit,
+  createAnime,
+  editAnime
+} from '../../actions/anime';
 import { Strings } from '../../constants/values';
 
 const BaseCreate = Loadable({
@@ -13,21 +17,15 @@ const BaseCreate = Loadable({
   delay: 300
 });
 
-const AnimeCreate = ({
-  itemId,
-  loadAnimeById,
-  createAnime,
-  editAnime,
-  ...props
-}) => (
+const AnimeCreate = ({ itemId, loadById, create, edit, ...props }) => (
   <BaseCreate
     type={Strings.anime}
     itemId={itemId}
     location={props.location}
     actions={{
-      loadById: loadAnimeById,
-      create: createAnime,
-      edit: editAnime
+      loadById,
+      create,
+      edit
     }}
   />
 );
@@ -41,9 +39,9 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = {
-  loadAnimeById,
-  createAnime,
-  editAnime
+  loadById: loadAnimeByIdForEdit,
+  create: createAnime,
+  edit: editAnime
 };
 
 export default connect(

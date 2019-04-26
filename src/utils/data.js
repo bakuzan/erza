@@ -1,7 +1,8 @@
 import {
   dateStringToISOString,
   preventDatesPre1970,
-  coalesceSeriesImage
+  coalesceSeriesImage,
+  capitalise
 } from 'utils';
 import AnimeModel from '../models/animeModel';
 import MangaModel from '../models/mangaModel';
@@ -10,20 +11,20 @@ import ChapterModel from '../models/chapterModel';
 import { Enums, Strings, Properties } from '../constants/values';
 
 export function selectPageItems(items, type, paging) {
-  const { itemsPerPage: pageSize, page } = paging;
-  const startIndex = page * pageSize;
-  const endIndex = startIndex + pageSize;
+  const { size, page } = paging;
+  const startIndex = page * size;
+  const endIndex = startIndex + size;
   return items.slice(startIndex, endIndex);
 }
 
-export function mapEpisodeData(anime, { _id, episode, ratings, notes }) {
+export function mapEpisodeData(anime, { id, episode, ratings, notes }) {
   const happened = Date.now();
   return Array(episode - anime.episode)
     .fill(null)
     .map((item, index) => {
       const episodeNumber = anime.episode + 1 + index;
       return new EpisodeModel({
-        parent: _id,
+        parent: id,
         date: happened + index,
         rating: ratings[episodeNumber] || 0,
         note: notes[episodeNumber] || '',
@@ -33,14 +34,14 @@ export function mapEpisodeData(anime, { _id, episode, ratings, notes }) {
     });
 }
 
-export function mapChapterData(manga, { _id, chapter, ratings, notes }) {
+export function mapChapterData(manga, { id, chapter, ratings, notes }) {
   const happened = Date.now();
   return Array(chapter - manga.chapter)
     .fill(null)
     .map((item, index) => {
       const chapterNumber = manga.chapter + 1 + index;
       return new ChapterModel({
-        parent: _id,
+        parent: id,
         date: happened + index,
         rating: ratings[chapterNumber] || 0,
         note: notes[chapterNumber] || '',
@@ -57,7 +58,7 @@ export const mapStateToEntityList = (state) =>
 
 export const mapUrlFilterToEntityObject = ({ filter }) => ({
   name: filter,
-  value: Enums.status[filter]
+  value: Enums.status[capitalise(filter)]
 });
 
 export const getUniquePropertiesForItemType = (t) =>
@@ -82,7 +83,7 @@ export const intergrateMalEntry = (type) => (model, malItem) => {
     {},
     model,
     {
-      title: !!model._id ? model.title : malItem.title,
+      title: !!model.id ? model.title : malItem.title,
       image: coalesceSeriesImage(model, malItem),
       malId: malItem.id || model.malId || null,
       series_type:

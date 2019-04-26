@@ -28,7 +28,7 @@ function createOffsetText(dateOffset, date) {
   }
 }
 
-function DailyAnime({ routeKey, items, onSelect, ...props }) {
+function DailyAnime({ fetchDailyAnime, routeKey, items, onSelect, ...props }) {
   const [dateOffset, setDateOffset] = useState(7);
   const date = new Date();
   date.setDate(date.getDate() - dateOffset);
@@ -37,8 +37,8 @@ function DailyAnime({ routeKey, items, onSelect, ...props }) {
   const displayText = createOffsetText(dateOffset, date);
 
   useEffect(() => {
-    props.fetchDailyAnime(dateOffset);
-  }, [routeKey, dateOffset]);
+    fetchDailyAnime(dateOffset);
+  }, [routeKey, dateOffset, fetchDailyAnime]);
 
   function handleDayChange(change) {
     setDateOffset((prev) => prev + change);
@@ -66,9 +66,9 @@ function DailyAnime({ routeKey, items, onSelect, ...props }) {
       <List columns={1}>
         {hasDailyAnime &&
           items.map((item) => (
-            <li key={item._id}>
-              <Button onClick={() => onSelect(dummyEvent(item.series.title))}>
-                {`${item.series.title} #${padNumber(item.episode + 1, 3)}`}
+            <li key={item.id}>
+              <Button onClick={() => onSelect(dummyEvent(item.title))}>
+                {`${item.title} #${padNumber(item.episode + 1, 3)}`}
               </Button>
             </li>
           ))}

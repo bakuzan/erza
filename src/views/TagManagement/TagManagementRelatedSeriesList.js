@@ -10,10 +10,10 @@ const RelatedSeriesList = ({ seriesType, title, items }) => (
     <h4>{`${items.length} ${title}`}</h4>
     <List columns={1}>
       {items.map((x) => (
-        <li key={x._id}>
+        <li key={x.id}>
           <ButtonisedNavLink
             className="button-link"
-            to={`${Paths.base}${Paths[seriesType].view}${x._id}`}
+            to={`${Paths.base}${Paths[seriesType].view}${x.id}`}
           >
             {x.title}
           </ButtonisedNavLink>
@@ -31,7 +31,7 @@ RelatedSeriesList.propTypes = {
   seriesType: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.string,
+      id: PropTypes.string,
       title: PropTypes.string
     })
   ).isRequired

@@ -11,7 +11,7 @@ import SeriesImageContainer from 'components/SeriesImageContainer';
 import MalLink from 'components/MalLink';
 import { Paths } from 'constants/paths';
 import { Enums, Icons } from 'constants/values';
-import { getKeyByValue, formatDateTimeForDisplay } from 'utils';
+import { formatDateTimeForDisplay } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
 
 const SpanIcon = (props) => <span {...props} />;
@@ -23,17 +23,17 @@ const ItemListItem = ({ type, item, addAction }) => {
   const hasLink = !!item.link;
   const iconStatusProps = item.isRepeat
     ? { icon: Icons.clockwise, [`aria-label`]: 'Is Repeat' }
-    : item.status === Enums.status.onhold
+    : item.status === Enums.status.Onhold
     ? { icon: Icons.pause, [`aria-label`]: 'On hold' }
-    : item.status === Enums.status.completed
-    ? { icon: Icons.tick, [`aria-label`]: 'Completed' }
+    : item.status === Enums.status.Completed
+    ? { icon: Icons.tick, [`aria-label`]: item.status }
     : null;
 
   return (
     <li className={`${type}-item list-item`}>
       <div>
-        <time dateTime={item.updatedDate}>
-          {formatDateTimeForDisplay(item.updatedDate)}
+        <time dateTime={item.updatedAt}>
+          {formatDateTimeForDisplay(item.updatedAt)}
         </time>
         <h4>{item.title}</h4>
         <div className="flex flex--row start-center-contents list-item__increment-data">
@@ -44,9 +44,9 @@ const ItemListItem = ({ type, item, addAction }) => {
               className="list-item__plus-button"
               icon="+"
               aria-label={`Add ${item.title} ${current}s`}
-              onClick={() => addAction(item._id)}
+              onClick={() => addAction(item.id)}
               disabled={
-                item.status === Enums.status.completed && !item.isRepeat
+                item.status === Enums.status.Completed && !item.isRepeat
               }
             />
           )}
@@ -56,19 +56,19 @@ const ItemListItem = ({ type, item, addAction }) => {
               btnSize="small"
               className="bold"
               {...iconStatusProps}
-              title={getKeyByValue(Enums.status, item.status)}
+              title={item.status}
             />
           )}
         </div>
         <div className="button-group fixed-width">
           <ButtonisedNavButton
-            to={`${Paths.base}${Paths[type].view}${item._id}`}
+            to={`${Paths.base}${Paths[type].view}${item.id}`}
             className="ripple"
           >
             View
           </ButtonisedNavButton>
           <ButtonisedNavButton
-            to={`${Paths.base}${Paths[type].edit}${item._id}`}
+            to={`${Paths.base}${Paths[type].edit}${item.id}`}
             className="ripple"
           >
             Edit

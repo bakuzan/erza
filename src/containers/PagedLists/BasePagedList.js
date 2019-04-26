@@ -21,8 +21,8 @@ class BasePagedList extends Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  openEditDialog(_id) {
-    this.setState({ itemIdForQuickAdd: _id });
+  openEditDialog(id) {
+    this.setState({ itemIdForQuickAdd: id });
   }
 
   closeDialog() {

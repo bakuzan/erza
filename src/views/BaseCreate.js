@@ -43,7 +43,7 @@ import mangaValidator from 'utils/validators/mangaCreation';
 const loadData = (props) => {
   props.loadTags();
   if (!!props.itemId) {
-    props.actions.loadById(props.itemId, 'getByIdForEdit');
+    props.actions.loadById(props.itemId);
   }
 };
 
@@ -53,7 +53,7 @@ const mapEnumToSelectBox = (obj) => (item) => ({
 });
 
 const STATUS_OPTIONS = Object.keys(Enums.status)
-  .filter((x) => x !== 'all')
+  .filter((x) => x !== 'All')
   .map(mapEnumToSelectBox(Enums.status));
 
 class BaseCreate extends Component {
@@ -217,7 +217,7 @@ class BaseCreate extends Component {
                   <MalSearch
                     menuClassName="erza-autocomplete-menu"
                     id={this.state.malId}
-                    itemId={this.state._id}
+                    itemId={this.state.id}
                     type={type}
                     search={this.state.title}
                     onUserInput={this.handleUserInput}
@@ -269,7 +269,7 @@ class BaseCreate extends Component {
                     value={formatDateForInput(this.state.end)}
                     afterDate={this.state.start}
                     onChange={this.handleDateInput}
-                    disabled={this.state.status !== Enums.status.completed}
+                    disabled={this.state.status !== Enums.status.Completed}
                   />
 
                   <SelectBox
@@ -377,7 +377,7 @@ class BaseCreate extends Component {
                     checked={this.state.isRepeat}
                     onChange={this.handleUserInput}
                     disabled={
-                      this.state.status !== Enums.status.completed ||
+                      this.state.status !== Enums.status.Completed ||
                       (this.state.isRepeat && this.state[current] !== 0)
                     }
                   />
@@ -458,12 +458,19 @@ BaseCreate.propTypes = {
 const setEntityTags = (entities, item) =>
   entities.tags.allIds.length === 0
     ? item.tags
-    : item.tags.map((_id) => entities.tags.byId[_id]);
+    : item.tags.map((id) => entities.tags.byId[id]);
+
 const getInitalItem = (entities, props) => {
-  if (!props.itemId) return itemModelForType(props.type)();
+  if (!props.itemId) {
+    return itemModelForType(props.type)();
+  }
+
   const item = entities[props.type].byId[props.itemId];
 
-  if (!item) return itemModelForType(props.type)();
+  if (!item) {
+    return itemModelForType(props.type)();
+  }
+
   const itemForEdit = Object.assign({}, item, {
     tags: !!item.tags ? setEntityTags(entities, item) : []
   });

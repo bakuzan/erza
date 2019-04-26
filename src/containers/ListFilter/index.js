@@ -15,21 +15,21 @@ const FILTER_BASE = (type) => `${Paths.base}${Paths[type].list}`;
 
 const SORT_OPTIONS = [
   { text: 'Title', value: 'title' },
-  { text: 'Updated date', value: 'updatedDate' }
+  { text: 'Updated date', value: 'updatedAt' }
 ];
 
 const ListFilter = ({
   type,
   search,
   onChange,
-  sortOrder,
+  sorting,
   onSortOrderToggle,
-  sortKey,
   onChangeSortKey,
   isOwnedOnly,
   onChangeIsOwnedOnly,
   children
 }) => {
+  const [sortKey, sortOrder] = sorting;
   const filterBase = FILTER_BASE(type);
   const statusLinks = Object.keys(Strings.filters).map((status) => {
     const statusUrl = Strings.filters[status];
@@ -97,17 +97,15 @@ ListFilter.propTypes = {
   type: PropTypes.string.isRequired,
   search: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  sortOrder: PropTypes.string.isRequired,
+  sorting: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSortOrderToggle: PropTypes.func.isRequired,
-  sortKey: PropTypes.string.isRequired,
   onChangeSortKey: PropTypes.func.isRequired,
   isOwnedOnly: PropTypes.bool.isRequired,
   onChangeIsOwnedOnly: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  sortKey: state.sorting.sortKey,
-  sortOrder: state.sorting.sortOrder,
+  sorting: state.sorting,
   isOwnedOnly: state.filters[ownProps.type].isOwnedOnly
 });
 

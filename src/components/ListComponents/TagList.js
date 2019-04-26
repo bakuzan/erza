@@ -9,7 +9,7 @@ const TagListItem = ({ item }) => (
   <li className="tag-item">
     <ButtonisedNavLink
       className="ripple"
-      to={`${Paths.base}${Paths.tagManagement}${item._id}`}
+      to={`${Paths.base}${Paths.tagManagement}${item.id}`}
     >
       {item.name}
     </ButtonisedNavLink>
@@ -20,7 +20,7 @@ const TagList = ({ items }) => (
   <ItemList
     columns={3}
     items={items.map((item) => (
-      <TagListItem key={item._id} item={item} />
+      <TagListItem key={item.id} item={item} />
     ))}
   />
 );

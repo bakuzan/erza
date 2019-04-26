@@ -9,7 +9,7 @@ import {
 import { Strings } from 'constants/values';
 
 const setStateDefaults = (overrides = {}) => ({
-  itemsPerPage: 5,
+  size: 5,
   page: 0,
   pageInfo: {},
   ...overrides
@@ -17,11 +17,11 @@ const setStateDefaults = (overrides = {}) => ({
 const initialState = {
   [Strings.anime]: setStateDefaults(),
   [Strings.manga]: setStateDefaults(),
-  [Strings.episode]: setStateDefaults({ itemsPerPage: 25 }),
-  [Strings.chapter]: setStateDefaults({ itemsPerPage: 25 })
+  [Strings.episode]: setStateDefaults({ size: 25 }),
+  [Strings.chapter]: setStateDefaults({ size: 25 })
 };
 
-const applyStateUpdates = (state, action) => updates => ({
+const applyStateUpdates = (state, action) => (updates) => ({
   ...state,
   [action.listType]: {
     ...state[action.listType],
@@ -46,7 +46,7 @@ const changePage = (state, action) => {
 
 const setItemsPerPage = (state, action) => {
   const updateState = applyStateUpdates(state, action);
-  return updateState({ itemsPerPage: Number(action.itemsPerPage) });
+  return updateState({ size: Number(action.size) });
 };
 
 const setPageInfo = (state, action) => {

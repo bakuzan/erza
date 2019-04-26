@@ -21,10 +21,9 @@ module.exports = {
   async animeRepeated(_, args, context) {
     return await context.findAllRepeated(Anime, args);
   },
-  async dailyAnime(_, { date }) {
-    // Get this day last week
-    const d = new Date(date);
-    d.setDate(d.getDate() - 7);
+  async dailyAnime(_, { dateOffset }) {
+    const d = new Date();
+    d.setDate(d.getDate() - dateOffset);
 
     const [from, to] = dateRange(d, d);
 

@@ -1,9 +1,6 @@
-import fetchFromServer from '../graphql/fetch';
-import DailyAnimeQL from '../graphql/query/dailyAnime';
-import { Paths } from '../constants/paths';
-import { Enums } from '../constants/values';
+import erzaGQL from 'erzaGQL';
+import { getDailyAnime } from 'erzaGQL/query';
 import { DAILY_ANIME_LOAD } from '../constants/actions';
-import { startOfDay, endOfDay, dateAsMs } from 'utils';
 
 const loadDailyAnime = (data) => ({
   type: DAILY_ANIME_LOAD,
@@ -11,31 +8,12 @@ const loadDailyAnime = (data) => ({
 });
 
 export const fetchDailyAnime = (dateOffset) => {
-  return function(dispatch) {
-    const date = new Date();
-    date.setDate(date.getDate() - dateOffset);
-
-    const dateRange = [dateAsMs(startOfDay(date)), dateAsMs(endOfDay(date))];
-    const query = DailyAnimeQL.getDailyAnimeForDateRange(dateRange);
-    fetchFromServer(`${Paths.graphql.base}${query}`).then((response) => {
-      const { episodes, anime } = response.data;
-      const dailyAnime = episodes
-        .map((item) => {
-          const series = anime.find((x) => x._id === item.parent);
-          if (!series) return null;
-          if (item.episode !== series.episode) return null;
-          if (
-            ![Enums.anime.type.tv, Enums.anime.type.ona].some(
-              (x) => x === series.series_type
-            )
-          )
-            return null;
-
-          return item;
-        })
-        .filter((x) => !!x);
-
-      dispatch(loadDailyAnime(dailyAnime));
+  return async function(dispatch) {
+    const response = await erzaGQL({
+      query: getDailyAnime,
+      variables: { dateOffset }
     });
+    const data = response.dailyAnime || [];
+    dispatch(loadDailyAnime(data));
   };
 };

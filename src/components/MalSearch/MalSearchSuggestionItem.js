@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button } from '../Buttonised';
-import { isNumber } from 'utils';
 
 import './MalSearch.scss';
 
@@ -15,7 +14,7 @@ const MalSearchSuggestionItem = ({
   highlightMatch,
   selectAutocompleteSuggestion
 }) => {
-  const itemId = isNumber(item.id) ? item.id : item._id;
+  const itemId = item.id;
   const itemText = item[attr];
   const isActiveSuggestion = activeSuggestion === index;
 
