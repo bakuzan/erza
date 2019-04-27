@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
-import { DateSelector } from 'mko';
+import { DateSelector, MultiSelect } from 'mko';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 
@@ -13,7 +13,6 @@ import {
   capitalise,
   startOfDay,
   endOfDay,
-  dateAsMs,
   formatDateForInput
 } from 'utils';
 import { getHistoryNameForItemType } from 'utils/data';
@@ -22,16 +21,18 @@ const PagedHistoryList = lazyLoader(() =>
   import(/* webpackChunkName: 'PagedHistoryList' */ '../../containers/PagedHistoryList')
 );
 
-const dateRangeForQuery = (from = new Date(), to = new Date()) => [
-  dateAsMs(startOfDay(from)),
-  dateAsMs(endOfDay(to))
-];
 const KEEP_PAGE_ON_MOUNT = false;
-const loadData = (props, state, shouldKeepPage = false) =>
-  props.loadHistory(
-    { dateRange: dateRangeForQuery(state.from, state.to) },
-    shouldKeepPage
-  );
+const ratingOptions = Array(10)
+  .fill(null)
+  .map((_, i) => ({ value: i + 1, text: `${i + 1}` }));
+
+const dateRangeForQuery = (from = new Date(), to = new Date()) => ({
+  from: startOfDay(from),
+  to: endOfDay(to)
+});
+
+const loadData = (props, { displayList, ...state }, shouldKeepPage = false) =>
+  props.loadHistory({ ...state }, shouldKeepPage);
 
 class BaseHistoryView extends Component {
   constructor(props) {
@@ -39,11 +40,13 @@ class BaseHistoryView extends Component {
     const dr = dateRangeForQuery();
     this.state = {
       displayList: false,
-      from: formatDateForInput(dr[0]),
-      to: formatDateForInput(dr[1])
+      from: formatDateForInput(dr.from),
+      to: formatDateForInput(dr.to),
+      ratings: []
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleRatingList = this.handleRatingList.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -62,25 +65,32 @@ class BaseHistoryView extends Component {
     if (
       prevProps.isAdult !== this.props.isAdult ||
       prevProps.type !== this.props.type ||
-      prevProps.itemsPerPage !== this.props.itemsPerPage
+      prevProps.size !== this.props.size
     ) {
       loadData(this.props, this.state);
     }
   }
 
+  fetchData() {
+    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
+  }
+
   handleUserInput(date, name, hasError) {
-    if (hasError) return;
-    this.setState({ [name]: date }, () =>
-      debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1))
-    );
+    if (hasError) {
+      return;
+    }
+
+    this.setState({ [name]: date }, this.fetchData);
+  }
+
+  handleRatingList(ratings) {
+    this.setState({ ratings }, this.fetchData);
   }
 
   render() {
     const { items, type } = this.props;
-    const filters = {
-      dateRange: dateRangeForQuery(this.state.from, this.state.to)
-    };
-    const historyItems = this.state.displayList ? items : [];
+    const { displayList, ...filters } = this.state;
+    const historyItems = displayList ? items : [];
 
     return (
       <div className="flex flex--row">
@@ -107,6 +117,15 @@ class BaseHistoryView extends Component {
               onChange={this.handleUserInput}
             />
           </div>
+          <MultiSelect
+            id="ratings"
+            name="ratings"
+            label="Ratings"
+            placeholder="Select ratings"
+            values={this.state.ratings}
+            options={ratingOptions}
+            onUpdate={this.handleRatingList}
+          />
         </div>
         <LoadableContent>
           <PagedHistoryList
@@ -125,7 +144,7 @@ BaseHistoryView.propTypes = {
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loadHistory: PropTypes.func.isRequired,
-  itemsPerPage: PropTypes.number.isRequired
+  size: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({

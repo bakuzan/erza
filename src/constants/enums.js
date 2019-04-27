@@ -15,8 +15,8 @@ const Statuses = Object.freeze([
 export default Object.freeze({
   KeyCodes,
   status: {
-    ...toKeyObj(Statuses),
-    All: Statuses
+    All: Statuses,
+    ...toKeyObj(Statuses)
   }
   // animeType: toKeyObj([
   //   'Unknown',

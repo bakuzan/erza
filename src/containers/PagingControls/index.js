@@ -45,7 +45,7 @@ const PagingControls = ({
             Next
           </Button>
         </div>
-        {!!pageInfo.totalCount && (
+        {!!pageInfo.total && (
           <div className="paging-controls__item-count">{`Found ${
             pageInfo.total
           } item(s)`}</div>

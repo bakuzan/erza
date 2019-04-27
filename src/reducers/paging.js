@@ -51,7 +51,7 @@ const setItemsPerPage = (state, action) => {
 
 const setPageInfo = (state, action) => {
   const updateState = applyStateUpdates(state, action);
-  return updateState({ pageInfo: { totalCount: action.paging.count } });
+  return updateState({ pageInfo: { ...action.paging } });
 };
 
 export const paging = createReducer(initialState, {

@@ -28,11 +28,11 @@ export default async function erzaQuery(payload) {
       const { exception = { stacktrace: [] } } = error.extensions;
 
       store.dispatch(
-        showAlertError(
-          error.message,
-          `Resolver: ${error.path} > ${error.extensions.code}\r\n\r\n
+        showAlertError({
+          message: error.message,
+          detail: `Resolver: ${error.path} > ${error.extensions.code}\r\n\r\n
         ${(exception.stacktrace || []).join('\r\n')}`
-        )
+        })
       );
     }
 
@@ -41,10 +41,10 @@ export default async function erzaQuery(payload) {
   } catch (error) {
     const errorDefaultMessage = 'Anonymous Error Message.';
     store.dispatch(
-      showAlertError(
-        'Server Error',
-        `${error.message || errorDefaultMessage}\r\n${error.stack}`
-      )
+      showAlertError({
+        message: 'Server Error',
+        detail: `${error.message || errorDefaultMessage}\r\n${error.stack}`
+      })
     );
     store.dispatch(removeRequestIndicator(query));
 

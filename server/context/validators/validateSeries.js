@@ -1,4 +1,4 @@
-const { Status } = require('../constants/enums');
+const { Status } = require('../../constants/enums');
 
 module.exports = function validateSeries(entity, { mapBefore, mapAfter }) {
   const updates = {};

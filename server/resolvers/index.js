@@ -1,7 +1,7 @@
 const { GraphQLScalarType, Kind } = require('graphql');
 
 const Common = require('../utils');
-const validateHistoryPartition = require('./validateHistoryPartition');
+const validateHistoryPartition = require('./utils/validateHistoryPartition');
 
 const Query = require('./query');
 const Mutation = require('./mutation');

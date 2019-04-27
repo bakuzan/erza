@@ -5,7 +5,7 @@ import { List } from 'mko';
 import { ButtonisedNavLink } from 'components/Buttonised';
 import { Paths } from 'constants/paths';
 
-const RelatedSeriesList = ({ seriesType, title, items }) => (
+const RelatedSeriesList = React.memo(({ seriesType, title, items }) => (
   <div className="related-series-container">
     <h4>{`${items.length} ${title}`}</h4>
     <List columns={1}>
@@ -21,7 +21,7 @@ const RelatedSeriesList = ({ seriesType, title, items }) => (
       ))}
     </List>
   </div>
-);
+));
 
 RelatedSeriesList.defaultProps = {
   items: []

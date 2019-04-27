@@ -30,7 +30,10 @@ class TagManagementList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isAdult === this.props.isAdult) return null;
+    if (prevProps.isAdult === this.props.isAdult) {
+      return null;
+    }
+
     loadData(this.props);
     this.setState(initialState);
   }

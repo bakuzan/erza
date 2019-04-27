@@ -53,19 +53,19 @@ module.exports = {
   },
   // Tag resolvers
   Tag: {
-    anime(inst) {
+    anime(inst, { sorting = null }) {
       if (inst.animes) {
         return inst.animes;
       }
 
-      return inst.getAnimes();
+      return inst.getAnimes({ order: [sorting] });
     },
-    manga(inst) {
+    manga(inst, { sorting = null }) {
       if (inst.mangas) {
         return inst.mangas;
       }
 
-      return inst.getMangas();
+      return inst.getMangas({ order: [sorting] });
     }
   }
 };

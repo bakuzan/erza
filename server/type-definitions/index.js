@@ -96,11 +96,11 @@ const Mutation = gql`
     mangaRemove(id: Int!): DeleteResponse
 
     animeUpdateWithHistory(
-      series: SeriesInput
+      series: SeriesInput!
       history: [HistoryCreateInput]
     ): SeriesResponse
     mangaUpdateWithHistory(
-      series: SeriesInput
+      series: SeriesInput!
       history: [HistoryCreateInput]
     ): SeriesResponse
 

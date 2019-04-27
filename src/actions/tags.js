@@ -61,20 +61,20 @@ export function loadTag(id) {
       variables: { id }
     });
 
-    dispatch(loadTagsData(response.tagById));
+    dispatch(addTag(response.tagById));
     dispatch(finishGraphqlRequest());
   };
 }
 
 // Mutate
 
-export function updateTag(item) {
+export function updateTag(payload) {
   return async function(dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({
       query: tagUpdate,
-      variables: { ...item }
+      variables: { payload }
     });
 
     const data = getSingleObjectProperty(response);

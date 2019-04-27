@@ -21,12 +21,14 @@
 
 .filters-container {
   display: flex;
-  flex: 1;
+  flex-direction: column;
+  width: 22%;
   max-width: 22%;
   min-width: 200px;
   padding: 20px 5px;
 
   &--wider {
+    width: 25%;
     max-width: 25%;
   }
 

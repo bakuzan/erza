@@ -17,6 +17,7 @@ export { default as LoadableContent } from 'meiko/LoadableContent';
 export { Loading, SimpleLoading } from 'meiko/Loadable';
 export { default as LoadingBouncer } from 'meiko/LoadingBouncer';
 export { default as LoadingSpinner } from 'meiko/LoadingSpinner';
+export { default as MultiSelect } from 'meiko/MultiSelect';
 export { default as SVGLogo } from 'meiko/Logo';
 export { default as NewTabLink } from 'meiko/NewTabLink';
 export { default as Portal } from 'meiko/Portal';

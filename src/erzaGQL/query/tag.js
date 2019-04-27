@@ -6,11 +6,11 @@ export const getTagById = gql`
       id
       name
       isAdult
-      anime {
+      anime(sorting: ["title", "ASC"]) {
         id
         title
       }
-      manga {
+      manga(sorting: ["title", "ASC"]) {
         id
         title
       }

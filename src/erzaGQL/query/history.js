@@ -34,7 +34,7 @@ export const getEpisodes = gql`
       nodes {
         ...HistoryFields
         episode
-        anime {
+        series: anime {
           id
           title
         }
@@ -64,7 +64,7 @@ export const getChapters = gql`
       nodes {
         ...HistoryFields
         chapter
-        manga {
+        series: manga {
           id
           title
         }

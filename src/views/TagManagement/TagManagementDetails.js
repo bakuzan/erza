@@ -32,7 +32,7 @@ class TagManagementDetails extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       !!this.props.item &&
-      !!this.props.item.animeWithTag &&
+      !!this.props.item.anime &&
       (!this.state.item || (!this.props.isFetching && prevProps.isFetching))
     ) {
       this.setState({ item: this.props.item });
@@ -56,7 +56,8 @@ class TagManagementDetails extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.actions.updateTag(this.state.item);
+    const { anime, manga, ...payload } = this.state.item;
+    this.props.actions.updateTag(payload);
   }
 
   handleDetailExit() {
@@ -65,14 +66,15 @@ class TagManagementDetails extends React.Component {
 
   render() {
     const { item } = this.state;
+    console.log(this.props);
     if (!item) {
       return <LoadingSpinner size="fullscreen" />;
     }
 
     const canEdit = item.name.length > 1;
     const canDelete =
-      (!item.animeWithTag || item.animeWithTag.length === 0) &&
-      (!item.mangaWithTag || item.mangaWithTag.length === 0);
+      (!item.anime || item.anime.length === 0) &&
+      (!item.manga || item.manga.length === 0);
 
     return (
       <div className="tag-details">
@@ -111,12 +113,12 @@ class TagManagementDetails extends React.Component {
             <RelatedSeriesList
               seriesType={Strings.anime}
               title="Anime series"
-              items={item.animeWithTag}
+              items={item.anime}
             />
             <RelatedSeriesList
               seriesType={Strings.manga}
               title="Manga series"
-              items={item.mangaWithTag}
+              items={item.manga}
             />
           </div>
         </div>
@@ -132,7 +134,7 @@ class TagManagementDetails extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
-  tagId: ownProps.match.params.tagId,
+  tagId: Number(ownProps.match.params.tagId),
   item: state.entities.tags.byId[ownProps.match.params.tagId]
 });
 

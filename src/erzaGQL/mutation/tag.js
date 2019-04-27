@@ -4,7 +4,11 @@ export const tagUpdate = gql`
   mutation TagUpdate($payload: TagInput!) {
     tagUpdate(payload: $payload) {
       success
-      data
+      data {
+        id
+        name
+        isAdult
+      }
       errorMessages
     }
   }

@@ -1,49 +1,41 @@
-import update from 'immutability-helper';
-
-const getItem = (action) => action.item.node || action.item;
-
 export function updateById(state, action) {
-  const item = getItem(action);
+  const item = action.item;
   const staleItem = state.byId[item.id] || {};
 
-  return update(state, {
+  return {
+    ...state,
     byId: {
-      [item.id]: { $set: { ...staleItem, ...item } }
+      ...state.byId,
+      [item.id]: { ...staleItem, ...item }
     }
-  });
+  };
 }
 
 export function addEntity(state, action) {
   const updatedById = updateById(state, action);
-  const item = getItem(action);
-  const idExists = updatedById.allIds.find((x) => x === item.id);
+  const item = action.item;
 
-  if (idExists) {
-    return updatedById;
-  }
+  const allIds = new Set(updatedById.allIds);
+  allIds.add(item.id);
 
-  return update(updatedById, {
-    allIds: { $push: [item.id] }
-  });
+  return {
+    ...updatedById,
+    allIds: [...allIds.values()]
+  };
 }
 
-function addListEntity(state, action) {
-  const item = getItem(action);
-  const updatedById = update(state, {
+function addListEntity(state, item) {
+  const allIds = new Set(state.allIds);
+  allIds.add(item.id);
+
+  return {
+    ...state,
+    allIds: [...allIds.values()],
     byId: {
-      [item.id]: { $set: item }
+      ...state.byId,
+      [item.id]: item
     }
-  });
-
-  const idExists = updatedById.allIds.find((x) => x === item.id);
-
-  if (idExists) {
-    return updatedById;
-  }
-
-  return update(updatedById, {
-    allIds: { $push: [item.id] }
-  });
+  };
 }
 
 export function loadEntityList(state, action) {
@@ -52,17 +44,16 @@ export function loadEntityList(state, action) {
   let latestState = resetState ? { byId: {}, allIds: [] } : state;
 
   action.data.forEach((item) => {
-    const data = getItem({ item });
-    newIds.push(data.id);
-    latestState = addListEntity(latestState, { item });
+    newIds.push(item.id);
+    latestState = addListEntity(latestState, item);
   });
 
   return resetState
     ? latestState
     : (() => {
-        const { itemsPerPage: pageSize, page } = action.paging;
-        const startIndex = page * pageSize;
-        const endIndex = startIndex + pageSize;
+        const { size, page } = action.paging;
+        const startIndex = page * size;
+        const endIndex = startIndex + size;
         return {
           ...latestState,
           allIds: [
@@ -85,13 +76,20 @@ export function createReducer(initialState, handlers) {
 }
 
 export function removeEntityById(state, action) {
-  return update(state, {
-    allIds: { $set: state.allIds.filter((x) => x !== action.id) },
+  const allIds = new Set(state.allIds);
+  allIds.delete(action.id);
+
+  return {
+    ...state,
+    allIds: [...allIds.values()],
     byId: {
-      $set: Object.keys(state.byId).reduce((o, k) => {
-        if (k !== action.id) o[k] = state.byId[k];
+      ...Object.keys(state.byId).reduce((o, k) => {
+        if (Number(k) !== action.id) {
+          o[k] = state.byId[k];
+        }
+
         return o;
       }, {})
     }
-  });
+  };
 }
