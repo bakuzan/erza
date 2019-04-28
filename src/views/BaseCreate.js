@@ -147,7 +147,7 @@ class BaseCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const item = this.validator.validateSubmission(this.state);
+    const item = { ...this.state };
 
     if (this.props.isCreate) {
       this.props.actions.create(item);

@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import QuickAdd from 'components/QuickAdd';
 
 import { Strings } from 'constants/values';
-import { loadAnimeById } from 'actions/anime';
-import { loadMangaById } from 'actions/manga';
+import { loadAnimeByIdForQuickAdd } from 'actions/anime';
+import { loadMangaByIdForQuickAdd } from 'actions/manga';
 import { mapStateToEntity } from 'utils/data';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -16,15 +16,9 @@ const mapStateToProps = (state, ownProps) => ({
   loadItemById: (props) => {
     switch (props.type) {
       case Strings.anime:
-        return props.actions.loadAnimeById(
-          props.seriesId,
-          'getByIdForQuickAdd'
-        );
+        return props.actions.loadAnimeById(props.seriesId);
       case Strings.manga:
-        return props.actions.loadMangaById(
-          props.seriesId,
-          'getByIdForQuickAdd'
-        );
+        return props.actions.loadMangaById(props.seriesId);
       default:
         return console.log(
           `%c Unrecognised series type: ${props.type}`,
@@ -37,8 +31,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     {
-      loadAnimeById,
-      loadMangaById
+      loadAnimeById: loadAnimeByIdForQuickAdd,
+      loadMangaById: loadMangaByIdForQuickAdd
     },
     dispatch
   )

@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 
 import { lazyLoader } from 'components/LazyLoaders';
-import { loadAnimeById } from '../../actions/anime';
+import { loadAnimeById, deleteAnime } from '../../actions/anime';
 import {
-  loadEpisodesByDateRange,
+  loadEpisodesBySeries,
   editEpisode,
   deleteEpisode
 } from '../../actions/episode';
@@ -16,54 +14,23 @@ const BaseView = lazyLoader(() =>
   import(/* webpackChunkName: 'ItemView' */ '../BaseView')
 );
 
-const AnimeView = ({
-  itemId,
-  item,
-  historyItems,
-  loadAnimeById,
-  loadEpisodesByDateRange,
-  editEpisode,
-  deleteEpisode,
-  ...props
-}) => (
-  <BaseView
-    {...props}
-    type={Strings.anime}
-    itemId={itemId}
-    item={item}
-    historyItems={historyItems}
-    loadItemById={loadAnimeById}
-    loadHistoryForSeries={loadEpisodesByDateRange}
-    editAction={editEpisode}
-    deleteAction={deleteEpisode}
-  />
-);
-
-AnimeView.propTypes = {
-  itemId: PropTypes.string.isRequired,
-  item: PropTypes.object.isRequired,
-  historyItems: PropTypes.arrayOf(PropTypes.object),
-  loadAnimeById: PropTypes.func.isRequired,
-  loadEpisodesByDateRange: PropTypes.func.isRequired,
-  editEpisode: PropTypes.func.isRequired,
-  deleteEpisode: PropTypes.func.isRequired
-};
-
 const mapStateToProps = (state, ownProps) => ({
+  type: Strings.anime,
   isFetching: state.isFetching,
-  itemId: ownProps.match.params.id,
+  itemId: Number(ownProps.match.params.id),
   item: mapStateToEntity(state.entities.anime, ownProps.match.params.id),
   historyItems: mapStateToEntityList(state.entities.episode)
 });
 
 const mapDispatchToProps = {
-  loadAnimeById,
-  loadEpisodesByDateRange,
-  editEpisode,
-  deleteEpisode
+  loadItemById: loadAnimeById,
+  loadHistoryForSeries: loadEpisodesBySeries,
+  editAction: editEpisode,
+  deleteAction: deleteEpisode,
+  deleteSeries: deleteAnime
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AnimeView);
+)(BaseView);

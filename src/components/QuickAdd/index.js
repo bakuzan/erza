@@ -125,8 +125,8 @@ class QuickAdd extends React.Component {
   }
 
   handleFormSubmit() {
-    const values = { ...this.state };
-    this.props.onSubmit(values);
+    const { editItem } = this.state;
+    this.props.onSubmit(editItem);
     this.resetState();
   }
 

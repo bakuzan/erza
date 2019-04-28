@@ -45,7 +45,7 @@ class BasePagedList extends Component {
     };
 
     const itemsForPage = selectPageItems(items, type, paging);
-    console.log('BPL > ', this.props);
+
     return (
       <div className="flex flex--column flex--grow">
         <PagingControls listType={type} filters={filters} />

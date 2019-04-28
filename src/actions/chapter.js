@@ -1,10 +1,11 @@
-import { getChapters } from 'erzaGQL/query';
+import { getChapters, getChaptersForSeries } from 'erzaGQL/query';
 import { chapterUpdate, chapterRemove } from 'erzaGQL/mutation';
 
 import {
   mutateHistoryItem,
   removeHistoryItem,
-  loadHistoryByDateRange
+  loadHistoryByDateRange,
+  loadHistoryBySeries
 } from './utils/history';
 import { Strings } from '../constants/values';
 
@@ -16,6 +17,12 @@ export const deleteChapter = (id) =>
 
 export const loadChaptersByDateRange = (filters = {}, pageChange = null) =>
   loadHistoryByDateRange(getChapters, filters, {
+    pageChange,
+    type: Strings.chapter
+  });
+
+export const loadChaptersBySeries = (seriesId, pageChange = null) =>
+  loadHistoryBySeries(getChaptersForSeries, seriesId, {
     pageChange,
     type: Strings.chapter
   });

@@ -8,19 +8,19 @@ import {
 import { Strings } from 'constants/values';
 import { loadAnime } from './anime';
 import { loadManga } from './manga';
-import { loadEpisodesByDateRange } from './episode';
-import { loadChaptersByDateRange } from './chapter';
+import { loadEpisodesByDateRange, loadEpisodesBySeries } from './episode';
+import { loadChaptersByDateRange, loadChaptersBySeries } from './chapter';
 
-const FetchData = (dataType) => {
+const FetchData = (dataType, { seriesId = null }) => {
   switch (dataType) {
     case Strings.anime:
       return loadAnime;
     case Strings.manga:
       return loadManga;
     case Strings.episode:
-      return loadEpisodesByDateRange;
+      return seriesId ? loadEpisodesBySeries : loadEpisodesByDateRange;
     case Strings.chapter:
-      return loadChaptersByDateRange;
+      return seriesId ? loadChaptersBySeries : loadChaptersByDateRange;
     default:
       return console.log(`No data function found for type: ${dataType}`);
   }
@@ -44,7 +44,7 @@ const fetchPrevPage = (listType) => ({
 const changePage = (direction, changePage, type, filters) => {
   return function(dispatch) {
     dispatch(changePage(type));
-    dispatch(FetchData(type)(filters, direction));
+    dispatch(FetchData(type, filters)(filters, direction));
   };
 };
 

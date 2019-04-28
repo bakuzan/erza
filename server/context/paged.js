@@ -23,10 +23,10 @@ async function pagedSeries(
   }
 ) {
   const isOwnedWhere = isOwnedOnlyArgs(isOwnedOnly);
-  const sortOrder = validateSortOrder(['title', 'ASC'], sorting);
   const statusWhere = resolveWhereIn(status, 'status');
+  const sortOrder = validateSortOrder(['title', 'ASC'], sorting);
 
-  return model
+  return await model
     .findAndCountAll({
       where: {
         title: {
@@ -49,24 +49,41 @@ async function pagedSeries(
 
 async function pagedHistory(
   model,
-  { fromDate, toDate, ratings = [], paging = { page: 0, size: 10 } },
+  {
+    seriesId,
+    fromDate,
+    toDate,
+    ratings = [],
+    sorting,
+    paging = { page: 0, size: 10 }
+  },
   where,
   options
 ) {
-  const [from, to] = dateRange(fromDate, toDate);
-  const ratingWhere = resolveWhereIn(ratings, 'rating');
+  let dateWhere = {};
+  const noSeriesId = !seriesId;
 
-  return model
+  if (noSeriesId) {
+    const [from, to] = dateRange(fromDate, toDate);
+    dateWhere = {
+      date: {
+        [Op.gte]: from,
+        [Op.lt]: to
+      }
+    };
+  }
+
+  const ratingWhere = resolveWhereIn(ratings, 'rating');
+  const sortOrder = validateSortOrder(['date', 'DESC'], sorting);
+
+  return await model
     .findAndCountAll({
       where: {
-        date: {
-          [Op.gte]: from,
-          [Op.lt]: to
-        },
+        ...dateWhere,
         ...ratingWhere,
         ...where
       },
-      order: [['date', 'DESC']],
+      order: [sortOrder],
       limit: paging.size,
       offset: paging.size * paging.page,
       ...options

@@ -9,7 +9,8 @@ import {
   finishGraphqlRequest,
   resolvePaging,
   loadItemToState,
-  loadItemsToState
+  loadItemsToState,
+  removeItemFromState
 } from './helpers';
 import redirectPostAction from './redirectPostAction';
 
@@ -91,6 +92,32 @@ export function mutateItem(query, item, type) {
       `Successfully saved '${data.data.title}' ${type}.`
     );
 
+    return redirectPostAction(type, lastLocation);
+  };
+}
+
+export function removeItem(query, variables, type) {
+  return async function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+
+    const { lastLocation } = getState();
+
+    const response = await erzaGQL({
+      query,
+      variables
+    });
+
+    const data = getSingleObjectProperty(response);
+
+    dispatch(removeItemFromState[type](variables.id));
+    dispatch(finishGraphqlRequest());
+
+    if (!data || !data.success) {
+      // TODO display alert with data.errorMessages
+      return null;
+    }
+
+    toaster.success('Deleted!', `Successfully deleted ${type}.`);
     return redirectPostAction(type, lastLocation);
   };
 }

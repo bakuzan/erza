@@ -82,10 +82,12 @@ function processProperties({ parentAttr, _id, parent, ...instance }) {
       if (num > new Date('2000-01-01').getTime()) {
         value = new Date(num).toISOString();
       } else {
-        value = num;
+        value = num || 0;
       }
     } else if (['series_start', 'series_end'].includes(k)) {
       value = null; // Fix empty string dates.
+    } else if (['isRepeat', 'owned'].includes(k)) {
+      value = !!value;
     }
 
     if (enums.has(k)) {
@@ -119,7 +121,10 @@ async function insertItemData({
         .filter((x, i, arr) => arr.indexOf(x) === i);
 
       return await db.transaction(async (transaction) => {
-        const newSeries = await model.create({ ...data }, { transaction });
+        const newSeries = await model.create(
+          { ...data },
+          { transaction, silent: true }
+        );
         await newSeries.setTags(newTagIds, { transaction });
 
         const history = historyItems

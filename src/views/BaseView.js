@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { RatingControl, LoadingSpinner, List } from 'mko';
+import { RatingControl, LoadingSpinner, List, nano } from 'mko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
@@ -13,16 +13,37 @@ import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
 import MalLink from 'components/MalLink';
 import LoadableContent from 'containers/LoadableContent';
-import { capitalise, formatDateForDisplay } from 'utils';
+import { capitalise, formatDateForDisplay, darken } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
 import { Paths } from 'constants/paths';
 import { Strings, Enums, Icons } from 'constants/values';
 
+nano.put('.series-view', {
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh'
+});
+nano.put('.series-view__footer', {
+  width: '100%',
+  padding: '10px 5px',
+  div: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
+});
+nano.put('.series-delete__button', {
+  backgroundColor: '#f00 !important',
+  '&:hover': {
+    backgroundColor: `${darken(10, '#f00')} !important`
+  }
+});
+
 const STATS_PATH = `${Paths.base}${Paths.statistics}${Strings.anime}`;
 
 const loadData = (props) => props.loadItemById(props.itemId);
+
 const loadHistory = (props) =>
-  props.loadHistoryForSeries({ parent: props.itemId });
+  props.loadHistoryForSeries({ seriesId: props.itemId });
 
 const PagedHistoryList = lazyLoader(() =>
   import(/* webpackChunkName: 'PagedHistoryList' */ '../containers/PagedHistoryList')
@@ -39,6 +60,7 @@ class BaseView extends Component {
     this.preloadHistoryList = this.preloadHistoryList.bind(this);
     this.handleHistoryEdit = this.handleHistoryEdit.bind(this);
     this.handleHistoryDelete = this.handleHistoryDelete.bind(this);
+    this.handleSeriesDelete = this.handleSeriesDelete.bind(this);
     this.setStatNavLink = this.setStatNavLink.bind(this);
   }
 
@@ -63,6 +85,10 @@ class BaseView extends Component {
     this.props.deleteAction(historyId);
   }
 
+  handleSeriesDelete() {
+    this.props.deleteSeries(this.props.itemId);
+  }
+
   setStatNavLink(state) {
     return {
       pathname: STATS_PATH,
@@ -79,7 +105,7 @@ class BaseView extends Component {
     }
 
     return (
-      <section>
+      <section className="series-view">
         <Helmet>
           <title>{`View ${capitalise(type)} - ${item.title}`}</title>
         </Helmet>
@@ -193,7 +219,7 @@ class BaseView extends Component {
                     <div>
                       <PagedHistoryList
                         type={type}
-                        filters={{ parent: this.props.itemId }}
+                        filters={{ seriesId: this.props.itemId }}
                         items={historyItems}
                         editAction={this.handleHistoryEdit}
                         deleteAction={this.handleHistoryDelete}
@@ -225,13 +251,13 @@ class BaseView extends Component {
             </div>
             <h4>Series tags</h4>
             <List columns={1}>
-              {!item.tagList && (
+              {!item.tags && (
                 <li>
                   <p>{Strings.noItemsAvailable}</p>
                 </li>
               )}
-              {!!item.tagList &&
-                item.tagList.map((item) => (
+              {!!item.tags &&
+                item.tags.map((item) => (
                   <li key={item.id} className="tag-item">
                     <ButtonisedNavLink
                       to={`${Paths.base}${Paths.tagManagement}${item.id}`}
@@ -243,6 +269,17 @@ class BaseView extends Component {
             </List>
           </SeriesImageContainer>
         </div>
+        <div className="flex-spacer" />
+        <footer className="series-view__footer">
+          <div className="series-delete">
+            <Button
+              className="series-delete__button"
+              onClick={this.handleSeriesDelete}
+            >
+              Delete
+            </Button>
+          </div>
+        </footer>
       </section>
     );
   }
@@ -250,7 +287,7 @@ class BaseView extends Component {
 
 BaseView.propTypes = {
   type: PropTypes.string.isRequired,
-  itemId: PropTypes.string.isRequired,
+  itemId: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   historyItems: PropTypes.arrayOf(PropTypes.object),
   loadItemById: PropTypes.func.isRequired,

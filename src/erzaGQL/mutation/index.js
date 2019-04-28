@@ -8,4 +8,11 @@ export {
 
 export { animeUpdateWithHistory, mangaUpdateWithHistory } from './combined';
 
-export { animeCreate, animeUpdate, mangaCreate, mangaUpdate } from './series';
+export {
+  animeCreate,
+  animeUpdate,
+  animeRemove,
+  mangaCreate,
+  mangaUpdate,
+  mangaRemove
+} from './series';

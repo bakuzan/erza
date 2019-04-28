@@ -50,15 +50,50 @@ export function loadHistoryByDateRange(query, filters, { type, pageChange }) {
   };
 }
 
+export function loadHistoryBySeries(query, filters, { type, pageChange }) {
+  return async function(dispatch, getState) {
+    dispatch(startingGraphqlRequest());
+
+    const { paging } = getState();
+    const updatedPaging = resolvePaging(paging[type], pageChange);
+
+    const response = await erzaGQL({
+      query,
+      variables: {
+        sorting: ['date', 'DESC'],
+        paging: { size: updatedPaging.size, page: updatedPaging.page },
+        ...filters
+      }
+    });
+
+    const data = getSingleObjectProperty(response);
+    if (!data) {
+      return null;
+    }
+
+    const { nodes, total, hasMore } = data;
+
+    dispatch(loadItemsToState[type](nodes, updatedPaging, pageChange));
+    dispatch(loadPageInfo({ total, hasMore }, type));
+
+    if (!pageChange) {
+      dispatch(resetPageToZero(type));
+    }
+
+    dispatch(finishGraphqlRequest());
+  };
+}
+
 // Mutate
 
 export function mutateHistoryItem(query, item, type) {
   return async function(dispatch) {
     dispatch(startingGraphqlRequest());
 
+    const { id, rating, note } = item;
     const response = await erzaGQL({
       query,
-      variables: { ...item }
+      variables: { payload: { id, rating, note } }
     });
 
     dispatch(finishGraphqlRequest());

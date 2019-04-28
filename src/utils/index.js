@@ -37,40 +37,7 @@ export { default as formatDateISO } from 'ayaka/formatDateISO';
 export {
   default as formatDateTimeForDisplay
 } from 'ayaka/formatDateTimeForDisplay';
-
-// export {
-//   capitalise,
-//   parseIfInt,
-//   castStringToBool,
-//   getEventValue,
-//   padNumber,
-//   getKeyByValue,
-//   getSingleObjectProperty,
-//   getTimeoutSeconds,
-//   getTimeoutMinutes,
-//   debounce,
-//   updateSameAsObject,
-//   isObject,
-//   isArray,
-//   isString,
-//   isNumber,
-//   convertToBase64,
-//   createListeners,
-//   objectsAreEqual,
-//   generateUniqueId,
-//   compose,
-//   curry,
-//   constructObjectFromSearchParams,
-//   getElementCoordinates,
-//   dateAsMs,
-//   endOfDay,
-//   startOfDay,
-//   getDayName,
-//   formatDateForDisplay,
-//   formatDateForInput,
-//   formatDateISO,
-//   formatDateTimeForDisplay
-// };
+export { darken } from 'ayaka/palette';
 
 const BAD_BLANK_MAL_DATE = '0000-00-00';
 const BAD_MAL_DATE_PART = '-00';

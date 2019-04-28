@@ -4,7 +4,8 @@ import {
   getHistoryNameForItemType
 } from '../data';
 
-import { formatDateForInput, dateStringToISOString } from 'utils';
+import { formatDateForInput } from 'utils';
+// dateStringToISOString
 
 const historyChangeHandler = ({ current, total }) => (item) => {
   const changes = {};
@@ -72,27 +73,24 @@ const validateChanges = (props) => (model, updateProperty) => {
   return Object.assign({}, model, processor(model, updateProperty));
 };
 
-const validateSubmission = (updateFunction) => (model) => {
-  const { start, end, series_start, series_end } = model;
-  return updateFunction(
-    Object.assign({}, model, {
-      tags: model.tags.map((tag) => tag.id),
-      start: dateStringToISOString(start),
-      end: dateStringToISOString(end),
-      series_start: dateStringToISOString(series_start),
-      series_end: dateStringToISOString(series_end)
-    })
-  );
-};
+// const validateSubmission = (updateFunction) => (model) => {
+//   const { start, end, series_start, series_end } = model;
+//   return updateFunction(
+//     Object.assign({}, model, {
+//       tags: model.tags.map((tag) => tag.id),
+//       start: dateStringToISOString(start),
+//       end: dateStringToISOString(end),
+//       series_start: dateStringToISOString(series_start),
+//       series_end: dateStringToISOString(series_end)
+//     })
+//   );
+// };
 
-const baseValidator = (type, updateFunction) => {
+export default function baseValidator(type) {
   const uniqueProperties = getUniquePropertiesForItemType(type);
   const history = getHistoryNameForItemType(type);
 
   return {
-    validateChanges: validateChanges({ uniqueProperties, history }),
-    validateSubmission: validateSubmission(updateFunction)
+    validateChanges: validateChanges({ uniqueProperties, history })
   };
-};
-
-export default baseValidator;
+}

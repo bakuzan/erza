@@ -49,13 +49,26 @@ const Query = gql`
       ratings: [Int]
       isAdult: Boolean
       paging: Paging
+      sorting: [String]
     ): ChapterPage
+    chaptersForManga(
+      seriesId: Int!
+      paging: Paging
+      sorting: [String]
+    ): ChapterPage
+
     episodes(
       fromDate: String
       toDate: String
       ratings: [Int]
       isAdult: Boolean
       paging: Paging
+      sorting: [String]
+    ): EpisodePage
+    episodesForAnime(
+      seriesId: Int!
+      paging: Paging
+      sorting: [String]
     ): EpisodePage
 
     tagById(id: Int!): Tag

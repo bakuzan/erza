@@ -1,15 +1,22 @@
 import {
   getAnimePaged,
   getAnimeById,
-  getAnimeByIdForEdit
+  getAnimeByIdForEdit,
+  getAnimeByIdForQuickAdd
 } from 'erzaGQL/query';
 import {
   animeCreate,
   animeUpdate,
+  animeRemove,
   animeUpdateWithHistory
 } from 'erzaGQL/mutation';
 
-import { loadItems, loadItemsById, mutateItem } from './utils/series';
+import {
+  loadItems,
+  loadItemsById,
+  mutateItem,
+  removeItem
+} from './utils/series';
 import { mutateSeriesWithHistory } from './utils/combined';
 
 import { UPDATE_ANIME } from 'constants/actions';
@@ -20,12 +27,15 @@ export const createAnime = (item) =>
 
 export const editAnime = (item) => mutateItem(animeUpdate, item, Strings.anime);
 
+export const deleteAnime = (id) =>
+  removeItem(animeRemove, { id }, Strings.anime);
+
 const updateAnimeInState = (item) => ({
   type: UPDATE_ANIME,
   item
 });
 
-export const addEpisodes = ({ editItem }) =>
+export const addEpisodes = (editItem) =>
   mutateSeriesWithHistory(animeUpdateWithHistory, editItem, {
     type: Strings.anime,
     updateInState: updateAnimeInState,
@@ -47,3 +57,6 @@ export const loadAnimeById = (id) =>
 
 export const loadAnimeByIdForEdit = (id) =>
   loadItemsById(getAnimeByIdForEdit, { id }, Strings.anime);
+
+export const loadAnimeByIdForQuickAdd = (id) =>
+  loadItemsById(getAnimeByIdForQuickAdd, { id }, Strings.anime);

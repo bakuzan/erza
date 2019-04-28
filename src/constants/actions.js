@@ -7,12 +7,14 @@ export const ANIME_REQUEST = 'ANIME_REQUEST';
 export const ANIME_LOAD = 'ANIME_LOAD';
 export const ANIME_SUCCESS = 'ANIME_SUCCESS';
 export const ANIME_FAILURE = 'ANIME_FAILURE';
+export const REMOVE_ANIME = 'REMOVE_ANIME';
 
 export const DAILY_ANIME_LOAD = 'DAILY_ANIME_LOAD';
 
 export const ADD_MANGA = 'ADD_MANGA';
 export const UPDATE_MANGA = 'UPDATE_MANGA';
 export const MANGA_LOAD = 'MANGA_LOAD';
+export const REMOVE_MANGA = 'REMOVE_MANGA';
 
 export const ADD_TAG = 'ADD_TAG';
 export const REMOVE_TAG = 'REMOVE_TAG';

@@ -73,3 +73,47 @@ export const getChapters = gql`
   }
   ${historyFields}
 `;
+
+export const getEpisodesForSeries = gql`
+  query EpisodesForSeries(
+    $seriesId: Int!
+    $paging: Paging
+    $sorting: [String]
+  ) {
+    episodesForAnime(seriesId: $seriesId, paging: $paging, sorting: $sorting) {
+      total
+      hasMore
+      nodes {
+        ...HistoryFields
+        episode
+        series: anime {
+          id
+          title
+        }
+      }
+    }
+  }
+  ${historyFields}
+`;
+
+export const getChaptersForSeries = gql`
+  query ChaptersForSeries(
+    $seriesId: Int!
+    $paging: Paging
+    $sorting: [String]
+  ) {
+    chaptersForManga(seriesId: $seriesId, paging: $paging, sorting: $sorting) {
+      total
+      hasMore
+      nodes {
+        ...HistoryFields
+        chapter
+        series: manga {
+          id
+          title
+        }
+      }
+    }
+  }
+  ${historyFields}
+`;

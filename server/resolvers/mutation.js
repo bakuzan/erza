@@ -23,6 +23,9 @@ module.exports = {
   async mangaRemove(_, args, context) {
     return await context.deleteEntity(Manga, args);
   },
+  // Combined Series/History update
+  async animeUpdateWithHistory(_, args) {},
+  async mangaUpdateWithHistory(_, args) {},
   // History
   async episodeUpdate(_, { payload }, context) {
     const { id, ...args } = payload;

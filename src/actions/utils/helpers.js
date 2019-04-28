@@ -4,8 +4,10 @@ import {
   GRAPHQL_SUCCESS,
   ANIME_LOAD,
   ADD_ANIME,
+  REMOVE_ANIME,
   MANGA_LOAD,
   ADD_MANGA,
+  REMOVE_MANGA,
   EPISODE_LOAD,
   CHAPTER_LOAD,
   EPISODE_REFRESH,
@@ -41,6 +43,8 @@ export const refreshItemInState = {
 
 const dehydrateState = (type) => (id) => ({ type, id });
 export const removeItemFromState = {
+  [Strings.anime]: dehydrateState(REMOVE_ANIME),
+  [Strings.manga]: dehydrateState(REMOVE_MANGA),
   [Strings.episode]: dehydrateState(EPISODE_REMOVE),
   [Strings.chapter]: dehydrateState(CHAPTER_REMOVE)
 };

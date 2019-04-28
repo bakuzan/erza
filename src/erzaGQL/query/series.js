@@ -109,6 +109,17 @@ export const getAnimeByIdForEdit = gql`
   ${animeFields}
 `;
 
+export const getAnimeByIdForQuickAdd = gql`
+  query AnimeOneQuickAdd($id: Int!) {
+    animeById(id: $id) {
+      id
+      rating
+      episode
+      series_episodes
+    }
+  }
+`;
+
 export const getMangaById = gql`
   query MangaOne($id: Int!) {
     mangaById(id: $id) {
@@ -131,6 +142,19 @@ export const getMangaByIdForEdit = gql`
   }
   ${seriesByIdEditFields}
   ${mangaFields}
+`;
+
+export const getMangaByIdForQuickAdd = gql`
+  query MangaOneQuickAdd($id: Int!) {
+    mangaById(id: $id) {
+      id
+      rating
+      chapter
+      volume
+      series_chapters
+      series_volumes
+    }
+  }
 `;
 
 // Paged

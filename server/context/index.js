@@ -6,6 +6,7 @@ const Paged = require('./paged');
 const { Status } = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
 
+const handleDeleteResponse = require('./utils/handleDeleteResponse');
 const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('./utils/setHasMoreFlag');
 const validateSortOrder = require('./utils/validateSortOrder');

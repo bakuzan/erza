@@ -80,6 +80,16 @@ module.exports = {
       { include: [Anime] }
     );
   },
+  async episodesForAnime(_, args, context) {
+    return await context.pagedHistory(
+      Episode,
+      args,
+      {
+        animeId: { [Op.eq]: args.seriesId }
+      },
+      { include: [Anime] }
+    );
+  },
   // Chapters
   async chapters(_, { isAdult, ...args }, context) {
     return await context.pagedHistory(
@@ -89,6 +99,16 @@ module.exports = {
         isAdult: db.where(db.col('manga.isAdult'), {
           [Op.eq]: isAdult
         })
+      },
+      { include: [Manga] }
+    );
+  },
+  async chaptersForManga(_, args, context) {
+    return await context.pagedHistory(
+      Chapter,
+      args,
+      {
+        mangaId: { [Op.eq]: args.seriesId }
       },
       { include: [Manga] }
     );

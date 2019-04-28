@@ -29,6 +29,14 @@ export const animeUpdate = gql`
   }
   ${seriesMutationResponse}
 `;
+export const animeRemove = gql`
+  mutation AnimeRemove($id: Int!) {
+    animeRemove(id: $id) {
+      success
+      errorMessages
+    }
+  }
+`;
 
 // Manga
 
@@ -47,4 +55,12 @@ export const mangaUpdate = gql`
     }
   }
   ${seriesMutationResponse}
+`;
+export const mangaRemove = gql`
+  mutation MangaRemove($id: Int!) {
+    mangaRemove(id: $id) {
+      success
+      errorMessages
+    }
+  }
 `;

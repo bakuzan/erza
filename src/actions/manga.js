@@ -1,15 +1,22 @@
 import {
   getMangaById,
   getMangaByIdForEdit,
+  getMangaByIdForQuickAdd,
   getMangaPaged
 } from 'erzaGQL/query';
 import {
   mangaCreate,
   mangaUpdate,
+  mangaRemove,
   mangaUpdateWithHistory
 } from 'erzaGQL/mutation';
 
-import { loadItems, loadItemsById, mutateItem } from './utils/series';
+import {
+  loadItems,
+  loadItemsById,
+  mutateItem,
+  removeItem
+} from './utils/series';
 import { mutateSeriesWithHistory } from './utils/combined';
 import { UPDATE_MANGA } from '../constants/actions';
 import { Strings } from '../constants/values';
@@ -19,12 +26,15 @@ export const createManga = (item) =>
 
 export const editManga = (item) => mutateItem(mangaUpdate, item, Strings.manga);
 
+export const deleteManga = (id) =>
+  removeItem(mangaRemove, { id }, Strings.manga);
+
 const updateMangaInState = (item) => ({
   type: UPDATE_MANGA,
   item
 });
 
-export const addChapters = ({ editItem }) =>
+export const addChapters = (editItem) =>
   mutateSeriesWithHistory(mangaUpdateWithHistory, editItem, {
     type: Strings.manga,
     updateInState: updateMangaInState,
@@ -47,3 +57,6 @@ export const loadMangaById = (id) =>
 
 export const loadMangaByIdForEdit = (id) =>
   loadItemsById(getMangaByIdForEdit, { id }, Strings.manga);
+
+export const loadMangaByIdForQuickAdd = (id) =>
+  loadItemsById(getMangaByIdForQuickAdd, { id }, Strings.manga);

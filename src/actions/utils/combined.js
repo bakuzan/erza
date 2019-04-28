@@ -18,7 +18,11 @@ export function mutateSeriesWithHistory(
     const seriesInState = entities[type].byId[editItem.id];
 
     const { ratings, notes } = editItem;
-    const history = ratings.map((rating, i) => ({ rating, note: notes[i] }));
+    const history = Object.keys(ratings).map((number) => ({
+      number: Number(number),
+      rating: ratings[number] || 0,
+      note: notes[number] || ''
+    }));
     const series = mapSeries(seriesInState, editItem);
 
     const updatedSeries = {
