@@ -2,6 +2,7 @@ import { toaster } from 'mko';
 
 import erzaGQL from 'erzaGQL';
 import { getSingleObjectProperty } from 'utils';
+import { showAlertError } from 'actions/alert';
 
 import { startingGraphqlRequest, finishGraphqlRequest } from './helpers';
 import redirectPostAction from './redirectPostAction';
@@ -9,7 +10,7 @@ import redirectPostAction from './redirectPostAction';
 export function mutateSeriesWithHistory(
   query,
   editItem,
-  { type, updateInState, mapSeries }
+  { type, updateInState, mapToInput }
 ) {
   return async function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
@@ -23,13 +24,14 @@ export function mutateSeriesWithHistory(
       rating: ratings[number] || 0,
       note: notes[number] || ''
     }));
-    const series = mapSeries(seriesInState, editItem);
 
+    const series = mapToInput(seriesInState, editItem);
     const updatedSeries = {
       ...seriesInState,
       ...series
     };
 
+    // Optimistic update
     dispatch(updateInState(updatedSeries));
 
     const response = await erzaGQL({
@@ -44,7 +46,14 @@ export function mutateSeriesWithHistory(
     const data = getSingleObjectProperty(response);
 
     if (!data || !data.success) {
-      // TODO handle error
+      // Rollback optimistic update
+      dispatch(updateInState(seriesInState));
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
       return null;
     }
 

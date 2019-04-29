@@ -37,8 +37,12 @@ const updateMangaInState = (item) => ({
 export const addChapters = (editItem) =>
   mutateSeriesWithHistory(mangaUpdateWithHistory, editItem, {
     type: Strings.manga,
-    updateInState: updateMangaInState,
-    mapSeries: (item, editItem) => ({
+    updateInState: ({ chapter, current, ...obj }) =>
+      updateMangaInState({
+        ...obj,
+        chapter: current || chapter
+      }),
+    mapToInput: (item, editItem) => ({
       id: item.id,
       current: editItem.chapter,
       volume: editItem.volume || item.volume,

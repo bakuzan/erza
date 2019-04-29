@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const animeUpdateWithHistory = gql`
-  query AnimeUpdateWithHistory(
+  mutation AnimeUpdateWithHistory(
     $series: SeriesInput!
     $history: [HistoryCreateInput]
   ) {
@@ -17,7 +17,7 @@ export const animeUpdateWithHistory = gql`
 `;
 
 export const mangaUpdateWithHistory = gql`
-  query MangaUpdateWithHistory(
+  mutation MangaUpdateWithHistory(
     $series: SeriesInput!
     $history: [HistoryCreateInput]
   ) {

@@ -5,8 +5,8 @@ $base-message-colour: $grey67;
 $loading-message-colour: $orange;
 $success-message-colour: $forest-green;
 
-#quick-add-form {
-  position: absolute;
+.quick-add-form {
+  position: fixed;
   top: $header-height;
   left: $sidebar-width-open;
   right: 0;
@@ -22,7 +22,7 @@ $success-message-colour: $forest-green;
   }
 }
 
-.sidebar-collapsed #quick-add-form {
+.sidebar-collapsed .quick-add-form {
   left: $sidebar-width-collapsed;
 }
 

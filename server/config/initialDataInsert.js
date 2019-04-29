@@ -74,7 +74,11 @@ function processProperties({ parentAttr, _id, parent, ...instance }) {
     let value = instance[k];
 
     // Handle type issues for dates/numbers
-    if (typeof value === 'object') {
+    if (['isRepeat', 'owned'].includes(k)) {
+      value = !!value;
+    } else if (k === 'timesCompleted' && !value) {
+      value = 0;
+    } else if (typeof value === 'object') {
       value = value ? value.$date : null;
     } else if (typeof value === 'number') {
       const num = Number(value);
@@ -86,8 +90,6 @@ function processProperties({ parentAttr, _id, parent, ...instance }) {
       }
     } else if (['series_start', 'series_end'].includes(k)) {
       value = null; // Fix empty string dates.
-    } else if (['isRepeat', 'owned'].includes(k)) {
-      value = !!value;
     }
 
     if (enums.has(k)) {

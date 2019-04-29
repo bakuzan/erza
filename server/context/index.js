@@ -13,6 +13,7 @@ const validateSortOrder = require('./utils/validateSortOrder');
 const resolveWhereIn = require('./utils/resolveWhereIn');
 const separateNewVsExistingTags = require('./utils/separateNewVsExistingTags');
 const validateSeries = require('./validators/validateSeries');
+const validateAndMapHistoryInput = require('./validators/validateAndMapHistoryInput');
 
 // Query
 
@@ -135,6 +136,66 @@ async function updateSeries(model, payload, mappers) {
   });
 }
 
+async function updateSeriesWithHistory(
+  { model, modelHistory },
+  { series, history },
+  { mapFromSeries, mapToSeries, mapHistory },
+  validateMappers
+) {
+  const { id: seriesId, ...updates } = series;
+  const values = mapToSeries(updates);
+
+  return await db.transaction().then(async function(transaction) {
+    const oldSeries = await model.findByPk(seriesId, { transaction });
+    const stales = mapFromSeries(oldSeries.get({ raw: true }));
+
+    if (stales.current > values.current) {
+      transaction.rollback();
+      return {
+        success: false,
+        errorMessages: [
+          `The current part is greater than the updated part. (Current: ${
+            stales.current
+          }, Updated: ${values.current})`
+        ],
+        data: null
+      };
+    }
+
+    const { id, ...processedSeries } = validateSeries(
+      mapToSeries({ ...stales, ...values }),
+      validateMappers
+    );
+
+    await model.update(processedSeries, {
+      where: { id },
+      transaction
+    });
+
+    const updated = await oldSeries.reload();
+    const validate = validateAndMapHistoryInput(history, updated, {
+      mapFromSeries,
+      mapHistory
+    });
+
+    if (!validate.success) {
+      transaction.rollback();
+      return {
+        success: false,
+        errorMessages: [...validate.errorMessages],
+        data: null
+      };
+    }
+
+    if (validate.historyInputs.length) {
+      await modelHistory.bulkCreate(historyInputs, { transaction });
+    }
+
+    transaction.commit();
+    return { success: true, errorMessages: [], data: updated };
+  });
+}
+
 async function updateEntity(model, args, id) {
   const updated = await model.update(args, { where: { id } });
   const data = await model.findByPk(id);
@@ -154,6 +215,7 @@ module.exports = {
   findAllRepeated,
   createSeries,
   updateSeries,
+  updateSeriesWithHistory,
   updateEntity,
   deleteEntity
 };

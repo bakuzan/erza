@@ -38,8 +38,12 @@ const updateAnimeInState = (item) => ({
 export const addEpisodes = (editItem) =>
   mutateSeriesWithHistory(animeUpdateWithHistory, editItem, {
     type: Strings.anime,
-    updateInState: updateAnimeInState,
-    mapSeries: (item, editItem) => ({
+    updateInState: ({ episode, current, ...obj }) =>
+      updateAnimeInState({
+        ...obj,
+        episode: current || episode
+      }),
+    mapToInput: (item, editItem) => ({
       id: item.id,
       current: editItem.episode,
       rating: editItem.overallRating || item.rating

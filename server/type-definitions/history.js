@@ -41,6 +41,7 @@ module.exports = gql`
   }
 
   input HistoryCreateInput {
+    number: Int!
     note: String
     rating: Int
   }

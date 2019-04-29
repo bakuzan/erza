@@ -1,6 +1,10 @@
 const { Anime, Manga, Episode, Chapter, Tag } = require('../connectors');
 
 const { mapAnime, mapManga } = require('./utils/mapSeries');
+const {
+  mapAnimeAndEpisode,
+  mapMangaAndChapter
+} = require('./utils/mapSeriesHistoryInputs');
 
 module.exports = {
   // Anime
@@ -24,8 +28,28 @@ module.exports = {
     return await context.deleteEntity(Manga, args);
   },
   // Combined Series/History update
-  async animeUpdateWithHistory(_, args) {},
-  async mangaUpdateWithHistory(_, args) {},
+  async animeUpdateWithHistory(_, args, context) {
+    return await context.updateSeriesWithHistory(
+      {
+        model: Anime,
+        modelHistory: Episode
+      },
+      args,
+      mapAnimeAndEpisode,
+      mapAnime
+    );
+  },
+  async mangaUpdateWithHistory(_, args, context) {
+    return await context.updateSeriesWithHistory(
+      {
+        model: Manga,
+        modelHistory: Chapter
+      },
+      args,
+      mapMangaAndChapter,
+      mapManga
+    );
+  },
   // History
   async episodeUpdate(_, { payload }, context) {
     const { id, ...args } = payload;
