@@ -1,4 +1,4 @@
-const getSeasonStartMonth = require('../../utils/getSeasonStartMonth');
+const { getSeasonStartMonth } = require('../../utils/getSeasonStartMonth');
 
 const aggregateIsSeasonStart = (o) =>
   ['01', '04', '07', '10'].some((y) => y === o.key.split('-')[1]);
@@ -16,9 +16,8 @@ module.exports = function coalesceSeasonCounts(data) {
 
   return invalidSeasonStarts.reduce((p, monthKey) => {
     const dateString = new Date(monthKey).toISOString();
-    const year = dateString.substring(0, 4);
-
-    const seasonText = `${year}-${getSeasonStartMonth(dateString)}`;
+    const { year, season: seasonMonth } = getSeasonStartMonth(dateString);
+    const seasonText = `${year}-${seasonMonth}`;
     const index = p.findIndex((x) => x.key === seasonText);
 
     if (index === -1) {

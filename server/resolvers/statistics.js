@@ -15,7 +15,11 @@ module.exports = {
   async statsHistoryCounts(_, { breakdown, ...args }, context) {
     const opts = context.Stats.getBreakdownSettings(breakdown);
 
-    return await context.Stats.counts(args, fmtYYYYMM(opts.grouping), opts);
+    return await context.Stats.counts(
+      args,
+      context.Stats.fmtYYYYMM(opts.grouping),
+      opts
+    );
   },
   async statsHistoryDetail(_, { partition, ...args }, context) {
     const targetValues = context.Stats.getListPartitions(
@@ -38,8 +42,11 @@ module.exports = {
       }
     });
   },
-  async currentSeason(_, __, context) {
-    const today = new Date();
+  async currentSeason(_, { sorting }, context) {
+    const [attr, direction] = context.Stats.validateSortOrder(
+      ['average', 'DESC'],
+      sorting
+    );
 
     const series = await Anime.findAll({
       where: {
@@ -52,6 +59,11 @@ module.exports = {
      *  Query episodes and aggregate to get rating -> avg, max, min, and mode
      */
 
-    return series;
+    return series.sort((a, b) => {
+      const aV = a[attr];
+      const bV = b[attr];
+      const offset = direction.toUpperCase() === 'ASC' ? 1 : -1;
+      return (aV > bV ? 1 : aV < bV ? -1 : 0) * offset;
+    });
   }
 };

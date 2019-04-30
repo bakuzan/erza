@@ -94,7 +94,7 @@ const Query = gql`
       breakdown: StatBreakdown
       partition: HistoryPartition
     ): [StatSeriesRow]
-    currentSeason: [StatSeriesRow]
+    currentSeason(sorting: [String]): [StatSeriesRow]
   }
 `;
 

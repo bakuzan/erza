@@ -1,11 +1,12 @@
 const { db, Anime, Manga } = require('../connectors');
 
-const { StatType, Status, StatBreakdown } = require('../constants/enums');
+const { StatType } = require('../constants/enums');
 
 const { fmtYYYYMM, fmtYYYY } = require('./utils/formatDateColumn');
 const getBreakdownSettings = require('./utils/getBreakdownSettings');
 const getListPartitions = require('./utils/getListPartitions');
 const getSeasonalWhereClause = require('./utils/getSeasonalWhereClause');
+const validateSortOrder = require('./validators/validateSortOrder');
 
 function resolveModel(t) {
   return t === StatType.Anime ? Anime : Manga;
@@ -17,6 +18,7 @@ module.exports = {
   getBreakdownSettings,
   getListPartitions,
   getSeasonalWhereClause,
+  validateSortOrder,
   async counts({ type, isAdult }, column, opts = {}) {
     const model = resolveModel(type);
     const where = opts.where || {};
@@ -45,7 +47,8 @@ module.exports = {
           groupOpts.comparator
         ),
         ...opts.where
-      }
+      },
+      order: [['title', 'ASC']]
     });
 
     console.log('HISTORY', series.length);

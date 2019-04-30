@@ -1,11 +1,12 @@
-const Common = require('./index');
+const { getDateParts } = require('./index');
+const { getSeasonText } = require('./getSeasonStartMonth');
 const { SeasonTypes } = require('../constants/enums');
 
 module.exports = function inSeasonCalc(item) {
   const { _legacyIsSeason, start, end, series_start, series_type } = item;
-  const from = Common.getDateParts(start);
-  const to = Common.getDateParts(end);
-  const seriesStart = Common.getDateParts(series_start);
+  const from = getDateParts(start);
+  const to = getDateParts(end);
+  const seriesStart = getDateParts(series_start);
   const dateParts = seriesStart.month ? seriesStart : from;
 
   // check type
@@ -20,7 +21,6 @@ module.exports = function inSeasonCalc(item) {
 
   return {
     inSeason: _legacyIsSeason || (matches && noSingleEp && isValidType),
-    year: from.year,
-    season: Common.getSeasonText(dateParts)
+    ...getSeasonText(dateParts)
   };
 };

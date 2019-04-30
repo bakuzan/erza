@@ -25,33 +25,6 @@ const getFormattedDateString = (d) => {
   return `${year}-${padNumber(month + 1, 2)}-${padNumber(date, 2)}`;
 };
 
-const getSeasonIndex = (seasonArr) => (dateParts) => {
-  if (!dateParts) {
-    return null;
-  }
-
-  const { month } = dateParts;
-  if (!month && isNaN(month)) {
-    return null;
-  }
-
-  const isLateInMonth = dateParts.date > 14;
-  const modulus = dateParts.month % 3;
-  const monthAdjusted =
-    modulus === 2 || (modulus === 1 && isLateInMonth) ? month + 1 : month;
-  return monthAdjusted < 3
-    ? seasonArr[0]
-    : monthAdjusted < 6
-    ? seasonArr[1]
-    : monthAdjusted < 9
-    ? seasonArr[2]
-    : monthAdjusted < 12
-    ? seasonArr[3]
-    : seasonArr[0];
-};
-
-const getSeasonText = getSeasonIndex(Object.values(Constants.seasons));
-
 const handleErrorResponse = (err, res) => {
   console.error(chalk.bgRed.white.bold(err));
   const error = { success: false, error: err };
@@ -89,8 +62,6 @@ const Common = {
   getPreviousMonth,
   getDateParts,
   getFormattedDateString,
-  getSeasonIndex,
-  getSeasonText,
   capitalise,
   getKeyByValue,
   stringToBool,
