@@ -38,8 +38,11 @@ export const itemModelForType = (t) => (obj) =>
 
 const intergrateMalEntryOptionalFields = (t, { volumes }) =>
   t === Strings.manga ? { series_volumes: volumes || null } : {};
+
 export const intergrateMalEntry = (type) => (model, malItem) => {
-  if (!malItem) return Object.assign({}, model, { malId: null });
+  if (!malItem) {
+    return Object.assign({}, model, { malId: null });
+  }
 
   const optionalFields = intergrateMalEntryOptionalFields(type, malItem);
   const { current, total } = getUniquePropertiesForItemType(type);
@@ -61,7 +64,10 @@ export const intergrateMalEntry = (type) => (model, malItem) => {
 };
 
 export const shouldIntergrateMalEntry = (type) => (model, malItem) => {
-  if (!model || !malItem) return false;
+  if (!model || !malItem) {
+    return false;
+  }
+
   const {
     image,
     malId,
@@ -72,6 +78,7 @@ export const shouldIntergrateMalEntry = (type) => (model, malItem) => {
     series_chapters,
     series_volumes
   } = model;
+
   return !(
     (image === malItem.image || image.includes(Strings.imgur)) &&
     malId === malItem.id &&

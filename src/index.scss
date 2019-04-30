@@ -24,7 +24,7 @@
   flex-direction: column;
   width: 22%;
   max-width: 22%;
-  min-width: 200px;
+  min-width: 225px;
   padding: 20px 5px;
 
   &--wider {
@@ -37,11 +37,6 @@
     max-width: 100%;
   }
 
-  > div {
-    display: flex;
-    flex-flow: column;
-    width: 100%;
-  }
   .input-container {
     flex-grow: 0;
   }

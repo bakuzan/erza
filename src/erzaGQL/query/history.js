@@ -20,6 +20,7 @@ export const getEpisodes = gql`
     $to: String
     $isAdult: Boolean
     $paging: Paging
+    $sorting: [String]
     $ratings: [Int]
   ) {
     episodes(
@@ -27,6 +28,7 @@ export const getEpisodes = gql`
       toDate: $to
       isAdult: $isAdult
       paging: $paging
+      sorting: $sorting
       ratings: $ratings
     ) {
       total
@@ -50,6 +52,7 @@ export const getChapters = gql`
     $to: String
     $isAdult: Boolean
     $paging: Paging
+    $sorting: [String]
     $ratings: [Int]
   ) {
     chapters(
@@ -57,6 +60,7 @@ export const getChapters = gql`
       toDate: $to
       isAdult: $isAdult
       paging: $paging
+      sorting: $sorting
       ratings: $ratings
     ) {
       total

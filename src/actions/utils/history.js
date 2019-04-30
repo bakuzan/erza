@@ -2,6 +2,7 @@ import { toaster } from 'mko';
 import erzaGQL from 'erzaGQL';
 
 import { resetPageToZero, loadPageInfo } from 'actions/paging';
+import { showAlertError } from 'actions/alert';
 import { getSingleObjectProperty } from 'utils';
 
 import {
@@ -22,19 +23,20 @@ export function loadHistoryByDateRange(query, filters, { type, pageChange }) {
     const { paging, isAdult } = getState();
     const updatedPaging = resolvePaging(paging[type], pageChange);
 
+    const { sortKey, sortOrder, ...otherFilters } = filters;
     const response = await erzaGQL({
       query,
       variables: {
         isAdult,
-        sorting: ['date', 'DESC'],
+        sorting: [sortKey, sortOrder],
         paging: { size: updatedPaging.size, page: updatedPaging.page },
-        ...filters
+        ...otherFilters
       }
     });
 
     const data = getSingleObjectProperty(response);
     if (!data) {
-      return null;
+      return;
     }
 
     const { nodes, total, hasMore } = data;
@@ -68,7 +70,7 @@ export function loadHistoryBySeries(query, filters, { type, pageChange }) {
 
     const data = getSingleObjectProperty(response);
     if (!data) {
-      return null;
+      return;
     }
 
     const { nodes, total, hasMore } = data;
@@ -99,10 +101,18 @@ export function mutateHistoryItem(query, item, type) {
     dispatch(finishGraphqlRequest());
 
     const data = getSingleObjectProperty(response);
+    if (!data) {
+      return;
+    }
 
-    if (!data || !data.success) {
-      // TODO display alert with data.errorMessages
-      return null;
+    if (!data.success) {
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
+      return;
     }
 
     if (type) {
@@ -128,8 +138,13 @@ export function removeHistoryItem(query, variables, type) {
     dispatch(finishGraphqlRequest());
 
     if (!data || !data.success) {
-      // TODO display alert with data.errorMessages
-      return null;
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
+      return;
     }
 
     toaster.success('Deleted!', `Successfully deleted ${type}.`);

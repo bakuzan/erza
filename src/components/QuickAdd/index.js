@@ -131,32 +131,39 @@ class QuickAdd extends React.Component {
   }
 
   render() {
+    const { editItem, malUpdates } = this.state;
     const { type, originalItem, onClose } = this.props;
+
+    const {
+      status: malStatus,
+      message: malMessage,
+      values: malValues
+    } = malUpdates;
     const { current } = this.itemProperties;
+    const editItemCurrent = editItem[current];
 
     const isManga = type === Strings.manga;
     const limitByTotalVolume = !isManga
       ? 0
-      : this.state.editItem.maxVol
-      ? this.state.editItem.maxVol
-      : this.state.malUpdates.values &&
-        !!this.state.malUpdates.values.series_volumes
-      ? this.state.malUpdates.values.series_volumes
+      : editItem.maxVol
+      ? editItem.maxVol
+      : malValues && !!malValues.series_volumes
+      ? malValues.series_volumes
       : null;
 
-    const limitByTotal = this.state.editItem.max
-      ? this.state.editItem.max
-      : this.state.malUpdates.values &&
-        !!this.state.malUpdates.values[`${current}s`]
-      ? this.state.malUpdates.values[`${current}s`]
+    const limitByTotal = editItem.max
+      ? editItem.max
+      : malValues && !!malValues[`${current}s`]
+      ? malValues[`${current}s`]
       : null;
 
     const showSeriesOverallRating =
-      this.state.editItem[current] > 0 &&
-      (!!this.state.malUpdates.values
-        ? this.state.editItem[current] ===
-          this.state.malUpdates.values[`${current}s`]
-        : this.state.editItem[current] === this.state.editItem.max);
+      editItemCurrent > 0 &&
+      (!!malValues
+        ? editItemCurrent === malValues[`${current}s`]
+        : editItemCurrent === editItem.max);
+
+    const quickAddEntries = Array(editItemCurrent - editItem.min).fill(null);
 
     const submitOptions = {
       text: Strings.edit,
@@ -179,12 +186,10 @@ class QuickAdd extends React.Component {
             cancelOptions={cancelOptions}
           >
             <div className="paged-list-edit">
-              <span
-                className={`mal-update-message ${this.state.malUpdates.status}`}
-              >
-                {this.state.malUpdates.message}
+              <span className={`mal-update-message ${malStatus}`}>
+                {malMessage}
               </span>
-              {!!this.state.editItem.id && (
+              {!!editItem.id && (
                 <div>
                   <div className="updated-item-values-container">
                     <ClearableInput
@@ -192,8 +197,8 @@ class QuickAdd extends React.Component {
                       name={current}
                       id={`${current}`}
                       label={current}
-                      value={this.state.editItem[current]}
-                      min={this.state.editItem.min}
+                      value={editItemCurrent}
+                      min={editItem.min}
                       max={limitByTotal}
                       onChange={this.handleUserInput}
                     />
@@ -203,8 +208,8 @@ class QuickAdd extends React.Component {
                         id="volume"
                         name="volume"
                         label="volume"
-                        value={this.state.editItem.volume}
-                        min={this.state.editItem.minVol}
+                        value={editItem.volume}
+                        min={editItem.minVol}
                         max={limitByTotalVolume}
                         onChange={this.handleUserInput}
                       />
@@ -215,47 +220,36 @@ class QuickAdd extends React.Component {
                       id="overallRating"
                       name="overallRating"
                       label="Rating"
-                      value={this.state.editItem.overallRating || 0}
+                      value={editItem.overallRating || 0}
                       onChange={this.handleUserInput}
                     />
                   )}
                   <List columns={1}>
-                    {!!this.state.editItem[current] &&
-                      Array(
-                        this.state.editItem[current] - this.state.editItem.min
-                      )
-                        .fill(null)
-                        .map((item, index) => {
-                          const historyNumber =
-                            this.state.editItem.min + 1 + index;
-                          const ratingId = `ratings.${historyNumber}`;
-                          const noteId = `notes.${historyNumber}`;
+                    {quickAddEntries.map((item, index) => {
+                      const historyNumber = editItem.min + 1 + index;
+                      const ratingId = `ratings.${historyNumber}`;
+                      const noteId = `notes.${historyNumber}`;
 
-                          return (
-                            <li key={index} className="flex flex--row">
-                              <RatingControl
-                                id={ratingId}
-                                name={ratingId}
-                                label={`rating for ${current} ${historyNumber}`}
-                                value={
-                                  this.state.editItem.ratings[historyNumber] ||
-                                  0
-                                }
-                                onChange={this.handleUserInput}
-                              />
-                              <ClearableInput
-                                id={noteId}
-                                name={noteId}
-                                label={`note for ${historyNumber}`}
-                                value={
-                                  this.state.editItem.notes[historyNumber] || ''
-                                }
-                                maxLength={140}
-                                onChange={this.handleUserInput}
-                              />
-                            </li>
-                          );
-                        })}
+                      return (
+                        <li key={index} className="flex flex--row">
+                          <RatingControl
+                            id={ratingId}
+                            name={ratingId}
+                            label={`rating for ${current} ${historyNumber}`}
+                            value={editItem.ratings[historyNumber] || 0}
+                            onChange={this.handleUserInput}
+                          />
+                          <ClearableInput
+                            id={noteId}
+                            name={noteId}
+                            label={`note for ${historyNumber}`}
+                            value={editItem.notes[historyNumber] || ''}
+                            maxLength={140}
+                            onChange={this.handleUserInput}
+                          />
+                        </li>
+                      );
+                    })}
                   </List>
                 </div>
               )}

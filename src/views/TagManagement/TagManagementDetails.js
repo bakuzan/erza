@@ -66,7 +66,7 @@ class TagManagementDetails extends React.Component {
 
   render() {
     const { item } = this.state;
-    console.log(this.props);
+
     if (!item) {
       return <LoadingSpinner size="fullscreen" />;
     }

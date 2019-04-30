@@ -6,8 +6,8 @@ const dateRange = require('../utils/dateRange');
 
 const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('./utils/setHasMoreFlag');
-const validateSortOrder = require('./utils/validateSortOrder');
 const resolveWhereIn = require('./utils/resolveWhereIn');
+const validateSortOrder = require('./validators/validateSortOrder');
 
 // Query
 
@@ -75,7 +75,7 @@ async function pagedHistory(
 
   const ratingWhere = resolveWhereIn(ratings, 'rating');
   const sortOrder = validateSortOrder(['date', 'DESC'], sorting);
-
+  console.log(sorting, sortOrder);
   return await model
     .findAndCountAll({
       where: {

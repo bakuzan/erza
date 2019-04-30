@@ -5,7 +5,9 @@ import classNames from 'classnames';
 import { AutocompleteInput, LoadingSpinner } from 'mko';
 import MalSearchSuggestionItem from './MalSearchSuggestionItem';
 
-import erzaGQL from 'graphql/fetch';
+import erzaGQL from 'erzaGQL';
+import { checkAnimeExists, checkMangaExists } from 'erzaGQL/query';
+import Strings from 'constants/strings';
 import { getEventValue, getTimeoutSeconds, debounce, capitalise } from 'utils';
 
 import './MalSearch.scss';
@@ -16,10 +18,13 @@ const getFilters = (props) => ({
   malId: props.id
 });
 
-const checkIfItemExistsAlready = (query) => (props) => {
+async function checkIfItemExistsAlready(props) {
   const filters = getFilters(props);
-  return erzaGQL({ query, variables: { ...filters } });
-};
+  const query =
+    props.type === Strings.anime ? checkAnimeExists : checkMangaExists;
+
+  return await erzaGQL({ query, variables: { ...filters } });
+}
 
 const Errors = {
   failed: () => 'Mal Search failed to get a response.',
@@ -49,10 +54,6 @@ class MalSearch extends React.Component {
     };
 
     this.timer = null;
-    this.checkIfExists = !!props.asyncCheckIfExists
-      ? checkIfItemExistsAlready(props.asyncCheckIfExists)
-      : () => Promise.resolve({});
-
     this.handleMalSearch = this.handleMalSearch.bind(this);
     this.selectAutocompleteSuggestion = this.selectAutocompleteSuggestion.bind(
       this
@@ -99,9 +100,9 @@ class MalSearch extends React.Component {
       return;
     }
 
-    const response = await this.checkIfExists(this.props);
-    const alreadyExists = !!(response.data && response.data.alreadyExists);
-
+    const response = await checkIfItemExistsAlready(this.props);
+    console.log('query, ', response);
+    const alreadyExists = response.animeExists || response.mangaExists;
     const error = alreadyExists ? Errors.exists : null;
     const warning = Warnings.malIsDisabled;
 
@@ -181,7 +182,7 @@ class MalSearch extends React.Component {
 
 MalSearch.propTypes = {
   id: PropTypes.number,
-  itemId: PropTypes.string,
+  itemId: PropTypes.number,
   type: PropTypes.string.isRequired,
   search: PropTypes.string,
   onUserInput: PropTypes.func.isRequired,

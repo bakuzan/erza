@@ -2,6 +2,7 @@ import { toaster } from 'mko';
 
 import erzaGQL from 'erzaGQL';
 import { resetPageToZero, loadPageInfo } from 'actions/paging';
+import { showAlertError } from 'actions/alert';
 import { getSingleObjectProperty } from 'utils';
 
 import {
@@ -35,7 +36,7 @@ export const loadItems = (query, filters, { type, pageChange }) => {
 
     const data = getSingleObjectProperty(response);
     if (!data) {
-      return null;
+      return;
     }
 
     const { nodes, total, hasMore } = data;
@@ -68,7 +69,7 @@ export const loadItemsById = (query, variables, type) => {
 
 // Mutate
 
-export function mutateItem(query, item, type) {
+export function mutateItem(query, payload, type) {
   return async function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
@@ -76,14 +77,23 @@ export function mutateItem(query, item, type) {
 
     const response = await erzaGQL({
       query,
-      variables: { ...item }
+      variables: { payload }
     });
 
     dispatch(finishGraphqlRequest());
 
     const data = getSingleObjectProperty(response);
-    if (!data || !data.success) {
-      // TODO error handling with alert
+    if (!data) {
+      return;
+    }
+
+    if (!data.success) {
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
       return null;
     }
 
@@ -111,9 +121,17 @@ export function removeItem(query, variables, type) {
 
     dispatch(removeItemFromState[type](variables.id));
     dispatch(finishGraphqlRequest());
+    if (!data) {
+      return;
+    }
 
-    if (!data || !data.success) {
-      // TODO display alert with data.errorMessages
+    if (!data.success) {
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
       return null;
     }
 

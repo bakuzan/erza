@@ -12,7 +12,6 @@ const seriesFields = gql`
     image
     link
     malId
-    updatedAt
   }
 `;
 
@@ -41,7 +40,6 @@ const seriesByIdEditFields = gql`
     series_type
     series_start
     series_end
-    timesCompleted
     tags {
       id
       name
@@ -116,6 +114,7 @@ export const getAnimeByIdForQuickAdd = gql`
       rating
       episode
       series_episodes
+      updatedAt
     }
   }
 `;
@@ -153,6 +152,7 @@ export const getMangaByIdForQuickAdd = gql`
       volume
       series_chapters
       series_volumes
+      updatedAt
     }
   }
 `;
@@ -181,6 +181,7 @@ export const getAnimePaged = gql`
       nodes {
         ...SeriesFields
         ...AnimeFields
+        updatedAt
       }
     }
   }
@@ -210,6 +211,7 @@ export const getMangaPaged = gql`
       nodes {
         ...SeriesFields
         ...MangaFields
+        updatedAt
       }
     }
   }

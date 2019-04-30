@@ -3,7 +3,7 @@ module.exports = function validateAndMapHistoryInput(
   updatedSeries,
   { mapFromSeries, mapHistory }
 ) {
-  const series = mapFromSeries(updatedSeries.get({ raw: true }));
+  const series = mapFromSeries(updatedSeries);
 
   if (!history || !history.length) {
     return {

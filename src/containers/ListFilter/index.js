@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ClearableInput, Tickbox, RadioButton, SelectBox } from 'mko';
+import { ClearableInput, Tickbox, SelectBox } from 'mko';
 import FilterLink from '../FilterLink';
+import SortOrderToggle from 'components/SortOrderToggle';
 import { toggleSortOrder, setSortKey } from 'actions/sorting';
 import { toggleIsOwnedOnly } from 'actions/filters';
-import { Strings, Enums } from 'constants/values';
+import Enums from 'constants/enums';
 import { Paths } from 'constants/paths';
 
 import './ListFilter.scss';
@@ -67,24 +68,8 @@ const ListFilter = ({
         options={SORT_OPTIONS}
       />
 
-      <div className="radio-group" role="radiogroup">
-        <RadioButton
-          id="sort-order-asc"
-          name="sortOrder"
-          label={Strings.ascending}
-          value={Strings.ascending}
-          checked={sortOrder === Strings.ascending}
-          onChange={(e) => onSortOrderToggle(e)}
-        />
-        <RadioButton
-          id="sort-order-desc"
-          name="sortOrder"
-          label={Strings.descending}
-          value={Strings.descending}
-          checked={sortOrder === Strings.descending}
-          onChange={(e) => onSortOrderToggle(e)}
-        />
-      </div>
+      <SortOrderToggle value={sortOrder} onChange={onSortOrderToggle} />
+
       <div className="list-filter-custom-content">{children}</div>
     </div>
   );

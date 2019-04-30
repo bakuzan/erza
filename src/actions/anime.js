@@ -43,9 +43,9 @@ export const addEpisodes = (editItem) =>
         ...obj,
         episode: current || episode
       }),
-    mapToInput: (item, editItem) => ({
+    mapToInput: (item, editItem = {}) => ({
       id: item.id,
-      current: editItem.episode,
+      current: editItem.episode || item.episode,
       rating: editItem.overallRating || item.rating
     })
   });

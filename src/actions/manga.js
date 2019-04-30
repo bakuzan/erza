@@ -42,9 +42,9 @@ export const addChapters = (editItem) =>
         ...obj,
         chapter: current || chapter
       }),
-    mapToInput: (item, editItem) => ({
+    mapToInput: (item, editItem = {}) => ({
       id: item.id,
-      current: editItem.chapter,
+      current: editItem.chapter || item.chapter,
       volume: editItem.volume || item.volume,
       rating: editItem.overallRating || item.rating
     })

@@ -4,6 +4,7 @@ import erzaGQL from 'erzaGQL';
 import { getTagById, getTags, getTagsMinimal } from 'erzaGQL/query';
 import { tagUpdate, tagRemove } from 'erzaGQL/mutation';
 
+import { showAlertError } from 'actions/alert';
 import { startingGraphqlRequest, finishGraphqlRequest } from './utils/helpers';
 import { ADD_TAG, REMOVE_TAG, TAGS_LOAD } from 'constants/actions';
 import { getSingleObjectProperty } from 'utils';
@@ -79,7 +80,17 @@ export function updateTag(payload) {
 
     const data = getSingleObjectProperty(response);
 
-    if (!data || !data.success) {
+    if (!data) {
+      return;
+    }
+
+    if (!data.success) {
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
       return null;
     }
 
@@ -100,8 +111,17 @@ export function deleteTag(id) {
     dispatch(removeTag(id));
     dispatch(finishGraphqlRequest());
 
-    if (!data || !data.success) {
-      // TODO handle error alert
+    if (!data) {
+      return;
+    }
+
+    if (!data.success) {
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
       return null;
     }
 

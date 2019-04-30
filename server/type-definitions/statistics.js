@@ -1,7 +1,5 @@
 const gql = require('graphql-tag');
 
-// TODO flesh out types
-
 module.exports = gql`
   type StatCount {
     key: String

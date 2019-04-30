@@ -19,16 +19,24 @@ export function mutateSeriesWithHistory(
     const seriesInState = entities[type].byId[editItem.id];
 
     const { ratings, notes } = editItem;
-    const history = Object.keys(ratings).map((number) => ({
-      number: Number(number),
-      rating: ratings[number] || 0,
-      note: notes[number] || ''
-    }));
 
-    const series = mapToInput(seriesInState, editItem);
+    const updated = mapToInput(seriesInState, editItem);
+    const original = mapToInput(seriesInState);
+
+    const history = Array(updated.current - original.current)
+      .fill(null)
+      .map((n, i) => {
+        const number = original.current + 1 + i;
+        return {
+          number,
+          rating: ratings[number] || 0,
+          note: notes[number] || ''
+        };
+      });
+
     const updatedSeries = {
       ...seriesInState,
-      ...series
+      ...updated
     };
 
     // Optimistic update
@@ -37,7 +45,7 @@ export function mutateSeriesWithHistory(
     const response = await erzaGQL({
       query,
       variables: {
-        series,
+        series: updated,
         history
       }
     });
@@ -48,13 +56,16 @@ export function mutateSeriesWithHistory(
     if (!data || !data.success) {
       // Rollback optimistic update
       dispatch(updateInState(seriesInState));
-      dispatch(
-        showAlertError({
-          message: data && data.errorMessages[0]
-        })
-      );
 
-      return null;
+      if (data && !data.success) {
+        dispatch(
+          showAlertError({
+            message: data && data.errorMessages[0]
+          })
+        );
+      }
+
+      return;
     }
 
     toaster.success(

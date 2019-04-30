@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
-import { DateSelector, MultiSelect } from 'mko';
+import { DateSelector, MultiSelect, SelectBox } from 'mko';
+import SortOrderToggle from 'components/SortOrderToggle';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 
@@ -22,7 +23,13 @@ const PagedHistoryList = lazyLoader(() =>
 );
 
 const KEEP_PAGE_ON_MOUNT = false;
-const ratingOptions = Array(10)
+
+const SORT_OPTIONS = [
+  { text: 'Date', value: 'date' },
+  { text: 'Rating', value: 'rating' }
+];
+
+const RATING_OPTIONS = Array(10)
   .fill(null)
   .map((_, i) => ({ value: i + 1, text: `${i + 1}` }));
 
@@ -40,11 +47,14 @@ class BaseHistoryView extends Component {
     const dr = dateRangeForQuery();
     this.state = {
       displayList: false,
+      sortKey: 'date',
+      sortOrder: 'DESC',
       from: formatDateForInput(dr.from),
       to: formatDateForInput(dr.to),
       ratings: []
     };
 
+    this.handleDateInput = this.handleDateInput.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleRatingList = this.handleRatingList.bind(this);
   }
@@ -75,12 +85,17 @@ class BaseHistoryView extends Component {
     debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
   }
 
-  handleUserInput(date, name, hasError) {
+  handleDateInput(date, name, hasError) {
     if (hasError) {
       return;
     }
 
     this.setState({ [name]: date }, this.fetchData);
+  }
+
+  handleUserInput(event) {
+    const { value, name } = event.target;
+    this.setState({ [name]: value }, this.fetchData);
   }
 
   handleRatingList(ratings) {
@@ -105,7 +120,7 @@ class BaseHistoryView extends Component {
               label="from"
               required
               value={this.state.from}
-              onChange={this.handleUserInput}
+              onChange={this.handleDateInput}
             />
             <DateSelector
               id="to"
@@ -114,17 +129,29 @@ class BaseHistoryView extends Component {
               required
               value={this.state.to}
               afterDate={this.state.from}
-              onChange={this.handleUserInput}
+              onChange={this.handleDateInput}
             />
           </div>
           <MultiSelect
             id="ratings"
             name="ratings"
             label="Ratings"
-            placeholder="Select ratings"
-            values={this.state.ratings}
-            options={ratingOptions}
+            placeholder="Filter on rating"
+            values={filters.ratings}
+            options={RATING_OPTIONS}
             onUpdate={this.handleRatingList}
+          />
+          <SelectBox
+            id="sortKey"
+            name="sortKey"
+            text="sort on"
+            value={filters.sortKey}
+            onChange={this.handleUserInput}
+            options={SORT_OPTIONS}
+          />
+          <SortOrderToggle
+            value={filters.sortOrder}
+            onChange={this.handleUserInput}
           />
         </div>
         <LoadableContent>

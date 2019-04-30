@@ -1,60 +1,38 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
+import { bindActionCreators } from 'redux';
 
-import { SimpleLoading } from 'mko';
+import { lazyLoader } from 'components/LazyLoaders';
 import {
   loadAnimeByIdForEdit,
   createAnime,
   editAnime
 } from '../../actions/anime';
-import { checkAnimeExists } from 'erzaGQL/query';
+
 import { Strings } from '../../constants/values';
 
-const BaseCreate = Loadable({
-  loader: () => import(/* webpackChunkName: 'ItemCreation' */ '../BaseCreate'),
-  loading: SimpleLoading,
-  delay: 300
-});
-
-const AnimeCreate = ({
-  itemId,
-  loadById,
-  create,
-  edit,
-  checkSeriesExists,
-  ...props
-}) => (
-  <BaseCreate
-    type={Strings.anime}
-    itemId={itemId}
-    location={props.location}
-    actions={{
-      loadById,
-      create,
-      edit,
-      checkSeriesExists
-    }}
-  />
+const BaseCreate = lazyLoader(() =>
+  import(/* webpackChunkName: 'ItemCreation' */ '../BaseCreate')
 );
 
-AnimeCreate.propTypes = {
-  itemId: PropTypes.string
-};
-
 const mapStateToProps = (state, ownProps) => ({
+  type: Strings.anime,
   itemId: ownProps.match.params.id
+    ? Number(ownProps.match.params.id)
+    : undefined
 });
 
-const mapDispatchToProps = {
-  loadById: loadAnimeByIdForEdit,
-  create: createAnime,
-  edit: editAnime,
-  checkSeriesExists: checkAnimeExists
-};
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    {
+      loadById: loadAnimeByIdForEdit,
+      create: createAnime,
+      edit: editAnime
+    },
+    dispatch
+  )
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AnimeCreate);
+)(BaseCreate);

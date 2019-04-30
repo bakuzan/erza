@@ -17,23 +17,26 @@ export default Object.freeze({
   status: {
     All: Statuses,
     ...toKeyObj(Statuses)
+  },
+  seriesType: {
+    Unknown: 'Unknown',
+    anime: Object.freeze([
+      'Unknown',
+      'TV',
+      'OVA',
+      'Movie',
+      'Special',
+      'ONA',
+      'Music'
+    ]),
+    manga: Object.freeze([
+      'Unknown',
+      'Manga',
+      'Novel',
+      'Oneshot',
+      'Doujinshi',
+      'Manhwa',
+      'Manhua'
+    ])
   }
-  // animeType: toKeyObj([
-  //   'Unknown',
-  //   'TV',
-  //   'OVA',
-  //   'Movie',
-  //   'Special',
-  //   'ONA',
-  //   'Music'
-  // ]),
-  // mangaType: toKeyObj([
-  //   'Unknown',
-  //   'Manga',
-  //   'Novel',
-  //   'Oneshot',
-  //   'Doujinshi',
-  //   'Manhwa',
-  //   'Manhua'
-  // ])
 });

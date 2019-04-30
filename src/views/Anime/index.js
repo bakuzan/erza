@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
@@ -17,31 +15,18 @@ const BaseListView = Loadable({
   delay: 300
 });
 
-const Anime = ({ location, filter, items, loadAnime }) => (
-  <BaseListView
-    routeKey={location.key}
-    type={Strings.anime}
-    loadDataForTypedList={loadAnime}
-    items={items}
-    statusFilter={filter}
-  />
-);
-
-Anime.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-  filter: PropTypes.object.isRequired
-};
-
 const mapStateToProps = (state, ownProps) => ({
+  type: Strings.anime,
+  routeKey: ownProps.location.key,
   items: mapStateToEntityList(state.entities.anime),
-  filter: mapUrlFilterToEntityObject(ownProps.match.params)
+  statusFilter: mapUrlFilterToEntityObject(ownProps.match.params)
 });
 
 const mapDispatchToProps = {
-  loadAnime
+  loadDataForTypedList: loadAnime
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Anime);
+)(BaseListView);

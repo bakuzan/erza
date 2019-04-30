@@ -7,20 +7,20 @@ function mapToSeries(obj, extra) {
 }
 
 function mapToHistory(obj, numValues) {
-  const { seriesId, note, rating } = obj;
+  const { number, note, rating } = obj;
+  const d = Date.now() + number;
   return {
-    date: new Date().toISOString(),
+    date: new Date(d).toISOString(),
     note: note || '',
     rating: rating || 0,
-    animeId: seriesId,
     ...numValues
   };
 }
 
 // Anime/Episode
 
-function mapFromAnime({ id, episode }) {
-  return { id, current: episode };
+function mapFromAnime({ episode, ...obj }) {
+  return { ...obj, current: episode };
 }
 
 function mapToAnime({ current, ...obj }) {
@@ -28,13 +28,13 @@ function mapToAnime({ current, ...obj }) {
 }
 
 function mapToEpisode({ seriesId, ...obj }) {
-  return mapToHistory(obj, { animeId: seriesId });
+  return mapToHistory(obj, { animeId: seriesId, episode: obj.number });
 }
 
 // Manga/Chapter
 
-function mapFromManga({ id, chapter }) {
-  return { id, current: chapter };
+function mapFromManga({ chapter, ...obj }) {
+  return { ...obj, current: chapter };
 }
 
 function mapToManga({ current, ...obj }) {
@@ -42,8 +42,8 @@ function mapToManga({ current, ...obj }) {
   return mapToSeries(obj, { chapter: current, ...ifVolume });
 }
 
-function mapToChapter({ seriesId, ...obj }) {
-  return mapToHistory(obj, { mangaId: seriesId });
+function mapToChapter({ seriesId, number, ...obj }) {
+  return mapToHistory(obj, { mangaId: seriesId, chapter: obj.number });
 }
 
 module.exports = {

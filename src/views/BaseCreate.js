@@ -25,7 +25,6 @@ import { showAlertError } from 'actions/alert';
 import {
   capitalise,
   getEventValue,
-  isObject,
   objectsAreEqual,
   constructObjectFromSearchParams,
   formatDateForInput
@@ -47,22 +46,20 @@ const loadData = (props) => {
   }
 };
 
-const mapEnumToSelectBox = (obj) => (item) => ({
-  text: item.length > 3 ? capitalise(item) : item.toUpperCase(),
-  value: obj[item]
+const mapEnumToSelectBox = (value) => ({
+  text: value.length > 3 ? capitalise(value) : value.toUpperCase(),
+  value
 });
 
-const STATUS_OPTIONS = Object.keys(Enums.status)
-  .filter((x) => x !== 'All')
-  .map(mapEnumToSelectBox(Enums.status));
+const STATUS_OPTIONS = Enums.status.All.map(mapEnumToSelectBox);
 
 class BaseCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...props.item,
+      ...itemModelForType(props.type)(props.item),
       isAdult: props.isAdult
-    }; // yes, i know i'm assigning a props to state.
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -70,6 +67,11 @@ class BaseCreate extends Component {
     this.handleMalSelect = this.handleMalSelect.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
     this.handleUploadError = this.handleUploadError.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    console.log('DER>', nextProps);
+    return null;
   }
 
   componentDidMount() {
@@ -83,8 +85,12 @@ class BaseCreate extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const itemUnchanged = objectsAreEqual(this.props.item, prevProps.item);
+    const previous = prevProps.item || {};
+    const current = this.props.item || {};
+
+    const itemUnchanged = objectsAreEqual(current, previous);
     const isAdultUnchanged = this.props.isAdult === prevProps.isAdult;
+    console.log('cdu>', current, previous);
     if (itemUnchanged && isAdultUnchanged) {
       return;
     }
@@ -94,7 +100,7 @@ class BaseCreate extends Component {
     }
 
     this.setState({
-      ...this.props.item,
+      ...current,
       ...this.resolveSearchParams(),
       isAdult: this.props.isAdult
     });
@@ -157,26 +163,26 @@ class BaseCreate extends Component {
   }
 
   render() {
-    if (
-      this.props.isFetching ||
-      !this.props.item.tags ||
-      (this.props.item.tags.length > 0 &&
-        !this.props.item.tags.find((x) => x && isObject(x)))
-    ) {
+    const { isFetching, item } = this.props;
+
+    console.groupCollapsed('RENDER SERIES FORM');
+    console.log('Props > ', this.props);
+    console.log('State > ', this.state);
+    console.groupEnd();
+
+    if (isFetching || !item || !item.tags) {
       return <LoadingSpinner size="fullscreen" />;
     }
 
-    const { type, isCreate, actions } = this.props;
+    const { type, isCreate } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;
     const titlePrefix = isCreate ? Strings.create : Strings.edit;
     const titleSuffix =
       isCreate || !this.state.title ? '' : ` - ${this.state.title}`;
 
-    const seriesTypes = Enums[type].type;
-    const SERIES_TYPE_OPTIONS = Object.keys(seriesTypes).map(
-      mapEnumToSelectBox(seriesTypes)
-    );
+    const seriesTypes = Enums.seriesType[type];
+    const SERIES_TYPE_OPTIONS = seriesTypes.map(mapEnumToSelectBox);
 
     return (
       <div className="flex flex--column center-contents padding-10">
@@ -221,7 +227,6 @@ class BaseCreate extends Component {
                     search={this.state.title}
                     onUserInput={this.handleUserInput}
                     selectMalItem={this.handleMalSelect}
-                    asyncCheckIfExists={actions.checkSeriesExists}
                   />
 
                   <ClearableInput
@@ -451,43 +456,34 @@ BaseCreate.propTypes = {
   actions: PropTypes.shape({
     loadById: PropTypes.func.isRequired,
     create: PropTypes.func,
-    edit: PropTypes.func,
-    checkSeriesExists: PropTypes.func
+    edit: PropTypes.func
   }).isRequired,
   isCreate: PropTypes.bool.isRequired,
-  itemId: PropTypes.string,
-  item: PropTypes.object.isRequired,
+  itemId: PropTypes.number,
+  item: PropTypes.object,
   isFetching: PropTypes.bool.isRequired,
   typeaheadTags: PropTypes.arrayOf(PropTypes.object),
   isAdult: PropTypes.bool.isRequired
 };
 
-const setEntityTags = (entities, item) =>
-  entities.tags.allIds.length === 0
-    ? item.tags
-    : item.tags.map((id) => entities.tags.byId[id]);
-
-const getInitalItem = (entities, props) => {
+function getInitalItem(entities, props) {
+  const Model = itemModelForType(props.type);
   if (!props.itemId) {
-    return itemModelForType(props.type)();
+    return Model();
   }
 
   const item = entities[props.type].byId[props.itemId];
-
   if (!item) {
-    return itemModelForType(props.type)();
+    return;
   }
 
-  const itemForEdit = Object.assign({}, item, {
-    tags: !!item.tags ? setEntityTags(entities, item) : []
-  });
-  return itemModelForType(props.type)(itemForEdit);
-};
+  return Model(item);
+}
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   isCreate: !ownProps.itemId,
   item: getInitalItem(state.entities, ownProps),
-  isFetching: state.isFetching,
   typeaheadTags: mapStateToEntityList(state.entities.tags),
   isAdult: state.isAdult
 });

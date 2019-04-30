@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
 
 import { lazyLoader } from 'components/LazyLoaders';
@@ -11,20 +9,8 @@ const BaseHistoryView = lazyLoader(() =>
   import(/* webpackChunkName: 'History' */ './BaseHistory')
 );
 
-const MangaHistoryView = ({ items, loadHistory }) => (
-  <BaseHistoryView
-    type={Strings.manga}
-    items={items}
-    loadHistory={loadHistory}
-  />
-);
-
-MangaHistoryView.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-  loadHistory: PropTypes.func.isRequired
-};
-
 const mapStateToProps = (state) => ({
+  type: Strings.manga,
   items: mapStateToEntityList(state.entities.chapter)
 });
 
@@ -35,4 +21,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MangaHistoryView);
+)(BaseHistoryView);

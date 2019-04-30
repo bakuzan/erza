@@ -1,6 +1,6 @@
 const Op = require('sequelize').Op;
 
-const { db } = require('../connectors');
+const { db, Tag } = require('../connectors');
 const Stats = require('./statistics');
 const Paged = require('./paged');
 const { Status } = require('../constants/enums');
@@ -9,9 +9,10 @@ const dateRange = require('../utils/dateRange');
 const handleDeleteResponse = require('./utils/handleDeleteResponse');
 const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('./utils/setHasMoreFlag');
-const validateSortOrder = require('./utils/validateSortOrder');
 const resolveWhereIn = require('./utils/resolveWhereIn');
 const separateNewVsExistingTags = require('./utils/separateNewVsExistingTags');
+const mapToNewTag = require('./utils/mapToNewTag');
+const validateSortOrder = require('./validators/validateSortOrder');
 const validateSeries = require('./validators/validateSeries');
 const validateAndMapHistoryInput = require('./validators/validateAndMapHistoryInput');
 
@@ -20,14 +21,14 @@ const validateAndMapHistoryInput = require('./validators/validateAndMapHistoryIn
 async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
   const orArgs = [{ title: { [Op.eq]: title } }];
 
-  const series = await model.findOne({
+  const series = await model.count({
     where: {
-      id: { [Op.ne]: id },
+      ...(id ? { id: { [Op.ne]: id } } : {}),
       [Op.or]: malId ? [...orArgs, { malId: { [Op.eq]: malId } }] : orArgs
     }
   });
 
-  return series !== null;
+  return series > 0;
 }
 
 async function findAllRepeated(
@@ -57,7 +58,7 @@ async function createSeries(model, payload, mappers) {
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
 
   const series = validateSeries(values, mappers);
-  const exists = checkIfSeriesAlreadyExists(model, series);
+  const exists = await checkIfSeriesAlreadyExists(model, series);
 
   if (exists) {
     return {
@@ -73,7 +74,7 @@ async function createSeries(model, payload, mappers) {
 
   return db.transaction(async function(transaction) {
     const created = await model.create(
-      { ...series, tags: newTags },
+      { ...series, tags: newTags.map(mapToNewTag) },
       { include: [model.Tag], transaction }
     );
 
@@ -88,7 +89,7 @@ async function updateSeries(model, payload, mappers) {
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
 
   const series = validateSeries(values, mappers);
-  const exists = checkIfSeriesAlreadyExists(model, series);
+  const exists = await checkIfSeriesAlreadyExists(model, series);
 
   if (exists) {
     return {
@@ -107,10 +108,10 @@ async function updateSeries(model, payload, mappers) {
     const oldSeries = await model.findByPk(id, { include: [Tag], transaction });
 
     const removedExistingTags = oldSeries.tags.filter(
-      (x) => !existingTags.some((t) => t.id === x.id)
+      (x) => !existingTags.some((tId) => tId === x.id)
     );
     const addedExistingTags = existingTags.filter(
-      (x) => !oldSeries.tags.some((t) => t.id === x.id)
+      (tId) => !oldSeries.tags.some((x) => x.id === tId)
     );
 
     if (removedExistingTags.length) {
@@ -120,15 +121,25 @@ async function updateSeries(model, payload, mappers) {
     }
 
     if (addedExistingTags.length) {
-      await created.addTags(addedExistingTags.map((x) => x.id), {
+      await oldSeries.addTags(addedExistingTags, {
         transaction
       });
     }
 
-    await model.update(
-      { ...data, tags: newTags },
-      { where: { id }, include: [model.Tag], transaction }
-    );
+    if (newTags.length) {
+      const createdAt = Date.now();
+
+      await Tag.bulkCreate(newTags.map(mapToNewTag), { transaction });
+
+      const createdTags = await Tag.findAll({
+        where: { createdAt: { [Op.gte]: createdAt } },
+        transaction
+      });
+
+      await oldSeries.addTags(createdTags, { transaction });
+    }
+
+    await model.update({ ...data }, { where: { id }, transaction });
 
     const updated = await oldSeries.reload({ transaction });
 
@@ -147,7 +158,8 @@ async function updateSeriesWithHistory(
 
   return await db.transaction().then(async function(transaction) {
     const oldSeries = await model.findByPk(seriesId, { transaction });
-    const stales = mapFromSeries(oldSeries.get({ raw: true }));
+    const oldSeriesValues = oldSeries.get({ raw: true });
+    const stales = mapFromSeries(oldSeriesValues);
 
     if (stales.current > values.current) {
       transaction.rollback();
@@ -163,7 +175,7 @@ async function updateSeriesWithHistory(
     }
 
     const { id, ...processedSeries } = validateSeries(
-      mapToSeries({ ...stales, ...values }),
+      mapToSeries({ ...oldSeriesValues, ...updates }),
       validateMappers
     );
 
@@ -172,11 +184,16 @@ async function updateSeriesWithHistory(
       transaction
     });
 
-    const updated = await oldSeries.reload();
-    const validate = validateAndMapHistoryInput(history, updated, {
-      mapFromSeries,
-      mapHistory
-    });
+    const updated = await oldSeries.reload({ transaction });
+
+    const validate = validateAndMapHistoryInput(
+      history,
+      updated.get({ raw: true }),
+      {
+        mapFromSeries,
+        mapHistory
+      }
+    );
 
     if (!validate.success) {
       transaction.rollback();
@@ -188,7 +205,7 @@ async function updateSeriesWithHistory(
     }
 
     if (validate.historyInputs.length) {
-      await modelHistory.bulkCreate(historyInputs, { transaction });
+      await modelHistory.bulkCreate(validate.historyInputs, { transaction });
     }
 
     transaction.commit();
@@ -199,7 +216,7 @@ async function updateSeriesWithHistory(
 async function updateEntity(model, args, id) {
   const updated = await model.update(args, { where: { id } });
   const data = await model.findByPk(id);
-  return { success: true, errorMessages: [], data: data };
+  return { success: true, errorMessages: [], data };
 }
 
 async function deleteEntity(model, where) {
@@ -212,6 +229,7 @@ async function deleteEntity(model, where) {
 module.exports = {
   Stats,
   ...Paged,
+  checkIfSeriesAlreadyExists,
   findAllRepeated,
   createSeries,
   updateSeries,

@@ -63,3 +63,10 @@ export const resolvePaging = (paging, pageChange) => ({
   ...paging,
   page: pageChange ? paging.page : 0
 });
+
+export function isBadResponse(data, attr) {
+  const noData = !data || (attr && !data[attr]);
+  const failure = data.hasOwnProperty('success') && !data.success;
+
+  return noData || failure;
+}
