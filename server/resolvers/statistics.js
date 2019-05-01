@@ -5,7 +5,14 @@ const { Status, StatBreakdown } = require('../constants/enums');
 
 module.exports = {
   async statsStatusCounts(_, args, context) {
-    return await context.Stats.counts(args, 'status', { sortDirection: 'ASC' });
+    const counts = await context.Stats.counts(args, 'status', {
+      sortDirection: 'ASC'
+    });
+
+    const ongoing = counts.find((x) => x.key === Status.Ongoing);
+    return ongoing
+      ? [ongoing, ...counts.filter((x) => x.key !== Status.Ongoing)]
+      : counts;
   },
   async statsRatingCounts(_, args, context) {
     return await context.Stats.counts(args, 'rating', {

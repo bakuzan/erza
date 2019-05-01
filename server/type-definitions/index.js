@@ -14,6 +14,7 @@ const Query = gql`
     animePaged(
       search: String
       status: [Status]
+      ratings: [Int]
       isOwnedOnly: Boolean
       isAdult: Boolean
       sorting: [String]
@@ -31,6 +32,7 @@ const Query = gql`
     mangaPaged(
       search: String
       status: [Status]
+      ratings: [Int]
       isOwnedOnly: Boolean
       isAdult: Boolean
       sorting: [String]

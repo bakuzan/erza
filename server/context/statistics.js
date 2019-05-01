@@ -16,10 +16,10 @@ function resolveModel(t) {
 function placeholderEpisodeStats() {
   return Object.freeze({
     season: '', // Populated by resolver
-    average: 0.0,
-    highest: 0,
-    lowest: 0,
-    mode: 0
+    average: -1.0,
+    highest: -1,
+    lowest: -1,
+    mode: -1
   });
 }
 
