@@ -1,6 +1,6 @@
 const Op = require('sequelize').Op;
 
-const { db, Anime } = require('../connectors');
+const { Anime } = require('../connectors');
 const { Status, StatBreakdown } = require('../constants/enums');
 
 module.exports = {
@@ -35,10 +35,15 @@ module.exports = {
     });
   },
   async statsHistoryDetailYear(_, { partition, ...args }, context) {
+    const { fn, targetValues } = context.Stats.getListPartitionsYear(
+      args.breakdown,
+      partition
+    );
+
     return await context.Stats.historyDetail(args, {
-      fn: context.Stats.fmtYYYY,
+      fn,
       comparator: {
-        [Op.eq]: partition
+        [Op.in]: targetValues
       }
     });
   },
@@ -49,21 +54,30 @@ module.exports = {
     );
 
     const series = await Anime.findAll({
+      raw: true,
+      attributes: context.Stats.seriesAttributes,
       where: {
         isAdult: { [Op.eq]: false },
         ...context.Stats.getSeasonalWhereClause([Status.Ongoing])
       }
     });
 
-    /** TODO
-     *  Query episodes and aggregate to get rating -> avg, max, min, and mode
-     */
+    const seriesIds = series.map((x) => x.id);
+    const episodeStatistics = await context.Stats.episodeStatistics(
+      StatBreakdown.Season,
+      seriesIds
+    );
 
-    return series.sort((a, b) => {
-      const aV = a[attr];
-      const bV = b[attr];
-      const offset = direction.toUpperCase() === 'ASC' ? 1 : -1;
-      return (aV > bV ? 1 : aV < bV ? -1 : 0) * offset;
-    });
+    return series
+      .map((x) => {
+        const epStats = episodeStatistics.find((ep) => ep.key === x.id);
+        return { ...x, ...epStats };
+      })
+      .sort((a, b) => {
+        const aV = a[attr];
+        const bV = b[attr];
+        const offset = direction.toUpperCase() === 'ASC' ? 1 : -1;
+        return (aV > bV ? 1 : aV < bV ? -1 : 0) * offset;
+      });
   }
 };

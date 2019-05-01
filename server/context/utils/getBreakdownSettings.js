@@ -1,6 +1,3 @@
-const Op = require('sequelize').Op;
-
-const { db } = require('../../connectors');
 const { Status } = require('../../constants/enums');
 
 const isMonthBreakdown = require('./isMonthBreakdown');

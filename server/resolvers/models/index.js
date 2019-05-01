@@ -67,5 +67,11 @@ module.exports = {
 
       return inst.getMangas({ order: [sorting] });
     }
+  },
+  // Custom types
+  StatSeriesRow: {
+    season(inst) {
+      return inSeasonCalc(inst).season;
+    }
   }
 };
