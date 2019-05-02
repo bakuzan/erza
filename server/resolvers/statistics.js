@@ -47,12 +47,19 @@ module.exports = {
       partition
     );
 
-    return await context.Stats.historyDetail(args, {
+    const series = await context.Stats.historyDetail(args, {
       fn,
       comparator: {
         [Op.in]: targetValues
       }
     });
+
+    const summary = context.Stats.seriesStatistics(args.breakdown, series);
+
+    return {
+      summary,
+      series
+    };
   },
   async currentSeason(_, { sorting }, context) {
     const [attr, direction] = context.Stats.validateSortOrder(

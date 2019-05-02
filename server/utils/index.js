@@ -1,5 +1,4 @@
 const chalk = require('chalk');
-const Constants = require('../constants');
 
 function getPreviousMonth(year, month) {
   // -2 because e.g. april(04), needs to be last month (-1) and adjusted for date month (-1)
@@ -53,11 +52,7 @@ const fetchTimeout = (t, promise) => {
   });
 };
 
-function sortNumbers(a, b) {
-  return a - b;
-}
-
-const Common = {
+module.exports = {
   handleErrorResponse,
   getPreviousMonth,
   getDateParts,
@@ -68,8 +63,5 @@ const Common = {
   padNumber,
   fetchTimeout,
   MAL_QUERY_TIMEOUT,
-  MAL_UPDATE_TIMEOUT,
-  sortNumbers
+  MAL_UPDATE_TIMEOUT
 };
-
-module.exports = Common;

@@ -95,7 +95,7 @@ const Query = gql`
       isAdult: Boolean
       breakdown: StatBreakdown
       partition: HistoryPartition
-    ): [StatSeriesRow]
+    ): HistoryDetailYear
     currentSeason(sorting: [String]): [StatSeriesRow]
   }
 `;

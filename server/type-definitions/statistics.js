@@ -16,4 +16,17 @@ module.exports = gql`
     lowest: Int
     mode: Int
   }
+
+  type SummaryCount {
+    key: String
+    average: Float
+    highest: Int
+    lowest: Int
+    mode: Int
+  }
+
+  type HistoryDetailYear {
+    summary: [SummaryCount]
+    series: [StatSeriesRow]
+  }
 `;

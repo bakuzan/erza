@@ -1,12 +1,17 @@
 const { db, Anime, Manga } = require('../connectors');
 const SQL = require('../db-scripts');
+
 const { StatType, StatBreakdown } = require('../constants/enums');
+
+const groupBy = require('../utils/groupBy');
 
 const { fmtYYYYMM, fmtYYYY } = require('./utils/formatDateColumn');
 const getBreakdownSettings = require('./utils/getBreakdownSettings');
 const getListPartitions = require('./utils/getListPartitions');
 const getListPartitionsYear = require('./utils/getListPartitionsYear');
 const getSeasonalWhereClause = require('./utils/getSeasonalWhereClause');
+const processRatingStatistics = require('./rating-statistics');
+const getGroupingAndSortingFunctions = require('./rating-statistics/groupingSorting');
 const validateSortOrder = require('./validators/validateSortOrder');
 
 function resolveModel(t) {
@@ -99,5 +104,17 @@ module.exports = {
       type: db.QueryTypes.SELECT,
       replacements: { seriesIds }
     });
+  },
+  seriesStatistics(breakdown, series) {
+    const [groupFn, sortFn] = getGroupingAndSortingFunctions(breakdown);
+    const groupMap = groupBy(series, groupFn);
+
+    return Object.keys(groupMap)
+      .reduce((p, k) => {
+        const key = k;
+        const list = groupMap[k];
+        return [...p, processRatingStatistics(key, list.map((x) => x.rating))];
+      }, [])
+      .sort(sortFn);
   }
 };
