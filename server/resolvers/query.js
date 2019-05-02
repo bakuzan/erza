@@ -19,7 +19,10 @@ module.exports = {
     return await context.checkIfSeriesAlreadyExists(Anime, args);
   },
   async animeRepeated(_, args, context) {
-    return await context.findAllRepeated(Anime, args);
+    return await context.findAllRepeated(
+      { model: Anime, modelHistory: Episode },
+      args
+    );
   },
   async dailyAnime(_, { dateOffset }) {
     const d = new Date();
@@ -65,7 +68,10 @@ module.exports = {
     return await context.checkIfSeriesAlreadyExists(Manga, args);
   },
   async mangaRepeated(_, args, context) {
-    return await context.findAllRepeated(Manga, args);
+    return await context.findAllRepeated(
+      { model: Manga, modelHistory: Chapter },
+      args
+    );
   },
   // Episodes
   async episodes(_, { isAdult, ...args }, context) {

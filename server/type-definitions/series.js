@@ -48,6 +48,8 @@ module.exports = gql`
     _legacyIsSeason: Boolean
     season: AnimeSeason
     episodes: [Episode]
+    "Latest update for a repeated series"
+    lastRepeatDate: String
   }
 
   type AnimeSeason {
@@ -87,6 +89,8 @@ module.exports = gql`
     series_chapters: Int
     series_volumes: Int
     chapters: [Chapter]
+    "Latest update for a repeated series"
+    lastRepeatDate: String
   }
 
   type MangaPage {

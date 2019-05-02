@@ -32,7 +32,7 @@ async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
 }
 
 async function findAllRepeated(
-  model,
+  { model, modelHistory },
   { search = '', minTimesCompleted = 1, isAdult }
 ) {
   return await model.findAll({
@@ -47,7 +47,8 @@ async function findAllRepeated(
         { timesCompleted: { [Op.gte]: minTimesCompleted } }
       ]
     },
-    order: [['timesCompleted', 'DESC'], ['title', 'ASC']]
+    order: [['timesCompleted', 'DESC'], ['title', 'ASC']],
+    include: [{ model: modelHistory, order: [['date', 'DESC']], limit: 1 }]
   });
 }
 
