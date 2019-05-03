@@ -111,5 +111,9 @@ module.exports = {
     season(inst) {
       return inSeasonCalc(inst).season;
     }
+  },
+  TimelineSeries: {
+    start: common.Series.start,
+    end: common.Series.end
   }
 };

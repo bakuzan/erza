@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Header, SVGLogo } from 'mko';
 import AppSettings from 'containers/AppSettings';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 
 import './Header.scss';
 

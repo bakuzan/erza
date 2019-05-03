@@ -15,7 +15,7 @@ import MalLink from 'components/MalLink';
 import LoadableContent from 'containers/LoadableContent';
 import { capitalise, formatDateForDisplay, darken } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import { Strings, Enums, Icons } from 'constants/values';
 
 nano.put('.series-view', {

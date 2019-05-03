@@ -3,7 +3,7 @@ import React from 'react';
 
 import { List } from 'mko';
 import { ButtonisedNavLink } from 'components/Buttonised';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 
 const RelatedSeriesList = React.memo(({ seriesType, title, items }) => (
   <div className="related-series-container">

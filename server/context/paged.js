@@ -78,7 +78,7 @@ async function pagedHistory(
 
   const ratingWhere = resolveWhereIn(ratings, 'rating');
   const sortOrder = validateSortOrder(['date', 'DESC'], sorting);
-  console.log(sorting, sortOrder);
+
   return await model
     .findAndCountAll({
       where: {

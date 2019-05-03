@@ -1,15 +1,14 @@
 import React from 'react';
 
 import FilterLink from 'containers/FilterLink';
-import { Paths } from 'constants/paths';
 import { Strings } from 'constants/values';
 
-const ContentTypeFilters = () => (
+const ContentTypeFilters = ({ baseUrl }) => (
   <div className="button-group button-group--left">
-    <FilterLink filter={`${Paths.base}${Paths.statistics}${Strings.anime}`}>
+    <FilterLink filter={`${baseUrl}${Strings.anime}`}>
       {Strings.anime}
     </FilterLink>
-    <FilterLink filter={`${Paths.base}${Paths.statistics}${Strings.manga}`}>
+    <FilterLink filter={`${baseUrl}${Strings.manga}`}>
       {Strings.manga}
     </FilterLink>
   </div>

@@ -1,4 +1,4 @@
-import { Paths } from './paths';
+import Paths from './paths';
 import { Strings } from './values';
 import Enums from './enums';
 
@@ -94,6 +94,19 @@ const Menu = [
         title: 'Tag management',
         description: 'Manage tag changes and deletion',
         icon: 'TM'
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: 'Timeline',
+    children: [
+      {
+        id: 10,
+        link: `${Paths.base}${Paths.timeline}`,
+        title: 'Timeline',
+        description: 'View series history over time',
+        icon: 'TI'
       }
     ]
   }

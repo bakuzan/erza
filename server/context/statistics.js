@@ -14,7 +14,7 @@ const processRatingStatistics = require('./rating-statistics');
 const getGroupingAndSortingFunctions = require('./rating-statistics/groupingSorting');
 const validateSortOrder = require('./validators/validateSortOrder');
 
-function resolveModel(t) {
+function resolveSeriesModel(t) {
   return t === StatType.Anime ? Anime : Manga;
 }
 
@@ -51,8 +51,9 @@ module.exports = {
   getSeasonalWhereClause,
   validateSortOrder,
   seriesAttributes,
+  resolveSeriesModel,
   async counts({ type, isAdult }, column, opts = {}) {
-    const model = resolveModel(type);
+    const model = resolveSeriesModel(type);
     const where = opts.where || {};
 
     const counts = await model.findAll({
@@ -68,7 +69,7 @@ module.exports = {
       : counts.map((x) => ({ ...x, key: `${x.key}` }));
   },
   async historyDetail({ type, isAdult, breakdown }, groupOpts) {
-    const model = resolveModel(type);
+    const model = resolveSeriesModel(type);
     const opts = getBreakdownSettings(breakdown);
 
     const series = await model.findAll({

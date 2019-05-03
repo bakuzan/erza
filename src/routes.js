@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
-import { Paths } from './constants/paths';
+import Paths from './constants/paths';
 import { Strings } from './constants/values';
 import { routeLazyLoader } from 'components/LazyLoaders';
 import App from './containers/App';
@@ -23,6 +23,9 @@ const Statistics = routeLazyLoader(() =>
 );
 const TagManagement = routeLazyLoader(() =>
   import(/* webpackChunkName: 'TagManagement' */ './views/TagManagement')
+);
+const Timeline = routeLazyLoader(() =>
+  import(/* webpackChunkName: 'Timeline' */ './views/Timeline')
 );
 
 const ErzaRoute = ({ component: PageComponent, ...routeProps }) => (
@@ -82,6 +85,11 @@ const ErzaRoutes = ({ match }) => (
     <ErzaRoute
       path={`${match.path}${Paths.tagManagement}`}
       component={TagManagement}
+    />
+
+    <ErzaRoute
+      path={`${match.path}${Paths.timeline}:type?`}
+      component={Timeline}
     />
 
     <ErzaRoute path="*" render={() => <div>Erza Page not found</div>} />

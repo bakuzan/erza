@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
 import ElmWrapper from 'components/ElmWrapper';
-import ContentTypeFilters from './ContentTypeFilters';
+import ContentTypeFilters from 'components/ContentTypeFilters';
 import {
   debounce,
   getTimeoutSeconds,
@@ -12,6 +12,7 @@ import {
   capitalise
 } from 'utils';
 import getTheme from 'constants/elmThemes';
+import Paths from 'constants/paths';
 import * as SU from './statisticsUtils';
 
 import Satellizer from 'satellizer';
@@ -75,7 +76,7 @@ class Statistics extends Component {
         <Helmet>
           <title>{`${capitalise(contentType)} Statistics`}</title>
         </Helmet>
-        <ContentTypeFilters />
+        <ContentTypeFilters baseUrl={`${Paths.base}${Paths.statistics}`} />
         <div id="satellizer">
           <ElmWrapper
             src={Satellizer.Elm.Main}

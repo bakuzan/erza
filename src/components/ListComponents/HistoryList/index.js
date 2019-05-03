@@ -4,7 +4,7 @@ import React from 'react';
 import { LoadingBouncer, List } from 'mko';
 import { ButtonisedNavLink } from 'components/Buttonised';
 import HistoryListItem from './HistoryListItem';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import { getHistoryNameForItemType } from 'utils/data';
 
 import './HistoryList.scss';

@@ -38,6 +38,10 @@ export {
   default as formatDateTimeForDisplay
 } from 'ayaka/formatDateTimeForDisplay';
 export { darken } from 'ayaka/palette';
+export { default as getLastDateOfMonth } from 'ayaka/getLastDateOfMonth';
+export {
+  default as daysDifferenceBetweenDates
+} from 'ayaka/daysDifferenceBetweenDates';
 
 const BAD_BLANK_MAL_DATE = '0000-00-00';
 const BAD_MAL_DATE_PART = '-00';

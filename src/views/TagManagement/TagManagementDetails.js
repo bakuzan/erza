@@ -7,7 +7,7 @@ import { ClearableInput, LoadingSpinner } from 'mko';
 import { Button } from 'components/Buttonised';
 import RelatedSeriesList from './TagManagementRelatedSeriesList';
 
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import { Strings } from 'constants/values';
 import { getEventValue } from 'utils';
 import * as actions from 'actions/tags';

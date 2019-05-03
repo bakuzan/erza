@@ -97,6 +97,13 @@ const Query = gql`
       partition: HistoryPartition
     ): HistoryDetailYear
     currentSeason(sorting: [String]): [StatSeriesRow]
+
+    seriesTimeline(
+      type: StatType!
+      isAdult: Boolean
+      fromDate: String!
+      toDate: String!
+    ): [TimelineSeries]
   }
 `;
 

@@ -18,5 +18,6 @@ export {
   checkMangaExists,
   getAnimeRepeated,
   getMangaRepeated,
-  getDailyAnime
+  getDailyAnime,
+  getTimeline
 } from './series';

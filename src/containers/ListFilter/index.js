@@ -8,7 +8,7 @@ import SortOrderToggle from 'components/SortOrderToggle';
 import { toggleSortOrder, setSortKey } from 'actions/sorting';
 import { toggleIsOwnedOnly } from 'actions/filters';
 import Enums from 'constants/enums';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 
 import './ListFilter.scss';
 

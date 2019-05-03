@@ -9,7 +9,7 @@ import { toggleSidebarVisibility } from 'actions/sidebar';
 import { toggleRequestIndicatorVisibility } from 'actions/requestIndicator';
 import { toggleIsAdult } from 'actions/isAdult';
 import { Strings } from 'constants/values';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import { getTimeoutMinutes } from 'utils';
 
 import './AppSettings.scss';

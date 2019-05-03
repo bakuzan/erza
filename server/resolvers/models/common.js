@@ -3,10 +3,6 @@ const {
   formatDateTimeInput
 } = require('../../utils/formatDate');
 
-// TODO
-// Compare the dates returned to the current way of doing things!
-// Fix accordingly
-
 module.exports = {
   Series: {
     tags(instance) {

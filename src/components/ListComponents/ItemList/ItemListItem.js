@@ -9,7 +9,7 @@ import {
 } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import MalLink from 'components/MalLink';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import { Enums, Icons } from 'constants/values';
 import { formatDateTimeForDisplay } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';

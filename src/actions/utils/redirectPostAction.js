@@ -1,5 +1,5 @@
 import { history as Navigate } from '../../index';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import Enums from 'constants/enums';
 
 export default function redirectPostAction(type, lastLocation) {

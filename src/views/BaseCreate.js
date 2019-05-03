@@ -18,7 +18,7 @@ import { ButtonisedNavLink, Button } from 'components/Buttonised';
 import MalSearch from 'components/MalSearch';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import { Strings, Enums } from 'constants/values';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 import { loadTags } from 'actions/tags';
 import { showAlertError } from 'actions/alert';
 
@@ -67,11 +67,6 @@ class BaseCreate extends Component {
     this.handleMalSelect = this.handleMalSelect.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
     this.handleUploadError = this.handleUploadError.bind(this);
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    console.log('DER>', nextProps);
-    return null;
   }
 
   componentDidMount() {

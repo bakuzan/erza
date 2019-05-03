@@ -269,3 +269,25 @@ export const getDailyAnime = gql`
     }
   }
 `;
+
+// Timelines
+export const getTimeline = gql`
+  query SeriesTimeline(
+    $type: StatType!
+    $isAdult: Boolean
+    $from: String!
+    $to: String!
+  ) {
+    seriesTimeline(
+      type: $type
+      isAdult: $isAdult
+      fromDate: $from
+      toDate: $to
+    ) {
+      id
+      name: title
+      startDate: start
+      endDate: end
+    }
+  }
+`;

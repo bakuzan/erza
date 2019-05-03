@@ -1,6 +1,6 @@
 import { Urls } from 'mko';
 
-export const Paths = {
+export default {
   ...Urls,
   malSearch: '/api/mal-search/:type',
   sunrise_sunset:
@@ -21,9 +21,6 @@ export const Paths = {
   },
   history: '/history/',
   statistics: '/statistics/',
-  tagManagement: '/tag-management/'
-};
-
-export const ForceNavigate = {
-  forceNavigate: true
+  tagManagement: '/tag-management/',
+  timeline: '/timeline/'
 };

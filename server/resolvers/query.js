@@ -73,6 +73,25 @@ module.exports = {
       args
     );
   },
+  // Series
+  async seriesTimeline(
+    _,
+    { type, isAdult = false, fromDate, toDate },
+    context
+  ) {
+    const [from, to] = dateRange(fromDate, toDate);
+    const model = context.Stats.resolveSeriesModel(type);
+
+    return await model.findAll({
+      attributes: ['id', 'title', 'start', 'end'],
+      where: {
+        isAdult: { [Op.eq]: isAdult },
+        start: { [Op.lt]: to },
+        [Op.or]: [{ end: { [Op.eq]: null } }, { end: { [Op.gt]: from } }]
+      },
+      order: [['start', 'ASC']]
+    });
+  },
   // Episodes
   async episodes(_, { isAdult, ...args }, context) {
     return await context.pagedHistory(

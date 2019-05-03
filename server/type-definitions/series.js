@@ -99,6 +99,13 @@ module.exports = gql`
     nodes: [Manga]
   }
 
+  type TimelineSeries {
+    id: Int
+    title: String
+    start: String
+    end: String
+  }
+
   input SeriesInput {
     id: Int!
     current: Int!

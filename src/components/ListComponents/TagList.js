@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ButtonisedNavLink } from 'components/Buttonised';
 import ItemList from './ItemList';
-import { Paths } from 'constants/paths';
+import Paths from 'constants/paths';
 
 const TagListItem = ({ item }) => (
   <li className="tag-item">
