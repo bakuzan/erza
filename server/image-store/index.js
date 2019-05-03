@@ -9,7 +9,7 @@ function upload({ body: { image } }, res) {
 }
 
 function uploadFromLocal({ body: { image } }, res) {
-  const [rubbish, base64] = image.split(',');
+  const [_, base64] = image.split(',');
   imgur
     .uploadBase64(base64, process.env.IMGUR_ALBUM)
     .then(returnImgurUrl(res))
