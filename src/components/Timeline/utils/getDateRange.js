@@ -20,6 +20,6 @@ export default function getDateRange(toDate, width) {
 
   return [
     formatDateInput(fromDate),
-    getLastDateOfMonth(formatDateInput(toDate))
+    formatDateInput(getLastDateOfMonth(toDate))
   ]; // fromDate, toDate
 }

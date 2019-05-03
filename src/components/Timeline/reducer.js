@@ -1,5 +1,3 @@
-import { getLastDateOfMonth } from 'utils';
-
 export const MOVE_VIEW_DATE = 'MOVE_VIEW_DATE';
 export const UPDATE_VIEW_DATE = 'UPDATE_VIEW_DATE';
 
@@ -9,7 +7,7 @@ export default function timelineReducer(state, action) {
       const viewDate = new Date(state.viewDate);
       viewDate.setMonth(viewDate.getMonth() + action.value);
 
-      const currentMonth = getLastDateOfMonth(new Date());
+      const currentMonth = new Date();
 
       return {
         ...state,
@@ -24,5 +22,5 @@ export default function timelineReducer(state, action) {
 }
 
 export const initialState = () => ({
-  viewDate: getLastDateOfMonth(new Date())
+  viewDate: new Date()
 });
