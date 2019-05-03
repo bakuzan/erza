@@ -1,5 +1,6 @@
 const inSeasonCalc = require('../../utils/inSeason');
 const { formatDateYYYYMM } = require('../../utils/formatDate');
+const { padNumber } = require('../../utils');
 
 const { seasons } = require('../../constants');
 const { StatBreakdown } = require('../../constants/enums');
@@ -17,8 +18,15 @@ const orderSeasons = (a, b) =>
 
 const orderDates = (a, b) => (a.key > b.key ? 1 : -1);
 
-module.exports = function groupingAndSorting(breakdown) {
+module.exports = function groupingAndSorting({ partition, breakdown }) {
+  const [year] = partition.split('-');
   return breakdown === StatBreakdown.Season
-    ? [getSeason, orderSeasons]
-    : [getEndMonth, orderDates];
+    ? [getSeason, orderSeasons, seasonOrder]
+    : [
+        getEndMonth,
+        orderDates,
+        Array(12)
+          .fill(1)
+          .map((n, i) => `${year}-${padNumber(n + i, 2)}`)
+      ];
 };

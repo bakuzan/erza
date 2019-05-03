@@ -54,7 +54,10 @@ module.exports = {
       }
     });
 
-    const summary = context.Stats.seriesStatistics(args.breakdown, series);
+    const summary = context.Stats.seriesStatistics(
+      { partition, breakdown: args.breakdown },
+      series
+    );
 
     return {
       summary,

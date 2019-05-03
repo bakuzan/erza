@@ -1,9 +1,18 @@
+/** Why infinity protection ?
+ * Math.min() === Infinity
+ * Math.max() === -Infinity
+ */
+
+function infinityProtection(value) {
+  return Math.abs(value) !== Infinity ? value : 0;
+}
+
 module.exports = {
   getMaximum(arr) {
-    return Math.max(...arr);
+    return infinityProtection(Math.max(...arr));
   },
   getMinimum(arr) {
-    const values = arr.filter((x) => !!x); // exclude 0
-    return Math.min(...values);
+    const values = arr.filter((x) => !!x); // remove zeroes
+    return infinityProtection(Math.min(...values));
   }
 };

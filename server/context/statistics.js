@@ -105,14 +105,14 @@ module.exports = {
       replacements: { seriesIds }
     });
   },
-  seriesStatistics(breakdown, series) {
-    const [groupFn, sortFn] = getGroupingAndSortingFunctions(breakdown);
+  seriesStatistics(args, series) {
+    const [groupFn, sortFn, groupSource] = getGroupingAndSortingFunctions(args);
     const groupMap = groupBy(series, groupFn);
 
-    return Object.keys(groupMap)
+    return groupSource
       .reduce((p, k) => {
         const key = k;
-        const list = groupMap[k];
+        const list = groupMap[k] || [];
         return [...p, processRatingStatistics(key, list.map((x) => x.rating))];
       }, [])
       .sort(sortFn);
