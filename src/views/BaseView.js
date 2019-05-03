@@ -38,7 +38,7 @@ nano.put('.series-delete__button', {
   }
 });
 
-const STATS_PATH = `${Paths.base}${Paths.statistics}${Strings.anime}`;
+const getStatsPath = (type) => `${Paths.base}${Paths.statistics}${type}`;
 
 const loadData = (props) => props.loadItemById(props.itemId);
 
@@ -91,7 +91,7 @@ class BaseView extends Component {
 
   setStatNavLink(state) {
     return {
-      pathname: STATS_PATH,
+      pathname: getStatsPath(this.props.type),
       state
     };
   }

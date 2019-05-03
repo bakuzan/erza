@@ -28,6 +28,20 @@ function placeholderEpisodeStats() {
   });
 }
 
+function seriesAttributes(type) {
+  const extra = type === StatType.Anime ? ['_legacyIsSeason'] : [];
+  return Object.freeze([
+    'id',
+    'title',
+    'rating',
+    'start',
+    'end',
+    'series_start',
+    'series_type',
+    ...extra
+  ]);
+}
+
 module.exports = {
   fmtYYYYMM,
   fmtYYYY,
@@ -36,16 +50,7 @@ module.exports = {
   getListPartitionsYear,
   getSeasonalWhereClause,
   validateSortOrder,
-  seriesAttributes: Object.freeze([
-    'id',
-    'title',
-    'rating',
-    'start',
-    'end',
-    'series_start',
-    'series_type',
-    '_legacyIsSeason'
-  ]),
+  seriesAttributes,
   async counts({ type, isAdult }, column, opts = {}) {
     const model = resolveModel(type);
     const where = opts.where || {};
@@ -68,7 +73,7 @@ module.exports = {
 
     const series = await model.findAll({
       raw: true,
-      attributes: this.seriesAttributes,
+      attributes: seriesAttributes(type),
       where: {
         isAdult,
         [opts.grouping]: db.where(

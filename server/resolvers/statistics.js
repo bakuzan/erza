@@ -1,7 +1,7 @@
 const Op = require('sequelize').Op;
 
 const { Anime } = require('../connectors');
-const { Status, StatBreakdown } = require('../constants/enums');
+const { Status, StatBreakdown, StatType } = require('../constants/enums');
 
 module.exports = {
   async statsStatusCounts(_, args, context) {
@@ -72,7 +72,7 @@ module.exports = {
 
     const series = await Anime.findAll({
       raw: true,
-      attributes: context.Stats.seriesAttributes,
+      attributes: context.Stats.seriesAttributes(StatType.Anime),
       where: {
         isAdult: { [Op.eq]: false },
         ...context.Stats.getSeasonalWhereClause([Status.Ongoing])

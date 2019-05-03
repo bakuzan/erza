@@ -66,7 +66,7 @@ export const SatellizerFlags = Object.freeze({
     airing: 'Airing'
   },
   breakdownType: {
-    month: 'MONTHS',
+    month: 'MONTH',
     season: 'SEASON'
   },
   seasonMonths: new Map([

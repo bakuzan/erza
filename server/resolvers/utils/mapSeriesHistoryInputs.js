@@ -1,7 +1,6 @@
 // Common
 
-function mapToSeries(obj, extra) {
-  const { rating } = obj;
+function mapToSeries({ rating, ...obj }, extra) {
   const ifRating = rating ? { rating } : {};
   return { ...obj, ...ifRating, ...extra };
 }
@@ -9,6 +8,7 @@ function mapToSeries(obj, extra) {
 function mapToHistory(obj, numValues) {
   const { number, note, rating } = obj;
   const d = Date.now() + number;
+
   return {
     date: new Date(d).toISOString(),
     note: note || '',
@@ -37,12 +37,12 @@ function mapFromManga({ chapter, ...obj }) {
   return { ...obj, current: chapter };
 }
 
-function mapToManga({ current, ...obj }) {
+function mapToManga({ current, volume, ...obj }) {
   const ifVolume = volume ? { volume } : {};
   return mapToSeries(obj, { chapter: current, ...ifVolume });
 }
 
-function mapToChapter({ seriesId, number, ...obj }) {
+function mapToChapter({ seriesId, ...obj }) {
   return mapToHistory(obj, { mangaId: seriesId, chapter: obj.number });
 }
 
