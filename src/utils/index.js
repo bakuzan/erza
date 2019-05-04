@@ -38,6 +38,7 @@ export {
   default as formatDateTimeForDisplay
 } from 'ayaka/formatDateTimeForDisplay';
 export { darken } from 'ayaka/palette';
+export { default as getFirstDateOfMonth } from 'ayaka/getFirstDateOfMonth';
 export { default as getLastDateOfMonth } from 'ayaka/getLastDateOfMonth';
 export {
   default as daysDifferenceBetweenDates

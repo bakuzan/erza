@@ -1,11 +1,13 @@
-%cleanButton {
-  background: transparent;
-  border: none;
-}
+$timeline-controls-height: 20px;
 
 .timeline {
   display: flex;
   flex-direction: column;
+
+  &__scroll-wrapper {
+    height: calc(100% - #{$timeline-controls-height});
+    overflow-y: scroll;
+  }
 
   &__content {
     display: flex;
@@ -13,21 +15,6 @@
     max-width: 100%;
     padding: 5px 0;
     overflow: hidden;
-  }
-}
-
-.timeline-controls {
-  display: flex;
-  flex: 1;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 2px 0;
-  border-bottom: 1px solid #ddd;
-
-  &__button {
-    @extend %cleanButton;
-    cursor: pointer;
-    box-sizing: border-box;
   }
 }
 

@@ -5,21 +5,33 @@ import React, { useReducer, useEffect } from 'react';
 import { useDimensions } from 'hooks/useDimensions';
 import Controls from './Controls';
 import timelineReducer, { initialState } from './reducer';
-import { BASE_BUTTON_SIZE } from './utils/consts';
+import { ARROW_BUTTON_SIZE } from './utils/consts';
+import { TimelineDispatcherContext } from './utils/context';
+import getTimelineSizes from './utils/getTimelineSizes';
 import calculateTimelineArrangement from './utils/calculateTimelineArrangement';
 import getDateRange from './utils/getDateRange';
-import { TimelineDispatcherContext } from './utils/context';
 
 import './Timeline.scss';
+
+const SCROLLBAR_WIDTH = 20;
+const accountForArrowButtons = {
+  marginLeft: `${ARROW_BUTTON_SIZE}px`,
+  marginRight: `${ARROW_BUTTON_SIZE - SCROLLBAR_WIDTH}px`
+};
 
 function Timeline({ className, items, onUpdate, ...props }) {
   const [ref, { width }] = useDimensions();
   const [state, dispatch] = useReducer(timelineReducer, initialState());
 
-  const dateRange = getDateRange(state.viewDate, width);
-  const rows = calculateTimelineArrangement(width, dateRange, items);
-  const accountForArrowButtons = BASE_BUTTON_SIZE;
+  const sizing = getTimelineSizes(width);
+
+  const dateRange = getDateRange(state.viewDate, sizing.parts);
   const [fromDate, toDate] = dateRange;
+  const rows = calculateTimelineArrangement(
+    sizing.timelineSpace,
+    dateRange,
+    items
+  );
 
   useEffect(() => {
     if (onUpdate && fromDate && toDate) {
@@ -31,18 +43,23 @@ function Timeline({ className, items, onUpdate, ...props }) {
   return (
     <TimelineDispatcherContext.Provider value={dispatch}>
       <div ref={ref} className={classNames('timeline', className)}>
-        <Controls dateRange={dateRange} />
-        <div
-          className="timeline__content"
-          style={{ margin: `0 ${accountForArrowButtons}px` }}
-        >
-          {rows.map((x) => {
-            return (
-              <div key={x.id} className="timeline-row" style={x.style}>
-                {x.name}
-              </div>
-            );
-          })}
+        <Controls width={sizing.timelineSpace} dateRange={dateRange} />
+        <div className="timeline__scroll-wrapper">
+          <div className="timeline__content" style={accountForArrowButtons}>
+            {rows.map((x) => {
+              // TODO replace title with tooltip component! (Need to write)
+              return (
+                <div
+                  key={x.id}
+                  className="timeline-row"
+                  title={x.name}
+                  style={x.style}
+                >
+                  {x.name}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </TimelineDispatcherContext.Provider>

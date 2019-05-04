@@ -1,0 +1,23 @@
+%cleanButton {
+  background: transparent;
+  border: none;
+}
+
+.timeline-controls {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: 2px 0;
+  border-bottom: 1px solid #ddd;
+
+  &__button {
+    @extend %cleanButton;
+    flex: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &--arrow {
+      margin: 0;
+    }
+  }
+}

@@ -6,13 +6,20 @@ import { Button } from 'components/Buttonised';
 import { Icons } from 'constants/values';
 
 import { MOVE_VIEW_DATE, UPDATE_VIEW_DATE } from './reducer';
-import { BASE_BUTTON_SIZE } from './utils/consts';
-import generateDatesForRange from './utils/generateDatesForRange';
+import { ARROW_BUTTON_SIZE } from './utils/consts';
 import { TimelineDispatcherContext } from './utils/context';
+import generateDatesForRange from './utils/generateDatesForRange';
 
-function Controls({ dateRange }) {
+import './Controls.scss';
+
+const arrowWidthStyle = {
+  width: `${ARROW_BUTTON_SIZE}px`,
+  flex: `1 0 ${ARROW_BUTTON_SIZE}px`
+};
+
+function Controls({ dateRange, width }) {
   const dispatch = useContext(TimelineDispatcherContext);
-  const buttonWidthStyle = { width: `${BASE_BUTTON_SIZE}px` };
+  const buttonWidthStyle = { width: `${width}px` };
 
   const [from, to] = dateRange;
   const dates = useMemo(() => generateDatesForRange(from, to), [from, to]);
@@ -22,8 +29,8 @@ function Controls({ dateRange }) {
   return (
     <div className={classNames('timeline-controls')}>
       <Button
-        className="timeline-controls__button"
-        style={buttonWidthStyle}
+        className="timeline-controls__button timeline-controls__button--arrow"
+        style={arrowWidthStyle}
         icon={Icons.left}
         onClick={() => dispatch({ type: MOVE_VIEW_DATE, value: -1 })}
       />
@@ -40,8 +47,8 @@ function Controls({ dateRange }) {
         );
       })}
       <Button
-        className="timeline-controls__button"
-        style={buttonWidthStyle}
+        className="timeline-controls__button timeline-controls__button--arrow"
+        style={arrowWidthStyle}
         icon={Icons.right}
         onClick={() => dispatch({ type: MOVE_VIEW_DATE, value: 1 })}
       />
@@ -51,8 +58,10 @@ function Controls({ dateRange }) {
 
 Controls.displayName = 'TimelineControls';
 Controls.propTypes = {
+  width: PropTypes.number,
   dateRange: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
   )
 };
+
 export default Controls;

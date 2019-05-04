@@ -33,7 +33,7 @@ export default function calculateTimelineArrangement(
       return validStartDate && validEndDate;
     })
     .reduce((p, x) => {
-      const width = calculateEntryWidth(
+      const entryWidth = calculateEntryWidth(
         daySize,
         [fromDate, toDate],
         [x.startDate, x.endDate]
@@ -43,7 +43,13 @@ export default function calculateTimelineArrangement(
 
       return [
         ...p,
-        { ...x, style: { width, marginLeft: Math.max(marginLeft, 0) } }
+        {
+          ...x,
+          style: {
+            width: entryWidth === width ? entryWidth + 0.6 : entryWidth,
+            marginLeft: Math.max(marginLeft, -0.6)
+          }
+        }
       ];
     }, []);
 

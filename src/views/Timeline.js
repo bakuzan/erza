@@ -47,7 +47,11 @@ function TimelinePage({ match, isAdult }) {
       <div className="timeline-page__options">
         <ContentTypeFilters baseUrl={TIMELINE_PAGE_BASE_URL} />
       </div>
-      <Timeline items={items} onUpdate={onTimelineUpdate} />
+      <Timeline
+        className="timeline-page__timeline"
+        items={items}
+        onUpdate={onTimelineUpdate}
+      />
     </div>
   );
 }

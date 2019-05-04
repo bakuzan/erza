@@ -4,7 +4,7 @@ import FilterLink from 'containers/FilterLink';
 import { Strings } from 'constants/values';
 
 const ContentTypeFilters = ({ baseUrl }) => (
-  <div className="button-group button-group--left">
+  <div className="button-group button-group--left" style={{ margin: 0 }}>
     <FilterLink filter={`${baseUrl}${Strings.anime}`}>
       {Strings.anime}
     </FilterLink>

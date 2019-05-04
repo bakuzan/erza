@@ -66,6 +66,16 @@
   }
 }
 
+// Timeline page
+.timeline-page {
+  $content-filters: 41px;
+  height: calc(100vh - 60px);
+
+  &__timeline {
+    height: calc(100% - #{$content-filters});
+  }
+}
+
 // MISC
 
 .delete-action {
