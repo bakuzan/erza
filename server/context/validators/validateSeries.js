@@ -1,8 +1,20 @@
 const { Status } = require('../../constants/enums');
 
+const dateProps = ['start', 'end', 'series_start', 'series_end'];
+
+function protectDates(item) {
+  const obj = { ...item };
+
+  dateProps.forEach((k) => {
+    obj[k] = obj[k] || null;
+  });
+
+  return obj;
+}
+
 module.exports = function validateSeries(entity, { mapBefore, mapAfter }) {
   const updates = {};
-  const item = mapBefore(entity);
+  const item = protectDates(mapBefore(entity));
 
   // END
   if (item.current === item.total && item.total !== 0) {

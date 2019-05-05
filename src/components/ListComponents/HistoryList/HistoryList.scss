@@ -10,6 +10,13 @@
     padding: 0 5px;
   }
 
+  &__note {
+    display: flex;
+    flex: 1;
+    padding: 0 5px;
+    border-left: 1px dashed;
+  }
+
   time {
     min-width: 185px;
   }
@@ -36,6 +43,11 @@
 
     &__rating-block {
       padding: 0;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

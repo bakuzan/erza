@@ -19,7 +19,9 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: state.isFetching,
   itemId: Number(ownProps.match.params.id),
   item: mapStateToEntity(state.entities.manga, ownProps.match.params.id),
-  historyItems: mapStateToEntityList(state.entities.chapter)
+  historyItems: mapStateToEntityList(state.entities.chapter).filter(
+    (x) => x.series && x.series.id === Number(ownProps.match.params.id)
+  )
 });
 
 const mapDispatchToProps = {

@@ -43,10 +43,11 @@ class HistoryListItem extends Component {
   }
 
   confirmEdit() {
+    const { note, rating } = this.state;
     const updateObject = {
       ...this.props.item,
-      note: this.state.note,
-      rating: Number(this.state.rating)
+      note,
+      rating: Number(rating)
     };
 
     this.props.editAction(updateObject);
@@ -59,6 +60,7 @@ class HistoryListItem extends Component {
   }
 
   render() {
+    const { isOpen, isEditing, rating, note } = this.state;
     const { item, type, editAction, deleteAction } = this.props;
     const { current } = getUniquePropertiesForItemType(type);
     const capitalisedCurrent = capitalise(current);
@@ -70,33 +72,33 @@ class HistoryListItem extends Component {
           {formatDateTimeForDisplay(item.date)}
         </time>
         <div className="flex flex--column history-list-item__rating-block">
-          <span>{`${capitalisedCurrent} ${number}`}</span>
-          {!item.rating && !this.state.isEditing ? (
+          <span>{`#${number}`}</span>
+          {!item.rating && !isEditing ? (
             <span>Unrated</span>
           ) : (
             <RatingControl
               id={`rating-${item.id}`}
               name="rating"
-              value={this.state.rating}
-              onChange={this.state.isEditing ? this.handleUserInput : null}
+              value={rating}
+              onChange={isEditing ? this.handleUserInput : null}
             />
           )}
         </div>
-        {!this.state.isEditing ? (
-          <span>{item.note}</span>
+        {!isEditing ? (
+          <div className="history-list-item__note">{item.note}</div>
         ) : (
           <ClearableInput
             id={`note-${item.id}`}
             name="note"
             label="note"
             maxLength={140}
-            value={this.state.note}
+            value={note}
             onChange={this.handleUserInput}
           />
         )}
         {(!!editAction || !!deleteAction) && (
-          <div className="list-item-actions">
-            {this.state.isEditing && (
+          <div className="history-list-item__actions">
+            {isEditing && (
               <ButtonIcon
                 btnSize="small"
                 title="Save entry"
@@ -108,13 +110,13 @@ class HistoryListItem extends Component {
               <ButtonIcon
                 name="isEditing"
                 btnSize="small"
-                aria-label={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
-                title={this.state.isEditing ? 'Cancel edit' : 'Edit entry'}
-                icon={this.state.isEditing ? Icons.cross : Icons.editable}
+                aria-label={isEditing ? 'Cancel edit' : 'Edit entry'}
+                title={isEditing ? 'Cancel edit' : 'Edit entry'}
+                icon={isEditing ? Icons.cross : Icons.editable}
                 onClick={this.toggleEdit}
               />
             )}
-            {!!deleteAction && !this.state.isEditing && (
+            {!!deleteAction && !isEditing && (
               <span className="delete-action">
                 <ButtonIcon
                   btnSize="small"
@@ -124,10 +126,10 @@ class HistoryListItem extends Component {
                   onClick={this.showDeleteDialog}
                 />
                 <Dialog
-                  isOpen={this.state.isOpen}
+                  isOpen={isOpen}
                   localised={true}
                   name="historyDelete"
-                  title={`Delete ${capitalisedCurrent} ${number}`}
+                  title={`Delete ${capitalisedCurrent} #${number}`}
                   actionText={Strings.delete}
                   onAction={this.confirmDelete}
                   onCancel={() => this.setState({ isOpen: false })}

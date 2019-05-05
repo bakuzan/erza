@@ -140,7 +140,10 @@ class QuickAdd extends React.Component {
       values: malValues
     } = malUpdates;
     const { current } = this.itemProperties;
+    const currentPlural = `${current}s`;
+
     const editItemCurrent = editItem[current];
+    const malItemCurrent = malValues && malValues[currentPlural];
 
     const isManga = type === Strings.manga;
     const limitByTotalVolume = !isManga
@@ -151,16 +154,12 @@ class QuickAdd extends React.Component {
       ? malValues.series_volumes
       : null;
 
-    const limitByTotal = editItem.max
-      ? editItem.max
-      : malValues && !!malValues[`${current}s`]
-      ? malValues[`${current}s`]
-      : null;
+    const limitByTotal = editItem.max ? editItem.max : malItemCurrent || null;
 
     const showSeriesOverallRating =
       editItemCurrent > 0 &&
       (!!malValues
-        ? editItemCurrent === malValues[`${current}s`]
+        ? editItemCurrent === malItemCurrent
         : editItemCurrent === editItem.max);
 
     const quickAddEntries = Array(editItemCurrent - editItem.min).fill(null);

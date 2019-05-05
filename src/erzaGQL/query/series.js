@@ -277,12 +277,14 @@ export const getTimeline = gql`
     $isAdult: Boolean
     $from: String!
     $to: String!
+    $status: [Status]
   ) {
     seriesTimeline(
       type: $type
       isAdult: $isAdult
       fromDate: $from
       toDate: $to
+      status: $status
     ) {
       id
       name: title

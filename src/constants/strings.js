@@ -42,6 +42,7 @@ export default {
   manga: 'manga',
   history: 'history',
   deleteConfirmation: 'Are you sure you want to delete this entry?',
+  notStarted: 'Not Started',
   unfinished: 'Unfinished',
   // mal update messages
   fetchingMalEntry: 'fetching mal entry',

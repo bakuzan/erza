@@ -103,6 +103,7 @@ const Query = gql`
       isAdult: Boolean
       fromDate: String!
       toDate: String!
+      status: [Status]
     ): [TimelineSeries]
   }
 `;

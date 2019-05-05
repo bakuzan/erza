@@ -90,11 +90,23 @@ $theme-maps: (
     border-bottom-color: $primary-colour;
   }
 
+  .history-list-item__note {
+    border-color: $primary-colour;
+  }
+
   .label:nth-child(odd):hover {
     &,
     & + .value {
       background-color: $primary-background;
       color: $primary-colour;
     }
+  }
+
+  // Timeline
+  .timeline-controls {
+    border-bottom-color: $primary-background;
+  }
+  .timeline-row {
+    border-color: $active-background;
   }
 }

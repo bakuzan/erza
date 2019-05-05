@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { RatingControl, LoadingSpinner, List, nano } from 'mko';
+import { RatingControl, LoadingSpinner, List } from 'mko';
 import {
   ButtonisedNavButton,
   ButtonisedNewTabLink,
@@ -13,30 +13,11 @@ import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
 import MalLink from 'components/MalLink';
 import LoadableContent from 'containers/LoadableContent';
-import { capitalise, formatDateForDisplay, darken } from 'utils';
+import { capitalise, formatDateForDisplay } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
 import Paths from 'constants/paths';
 import { Strings, Enums, Icons } from 'constants/values';
-
-nano.put('.series-view', {
-  display: 'flex',
-  flexDirection: 'column',
-  minHeight: '100vh'
-});
-nano.put('.series-view__footer', {
-  width: '100%',
-  padding: '10px 5px',
-  div: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  }
-});
-nano.put('.series-delete__button', {
-  backgroundColor: '#f00 !important',
-  '&:hover': {
-    backgroundColor: `${darken(10, '#f00')} !important`
-  }
-});
+import 'styles/nano/baseView';
 
 const getStatsPath = (type) => `${Paths.base}${Paths.statistics}${type}`;
 
@@ -249,7 +230,7 @@ class BaseView extends Component {
                 />
               )}
             </div>
-            <h4>Series tags</h4>
+            <h4 className="series-view__tag-title">Series tags</h4>
             <List columns={1}>
               {!item.tags && (
                 <li>
@@ -260,6 +241,7 @@ class BaseView extends Component {
                 item.tags.map((item) => (
                   <li key={item.id} className="tag-item">
                     <ButtonisedNavLink
+                      className="tag-item__link"
                       to={`${Paths.base}${Paths.tagManagement}${item.id}`}
                     >
                       {item.name}

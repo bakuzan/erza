@@ -1,4 +1,4 @@
-export const DATE_BUTTON_BASE_SIZE = 150;
+export const DATE_BUTTON_BASE_SIZE = 310;
 export const ARROW_BUTTON_SIZE = 50;
 
 export const monthNames = Object.freeze({

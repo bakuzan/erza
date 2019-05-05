@@ -19,7 +19,7 @@ const accountForArrowButtons = {
   marginRight: `${ARROW_BUTTON_SIZE - SCROLLBAR_WIDTH}px`
 };
 
-function Timeline({ className, items, onUpdate, ...props }) {
+function Timeline({ className, items, onUpdate, children, ...props }) {
   const [ref, { width }] = useDimensions();
   const [state, dispatch] = useReducer(timelineReducer, initialState());
 
@@ -48,14 +48,16 @@ function Timeline({ className, items, onUpdate, ...props }) {
           <div className="timeline__content" style={accountForArrowButtons}>
             {rows.map((x) => {
               // TODO replace title with tooltip component! (Need to write)
+              const displayText = `${x.name} - ${x.days} day(s)`;
+
               return (
                 <div
                   key={x.id}
                   className="timeline-row"
-                  title={x.name}
+                  title={displayText}
                   style={x.style}
                 >
-                  {x.name}
+                  {children({ ...x, displayText })}
                 </div>
               );
             })}
@@ -68,6 +70,7 @@ function Timeline({ className, items, onUpdate, ...props }) {
 
 Timeline.displayName = 'Timeline';
 Timeline.propTypes = {
+  children: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,

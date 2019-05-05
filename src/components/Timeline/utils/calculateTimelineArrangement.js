@@ -1,4 +1,4 @@
-import { daysDifferenceBetweenDates } from 'utils';
+import daysDifferenceBetweenDatesInclusive from './daysDifferenceBetweenDatesInclusive';
 
 function getMaxDate(...ds) {
   return Math.max(...ds.map((x) => new Date(x)));
@@ -9,10 +9,14 @@ function calculateEntryWidth(
   [fromDate, toDate],
   [entryStart, entryEnd]
 ) {
+  const today = new Date();
   const start = getMaxDate(fromDate, entryStart);
   const finish = entryEnd || toDate;
-  const days = daysDifferenceBetweenDates(start, finish);
-  return days * daySize;
+  const days = daysDifferenceBetweenDatesInclusive(start, finish);
+  return {
+    days: daysDifferenceBetweenDatesInclusive(entryStart, entryEnd || today),
+    width: days * daySize
+  };
 }
 
 export default function calculateTimelineArrangement(
@@ -20,34 +24,42 @@ export default function calculateTimelineArrangement(
   [fromDate, toDate],
   items
 ) {
-  const numOfDays = daysDifferenceBetweenDates(fromDate, toDate);
+  const numOfDays = daysDifferenceBetweenDatesInclusive(fromDate, toDate);
   const daySize = width / numOfDays;
 
   const rows = items
     .filter((x) => {
-      const validStartDate = new Date(toDate) > new Date(x.startDate);
+      const validStartDate = new Date(toDate) >= new Date(x.startDate);
       const validEndDate =
-        x.endDate === null || new Date(fromDate) < new Date(x.endDate);
+        x.endDate === null || new Date(fromDate) <= new Date(x.endDate);
 
       // Protect against entries not in the range
       return validStartDate && validEndDate;
     })
     .reduce((p, x) => {
-      const entryWidth = calculateEntryWidth(
+      const { days: entryDays, width: entryWidth } = calculateEntryWidth(
         daySize,
         [fromDate, toDate],
         [x.startDate, x.endDate]
       );
-      const leftOffset = daysDifferenceBetweenDates(fromDate, x.startDate);
+      const leftOffset = daysDifferenceBetweenDatesInclusive(
+        fromDate,
+        x.startDate,
+        false
+      );
       const marginLeft = leftOffset * daySize;
 
       return [
         ...p,
         {
           ...x,
+          days: entryDays,
           style: {
-            width: entryWidth === width ? entryWidth + 0.6 : entryWidth,
-            marginLeft: Math.max(marginLeft, -0.6)
+            width: entryWidth,
+            marginLeft: Math.max(marginLeft, 0),
+            borderLeftColor: marginLeft < 0 ? 'transparent' : undefined,
+            borderRightColor:
+              !x.endDate || x.endDate > toDate ? 'transparent' : undefined
           }
         }
       ];

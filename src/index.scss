@@ -71,6 +71,10 @@
   $content-filters: 41px;
   height: calc(100vh - 60px);
 
+  &__options {
+    display: flex;
+  }
+
   &__timeline {
     height: calc(100% - #{$content-filters});
   }

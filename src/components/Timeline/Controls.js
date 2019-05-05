@@ -24,8 +24,6 @@ function Controls({ dateRange, width }) {
   const [from, to] = dateRange;
   const dates = useMemo(() => generateDatesForRange(from, to), [from, to]);
 
-  console.log('CONTROLS > ', dates);
-
   return (
     <div className={classNames('timeline-controls')}>
       <Button

@@ -76,10 +76,11 @@ module.exports = {
   // Series
   async seriesTimeline(
     _,
-    { type, isAdult = false, fromDate, toDate },
+    { type, isAdult = false, fromDate, toDate, status },
     context
   ) {
     const [from, to] = dateRange(fromDate, toDate);
+    const statusWhere = context.resolveWhereIn(status, 'status');
     const model = context.Stats.resolveSeriesModel(type);
 
     return await model.findAll({
@@ -87,7 +88,8 @@ module.exports = {
       where: {
         isAdult: { [Op.eq]: isAdult },
         start: { [Op.lt]: to },
-        [Op.or]: [{ end: { [Op.eq]: null } }, { end: { [Op.gt]: from } }]
+        [Op.or]: [{ end: { [Op.eq]: null } }, { end: { [Op.gt]: from } }],
+        ...statusWhere
       },
       order: [['start', 'ASC']]
     });

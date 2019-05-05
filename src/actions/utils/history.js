@@ -89,36 +89,44 @@ export function loadHistoryBySeries(query, filters, { type, pageChange }) {
 // Mutate
 
 export function mutateHistoryItem(query, item, type) {
-  return async function(dispatch) {
+  const updateInState = refreshItemInState[type];
+
+  return async function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { id, rating, note } = item;
+    const payload = { id, rating, note };
+
+    const { entities } = getState();
+    const historyInState = entities[type].byId[id];
+
+    // optimistic update
+    dispatch(updateInState(payload));
+
     const response = await erzaGQL({
       query,
-      variables: { payload: { id, rating, note } }
+      variables: { payload }
     });
 
     dispatch(finishGraphqlRequest());
 
     const data = getSingleObjectProperty(response);
-    if (!data) {
+    if (!data || !data.success) {
+      // rollback optimistic update
+      dispatch(updateInState(historyInState));
+
+      if (!data.success) {
+        dispatch(
+          showAlertError({
+            message: data && data.errorMessages[0]
+          })
+        );
+      }
+
       return;
     }
 
-    if (!data.success) {
-      dispatch(
-        showAlertError({
-          message: data && data.errorMessages[0]
-        })
-      );
-
-      return;
-    }
-
-    if (type) {
-      dispatch(refreshItemInState[type](data.data));
-    }
-
+    dispatch(updateInState(data.data));
     toaster.success('Saved!', `Successfully saved '${type || 'history'}'.`);
   };
 }

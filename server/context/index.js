@@ -89,15 +89,14 @@ async function updateSeries(model, payload, mappers) {
   const { tags, ...values } = payload;
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
 
-  const series = validateSeries(values, mappers);
-  const exists = await checkIfSeriesAlreadyExists(model, series);
+  const exists = await checkIfSeriesAlreadyExists(model, values);
 
   if (exists) {
     return {
       success: false,
       errorMessages: [
-        `Series "${series.title}" already exists. (Id: ${series.id}, Mal: ${
-          series.malId
+        `Series "${values.title}" already exists. (Id: ${values.id}, Mal: ${
+          values.malId
         })`
       ],
       data: null
@@ -105,8 +104,14 @@ async function updateSeries(model, payload, mappers) {
   }
 
   return db.transaction(async function(transaction) {
+    const oldSeries = await model.findByPk(values.id, {
+      include: [Tag],
+      transaction
+    });
+    const oldSeriesValues = oldSeries.get({ raw: true });
+
+    const series = validateSeries({ ...oldSeriesValues, ...values }, mappers);
     const { id, ...data } = series;
-    const oldSeries = await model.findByPk(id, { include: [Tag], transaction });
 
     const removedExistingTags = oldSeries.tags.filter(
       (x) => !existingTags.some((tId) => tId === x.id)
@@ -236,5 +241,7 @@ module.exports = {
   updateSeries,
   updateSeriesWithHistory,
   updateEntity,
-  deleteEntity
+  deleteEntity,
+  //Helpers
+  resolveWhereIn
 };
