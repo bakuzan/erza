@@ -37,7 +37,6 @@ const seriesByIdEditFields = gql`
     end
     rating
     isAdult
-    series_type
     series_start
     series_end
     tags {
@@ -101,6 +100,7 @@ export const getAnimeByIdForEdit = gql`
       ...SeriesFields
       ...SeriesEditFields
       ...AnimeFields
+      series_type
     }
   }
   ${seriesByIdEditFields}
@@ -137,6 +137,7 @@ export const getMangaByIdForEdit = gql`
       ...SeriesFields
       ...SeriesEditFields
       ...MangaFields
+      series_type
     }
   }
   ${seriesByIdEditFields}

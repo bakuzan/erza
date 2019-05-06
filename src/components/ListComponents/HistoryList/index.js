@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { LoadingBouncer, List } from 'mko';
 import { ButtonisedNavLink } from 'components/Buttonised';
+import Grid from 'components/Grid';
 import HistoryListItem from './HistoryListItem';
 import Paths from 'constants/paths';
 import { getHistoryNameForItemType } from 'utils/data';
@@ -50,23 +50,11 @@ function renderHistoryListItems(type, items, { editAction, deleteAction }) {
   return list;
 }
 
-const HistoryList = ({ isFetching, items, type, editAction, deleteAction }) => {
-  const noItems = items.length === 0;
-  const noDataButFetching = isFetching && noItems;
-  const noDataNotFetching = !isFetching && noItems;
-  const hasData = !!items.length;
+const HistoryList = ({ type, editAction, deleteAction, ...props }) => {
   return (
-    <List columns={1}>
-      {noDataButFetching && <LoadingBouncer />}
-      {noDataNotFetching && (
-        <li>
-          {' '}
-          <p>No items to display.</p>{' '}
-        </li>
-      )}
-      {hasData &&
-        renderHistoryListItems(type, items, { editAction, deleteAction })}
-    </List>
+    <Grid {...props}>
+      {renderHistoryListItems(type, props.items, { editAction, deleteAction })}
+    </Grid>
   );
 };
 

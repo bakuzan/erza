@@ -22,6 +22,7 @@ nano.put('.series-view__footer', {
 
 nano.put('.series-delete__button', {
   backgroundColor: '#f00 !important',
+  color: '#fff !important',
   '&:hover': {
     backgroundColor: `${darken(10, '#f00')} !important`
   }

@@ -54,7 +54,6 @@ function TimelinePage({ match, isAdult }) {
     return <Redirect to={`${TIMELINE_PAGE_BASE_URL}${Strings.anime}`} />;
   }
 
-  console.log('RENDER TIMELINE PAGE');
   return (
     <div className="timeline-page">
       <div className="timeline-page__options">

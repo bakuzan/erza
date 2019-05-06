@@ -85,7 +85,7 @@ class BaseCreate extends Component {
 
     const itemUnchanged = objectsAreEqual(current, previous);
     const isAdultUnchanged = this.props.isAdult === prevProps.isAdult;
-    console.log('cdu>', current, previous);
+
     if (itemUnchanged && isAdultUnchanged) {
       return;
     }
@@ -159,11 +159,6 @@ class BaseCreate extends Component {
 
   render() {
     const { isFetching, item } = this.props;
-
-    console.groupCollapsed('RENDER SERIES FORM');
-    console.log('Props > ', this.props);
-    console.log('State > ', this.state);
-    console.groupEnd();
 
     if (isFetching || !item || !item.tags) {
       return <LoadingSpinner size="fullscreen" />;

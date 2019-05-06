@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PagingControls from 'containers/PagingControls';
 import HistoryList from 'components/ListComponents/HistoryList';
 import { pageSizes } from 'constants/values';
-import { getHistoryNameForItemType, selectPageItems } from 'utils/data';
+import { getHistoryNameForItemType } from 'utils/data';
 
 const PagedHistoryList = ({
   isFetching,
@@ -13,10 +13,11 @@ const PagedHistoryList = ({
   items,
   type,
   paging,
+  onLoadMore,
   ...props
 }) => {
   const historyType = getHistoryNameForItemType(type);
-  const itemsForPage = selectPageItems(items, historyType, paging);
+  const itemsForPage = items; // selectPageItems(items, historyType, paging);
   return (
     <div className="flex flex--column flex--grow">
       <PagingControls
@@ -30,6 +31,7 @@ const PagedHistoryList = ({
         items={itemsForPage}
         editAction={props.editAction}
         deleteAction={props.deleteAction}
+        onLoadMore={onLoadMore}
       />
     </div>
   );

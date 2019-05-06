@@ -1,15 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import PagingControls from 'containers/PagingControls';
 import QuickAdd from 'containers/QuickAdd';
 
-import { selectPagingForType } from 'reducers/paging';
-import { capitalise } from 'utils';
-import { getUniquePropertiesForItemType, selectPageItems } from 'utils/data';
-
-class BasePagedList extends Component {
+class BasePagedList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,24 +31,33 @@ class BasePagedList extends Component {
   }
 
   render() {
-    const { isFetching, type, filters, list, items, paging } = this.props;
-    const isQuickAddOpen = !!this.state.itemIdForQuickAdd;
+    const {
+      containerClassName,
+      isFetching,
+      type,
+      filters,
+      list,
+      items,
+      onLoadMore
+    } = this.props;
+
     const PagedList = list;
-    const { current } = getUniquePropertiesForItemType(type);
-
-    const dynamicListProps = {
-      [`add${capitalise(current)}`]: this.openEditDialog
-    };
-
-    const itemsForPage = selectPageItems(items, type, paging);
+    const isQuickAddOpen = !!this.state.itemIdForQuickAdd;
+    const itemsForPage = items; //selectPageItems(items, type, paging);
 
     return (
       <div className="flex flex--column flex--grow">
-        <PagingControls listType={type} filters={filters} />
+        <PagingControls
+          className={containerClassName}
+          listType={type}
+          filters={filters}
+        />
         <PagedList
+          containerClassName={containerClassName}
           isFetching={isFetching}
           items={itemsForPage}
-          {...dynamicListProps}
+          addAction={this.openEditDialog}
+          onLoadMore={onLoadMore}
         />
         <QuickAdd
           isOpen={isQuickAddOpen}
@@ -71,13 +76,11 @@ BasePagedList.propTypes = {
   list: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
-  paging: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.isFetching,
-  paging: selectPagingForType(state, ownProps)
+  isFetching: state.isFetching
 });
 
 export default connect(mapStateToProps)(BasePagedList);

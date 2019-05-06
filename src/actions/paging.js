@@ -1,6 +1,5 @@
 import {
   NEXT_PAGE,
-  PREV_PAGE,
   RESET_PAGE,
   SET_ITEMS_PER_PAGE,
   LOAD_PAGE_INFO
@@ -36,11 +35,6 @@ const fetchNextPage = (listType) => ({
   listType
 });
 
-const fetchPrevPage = (listType) => ({
-  type: PREV_PAGE,
-  listType
-});
-
 const changePage = (direction, changePage, type, filters) => {
   return function(dispatch) {
     dispatch(changePage(type));
@@ -50,9 +44,6 @@ const changePage = (direction, changePage, type, filters) => {
 
 export const nextPage = (type, filters) =>
   changePage(Strings.next, fetchNextPage, type, filters);
-
-export const prevPage = (type, filters) =>
-  changePage(Strings.prev, fetchPrevPage, type, filters);
 
 export const setItemsPerPage = (event, listType) => ({
   type: SET_ITEMS_PER_PAGE,

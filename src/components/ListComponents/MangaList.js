@@ -1,28 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ItemList from './ItemList';
-import ItemListItem from './ItemList/ItemListItem';
+import Grid from 'components/Grid';
+import ItemListItem from './ItemListItem';
 import withAsyncPageLoad from './withAsyncPageLoad';
 import { Strings } from 'constants/values';
 
-const MangaList = ({ items, addChapter, ...props }) => (
-  <ItemList
-    {...props}
-    items={items.map((item) => (
+const MangaList = ({ addAction, ...props }) => (
+  <Grid {...props}>
+    {(item) => (
       <ItemListItem
         key={item.id}
         type={Strings.manga}
         item={item}
-        addAction={addChapter}
+        addAction={addAction}
       />
-    ))}
-  />
+    )}
+  </Grid>
 );
 
 MangaList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addChapter: PropTypes.func
+  addAction: PropTypes.func
 };
 
 export default withAsyncPageLoad(MangaList);

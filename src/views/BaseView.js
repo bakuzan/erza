@@ -14,7 +14,10 @@ import { lazyLoader } from 'components/LazyLoaders';
 import MalLink from 'components/MalLink';
 import LoadableContent from 'containers/LoadableContent';
 import { capitalise, formatDateForDisplay } from 'utils';
-import { getUniquePropertiesForItemType } from 'utils/data';
+import {
+  getUniquePropertiesForItemType,
+  getHistoryNameForItemType
+} from 'utils/data';
 import Paths from 'constants/paths';
 import { Strings, Enums, Icons } from 'constants/values';
 import 'styles/nano/baseView';
@@ -43,6 +46,7 @@ class BaseView extends Component {
     this.handleHistoryDelete = this.handleHistoryDelete.bind(this);
     this.handleSeriesDelete = this.handleSeriesDelete.bind(this);
     this.setStatNavLink = this.setStatNavLink.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +79,21 @@ class BaseView extends Component {
       pathname: getStatsPath(this.props.type),
       state
     };
+  }
+
+  handleLoadMore() {
+    const {
+      isFetching,
+      type,
+      pageInfo,
+      itemId,
+      onLoadMoreHistory
+    } = this.props;
+
+    if (!isFetching && pageInfo.hasMore) {
+      const historyType = getHistoryNameForItemType(type);
+      onLoadMoreHistory(historyType, { seriesId: itemId });
+    }
   }
 
   render() {
@@ -204,6 +223,7 @@ class BaseView extends Component {
                         items={historyItems}
                         editAction={this.handleHistoryEdit}
                         deleteAction={this.handleHistoryDelete}
+                        onLoadMore={this.handleLoadMore}
                       />
                     </div>
                   </LoadableContent>
@@ -275,7 +295,8 @@ BaseView.propTypes = {
   loadItemById: PropTypes.func.isRequired,
   loadHistoryForSeries: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
-  deleteAction: PropTypes.func.isRequired
+  deleteAction: PropTypes.func.isRequired,
+  onLoadMoreHistory: PropTypes.func.isRequired
 };
 
 export default BaseView;

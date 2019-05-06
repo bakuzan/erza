@@ -3,31 +3,36 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
+import { nano } from 'mko';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 import ListFilter from 'containers/ListFilter';
 import PagedAnimeList from 'containers/PagedLists/PagedAnimeList';
 import PagedMangaList from 'containers/PagedLists/PagedMangaList';
+import { nextPage } from 'actions/paging';
 import { Strings } from 'constants/values';
 import { getEventValue, getTimeoutSeconds, debounce, capitalise } from 'utils';
 
-const getStatusList = (props) => {
+const DailyAnime = lazyLoader(() =>
+  import(/* webpackChunkName: 'DailyAnime' */ '../containers/DailyAnime')
+);
+
+function getStatusList(props) {
   const { value } = props.statusFilter;
   return !!value && !!value.length ? value : [value];
-};
+}
 
-const KEEP_PAGE_ON_MOUNT = true;
-const loadData = (props, state, shouldKeepPage = false) => {
-  const status = getStatusList(props);
-  props.loadDataForTypedList(
-    {
-      status,
-      isOwnedOnly: props.isOwnedOnly,
-      ...state
-    },
-    shouldKeepPage
-  );
-};
+function getFilters(state, props) {
+  return {
+    ...state,
+    status: getStatusList(props),
+    isOwnedOnly: props.isOwnedOnly
+  };
+}
+
+const KEEP_PAGE_ON_MOUNT = false;
+const loadData = (props, state, shouldKeepPage = false) =>
+  props.loadDataForTypedList(getFilters(state, props), shouldKeepPage);
 
 const fetchPagedListForType = (type) =>
   type === Strings.anime
@@ -36,9 +41,12 @@ const fetchPagedListForType = (type) =>
     ? PagedMangaList
     : null;
 
-const DailyAnime = lazyLoader(() =>
-  import(/* webpackChunkName: 'DailyAnime' */ '../containers/DailyAnime')
-);
+const listClass = nano.rule({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '90%',
+  margin: '0 auto'
+});
 
 class BaseListView extends Component {
   constructor() {
@@ -48,6 +56,7 @@ class BaseListView extends Component {
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   componentDidMount() {
@@ -55,13 +64,22 @@ class BaseListView extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const {
+      routeKey,
+      isAdult,
+      isOwnedOnly,
+      statusFilter,
+      sorting,
+      paging
+    } = this.props;
+
     if (
-      prevProps.routeKey !== this.props.routeKey ||
-      prevProps.statusFilter.value !== this.props.statusFilter.value ||
-      prevProps.isAdult !== this.props.isAdult ||
-      prevProps.sorting !== this.props.sorting ||
-      prevProps.itemsPerPage !== this.props.itemsPerPage ||
-      prevProps.isOwnedOnly !== this.props.isOwnedOnly
+      prevProps.routeKey !== routeKey ||
+      prevProps.statusFilter.value !== statusFilter.value ||
+      prevProps.isAdult !== isAdult ||
+      prevProps.sorting !== sorting ||
+      prevProps.paging.size !== paging.size ||
+      prevProps.isOwnedOnly !== isOwnedOnly
     ) {
       loadData(this.props, this.state);
     }
@@ -73,16 +91,27 @@ class BaseListView extends Component {
     debounce(() => loadData(this.props, this.state), getTimeoutSeconds(0.5));
   }
 
-  render() {
-    const { type, items, isAdult, routeKey, isOwnedOnly } = this.props;
-    const PagedTypedList = fetchPagedListForType(type);
-    const filters = {
-      ...this.state,
-      status: getStatusList(this.props),
-      isOwnedOnly
-    };
+  handleLoadMore() {
+    const {
+      isFetching,
+      type,
+      paging: { pageInfo },
+      onLoadMore
+    } = this.props;
 
-    const showDailyAnime = type === Strings.anime && !isAdult;
+    if (!isFetching && pageInfo.hasMore) {
+      const filters = getFilters(this.state, this.props);
+      onLoadMore(type, filters);
+    }
+  }
+
+  render() {
+    const { type, items, isAdult, routeKey } = this.props;
+    const isAnime = type === Strings.anime;
+    const showDailyAnime = isAnime && !isAdult;
+
+    const PagedTypedList = fetchPagedListForType(type);
+    const filters = getFilters(this.state, this.props);
 
     return (
       <div className="flex flex--row">
@@ -104,7 +133,12 @@ class BaseListView extends Component {
           )}
         </ListFilter>
         <LoadableContent>
-          <PagedTypedList filters={filters} items={items} />
+          <PagedTypedList
+            containerClassName={listClass}
+            filters={filters}
+            items={items}
+            onLoadMore={this.handleLoadMore}
+          />
         </LoadableContent>
         {showDailyAnime && (
           <DailyAnime
@@ -122,15 +156,24 @@ BaseListView.propTypes = {
   routeKey: PropTypes.string,
   isAdult: PropTypes.bool.isRequired,
   sorting: PropTypes.arrayOf(PropTypes.string).isRequired,
-  itemsPerPage: PropTypes.number.isRequired,
+  paging: PropTypes.shape({ size: PropTypes.number, page: PropTypes.number })
+    .isRequired,
   statusFilter: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   isAdult: state.isAdult,
   sorting: state.sorting,
   isOwnedOnly: state.filters[ownProps.type].isOwnedOnly,
-  itemsPerPage: state.paging[ownProps.type].size
+  paging: state.paging[ownProps.type]
 });
 
-export default connect(mapStateToProps)(BaseListView);
+const mapDispatchToProps = {
+  onLoadMore: nextPage
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BaseListView);

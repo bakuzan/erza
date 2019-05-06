@@ -39,7 +39,8 @@ function addListEntity(state, item) {
 }
 
 export function loadEntityList(state, action) {
-  const resetState = !action.pageChange;
+  const { size, page } = action.paging || {};
+  const resetState = !action.pageChange || page === 0;
   const newIds = [];
   let latestState = resetState ? { byId: {}, allIds: [] } : state;
 
@@ -51,15 +52,16 @@ export function loadEntityList(state, action) {
   return resetState
     ? latestState
     : (() => {
-        const { size, page } = action.paging;
         const startIndex = page * size;
         const endIndex = startIndex + size;
         return {
           ...latestState,
           allIds: [
-            ...latestState.allIds.slice(0, startIndex),
-            ...newIds,
-            ...latestState.allIds.slice(endIndex)
+            ...new Set([
+              ...latestState.allIds.slice(0, startIndex),
+              ...newIds,
+              ...latestState.allIds.slice(endIndex)
+            ]).values()
           ]
         };
       })();

@@ -94,8 +94,11 @@ export function mutateItem(query, payload, type) {
         })
       );
 
-      return null;
+      return;
     }
+
+    // Clear out stored data because it's now stale!
+    dispatch(resetPageToZero(type));
 
     toaster.success(
       'Saved!',
@@ -132,7 +135,7 @@ export function removeItem(query, variables, type) {
         })
       );
 
-      return null;
+      return;
     }
 
     toaster.success('Deleted!', `Successfully deleted ${type}.`);

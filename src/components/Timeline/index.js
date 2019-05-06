@@ -39,7 +39,6 @@ function Timeline({ className, items, onUpdate, children, ...props }) {
     }
   }, [onUpdate, fromDate, toDate]);
 
-  console.log(dateRange, 'RENDER TIMELINE', items);
   return (
     <TimelineDispatcherContext.Provider value={dispatch}>
       <div ref={ref} className={classNames('timeline', className)}>

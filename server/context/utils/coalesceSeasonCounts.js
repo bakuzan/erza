@@ -6,7 +6,7 @@ const aggregateIsSeasonStart = (o) =>
 module.exports = function coalesceSeasonCounts(data) {
   const invalidSeasonStarts = data
     .filter((x) => !aggregateIsSeasonStart(x))
-    .reduce((p, c) => [...p, c.key], []);
+    .reduce((p, c) => [...p, [c.key, c.value]], []);
 
   if (!invalidSeasonStarts.length) {
     return data;
@@ -14,20 +14,20 @@ module.exports = function coalesceSeasonCounts(data) {
 
   const validSeasonStarts = data.filter(aggregateIsSeasonStart);
 
-  return invalidSeasonStarts.reduce((p, monthKey) => {
+  return invalidSeasonStarts.reduce((p, [monthKey, monthValue]) => {
     const dateString = new Date(monthKey).toISOString();
     const { year, season: seasonMonth } = getSeasonStartMonth(dateString);
     const seasonText = `${year}-${seasonMonth}`;
     const index = p.findIndex((x) => x.key === seasonText);
 
     if (index === -1) {
-      return [...p, { key: seasonText, value: 1 }];
+      return [...p, { key: seasonText, value: monthValue }];
     }
 
     const season = p[index];
 
     return Object.assign([...p], {
-      [index]: { key: season.key, value: season.value + 1 }
+      [index]: { key: season.key, value: season.value + monthValue }
     });
   }, validSeasonStarts);
 };

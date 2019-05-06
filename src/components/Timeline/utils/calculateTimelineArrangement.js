@@ -65,15 +65,5 @@ export default function calculateTimelineArrangement(
       ];
     }, []);
 
-  console.groupCollapsed('Calculated rows');
-  console.log('DateRange > ', fromDate, toDate);
-  console.log('Num of Days > ', numOfDays);
-  console.log('Size of Day (px) > ', daySize);
-  console.log(
-    'Rows with sizes > ',
-    rows.map(({ name, style }) => ({ name, style }))
-  );
-  console.groupEnd();
-
   return rows;
 }

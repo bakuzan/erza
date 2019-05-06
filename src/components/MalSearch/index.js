@@ -101,7 +101,6 @@ class MalSearch extends React.Component {
     }
 
     const response = await checkIfItemExistsAlready(this.props);
-    console.log('query, ', response);
     const alreadyExists = response.animeExists || response.mangaExists;
     const error = alreadyExists ? Errors.exists : null;
     const warning = Warnings.malIsDisabled;

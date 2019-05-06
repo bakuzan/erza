@@ -34,5 +34,5 @@ export const Days = combinedStrings.dayNames.map((s) => s.slice(0, 2));
 
 export const pageSizes = {
   default: [5, 10, 15, 25],
-  history: [25, 50, 75, 100]
+  history: [10, 15, 25, 50]
 };

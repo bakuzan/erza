@@ -4,7 +4,6 @@ const { db, Anime, Manga, Episode, Chapter, Tag } = require('../connectors');
 const statistics = require('./statistics');
 const { Status } = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
-const inSeasonCalc = require('../utils/inSeason');
 
 module.exports = {
   ...statistics,
@@ -50,10 +49,7 @@ module.exports = {
 
     return ongoingAnimeWithEpisodes
       .map((x) => ({ anime: x, ep: x.episodes.pop().get({ raw: true }) }))
-      .filter(
-        ({ anime, ep }) =>
-          anime.episode === ep.episode && inSeasonCalc(anime).inSeason
-      )
+      .filter(({ anime, ep }) => anime.episode === ep.episode)
       .sort((a, b) => (a.ep.date > b.ep.date ? 1 : -1))
       .map(({ anime }) => anime);
   },

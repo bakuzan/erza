@@ -7,6 +7,7 @@ import { DateSelector, MultiSelect, SelectBox } from 'mko';
 import SortOrderToggle from 'components/SortOrderToggle';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
+import { nextPage } from 'actions/paging';
 
 import {
   getTimeoutSeconds,
@@ -57,6 +58,7 @@ class BaseHistoryView extends Component {
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleRatingList = this.handleRatingList.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -100,6 +102,15 @@ class BaseHistoryView extends Component {
 
   handleRatingList(ratings) {
     this.setState({ ratings }, this.fetchData);
+  }
+
+  handleLoadMore() {
+    const { isFetching, type, pageInfo, onLoadMore } = this.props;
+
+    if (!isFetching && pageInfo.hasMore) {
+      const historyType = getHistoryNameForItemType(type);
+      onLoadMore(historyType, this.state);
+    }
   }
 
   render() {
@@ -159,6 +170,7 @@ class BaseHistoryView extends Component {
             type={type}
             filters={filters}
             items={historyItems}
+            onLoadMore={this.handleLoadMore}
           />
         </LoadableContent>
       </div>
@@ -175,8 +187,16 @@ BaseHistoryView.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.isFetching,
   isAdult: state.isAdult,
   ...state.paging[getHistoryNameForItemType(ownProps.type)]
 });
 
-export default connect(mapStateToProps)(BaseHistoryView);
+const mapDispatchToProps = {
+  onLoadMore: nextPage
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BaseHistoryView);

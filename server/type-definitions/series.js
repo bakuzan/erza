@@ -15,7 +15,6 @@ module.exports = gql`
     image: String
     link: String
     malId: Int
-    series_type: AnimeType
     series_start: String
     series_end: String
     updatedAt: String
@@ -78,7 +77,7 @@ module.exports = gql`
     image: String
     link: String
     malId: Int
-    series_type: AnimeType
+    series_type: MangaType
     series_start: String
     series_end: String
     updatedAt: String
@@ -166,7 +165,7 @@ module.exports = gql`
     image: String
     link: String
     malId: Int
-    series_type: AnimeType
+    series_type: MangaType
     series_start: String
     series_end: String
     tags: [TagInput]
@@ -188,7 +187,7 @@ module.exports = gql`
     image: String
     link: String
     malId: Int
-    series_type: AnimeType
+    series_type: MangaType
     series_start: String
     series_end: String
     tags: [TagInput]

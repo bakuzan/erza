@@ -14,6 +14,8 @@ import { Enums, Icons } from 'constants/values';
 import { formatDateTimeForDisplay } from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
 
+import './ItemListItem.scss';
+
 const SpanIcon = (props) => <span {...props} />;
 const ButtonisedSpan = withButtonisation(SpanIcon);
 
@@ -35,7 +37,7 @@ const ItemListItem = ({ type, item, addAction }) => {
         <time dateTime={item.updatedAt}>
           {formatDateTimeForDisplay(item.updatedAt)}
         </time>
-        <h4>{item.title}</h4>
+        <h4 className="list-item__title">{item.title}</h4>
         <div className="flex flex--row start-center-contents list-item__increment-data">
           {!!addAction && (
             <ButtonIcon
@@ -60,7 +62,7 @@ const ItemListItem = ({ type, item, addAction }) => {
             />
           )}
         </div>
-        <div className="button-group fixed-width">
+        <div className="button-group button-group--left">
           <ButtonisedNavButton
             to={`${Paths.base}${Paths[type].view}${item.id}`}
             className="ripple"
