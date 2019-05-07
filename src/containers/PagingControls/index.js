@@ -22,8 +22,8 @@ const PagingControls = ({
   const PAGE_SIZE_OPTIONS = pageSizeOptions.map((x) => ({ value: x, text: x }));
 
   return (
-    <div className={classNames('paging-controls flex flex--row', className)}>
-      <div className="flex flex--grow flex--row">
+    <div className={classNames('paging-controls', className)}>
+      <div className="paging-controls__content-wrapper flex flex--grow flex--row">
         {!!pageInfo.total && (
           <div className="paging-controls__item-count">{`Found ${
             pageInfo.total
@@ -31,6 +31,7 @@ const PagingControls = ({
         )}
       </div>
       <SelectBox
+        containerClassName="paging-controls__control"
         id="itemsPerPage"
         name="itemsPerPage"
         text="items per page"

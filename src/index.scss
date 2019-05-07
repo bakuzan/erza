@@ -22,18 +22,16 @@
 .filters-container {
   display: flex;
   flex-direction: column;
-  width: 22%;
-  max-width: 22%;
   min-width: 225px;
   padding: 20px 5px;
 
   &--wider {
-    width: 25%;
+    flex: 1 0 25%;
     max-width: 25%;
   }
 
   @include respondTo(xs) {
-    width: 100%;
+    flex-basis: 100%;
     max-width: 100%;
   }
 

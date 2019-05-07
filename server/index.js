@@ -58,7 +58,7 @@ app.post('/yri-graphql', proxy('http://localhost:9933/yri-graphql'));
 app.use(defaultErrorHandler);
 
 if (process.env.NODE_ENV === Constants.environment.production) {
-  app.get('*', (req, res) => {
+  app.get('*', (req, res, next) => {
     if (req.url.includes('graphql')) {
       next();
     }

@@ -1,5 +1,15 @@
+@import '~styles/_mixins';
+
 .paging-controls {
+  display: flex;
+  flex-direction: row !important;
   padding: 0 5px;
+
+  &__content-wrapper {
+    @include respondTo(xs) {
+      justify-content: center;
+    }
+  }
 
   &__item-count {
     display: flex;
@@ -8,14 +18,13 @@
     padding-right: 10px;
     text-align: right;
     font-size: 0.8em;
-  }
-  .button-group {
-    padding: 0 {
-      top: 5px;
+
+    @include respondTo(xs) {
+      justify-content: flex-start;
     }
-    margin: 0;
   }
-  .select-container {
+
+  &__control {
     flex-grow: 0;
   }
 }
