@@ -3,6 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const proxy = require('express-http-proxy');
 const { ApolloServer } = require('apollo-server-express');
@@ -48,6 +49,8 @@ app.use(
 );
 
 //Imgur routes
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.post('/api/image-upload/url', imageStore.upload);
 app.post('/api/image-upload/file', imageStore.uploadFromLocal);
 
