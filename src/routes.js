@@ -16,7 +16,7 @@ import AnimeHistoryView from './views/History/AnimeHistory';
 import MangaHistoryView from './views/History/MangaHistory';
 
 const Home = routeLazyLoader(() =>
-  import(/* webpackChunkName: 'Home' */ './views/Home/index')
+  import(/* webpackChunkName: 'Home' */ './views/Home')
 );
 const Statistics = routeLazyLoader(() =>
   import(/* webpackChunkName: 'Statistics' */ './views/Statistics')
