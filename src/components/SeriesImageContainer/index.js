@@ -21,6 +21,7 @@ function SeriesImageContainer({ isFull, children, ...props }) {
 
 SeriesImageContainer.propTypes = {
   isFull: PropTypes.bool,
+  isLazy: PropTypes.bool,
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired
 };

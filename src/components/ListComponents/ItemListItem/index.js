@@ -94,7 +94,11 @@ const ItemListItem = ({ type, item, addAction }) => {
           )}
         </div>
       )}
-      <SeriesImageContainer src={item.image} alt={`Cover for ${item.title}`} />
+      <SeriesImageContainer
+        isLazy
+        src={item.image}
+        alt={`Cover for ${item.title}`}
+      />
     </li>
   );
 };
