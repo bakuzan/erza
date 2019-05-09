@@ -5,7 +5,9 @@ const {
   AnimeTypes,
   MangaTypes,
   StatTypes,
-  StatBreakdowns
+  StatBreakdowns,
+  RepeatPattern,
+  CalendarMode
 } = require('../constants/enums');
 
 const mapArrToGraphqlString = (arr) => arr.join(' ');
@@ -26,5 +28,14 @@ module.exports = gql`
   }
   enum StatBreakdown {
     ${mapArrToGraphqlString(StatBreakdowns)}
+  }
+
+
+  enum RepeatPattern {
+    ${mapArrToGraphqlString(RepeatPattern)}
+  }
+
+  enum CalendarMode {
+    ${mapArrToGraphqlString(CalendarMode)}
   }
 `;

@@ -35,6 +35,17 @@ const MangaTypes = Object.freeze([
 const StatTypes = Object.freeze(['Anime', 'Manga']);
 const StatBreakdowns = Object.freeze(['Month', 'Season']);
 
+const RepeatPattern = Object.freeze([
+  'None',
+  'Daily',
+  'Weekly',
+  'Monthly',
+  'Quarterly',
+  'Yearly'
+]);
+
+const CalendarMode = Object.freeze(['Day', 'Week', 'Month']);
+
 module.exports = {
   // Item
   Statuses,
@@ -49,5 +60,9 @@ module.exports = {
   StatTypes,
   StatType: Object.freeze(mapEnumArrayToObject(StatTypes)),
   StatBreakdowns,
-  StatBreakdown: Object.freeze(mapEnumArrayToObject(StatBreakdowns))
+  StatBreakdown: Object.freeze(mapEnumArrayToObject(StatBreakdowns)),
+  RepeatPattern,
+  RepeatPatterns: mapEnumArrayToObject(RepeatPattern),
+  CalendarMode,
+  CalendarModes: mapEnumArrayToObject(CalendarMode)
 };

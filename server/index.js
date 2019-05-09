@@ -5,7 +5,6 @@ dotenv.config();
 
 const bodyParser = require('body-parser');
 const express = require('express');
-const proxy = require('express-http-proxy');
 const { ApolloServer } = require('apollo-server-express');
 
 const imageStore = require('./image-store');
@@ -53,9 +52,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.post('/api/image-upload/url', imageStore.upload);
 app.post('/api/image-upload/file', imageStore.uploadFromLocal);
-
-// Yoruichi Route
-app.post('/yri-graphql', proxy('http://localhost:9933/yri-graphql'));
 
 // Non-route handlers
 app.use(defaultErrorHandler);

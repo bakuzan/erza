@@ -3,16 +3,13 @@ const Op = require('sequelize').Op;
 const { db, Tag } = require('../connectors');
 const Stats = require('./statistics');
 const Paged = require('./paged');
+const Todo = require('./todo');
 const { Status } = require('../constants/enums');
-const dateRange = require('../utils/dateRange');
 
 const handleDeleteResponse = require('./utils/handleDeleteResponse');
-const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
-const setHasMoreFlag = require('./utils/setHasMoreFlag');
 const resolveWhereIn = require('./utils/resolveWhereIn');
 const separateNewVsExistingTags = require('./utils/separateNewVsExistingTags');
 const mapToNewTag = require('./utils/mapToNewTag');
-const validateSortOrder = require('./validators/validateSortOrder');
 const validateSeries = require('./validators/validateSeries');
 const validateAndMapHistoryInput = require('./validators/validateAndMapHistoryInput');
 
@@ -220,7 +217,7 @@ async function updateSeriesWithHistory(
 }
 
 async function updateEntity(model, args, id) {
-  const updated = await model.update(args, { where: { id } });
+  await model.update(args, { where: { id } });
   const data = await model.findByPk(id);
   return { success: true, errorMessages: [], data };
 }
@@ -235,6 +232,7 @@ async function deleteEntity(model, where) {
 module.exports = {
   Stats,
   ...Paged,
+  ...Todo,
   checkIfSeriesAlreadyExists,
   findAllRepeated,
   createSeries,
@@ -243,5 +241,6 @@ module.exports = {
   updateEntity,
   deleteEntity,
   //Helpers
-  resolveWhereIn
+  resolveWhereIn,
+  handleDeleteResponse
 };

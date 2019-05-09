@@ -1,6 +1,8 @@
 const inSeasonCalc = require('../../utils/inSeason');
 const { formatDateInput } = require('../../utils/formatDate');
 
+const TodoTemplateResolvers = require('./todoTemplate');
+const TodoInstanceResolvers = require('./todoInstance');
 const common = require('./common');
 
 module.exports = {
@@ -115,5 +117,7 @@ module.exports = {
   TimelineSeries: {
     start: common.Series.start,
     end: common.Series.end
-  }
+  },
+  TodoTemplate: TodoTemplateResolvers,
+  TodoInstance: TodoInstanceResolvers
 };

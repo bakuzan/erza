@@ -4,6 +4,7 @@ const Series = require('./series');
 const History = require('./history');
 const Tag = require('./tag');
 const Statistics = require('./statistics');
+const Todo = require('./todo');
 const Enums = require('./enums');
 
 const Query = gql`
@@ -105,6 +106,12 @@ const Query = gql`
       toDate: String!
       status: [Status]
     ): [TimelineSeries]
+
+    todoTemplateById(id: Int!): TodoTemplate
+    todoTemplates: [TodoTemplate]
+    todoInstances(todoTemplateId: Int): [TodoInstance]
+
+    calendarView(mode: CalendarMode!, date: String!): [TodoInstance]
   }
 `;
 
@@ -135,6 +142,16 @@ const Mutation = gql`
 
     tagUpdate(payload: TagInput!): TagResponse
     tagRemove(id: Int!): DeleteResponse
+
+    todoCreate(template: TodoTemplateInput): YRIReponse
+    todoUpdate(
+      todoTemplateId: Int!
+      template: TodoTemplateInput
+      isInstance: Boolean
+    ): YRIReponse
+
+    todoTemplateRemove(id: Int!): YRIReponse
+    todoRemove(id: Int!, onlyInstance: Boolean): YRIReponse
   }
 
   type DeleteResponse {
@@ -170,6 +187,13 @@ const Mutation = gql`
     errorMessages: [String]
     data: Tag
   }
+
+  scalar Date
+
+  type YRIReponse {
+    success: Boolean
+    errorMessages: [String]
+  }
 `;
 
 module.exports = [
@@ -179,6 +203,7 @@ module.exports = [
   History,
   Tag,
   Statistics,
+  Todo,
   Enums,
   gql`
     input Paging {

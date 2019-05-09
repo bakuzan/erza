@@ -6,7 +6,6 @@ export { default as parseIfInt } from 'ayaka/parseIfInt';
 export { default as castStringToBool } from 'ayaka/castStringToBool';
 export { default as getEventValue } from 'ayaka/getEventValue';
 export { default as padNumber } from 'ayaka/padNumber';
-export { default as getKeyByValue } from 'ayaka/getKeyByValue';
 export {
   default as getSingleObjectProperty
 } from 'ayaka/getSingleObjectProperty';

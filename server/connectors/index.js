@@ -19,6 +19,8 @@ const MangaModel = db.import('./manga');
 const EpisodeModel = db.import('./episode');
 const ChapterModel = db.import('./chapter');
 const TagModel = db.import('./tag');
+const TodoTemplateModel = db.import('./todoTemplate');
+const TodoInstanceModel = db.import('./todoInstance');
 
 // Anime-Tag
 AnimeModel.Tag = AnimeModel.belongsToMany(TagModel, {
@@ -48,6 +50,12 @@ MangaModel.Chapter = MangaModel.hasMany(ChapterModel, {
 });
 ChapterModel.Manga = ChapterModel.belongsTo(MangaModel);
 
+// Todo
+TodoTemplateModel.TodoInstance = TodoTemplateModel.hasMany(TodoInstanceModel, {
+  onDelete: 'cascade'
+});
+TodoInstanceModel.TodoTemplate = TodoInstanceModel.belongsTo(TodoTemplateModel);
+
 // Sync and Migrate db
 // Only add test data if sync is forced
 // Populate rankings
@@ -68,7 +76,9 @@ const {
   manga: Manga,
   episode: Episode,
   chapter: Chapter,
-  tag: Tag
+  tag: Tag,
+  todoTemplate: TodoTemplate,
+  todoInstance: TodoInstance
 } = db.models;
 
 module.exports = {
@@ -77,5 +87,7 @@ module.exports = {
   Manga,
   Episode,
   Chapter,
-  Tag
+  Tag,
+  TodoTemplate,
+  TodoInstance
 };

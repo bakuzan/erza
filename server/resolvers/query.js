@@ -1,9 +1,19 @@
 const Op = require('sequelize').Op;
-const { db, Anime, Manga, Episode, Chapter, Tag } = require('../connectors');
+const {
+  db,
+  Anime,
+  Manga,
+  Episode,
+  Chapter,
+  Tag,
+  TodoTemplate,
+  TodoInstance
+} = require('../connectors');
 
 const statistics = require('./statistics');
 const { Status } = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
+const getDateRangeForCalendarMode = require('../utils/dateRangeForCalendarMode');
 
 module.exports = {
   ...statistics,
@@ -149,6 +159,43 @@ module.exports = {
         isAdult: { [Op.eq]: isAdult }
       },
       order: [['name', 'ASC']]
+    });
+  },
+  // Todo
+  todoTemplateById(_, { id }) {
+    return TodoTemplate.findByPk(id);
+  },
+  todoTemplates() {
+    return TodoTemplate.findAll({
+      order: [['date', 'DESC']]
+    });
+  },
+  todoInstances(_, { todoTemplateId }) {
+    const filter = todoTemplateId
+      ? {
+          where: {
+            todoTemplateId
+          }
+        }
+      : {};
+
+    return TodoInstance.findAll({
+      ...filter,
+      order: [['date', 'DESC']]
+    });
+  },
+  async calendarView(_, { mode, date }) {
+    const order = [['date', 'asc']];
+    const [fromDate, toDate] = getDateRangeForCalendarMode(mode, date);
+    return await TodoInstance.findAll({
+      where: {
+        date: {
+          [Op.lte]: toDate,
+          [Op.gte]: fromDate
+        }
+      },
+      order,
+      include: [TodoTemplate]
     });
   }
 };

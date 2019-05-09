@@ -1,9 +1,0 @@
-query AnimeExists($id: Int, $malId: Int, $title: String) {
-  animeExists(id: $id, malId: $malId, title: $title)
-}
-
-{
-  "id": null,
-  "malId": null,
-  "title": ""
-}
