@@ -1,8 +1,8 @@
 const inSeasonCalc = require('../../utils/inSeason');
-const { formatDateInput } = require('../../utils/formatDate');
 
 const TodoTemplateResolvers = require('./todoTemplate');
 const TodoInstanceResolvers = require('./todoInstance');
+const lastRepeatDate = require('./lastRepeatDate');
 const common = require('./common');
 
 module.exports = {
@@ -16,22 +16,7 @@ module.exports = {
       return inst.getEpisodes();
     },
     async lastRepeatDate(inst) {
-      if (!inst.isRepeat && inst.timesCompleted === 0) {
-        return '';
-      }
-
-      let latest = inst.episodes[0];
-      if (!latest) {
-        const [ep] = await inst.getEpisodes({
-          raw: true,
-          order: [['date', 'DESC']],
-          limit: 1
-        });
-
-        latest = ep;
-      }
-
-      return latest ? formatDateInput(latest.date) : '';
+      return await lastRepeatDate({ key: 'episodes', fn: 'getEpisodes' }, inst);
     },
     season(inst) {
       const values = inst.get({
@@ -51,23 +36,7 @@ module.exports = {
       return inst.getChapters();
     },
     async lastRepeatDate(inst) {
-      if (!inst.isRepeat && inst.timesCompleted === 0) {
-        return '';
-      }
-
-      let latest = inst.chapters[0];
-      if (!latest) {
-        const [ep] = await inst.getChapters({
-          raw: true,
-          attributes: ['date'],
-          order: [['date', 'DESC']],
-          limit: 1
-        });
-
-        latest = ep;
-      }
-
-      return latest ? formatDateInput(latest.date) : '';
+      return await lastRepeatDate({ key: 'chapters', fn: 'getChapters' }, inst);
     }
   },
   // History resolvers
