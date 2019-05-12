@@ -6,20 +6,25 @@ import {
   LOAD_PAGE_INFO
 } from 'constants/actions';
 import { Strings } from 'constants/values';
+import { userSettings } from 'utils/storage';
 
-const setStateDefaults = (overrides = {}) => ({
-  size: 5,
-  page: 0,
-  pageInfo: {},
-  ...overrides
+const setStateDefaults = (key, pageSize) => ({
+  [key]: {
+    size: pageSize[key],
+    page: 0,
+    pageInfo: {}
+  }
 });
 
-const initialState = {
-  [Strings.anime]: setStateDefaults(),
-  [Strings.manga]: setStateDefaults(),
-  [Strings.episode]: setStateDefaults({ size: 25 }),
-  [Strings.chapter]: setStateDefaults({ size: 25 })
-};
+function initialState() {
+  const pageSize = userSettings.get('pageSize');
+  return {
+    ...setStateDefaults(Strings.anime, pageSize),
+    ...setStateDefaults(Strings.manga, pageSize),
+    ...setStateDefaults(Strings.episode, pageSize),
+    ...setStateDefaults(Strings.chapter, pageSize)
+  };
+}
 
 const applyStateUpdates = (state, action) => (updates) => ({
   ...state,
@@ -44,7 +49,17 @@ function changePage(state, action) {
 
 function setItemsPerPage(state, action) {
   const updateState = applyStateUpdates(state, action);
-  return updateState({ size: Number(action.size) });
+  const pageSize = userSettings.get('pageSize');
+  const size = Number(action.size);
+
+  userSettings.set({
+    pageSize: {
+      ...pageSize,
+      [action.listType]: size
+    }
+  });
+
+  return updateState({ size });
 }
 
 function setPageInfo(state, action) {
@@ -52,7 +67,7 @@ function setPageInfo(state, action) {
   return updateState({ pageInfo: { ...action.paging } });
 }
 
-export const paging = createReducer(initialState, {
+export const paging = createReducer(initialState(), {
   [SET_ITEMS_PER_PAGE]: setItemsPerPage,
   [NEXT_PAGE]: changePage,
   [RESET_PAGE]: changePage,
