@@ -106,7 +106,7 @@ module.exports = {
       return [];
     }
 
-    return await db.query(SQL['get_episode_statistics'], {
+    return await db.query(SQL['get_episode_statistics_v2'], {
       type: db.QueryTypes.SELECT,
       replacements: { seriesIds }
     });
