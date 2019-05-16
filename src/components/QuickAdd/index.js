@@ -87,13 +87,13 @@ class QuickAdd extends React.Component {
   handleUserInput(event) {
     const target = event.target;
     const newValue = getEventValue(target);
-    const updateEditValues = updateNestedProperty(
+    const editItem = updateNestedProperty(
       this.state.editItem,
       target.name,
       newValue
     );
 
-    this.setState({ editItem: updateEditValues });
+    this.setState({ editItem });
   }
 
   onOpenEdit() {
@@ -224,13 +224,13 @@ class QuickAdd extends React.Component {
                     />
                   )}
                   <List columns={1}>
-                    {quickAddEntries.map((item, index) => {
-                      const historyNumber = editItem.min + 1 + index;
+                    {quickAddEntries.map((_, idx) => {
+                      const historyNumber = editItem.min + 1 + idx;
                       const ratingId = `ratings.${historyNumber}`;
                       const noteId = `notes.${historyNumber}`;
 
                       return (
-                        <li key={index} className="flex flex--row">
+                        <li key={idx} className="flex flex--row">
                           <RatingControl
                             id={ratingId}
                             name={ratingId}

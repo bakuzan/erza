@@ -9,34 +9,33 @@ import { getHistoryNameForItemType } from 'utils/data';
 
 import './HistoryList.scss';
 
-function renderHistoryListItems(type, items, { editAction, deleteAction }) {
-  const valueProperty = getHistoryNameForItemType(type);
-  let list = [],
-    previousSeries = null;
+function HistoryList({ type, editAction, deleteAction, ...props }) {
+  const attr = getHistoryNameForItemType(type);
+  const titleUrlBase = `${Paths.base}${Paths[type].view}`;
+  const items = props.items.sort((x, y) => {
+    const z = y.date - x.date;
+    return z === 0 ? y[attr] - x[attr] : z;
+  });
 
-  items
-    .sort((x, y) => {
-      const z = y.date - x.date;
-      return z === 0 ? y[valueProperty] - x[valueProperty] : z;
-    })
-    .forEach((item) => {
-      if (!!item.series && item.series.id !== previousSeries) {
-        list.push(
+  const { nodes } = items.reduce(
+    ({ nodes, prevId }, item) => {
+      const seriesId = item.series && item.series.id;
+      if (seriesId && seriesId !== prevId) {
+        nodes = [
+          ...nodes,
           <li
-            key={`${item.series.id}-${item.id}`}
+            key={`${seriesId}-${item.id}`}
             className="history-list-item series-title"
           >
-            <ButtonisedNavLink
-              to={`${Paths.base}${Paths[type].view}${item.series.id}`}
-            >
+            <ButtonisedNavLink to={`${titleUrlBase}${seriesId}`}>
               {item.series.title}
             </ButtonisedNavLink>
           </li>
-        );
-        previousSeries = item.series.id;
+        ];
       }
 
-      list.push(
+      nodes = [
+        ...nodes,
         <HistoryListItem
           key={item.id}
           type={type}
@@ -44,19 +43,17 @@ function renderHistoryListItems(type, items, { editAction, deleteAction }) {
           editAction={editAction}
           deleteAction={deleteAction}
         />
-      );
-    });
+      ];
 
-  return list;
-}
-
-const HistoryList = ({ type, editAction, deleteAction, ...props }) => {
-  return (
-    <Grid {...props}>
-      {renderHistoryListItems(type, props.items, { editAction, deleteAction })}
-    </Grid>
+      return { nodes, prevId: seriesId };
+    },
+    { nodes: [], prevId: null }
   );
-};
+
+  console.log('RENDER HISTORY');
+
+  return <Grid {...props}>{nodes}</Grid>;
+}
 
 HistoryList.propTypes = {
   type: PropTypes.string.isRequired,

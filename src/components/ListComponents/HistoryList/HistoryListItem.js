@@ -12,6 +12,20 @@ import {
 import { getUniquePropertiesForItemType } from 'utils/data';
 import { Strings, Icons } from 'constants/values';
 
+function getEditButtonProps(isEditing) {
+  return isEditing
+    ? {
+        'aria-label': 'Cancel edit',
+        title: 'Cancel edit',
+        icon: Icons.cross
+      }
+    : {
+        'aria-label': 'Edit entry',
+        title: 'Edit entry',
+        icon: Icons.editable
+      };
+}
+
 class HistoryListItem extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +69,10 @@ class HistoryListItem extends Component {
   }
 
   handleUserInput(event) {
+    if (!this.state.isEditing) {
+      return;
+    }
+
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
@@ -63,8 +81,11 @@ class HistoryListItem extends Component {
     const { isOpen, isEditing, rating, note } = this.state;
     const { item, type, editAction, deleteAction } = this.props;
     const { current } = getUniquePropertiesForItemType(type);
+
     const capitalisedCurrent = capitalise(current);
     const number = padNumber(item[current], 3);
+    const canEdit = !!editAction;
+    const canDelete = !!deleteAction;
 
     return (
       <li className="history-list-item">
@@ -80,7 +101,7 @@ class HistoryListItem extends Component {
               id={`rating-${item.id}`}
               name="rating"
               value={rating}
-              onChange={isEditing ? this.handleUserInput : null}
+              onChange={this.handleUserInput}
             />
           )}
         </div>
@@ -96,7 +117,7 @@ class HistoryListItem extends Component {
             onChange={this.handleUserInput}
           />
         )}
-        {(!!editAction || !!deleteAction) && (
+        {(canEdit || canDelete) && (
           <div className="history-list-item__actions">
             {isEditing && (
               <ButtonIcon
@@ -106,17 +127,15 @@ class HistoryListItem extends Component {
                 onClick={this.confirmEdit}
               />
             )}
-            {!!editAction && (
+            {canEdit && (
               <ButtonIcon
                 name="isEditing"
                 btnSize="small"
-                aria-label={isEditing ? 'Cancel edit' : 'Edit entry'}
-                title={isEditing ? 'Cancel edit' : 'Edit entry'}
-                icon={isEditing ? Icons.cross : Icons.editable}
                 onClick={this.toggleEdit}
+                {...getEditButtonProps(isEditing)}
               />
             )}
-            {!!deleteAction && !isEditing && (
+            {canDelete && !isEditing && (
               <span className="delete-action">
                 <ButtonIcon
                   btnSize="small"
