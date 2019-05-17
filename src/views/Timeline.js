@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { MultiSelect } from 'mko';
 import Timeline from 'components/Timeline';
@@ -56,6 +57,9 @@ function TimelinePage({ match, isAdult }) {
 
   return (
     <div className="timeline-page">
+      <Helmet>
+        <title>{`${capitalise(activeType)} Timeline`}</title>
+      </Helmet>
       <div className="timeline-page__options">
         <ContentTypeFilters baseUrl={TIMELINE_PAGE_BASE_URL} />
         <MultiSelect

@@ -2,7 +2,6 @@ const inSeasonCalc = require('../../utils/inSeason');
 
 const TodoTemplateResolvers = require('./todoTemplate');
 const TodoInstanceResolvers = require('./todoInstance');
-const lastRepeatDate = require('./lastRepeatDate');
 const common = require('./common');
 
 module.exports = {
@@ -14,9 +13,6 @@ module.exports = {
       }
 
       return inst.getEpisodes();
-    },
-    async lastRepeatDate(inst) {
-      return await lastRepeatDate({ key: 'episodes', fn: 'getEpisodes' }, inst);
     },
     season(inst) {
       const values = inst.get({
@@ -34,9 +30,6 @@ module.exports = {
       }
 
       return inst.getChapters();
-    },
-    async lastRepeatDate(inst) {
-      return await lastRepeatDate({ key: 'chapters', fn: 'getChapters' }, inst);
     }
   },
   // History resolvers

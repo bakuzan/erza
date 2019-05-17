@@ -1,10 +1,11 @@
 const Op = require('sequelize').Op;
 
 const { db, Tag } = require('../connectors');
+const SQL = require('../db-scripts');
 const Stats = require('./statistics');
 const Paged = require('./paged');
 const Todo = require('./todo');
-const { Status } = require('../constants/enums');
+const { StatType } = require('../constants/enums');
 
 const handleDeleteResponse = require('./utils/handleDeleteResponse');
 const resolveWhereIn = require('./utils/resolveWhereIn');
@@ -29,23 +30,19 @@ async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
 }
 
 async function findAllRepeated(
-  { model, modelHistory },
+  type,
   { search = '', minTimesCompleted = 1, isAdult }
 ) {
-  return await model.findAll({
-    where: {
-      title: {
-        [Op.like]: `%${search}%`
-      },
-      isAdult: { [Op.eq]: isAdult },
-      status: { [Op.eq]: Status.Completed },
-      [Op.or]: [
-        { isRepeat: true },
-        { timesCompleted: { [Op.gte]: minTimesCompleted } }
-      ]
-    },
-    order: [['timesCompleted', 'DESC'], ['title', 'ASC']],
-    include: [{ model: modelHistory, order: [['date', 'DESC']], limit: 1 }]
+  const qk =
+    type === StatType.Anime ? 'get_repeated_anime' : 'get_repeated_manga';
+
+  return await db.query(SQL[qk], {
+    type: db.QueryTypes.SELECT,
+    replacements: {
+      search: `%${search}%`,
+      isAdult,
+      minTimesCompleted
+    }
   });
 }
 

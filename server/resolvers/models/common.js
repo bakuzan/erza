@@ -26,6 +26,10 @@ module.exports = {
     },
     updatedAt(inst) {
       return formatDateTimeInput(inst.updatedAt);
+    },
+    lastRepeatDate(inst) {
+      const d = inst.lastRepeatDate;
+      return d ? formatDateInput(d) : '';
     }
   },
   History: {

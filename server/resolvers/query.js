@@ -11,7 +11,7 @@ const {
 } = require('../connectors');
 
 const statistics = require('./statistics');
-const { Status } = require('../constants/enums');
+const { Status, StatType } = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
 const getDateRangeForCalendarMode = require('../utils/dateRangeForCalendarMode');
 
@@ -28,10 +28,7 @@ module.exports = {
     return await context.checkIfSeriesAlreadyExists(Anime, args);
   },
   async animeRepeated(_, args, context) {
-    return await context.findAllRepeated(
-      { model: Anime, modelHistory: Episode },
-      args
-    );
+    return await context.findAllRepeated(StatType.Anime, args);
   },
   async dailyAnime(_, { dateOffset }) {
     const d = new Date();
@@ -74,10 +71,7 @@ module.exports = {
     return await context.checkIfSeriesAlreadyExists(Manga, args);
   },
   async mangaRepeated(_, args, context) {
-    return await context.findAllRepeated(
-      { model: Manga, modelHistory: Chapter },
-      args
-    );
+    return await context.findAllRepeated(StatType.Manga, args);
   },
   // Series
   async seriesTimeline(
