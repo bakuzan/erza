@@ -8,6 +8,9 @@ import { getUniquePropertiesForItemType } from 'utils/data';
 
 import './QuickAdd.scss';
 
+const setBodyOverflowHidden = (x) =>
+  (document.body.style = x ? 'overflow: hidden;' : '');
+
 const getInitialState = (current, originalItem = {}) => ({
   originalItem,
   editItem: {
@@ -55,27 +58,28 @@ class QuickAdd extends React.Component {
 
   componentDidUpdate(prevProps) {
     const openStateHasChanged = prevProps.isOpen !== this.props.isOpen;
-    if (openStateHasChanged && this.props.isOpen) {
-      this.props.loadItemById(this.props);
+    if (openStateHasChanged) {
+      setBodyOverflowHidden(this.props.isOpen);
+
+      if (this.props.isOpen) {
+        this.props.loadItemById(this.props);
+      }
     }
 
-    const originalItemHasChanged = !objectsAreEqual(
-      this.props.originalItem,
-      prevProps.originalItem
-    );
+    const newItem = this.props.originalItem;
+    const oldItem = prevProps.originalItem;
+    const originalItemHasChanged = !objectsAreEqual(newItem, oldItem);
 
     if (
-      (originalItemHasChanged && prevProps.originalItem.hasOwnProperty('id')) ||
-      (!this.state.editItem.id && this.props.originalItem.id)
+      (originalItemHasChanged && oldItem.hasOwnProperty('id')) ||
+      (!this.state.editItem.id && newItem.id)
     ) {
       this.onOpenEdit();
     }
+  }
 
-    if (this.props.isOpen && !prevProps.isOpen) {
-      document.body.style = 'overflow: hidden';
-    } else if (!this.props.isOpen && prevProps.isOpen) {
-      document.body.style = '';
-    }
+  componentWillUnmount() {
+    setBodyOverflowHidden(false);
   }
 
   resetState() {
