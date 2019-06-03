@@ -48,7 +48,7 @@
     "yoruichi-shunko": "file:./yoruichi-shunko/build"
   },
   "lint-staged": {
-    "{,src,server}.{js,jsx,json,scss}": [
+    "{,src,server}/**/*.{js,jsx,json,scss}": [
       "prettier --single-quote --write",
       "git add"
     ]
