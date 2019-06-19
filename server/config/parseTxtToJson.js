@@ -32,15 +32,15 @@ function parseTxtToJson(text) {
 async function run() {
   const inputDir = './data';
   const outputDir = './data';
-  const fileNames = ['anime','manga','episode','chapter','tag'];
-  
+  const fileNames = ['anime', 'manga', 'episode', 'chapter', 'tag'];
+
   fileNames.forEach(async (name) => {
-	console.log(`Processing: ${name}`);
+    console.log(`Processing: ${name}`);
     const text = await fs.readFileSync(`${inputDir}/${name}.txt`, 'utf-8');
-	const json = parseTxtToJson(text);
-	const data = JSON.stringify(json, null, 2);
-	await fs.writeFileSync(`${outputDir}/${name}.json`, data, 'utf-8');
-	console.log(`Written: ${name}.json`);
+    const json = parseTxtToJson(text);
+    const data = JSON.stringify(json, null, 2);
+    await fs.writeFileSync(`${outputDir}/${name}.json`, data, 'utf-8');
+    console.log(`Written: ${name}.json`);
   });
 }
 

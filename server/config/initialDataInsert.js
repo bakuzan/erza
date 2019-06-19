@@ -1,10 +1,5 @@
 const async = require('async');
-
-const animes = require('./data/anime.json');
-const mangas = require('./data/manga.json');
-const episodes = require('./data/episode.json');
-const chapters = require('./data/chapter.json');
-const tags = require('./data/tag.json');
+const fs = require('fs');
 
 // To get data, run command in folder with mongoexport.exe
 // mongoexport -d <db-name> -c <collection> -o /path/to/project/data/<collection>.json
@@ -43,13 +38,13 @@ const enums = new Map([
   ]
 ]);
 
-async function insertTags(table, callback) {
+async function insertTags({ items, model, callback }) {
   const tagMap = new Map([]);
 
   return await async.eachSeries(
-    tags,
+    items,
     async ({ _id, name, isAdult }) => {
-      const newTag = await table.create({ name, isAdult });
+      const newTag = await model.create({ name, isAdult });
       return tagMap.set(_id.$oid, newTag.id);
     },
     (err) => {
@@ -147,6 +142,16 @@ async function insertItemData({
   );
 }
 
+async function readSafe(filename) {
+  try {
+    fs.accessSync(filename, fs.constants.R_OK);
+    return await fs.readFileSync(filename, 'utf-8');
+  } catch (e) {
+    console.log(`Failed to read ${filename}`);
+    return false;
+  }
+}
+
 module.exports = async function initialDataInsert(db) {
   const {
     anime: Anime,
@@ -156,9 +161,25 @@ module.exports = async function initialDataInsert(db) {
     tag: Tag
   } = db.models;
   const start = new Date().toISOString();
+
+  const animes = readSafe('./data/anime.json');
+  const mangas = readSafe('./data/manga.json');
+  const episodes = readSafe('./data/episode.json');
+  const chapters = readSafe('./data/chapter.json');
+  const tags = readSafe('./data/tag.json');
+  const dataList = [animes, mangas, episodes, chapters, tags];
+
+  if (dataList.some((x) => !x)) {
+    // If any of the files don't exists, quit out
+    console.warn(
+      `One or more data files do not exist.\n\rCancelling data insert.`
+    );
+    return;
+  }
+
   async.waterfall(
     [
-      (callback) => insertTags(Tag, callback),
+      (callback) => insertTags({ items: tags, model: Tag, callback }),
       (tagMap, callback) =>
         insertItemData({
           db,

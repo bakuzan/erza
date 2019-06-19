@@ -81,5 +81,16 @@ module.exports = {
     end: common.Series.end
   },
   TodoTemplate: TodoTemplateResolvers,
-  TodoInstance: TodoInstanceResolvers
+  TodoInstance: TodoInstanceResolvers,
+  // Common resolvers
+  Series: {
+    __resolveType() {
+      return null;
+    }
+  },
+  History: {
+    __resolveType() {
+      return null;
+    }
+  }
 };
