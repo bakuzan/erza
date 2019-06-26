@@ -7,6 +7,8 @@
   "devDependencies": {
     "async": "^2.6.2",
     "babel-core": "^6.26.3",
+    "minimist": "^1.2.0",
+    "node-fetch": "^2.6.0",
     "react-scripts": "3.0.1",
     "redux-logger": "^2.6.1"
   },
@@ -64,7 +66,8 @@
     "start-js": "react-scripts start",
     "start": "npm-run-all -p start-js server",
     "build": "react-scripts build",
-    "server": "node server"
+    "server": "node server",
+    "cli": "node tools"
   },
   "browserslist": [
     ">1%",

@@ -94,6 +94,21 @@ module.exports = {
       order: [['start', 'ASC']]
     });
   },
+  async badImageSearch(_, { type, isAdult, limit }, context) {
+    const model = context.Stats.resolveSeriesModel(type);
+    return await model.findAll({
+      attributes: ['id', 'title', 'malId', 'image'],
+      where: {
+        isAdult: { [Op.eq]: isAdult },
+        malId: { [Op.ne]: null },
+        [Op.or]: [
+          { image: { [Op.eq]: null } },
+          { image: { [Op.notLike]: `%imgur%` } }
+        ]
+      },
+      limit
+    });
+  },
   // Episodes
   async episodes(_, { isAdult, ...args }, context) {
     return await context.pagedHistory(

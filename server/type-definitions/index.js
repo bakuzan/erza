@@ -112,6 +112,12 @@ const Query = gql`
     todoInstances(todoTemplateId: Int): [TodoInstance]
 
     calendarView(mode: CalendarMode!, date: String!): [TodoInstance]
+
+    badImageSearch(
+      type: StatType!
+      isAdult: Boolean!
+      limit: Int
+    ): [BadImageSeries]
   }
 `;
 

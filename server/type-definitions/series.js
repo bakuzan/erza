@@ -105,6 +105,13 @@ module.exports = gql`
     end: String
   }
 
+  type BadImageSeries {
+    id: Int
+    malId: Int
+    title: String
+    image: String
+  }
+
   input SeriesInput {
     id: Int!
     current: Int!

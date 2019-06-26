@@ -1,0 +1,7 @@
+// TODO finish instructions
+To run <INSERT STEP NAME>
+
+1) Download the file found at: 
+    https://github.com/manami-project/anime-offline-database/blob/master/anime-offline-database.json
+    
+2) Place file in this folder, name it "offline_db.json"

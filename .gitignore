@@ -23,3 +23,7 @@ web.config*
 
 # db migration
 server/config/data
+
+# tools outputs
+tools/output
+tools/store/offline_db.json
