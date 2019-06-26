@@ -33,7 +33,7 @@ function fileCheck(filename) {
 }
 
 async function run() {
-  console.log('***** Erza cli *****', argv);
+  console.log('***** Erza cli *****');
   const keys = Object.keys(argv);
   const { help } = argv;
 
