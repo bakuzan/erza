@@ -181,7 +181,7 @@ class BaseCreate extends Component {
             Strings[type]
           )}${titleSuffix}`}</title>
         </Helmet>
-        <header>
+        <header className="width-100">
           <h4>{`${titlePrefix} ${Strings[type]}`}</h4>
         </header>
         <div className="width-100 flex flex--row">

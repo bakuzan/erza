@@ -101,6 +101,7 @@ export const getAnimeByIdForEdit = gql`
       ...SeriesEditFields
       ...AnimeFields
       series_type
+      _legacyIsSeason
     }
   }
   ${seriesByIdEditFields}
