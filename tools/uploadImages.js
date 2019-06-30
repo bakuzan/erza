@@ -1,16 +1,5 @@
-const fs = require('fs');
-const { query, writeOut, pathFix } = require('./utils');
-
-async function readImageData(type, isAdult) {
-  const filename = pathFix(
-    __dirname,
-    `./output/${type}_${isAdult ? 'adult' : ''}_good_images.json`
-  );
-
-  const result = fs.readFileSync(filename, 'utf-8');
-
-  return JSON.parse(result);
-}
+const { pathFix, readIn } = require('medea');
+const { query, writeOut, readImageData } = require('./utils');
 
 async function upload(image) {
   return await query(`/api/image-upload/url`, {
@@ -19,14 +8,15 @@ async function upload(image) {
 }
 
 module.exports = async function uploadImages(type, isAdult) {
-  const items = await readImageData(type);
+  const items = await readImageData('good_images', type, isAdult);
   const results = [];
 
   for (let item of items) {
     const { image, newImage, ...pass } = item;
     const response = await upload(newImage);
-    console.log(response);
+
     if (response.success) {
+      console.log(`Uploaded ${item.title} image.`);
       results.push({ ...pass, image: response.url });
     } else {
       console.log(`Failed to upload image for ${item.title}`);

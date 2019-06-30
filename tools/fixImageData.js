@@ -1,11 +1,17 @@
-const fs = require('fs');
-const { writeOut, pathFix } = require('./utils');
+const { pathFix, readIn } = require('medea');
+const { writeOut } = require('./utils');
 
 async function readDb() {
   const name = './store/offline_db.json';
   const filename = pathFix(__dirname, name);
-  const result = fs.readFileSync(filename, 'utf-8');
-  const json = JSON.parse(result);
+  const result = await readIn(filename);
+
+  if (!result.success) {
+    console.error(result.error);
+    process.exit(1);
+  }
+
+  const json = JSON.parse(result.data);
 
   const isProcessed = json instanceof Array;
 
@@ -36,9 +42,14 @@ async function readDb() {
 
 async function readBadImageData() {
   const filename = pathFix(__dirname, './output/bad_images.json');
-  const result = fs.readFileSync(filename, 'utf-8');
+  const result = await readIn(filename);
 
-  return JSON.parse(result);
+  if (result.success) {
+    return JSON.parse(result.data);
+  } else {
+    console.error(result.error);
+    process.exit(1);
+  }
 }
 
 module.exports = async function exportImageData() {
@@ -56,15 +67,6 @@ module.exports = async function exportImageData() {
 
       continue;
     }
-
-    // if (!entry.names.includes(series.title.toLowerCase())) {
-    //   console.warn(
-    //     `Db entry did not contain series name:
-    //     ${entry.names.join('\n\r')}.
-
-    //     Series Name: (${series.title})`
-    //   );
-    // }
 
     results.push({
       ...series,

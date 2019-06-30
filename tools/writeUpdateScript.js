@@ -1,19 +1,8 @@
 const fs = require('fs');
-const { writeOut, pathFix } = require('./utils');
-
-async function readImageData(type, isAdult) {
-  const filename = pathFix(
-    __dirname,
-    `./output/${type}_${isAdult ? 'adult' : ''}_uploaded_images.json`
-  );
-
-  const result = fs.readFileSync(filename, 'utf-8');
-
-  return JSON.parse(result);
-}
+const { writeOut, pathFix, readImageData } = require('./utils');
 
 module.exports = async function writeUpdateScript(type, isAdult) {
-  const items = await readImageData(type);
+  const items = await readImageData('uploaded_images', type, isAdult);
   let output = '';
 
   for (let item of items) {

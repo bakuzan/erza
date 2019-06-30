@@ -1,9 +1,7 @@
-const fs = require('fs');
-const argv = require('minimist')(process.argv.slice(2));
+const { createClient, accessAsync, pathFix } = require('medea');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { pathFix } = require('./utils');
 const exportImageData = require('./exportImageData');
 const fixImageData = require('./fixImageData');
 const uploadImages = require('./uploadImages');
@@ -11,21 +9,24 @@ const writeScript = require('./writeUpdateScript');
 
 const seriesTypes = ['anime', 'manga'];
 
-function validate(fn, message) {
-  if (!fn()) {
+async function validate(fn, message) {
+  const passed = await fn();
+  if (!passed) {
     message();
     process.exit(0);
   }
 }
 
-function fileCheck(filename) {
+async function fileCheck(filename) {
   const location = pathFix(__dirname, filename);
   try {
-    fs.accessSync(location, fs.constants.R_OK);
+    await accessAsync(location);
+
     return true;
   } catch (e) {
     console.log(
-      `Failed to access ${filename}.\n\rCheck the file exist and you have read permission access.`
+      `Failed to access ${filename}.
+      Check the file exist and you have read permission access.`
     );
 
     return false;
@@ -33,107 +34,95 @@ function fileCheck(filename) {
 }
 
 async function run() {
-  console.log('***** Erza cli *****');
-  const keys = Object.keys(argv);
-  const { help } = argv;
+  const windowColumns = process.stdout.columns || 80;
 
-  if (help || keys.length === 1) {
-    console.log(`
-    * * * * * * * * * * * * * * * * * * * * * * * * *
-    * Options
-    * * * * * * * * * * * * * * * * * * * * * * * * *
-    * 
-    * --export-images anime/manga (defaults: anime)
-    * 
-    * Shortcut: -ei
-    * Description: Export series with potentially bad images
-    * Addition args:
-    * 
-    *   --isAdult 
-    *   Description: Run process for adult series
-    * 
-    * * * * * * * * * * * * * * * * * * * * * * * * *
-    * 
-    * --update-images 
-    * 
-    * Shortcut: -ui
-    * Description: Update images of current bad_images file
-    * 
-    * * * * * * * * * * * * * * * * * * * * * * * * * 
-    * 
-    * --upload-images anime/manga (defaults: anime)
-    * 
-    * Shortcut: -img
-    * Description: Upload good_images file to imgur
-    * Addition args:
-    * 
-    *   --isAdult 
-    *   Description: Run process for adult series
-    *
-    * * * * * * * * * * * * * * * * * * * * * * * * * 
-    * 
-    * --write-script anime/manga (defaults: anime)
-    * 
-    * Shortcut: -ws
-    * Description: Write script to update db
-    * Addition args:
-    * 
-    *   --isAdult 
-    *   Description: Run process for adult series
-    * 
-    `);
+  const cli = createClient('Erza', { windowColumns })
+    .addOption({
+      option: 'export-images',
+      shortcut: 'ei',
+      description: `Export series with potentially bad images.
+    Either "anime" or "manga", defaults to "anime"`,
+      validate: (_, value) => seriesTypes.includes(value) || value === true
+    })
+    .addOption({
+      option: 'update-images',
+      shortcut: 'ui',
+      description: 'Update images of current bad_images file'
+    })
+    .addOption({
+      option: 'upload-images',
+      shortcut: 'img',
+      description: `Upload good_images file to imgur.
+      Either "anime" or "manga", defaults to "anime"`,
+      validate: (_, value) => seriesTypes.includes(value) || value === true
+    })
+    .addOption({
+      option: 'write-script',
+      shortcut: 'ws',
+      description: `Write script to update db.
+      Either "anime" or "manga", defaults to "anime"`,
+      validate: (_, value) => seriesTypes.includes(value) || value === true
+    })
+    .addOption({
+      option: 'isAdult',
+      shortcut: 'a',
+      description: 'Run process for adult series'
+    })
+    .parse(process.argv)
+    .welcome();
 
+  if (!cli.any()) {
+    cli.helpText();
     process.exit(0);
   }
 
-  const imgExport = argv['export-images'] || argv.ei;
-  if (imgExport) {
-    const isBool = typeof imgExport === 'boolean';
+  if (cli.has('export-images')) {
+    const imgExport = cli.get('export-images');
 
-    validate(
-      () => seriesTypes.includes(imgExport) || isBool,
+    await validate(
+      async () => cli.validate('export-images'),
       () =>
         console.log(`
         Invalid args supplied to image export (${imgExport}).
         Expected "anime", "manga", or nothing (default: "anime").`)
     );
 
-    const type = isBool ? 'anime' : imgExport;
-    const isAdult = argv.isAdult || false;
+    const type = typeof imgExport === 'boolean' ? 'anime' : imgExport;
+    const isAdult = cli.get('isAdult', false);
     await exportImageData(type, isAdult);
+    process.exit(0);
   }
 
-  const updateImages = argv['update-images'] || argv.ui;
-  if (updateImages) {
-    validate(
-      () =>
-        fileCheck('./output/bad_images.json') &&
-        fileCheck('./store/offline_db.json'),
+  if (cli.has('update-images')) {
+    await validate(
+      async () =>
+        (await fileCheck('./output/bad_images.json')) &&
+        (await fileCheck('./store/offline_db.json')),
       () =>
         console.log(`Data file(s) were inaccessible. Cancelling update-images`)
     );
 
     await fixImageData();
+    process.exit(0);
   }
 
-  const upload = argv['upload-images'] || argv.img;
-  if (upload) {
-    const isBool = typeof upload === 'boolean';
+  if (cli.has('upload-images')) {
+    const upload = cli.get('upload-images');
 
-    validate(
-      () => seriesTypes.includes(upload) || isBool,
+    await validate(
+      async () => cli.validate('upload-images'),
       () =>
         console.log(`
         Invalid args supplied to image export (${upload}).
         Expected "anime", "manga", or nothing (default: "anime").`)
     );
 
-    const type = isBool ? 'anime' : upload;
-    const isAdult = argv.isAdult || false;
+    const type = typeof upload === 'boolean' ? 'anime' : upload;
+    const isAdult = cli.get('isAdult', false);
 
-    validate(
-      () =>
-        fileCheck(
+    await validate(
+      async () =>
+        await fileCheck(
           `./output/${type}_${isAdult ? 'adult' : ''}_good_images.json`
         ),
       () =>
@@ -141,26 +130,26 @@ async function run() {
     );
 
     await uploadImages(type, isAdult);
+    process.exit(0);
   }
 
-  const write = argv['write-script'] || argv.ws;
-  if (write) {
-    const isBool = typeof write === 'boolean';
+  if (cli.has('write-script')) {
+    const write = cli.get('write-script');
 
-    validate(
-      () => seriesTypes.includes(write) || isBool,
+    await validate(
+      async () => cli.validate('write-script'),
       () =>
         console.log(`
         Invalid args supplied to image export (${write}).
         Expected "anime", "manga", or nothing (default: "anime").`)
     );
 
-    const type = isBool ? 'anime' : write;
-    const isAdult = argv.isAdult || false;
+    const type = typeof write === 'boolean' ? 'anime' : write;
+    const isAdult = cli.get('isAdult', false);
 
-    validate(
-      () =>
-        fileCheck(
+    await validate(
+      async () =>
+        await fileCheck(
           `./output/${type}_${isAdult ? 'adult' : ''}_uploaded_images.json`
         ),
       () =>
@@ -168,7 +157,11 @@ async function run() {
     );
 
     await writeScript(type, isAdult);
+    process.exit(0);
   }
+
+  console.log('Invalid cli run.');
+  console.log('Run without args to get help.');
 }
 
 run();
