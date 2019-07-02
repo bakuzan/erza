@@ -87,7 +87,13 @@ module.exports = {
 
     return series
       .map((x) => {
-        const epStats = episodeStatistics.find((ep) => ep.key === x.id);
+        const epStats = episodeStatistics.find((ep) => ep.key === x.id) || {
+          average: 0.0,
+          highest: 0,
+          lowest: 0,
+          mode: 0
+        };
+
         return { ...x, ...epStats };
       })
       .sort((a, b) => {
