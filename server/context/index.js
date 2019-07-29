@@ -6,6 +6,7 @@ const Stats = require('./statistics');
 const Paged = require('./paged');
 const Todo = require('./todo');
 const { StatType } = require('../constants/enums');
+const imageStore = require('../image-store');
 
 const handleDeleteResponse = require('./utils/handleDeleteResponse');
 const resolveWhereIn = require('./utils/resolveWhereIn');
@@ -49,8 +50,11 @@ async function findAllRepeated(
 // Mutation
 
 async function createSeries(model, payload, mappers) {
-  const { tags, ...values } = payload;
+  const { tags, tagString, ...values } = payload;
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
+  // TODO
+  // process tagString like "tag one,tag two,final tag"
+  // Tags.findAll like then separateNewVsExistingTags
 
   const series = validateSeries(values, mappers);
   const exists = await checkIfSeriesAlreadyExists(model, series);
@@ -59,12 +63,24 @@ async function createSeries(model, payload, mappers) {
     return {
       success: false,
       errorMessages: [
-        `Series "${series.title}" already exists. (Id: ${series.id}, Mal: ${
-          series.malId
-        })`
+        `Series "${series.title}" already exists. (Id: ${series.id}, Mal: ${series.malId})`
       ],
       data: null
     };
+  }
+
+  if (series.image && !series.image.includes('imgur')) {
+    const result = await imageStore.uploadUrl(series.image);
+
+    if (!result.success) {
+      return {
+        success: false,
+        errorMessages: [`Failed to upload series image`, result.error.message],
+        data: null
+      };
+    }
+
+    series.image = result.url;
   }
 
   return db.transaction(async function(transaction) {
@@ -89,9 +105,7 @@ async function updateSeries(model, payload, mappers) {
     return {
       success: false,
       errorMessages: [
-        `Series "${values.title}" already exists. (Id: ${values.id}, Mal: ${
-          values.malId
-        })`
+        `Series "${values.title}" already exists. (Id: ${values.id}, Mal: ${values.malId})`
       ],
       data: null
     };
@@ -106,6 +120,25 @@ async function updateSeries(model, payload, mappers) {
 
     const series = validateSeries({ ...oldSeriesValues, ...values }, mappers);
     const { id, ...data } = series;
+
+    const oldImage = oldSeriesValues.image;
+    const hasNewImage = data.image && data.image !== oldImage;
+    if (hasNewImage && !data.image.includes('imgur')) {
+      const result = await imageStore.uploadUrl(data.image);
+
+      if (!result.success) {
+        return {
+          success: false,
+          errorMessages: [
+            `Failed to upload series image`,
+            result.error.message
+          ],
+          data: null
+        };
+      }
+
+      series.image = result.url;
+    }
 
     const removedExistingTags = oldSeries.tags.filter(
       (x) => !existingTags.some((tId) => tId === x.id)
@@ -166,9 +199,7 @@ async function updateSeriesWithHistory(
       return {
         success: false,
         errorMessages: [
-          `The current part is greater than the updated part. (Current: ${
-            stales.current
-          }, Updated: ${values.current})`
+          `The current part is greater than the updated part. (Current: ${stales.current}, Updated: ${values.current})`
         ],
         data: null
       };

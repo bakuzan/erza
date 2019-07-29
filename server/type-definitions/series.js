@@ -134,6 +134,7 @@ module.exports = gql`
     series_start: String
     series_end: String
     tags: [TagInput]
+    tagString: String
     episode: Int
     series_episodes: Int
     _legacyIsSeason: Boolean
@@ -176,6 +177,7 @@ module.exports = gql`
     series_start: String
     series_end: String
     tags: [TagInput]
+    tagString: String
     chapter: Int
     volume: Int
     series_chapters: Int

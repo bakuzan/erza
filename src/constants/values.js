@@ -1,6 +1,13 @@
 import combinedStrings from './strings';
 import combinedEnums from './enums';
-export { Icons, Types } from 'mko';
+import { Icons as mkoIcons, Types } from 'mko';
+
+const Icons = {
+  ...mkoIcons,
+  upDown: '\u21F3\uFE0E'
+};
+
+export { Types, Icons };
 
 export const Enums = combinedEnums;
 export const Strings = combinedStrings;
