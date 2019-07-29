@@ -52,9 +52,23 @@ async function findAllRepeated(
 async function createSeries(model, payload, mappers) {
   const { tags, tagString, ...values } = payload;
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
-  // TODO
-  // process tagString like "tag one,tag two,final tag"
-  // Tags.findAll like then separateNewVsExistingTags
+
+  // Handle tags passed as comma-separated string (tag names are unique!)
+  if (tagString && tagString.trim()) {
+    const ts = tagString
+      .split(',')
+      .map((x) => (x ? x.trim() : null))
+      .filter((x) => x !== null);
+
+    const currTags = await Tag.findAll({
+      raw: true,
+      attributes: ['id', 'name'],
+      where: { name: { [Op.in]: ts } }
+    });
+
+    existingTags.push(...currTags);
+    newTags.push(...ts.filter((x) => !currTags.some((c) => c.name === x)));
+  }
 
   const series = validateSeries(values, mappers);
   const exists = await checkIfSeriesAlreadyExists(model, series);
