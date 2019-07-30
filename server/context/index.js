@@ -66,7 +66,7 @@ async function createSeries(model, payload, mappers) {
       where: { name: { [Op.in]: ts } }
     });
 
-    existingTags.push(...currTags);
+    existingTags.push(...currTags.map((x) => x.id));
     newTags.push(...ts.filter((x) => !currTags.some((c) => c.name === x)));
   }
 

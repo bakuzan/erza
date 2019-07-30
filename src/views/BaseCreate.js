@@ -200,7 +200,7 @@ class BaseCreate extends Component {
 
     const seriesTypes = Enums.seriesType[type];
     const SERIES_TYPE_OPTIONS = seriesTypes.map(mapEnumToSelectBox);
-    console.log(this.state, form);
+
     return (
       <div className="flex flex--column center-contents padding-10">
         <Helmet>

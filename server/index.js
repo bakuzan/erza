@@ -75,7 +75,9 @@ server.applyMiddleware({
   app,
   cors: {
     origin: function(origin, callback) {
-      if (Constants.whitelist.test(origin)) {
+      const isMaria = origin && origin.startsWith('chrome-extension://');
+
+      if (Constants.whitelist.test(origin) || isMaria) {
         callback(null, true);
       } else {
         console.log(chalk.red(`Origin: ${origin}, not allowed by CORS`));
