@@ -20,7 +20,9 @@ import {
 import { getHistoryNameForItemType } from 'utils/data';
 
 const PagedHistoryList = lazyLoader(() =>
-  import(/* webpackChunkName: 'PagedHistoryList' */ '../../containers/PagedHistoryList')
+  import(
+    /* webpackChunkName: 'PagedHistoryList' */ '../../containers/PagedHistoryList'
+  )
 );
 
 const KEEP_PAGE_ON_MOUNT = false;
@@ -131,6 +133,7 @@ class BaseHistoryView extends Component {
               label="from"
               required
               value={this.state.from}
+              beforeDate={this.state.to}
               onChange={this.handleDateInput}
             />
             <DateSelector
