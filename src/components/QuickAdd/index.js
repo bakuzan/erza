@@ -151,7 +151,7 @@ class QuickAdd extends React.Component {
 
     if (entries < 0) {
       errors.push(`${capitalise(current)} must be ${editItem.min} or greater.`);
-    } else if (editItemCurrent > limitByTotal) {
+    } else if (limitByTotal && editItemCurrent > limitByTotal) {
       errors.push(`${capitalise(current)} must be ${editItem.max} or less.`);
     } else if (entries > 10) {
       errors.push(`Entries are limited to 10 per update.`);
@@ -205,7 +205,10 @@ class QuickAdd extends React.Component {
         ? editItemCurrent === malItemCurrent
         : editItemCurrent === editItem.max);
 
-    const limitedCurrent = Math.min(editItemCurrent, limitByTotal);
+    const limitedCurrent = limitByTotal
+      ? Math.min(editItemCurrent, limitByTotal)
+      : editItemCurrent;
+
     const entriesCount = Math.max(limitedCurrent - editItem.min, 0);
     const limitedCount = Math.min(entriesCount, 10);
     const quickAddEntries = Array(limitedCount).fill(null);
