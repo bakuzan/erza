@@ -18,7 +18,9 @@ module.exports = function validateSeries(entity, { mapBefore, mapAfter }) {
 
   // END
   if (item.current === item.total && item.total !== 0) {
-    if (item.end === undefined || item.end === null) {
+    const noEndDate = item.end === undefined || item.end === null;
+
+    if (noEndDate) {
       updates.end = new Date().toISOString();
     }
   } else if (item.isRepeat === false) {
@@ -32,6 +34,8 @@ module.exports = function validateSeries(entity, { mapBefore, mapAfter }) {
     updates.status = Status.Completed;
   } else if (item.status === Status.Completed) {
     updates.status = Status.Ongoing;
+  } else if (item.status === Status.Ongoing && !item.start) {
+    updates.start = new Date().toISOString();
   }
 
   // IS REPEAT

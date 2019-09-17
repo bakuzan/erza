@@ -6,7 +6,7 @@ import ItemListItem from './ItemListItem';
 import withAsyncPageLoad from './withAsyncPageLoad';
 import { Strings } from 'constants/values';
 
-const MangaList = ({ addAction, ...props }) => (
+const MangaList = ({ addAction, startAction, ...props }) => (
   <Grid {...props}>
     {(item) => (
       <ItemListItem
@@ -14,6 +14,7 @@ const MangaList = ({ addAction, ...props }) => (
         type={Strings.manga}
         item={item}
         addAction={addAction}
+        startAction={startAction}
       />
     )}
   </Grid>
@@ -21,7 +22,8 @@ const MangaList = ({ addAction, ...props }) => (
 
 MangaList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addAction: PropTypes.func
+  addAction: PropTypes.func,
+  startAction: PropTypes.func
 };
 
 export default withAsyncPageLoad(MangaList);

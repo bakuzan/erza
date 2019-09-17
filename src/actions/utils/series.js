@@ -14,6 +14,7 @@ import {
   removeItemFromState
 } from './helpers';
 import redirectPostAction from './redirectPostAction';
+import { Enums } from 'constants/values';
 
 // Query
 
@@ -53,7 +54,7 @@ export const loadItems = (query, filters, { type, pageChange }) => {
 };
 
 export const loadItemsById = (query, variables, type) => {
-  return async function(dispatch, getState) {
+  return async function(dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({
@@ -106,6 +107,40 @@ export function mutateItem(query, payload, type) {
     );
 
     return redirectPostAction(type, lastLocation);
+  };
+}
+
+export function mutateStartItem(query, itemId, type) {
+  return async function(dispatch) {
+    dispatch(startingGraphqlRequest());
+
+    const response = await erzaGQL({
+      query,
+      variables: { payload: { id: itemId, status: Enums.status.Ongoing } }
+    });
+
+    dispatch(removeItemFromState[type](itemId));
+    dispatch(finishGraphqlRequest());
+
+    const data = getSingleObjectProperty(response);
+    if (!data) {
+      return;
+    }
+
+    if (!data.success) {
+      dispatch(
+        showAlertError({
+          message: data && data.errorMessages[0]
+        })
+      );
+
+      return;
+    }
+
+    toaster.success(
+      'Saved!',
+      `Successfully saved '${data.data.title}' ${type}.`
+    );
   };
 }
 

@@ -15,6 +15,7 @@ import {
   loadItems,
   loadItemsById,
   mutateItem,
+  mutateStartItem,
   removeItem
 } from './utils/series';
 import { mutateSeriesWithHistory } from './utils/combined';
@@ -26,6 +27,9 @@ export const createAnime = (item) =>
   mutateItem(animeCreate, item, Strings.anime);
 
 export const editAnime = (item) => mutateItem(animeUpdate, item, Strings.anime);
+
+export const startAnime = (itemId) =>
+  mutateStartItem(animeUpdate, itemId, Strings.anime);
 
 export const deleteAnime = (id) =>
   removeItem(animeRemove, { id }, Strings.anime);

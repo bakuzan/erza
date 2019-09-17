@@ -38,7 +38,8 @@ class BasePagedList extends React.Component {
       filters,
       list,
       items,
-      onLoadMore
+      onLoadMore,
+      startSeries
     } = this.props;
 
     const PagedList = list;
@@ -57,6 +58,7 @@ class BasePagedList extends React.Component {
           isFetching={isFetching}
           items={itemsForPage}
           addAction={this.openEditDialog}
+          startAction={startSeries}
           onLoadMore={onLoadMore}
         />
         <QuickAdd
@@ -76,7 +78,8 @@ BasePagedList.propTypes = {
   list: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  startSeries: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => ({

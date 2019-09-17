@@ -154,23 +154,26 @@ async function updateSeries(model, payload, mappers) {
       series.image = result.url;
     }
 
-    const removedExistingTags = oldSeries.tags.filter(
-      (x) => !existingTags.some((tId) => tId === x.id)
-    );
-    const addedExistingTags = existingTags.filter(
-      (tId) => !oldSeries.tags.some((x) => x.id === tId)
-    );
+    // Only run tags update if property is sent.
+    if (payload.hasOwnProperty('tags')) {
+      const removedExistingTags = oldSeries.tags.filter(
+        (x) => !existingTags.some((tId) => tId === x.id)
+      );
+      const addedExistingTags = existingTags.filter(
+        (tId) => !oldSeries.tags.some((x) => x.id === tId)
+      );
 
-    if (removedExistingTags.length) {
-      await oldSeries.removeTags(removedExistingTags.map((x) => x.id), {
-        transaction
-      });
-    }
+      if (removedExistingTags.length) {
+        await oldSeries.removeTags(removedExistingTags.map((x) => x.id), {
+          transaction
+        });
+      }
 
-    if (addedExistingTags.length) {
-      await oldSeries.addTags(addedExistingTags, {
-        transaction
-      });
+      if (addedExistingTags.length) {
+        await oldSeries.addTags(addedExistingTags, {
+          transaction
+        });
+      }
     }
 
     if (newTags.length) {

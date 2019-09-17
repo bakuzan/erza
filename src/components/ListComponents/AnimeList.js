@@ -6,7 +6,7 @@ import ItemListItem from './ItemListItem';
 import withAsyncPageLoad from './withAsyncPageLoad';
 import { Strings } from 'constants/values';
 
-const AnimeList = ({ addAction, ...props }) => (
+const AnimeList = ({ addAction, startAction, ...props }) => (
   <Grid {...props}>
     {(item) => (
       <ItemListItem
@@ -14,6 +14,7 @@ const AnimeList = ({ addAction, ...props }) => (
         type={Strings.anime}
         item={item}
         addAction={addAction}
+        startAction={startAction}
       />
     )}
   </Grid>
@@ -21,7 +22,8 @@ const AnimeList = ({ addAction, ...props }) => (
 
 AnimeList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addAction: PropTypes.func
+  addAction: PropTypes.func,
+  startAction: PropTypes.func
 };
 
 export default withAsyncPageLoad(AnimeList);

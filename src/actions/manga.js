@@ -15,6 +15,7 @@ import {
   loadItems,
   loadItemsById,
   mutateItem,
+  mutateStartItem,
   removeItem
 } from './utils/series';
 import { mutateSeriesWithHistory } from './utils/combined';
@@ -25,6 +26,9 @@ export const createManga = (item) =>
   mutateItem(mangaCreate, item, Strings.manga);
 
 export const editManga = (item) => mutateItem(mangaUpdate, item, Strings.manga);
+
+export const startManga = (itemId) =>
+  mutateStartItem(mangaUpdate, itemId, Strings.manga);
 
 export const deleteManga = (id) =>
   removeItem(mangaRemove, { id }, Strings.manga);

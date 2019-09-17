@@ -50,8 +50,6 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
     { nodes: [], prevId: null }
   );
 
-  console.log('RENDER HISTORY');
-
   return <Grid {...props}>{nodes}</Grid>;
 }
 
