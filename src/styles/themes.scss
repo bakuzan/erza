@@ -79,6 +79,10 @@ $theme-maps: (
 
   .quick-add-form {
     background-color: $base-background;
+
+    &__list {
+      border-top: 1px solid $primary-colour;
+    }
   }
 
   .history-list-item.series-title {

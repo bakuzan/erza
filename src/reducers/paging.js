@@ -17,7 +17,7 @@ const setStateDefaults = (key, pageSize) => ({
 });
 
 function initialState() {
-  const pageSize = userSettings.get('pageSize');
+  const pageSize = userSettings.getKey('pageSize');
   return {
     ...setStateDefaults(Strings.anime, pageSize),
     ...setStateDefaults(Strings.manga, pageSize),
@@ -49,7 +49,7 @@ function changePage(state, action) {
 
 function setItemsPerPage(state, action) {
   const updateState = applyStateUpdates(state, action);
-  const pageSize = userSettings.get('pageSize');
+  const pageSize = userSettings.getKey('pageSize');
   const size = Number(action.size);
 
   userSettings.set({

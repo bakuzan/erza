@@ -20,6 +20,18 @@ $success-message-colour: $forest-green;
   .updated-item-values-container {
     display: flex;
   }
+
+  &__feedback {
+    color: $danger-colour;
+    font-size: 0.8rem;
+    min-height: 1rem;
+    padding: 0 10px;
+  }
+
+  &__list {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
 }
 
 .sidebar-collapsed .quick-add-form {

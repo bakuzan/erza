@@ -3,7 +3,12 @@ import React from 'react';
 
 import { Portal, Form, ClearableInput, RatingControl, List } from 'mko';
 import { Strings } from 'constants/values';
-import { getEventValue, updateNestedProperty, objectsAreEqual } from 'utils';
+import {
+  getEventValue,
+  updateNestedProperty,
+  objectsAreEqual,
+  capitalise
+} from 'utils';
 import { getUniquePropertiesForItemType } from 'utils/data';
 
 import './QuickAdd.scss';
@@ -12,6 +17,7 @@ const setBodyOverflowHidden = (x) =>
   (document.body.style = x ? 'overflow: hidden;' : '');
 
 const getInitialState = (current, originalItem = {}) => ({
+  feedbackMessage: '',
   originalItem,
   editItem: {
     id: null,
@@ -97,7 +103,10 @@ class QuickAdd extends React.Component {
       newValue
     );
 
-    this.setState({ editItem });
+    const { errors } = this.validate(editItem);
+    const feedbackMessage = errors[0] || '';
+
+    this.setState({ editItem, feedbackMessage });
   }
 
   onOpenEdit() {
@@ -128,14 +137,44 @@ class QuickAdd extends React.Component {
     });
   }
 
+  validate(editItem) {
+    const errors = [];
+    const { current } = this.itemProperties;
+    const currentPlural = `${current}s`;
+
+    const { malValues } = this.state;
+    const malItemCurrent = malValues && malValues[currentPlural];
+
+    const editItemCurrent = editItem[current];
+    const entries = editItemCurrent - editItem.min;
+    const limitByTotal = editItem.max ? editItem.max : malItemCurrent || null;
+
+    if (entries < 0) {
+      errors.push(`${capitalise(current)} must be ${editItem.min} or greater.`);
+    } else if (editItemCurrent > limitByTotal) {
+      errors.push(`${capitalise(current)} must be ${editItem.max} or less.`);
+    } else if (entries > 10) {
+      errors.push(`Entries are limited to 10 per update.`);
+    }
+
+    return { success: errors.length === 0, errors };
+  }
+
   handleFormSubmit() {
     const { editItem } = this.state;
+
+    const response = this.validate(editItem);
+    if (!response.success) {
+      this.setState({ feedbackMessage: response.errors[0] });
+      return;
+    }
+
     this.props.onSubmit(editItem);
     this.resetState();
   }
 
   render() {
-    const { editItem, malUpdates } = this.state;
+    const { editItem, malUpdates, feedbackMessage } = this.state;
     const { type, originalItem, onClose } = this.props;
 
     const {
@@ -146,8 +185,10 @@ class QuickAdd extends React.Component {
     const { current } = this.itemProperties;
     const currentPlural = `${current}s`;
 
-    const editItemCurrent = editItem[current];
     const malItemCurrent = malValues && malValues[currentPlural];
+    const limitByTotal = editItem.max ? editItem.max : malItemCurrent || null;
+
+    const editItemCurrent = editItem[current];
 
     const isManga = type === Strings.manga;
     const limitByTotalVolume = !isManga
@@ -158,15 +199,16 @@ class QuickAdd extends React.Component {
       ? malValues.series_volumes
       : null;
 
-    const limitByTotal = editItem.max ? editItem.max : malItemCurrent || null;
-
     const showSeriesOverallRating =
       editItemCurrent > 0 &&
       (!!malValues
         ? editItemCurrent === malItemCurrent
         : editItemCurrent === editItem.max);
 
-    const quickAddEntries = Array(editItemCurrent - editItem.min).fill(null);
+    const limitedCurrent = Math.min(editItemCurrent, limitByTotal);
+    const entriesCount = Math.max(limitedCurrent - editItem.min, 0);
+    const limitedCount = Math.min(entriesCount, 10);
+    const quickAddEntries = Array(limitedCount).fill(null);
 
     const submitOptions = {
       text: Strings.edit,
@@ -218,16 +260,19 @@ class QuickAdd extends React.Component {
                       />
                     )}
                   </div>
+                  <div className="quick-add-form__feedback">
+                    {feedbackMessage}
+                  </div>
                   {showSeriesOverallRating && (
                     <RatingControl
                       id="overallRating"
                       name="overallRating"
-                      label="Rating"
+                      label="Overall Rating"
                       value={editItem.overallRating || 0}
                       onChange={this.handleUserInput}
                     />
                   )}
-                  <List columns={1}>
+                  <List className="quick-add-form__list" columns={1}>
                     {quickAddEntries.map((_, idx) => {
                       const historyNumber = editItem.min + 1 + idx;
                       const ratingId = `ratings.${historyNumber}`;
