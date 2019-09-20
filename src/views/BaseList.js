@@ -114,7 +114,7 @@ class BaseListView extends Component {
     const filters = getFilters(this.state, this.props);
 
     return (
-      <div className="flex flex--row">
+      <div id="listPage" className="flex flex--row">
         <Helmet>
           <title>{`${capitalise(type)} List`}</title>
         </Helmet>

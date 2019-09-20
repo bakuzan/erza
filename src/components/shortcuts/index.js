@@ -11,6 +11,22 @@ import './Shortcuts.scss';
 const shortcut = (o) => ({ ctrlKey, keyCode }) =>
   ctrlKey && keyCode === Enums.KeyCodes.q ? o.toggleVisible() : null;
 
+const sharedStyle = { transition: 'all 0.33s ease-in-out', zIndex: 100 };
+
+const VISIBLE = {
+  container: { opacity: 1, visibility: 'visible' },
+  dialog: {}
+};
+
+const HIDDEN = {
+  container: {
+    visibility: 'hidden',
+    pointerEvents: 'none',
+    opacity: 0
+  },
+  dialog: { marginTop: 30 }
+};
+
 class Shortcuts extends Component {
   constructor() {
     super();
@@ -54,15 +70,23 @@ class Shortcuts extends Component {
   }
 
   render() {
+    const styles = this.state.isOpen ? VISIBLE : HIDDEN;
+
     return (
-      <div id="shortcuts-container">
+      <div
+        id="shortcuts-container"
+        aria-hidden={!this.state.isOpen}
+        style={{ ...sharedStyle, ...styles.container }}
+      >
         <Dialog
           name="shortcuts"
+          style={{ ...sharedStyle, ...styles.dialog }}
           isOpen={this.state.isOpen}
           isForm={false}
           hasBackdrop={false}
           hideCancel={true}
           onCancel={() => this.setState({ isOpen: false })}
+          tabTrapProps={{ firstId: 'shortcuts', lastId: 'shortcuts' }}
         >
           <AutocompleteInput
             menuClassName="erza-autocomplete-menu"
@@ -73,6 +97,7 @@ class Shortcuts extends Component {
             filter={this.state.filter}
             onChange={this.handleFilter}
             onSelect={this.performAction}
+            autoFocus
           />
         </Dialog>
       </div>

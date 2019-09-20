@@ -146,12 +146,16 @@ class HistoryListItem extends Component {
                 />
                 <Dialog
                   isOpen={isOpen}
-                  localised={true}
+                  style={{ top: 0, left: `50%`, transform: `translateX(-90%)` }}
                   name="historyDelete"
                   title={`Delete ${capitalisedCurrent} #${number}`}
                   actionText={Strings.delete}
                   onAction={this.confirmDelete}
                   onCancel={() => this.setState({ isOpen: false })}
+                  tabTrapProps={{
+                    firstId: 'historyDeleteAction',
+                    lastId: 'historyDeleteCancel'
+                  }}
                 >
                   <p>{Strings.deleteConfirmation}</p>
                 </Dialog>

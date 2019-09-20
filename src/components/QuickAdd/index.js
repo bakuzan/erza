@@ -13,8 +13,16 @@ import { getUniquePropertiesForItemType } from 'utils/data';
 
 import './QuickAdd.scss';
 
-const setBodyOverflowHidden = (x) =>
-  (document.body.style = x ? 'overflow: hidden;' : '');
+function lockView(isOpen) {
+  document.body.style = isOpen ? 'overflow: hidden;' : '';
+
+  const basePage = document.getElementById('listPage');
+
+  if (basePage) {
+    basePage.setAttribute('aria-hidden', isOpen);
+    basePage.style = 'display:none;';
+  }
+}
 
 const getInitialState = (current, originalItem = {}) => ({
   feedbackMessage: '',
@@ -65,7 +73,7 @@ class QuickAdd extends React.Component {
   componentDidUpdate(prevProps) {
     const openStateHasChanged = prevProps.isOpen !== this.props.isOpen;
     if (openStateHasChanged) {
-      setBodyOverflowHidden(this.props.isOpen);
+      lockView(this.props.isOpen);
 
       if (this.props.isOpen) {
         this.props.loadItemById(this.props);
@@ -85,7 +93,7 @@ class QuickAdd extends React.Component {
   }
 
   componentWillUnmount() {
-    setBodyOverflowHidden(false);
+    lockView(false);
   }
 
   resetState() {
