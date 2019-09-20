@@ -113,4 +113,10 @@ $theme-maps: (
   .timeline-row {
     border-color: $active-background;
   }
+
+  .tooltip__content {
+    background-color: $primary-background;
+    color: $primary-colour;
+    z-index: map-get($z-index, popover);
+  }
 }

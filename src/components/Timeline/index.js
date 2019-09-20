@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React, { useReducer, useEffect } from 'react';
 
+import Tooltip from 'meiko/Tooltip';
+
 import { useDimensions } from 'hooks/useDimensions';
 import Controls from './Controls';
 import timelineReducer, { initialState } from './reducer';
@@ -46,18 +48,19 @@ function Timeline({ className, items, onUpdate, children, ...props }) {
         <div className="timeline__scroll-wrapper">
           <div className="timeline__content" style={accountForArrowButtons}>
             {rows.map((x) => {
-              // TODO replace title with tooltip component! (Need to write)
               const displayText = `${x.name} - ${x.days} day(s)`;
 
               return (
-                <div
+                <Tooltip
+                  delay={250}
+                  text={displayText}
+                  usePosition
                   key={x.id}
                   className="timeline-row"
-                  title={displayText}
                   style={x.style}
                 >
                   {children({ ...x, displayText })}
-                </div>
+                </Tooltip>
               );
             })}
           </div>
