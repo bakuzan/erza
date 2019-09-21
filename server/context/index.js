@@ -53,6 +53,19 @@ async function createSeries(model, payload, mappers) {
   const { tags, tagString, ...values } = payload;
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
 
+  const series = validateSeries(values, mappers);
+  const exists = await checkIfSeriesAlreadyExists(model, series);
+
+  if (exists) {
+    return {
+      success: false,
+      errorMessages: [
+        `Series "${series.title}" already exists. (Id: ${series.id}, Mal: ${series.malId})`
+      ],
+      data: null
+    };
+  }
+
   // Handle tags passed as comma-separated string (tag names are unique!)
   if (tagString && tagString.trim()) {
     const ts = tagString
@@ -68,19 +81,6 @@ async function createSeries(model, payload, mappers) {
 
     existingTags.push(...currTags.map((x) => x.id));
     newTags.push(...ts.filter((x) => !currTags.some((c) => c.name === x)));
-  }
-
-  const series = validateSeries(values, mappers);
-  const exists = await checkIfSeriesAlreadyExists(model, series);
-
-  if (exists) {
-    return {
-      success: false,
-      errorMessages: [
-        `Series "${series.title}" already exists. (Id: ${series.id}, Mal: ${series.malId})`
-      ],
-      data: null
-    };
   }
 
   if (series.image && !series.image.includes('imgur')) {

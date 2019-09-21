@@ -9,6 +9,7 @@
 # production
 /iisnode
 /build
+/build__old
 *.css
 *.sqlite
 *.sqlite-journal
