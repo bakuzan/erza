@@ -20,7 +20,7 @@ function lockView(isOpen) {
 
   if (basePage) {
     basePage.setAttribute('aria-hidden', isOpen);
-    basePage.style = 'display:none;';
+    basePage.style = isOpen ? 'display:none;' : '';
   }
 }
 

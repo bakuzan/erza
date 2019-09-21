@@ -89,6 +89,7 @@ class Shortcuts extends Component {
           tabTrapProps={{ firstId: 'shortcuts', lastId: 'shortcuts' }}
         >
           <AutocompleteInput
+            autoFocus
             menuClassName="erza-autocomplete-menu"
             id="shortcuts"
             attr="title"
@@ -97,7 +98,6 @@ class Shortcuts extends Component {
             filter={this.state.filter}
             onChange={this.handleFilter}
             onSelect={this.performAction}
-            autoFocus
           />
         </Dialog>
       </div>
