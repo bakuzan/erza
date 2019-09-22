@@ -24,12 +24,16 @@ function ItemListItem({ type, item, addAction, startAction }) {
   const { current, total } = getUniquePropertiesForItemType(type);
   const hasMalId = !!item.malId;
   const hasLink = !!item.link;
+
   const isPlanned = item.status === Enums.status.Planned;
+  const isOnhold = item.status === Enums.status.Onhold;
+  const isComplete = item.status === Enums.status.Completed;
+
   const iconStatusProps = item.isRepeat
     ? { icon: Icons.clockwise, [`aria-label`]: 'Is Repeat' }
-    : item.status === Enums.status.Onhold
+    : isOnhold
     ? { icon: Icons.pause, [`aria-label`]: 'On hold' }
-    : item.status === Enums.status.Completed
+    : isComplete
     ? { icon: Icons.tick, [`aria-label`]: item.status }
     : null;
 
@@ -40,33 +44,28 @@ function ItemListItem({ type, item, addAction, startAction }) {
           {formatDateTimeForDisplay(item.updatedAt)}
         </time>
         <h4 className="list-item__title">{item.title}</h4>
-        {!isPlanned ? (
-          <div className="flex flex--row start-center-contents list-item__increment-data">
-            {!!addAction && (
-              <ButtonIcon
-                btnStyle="primary"
-                btnSize="small"
-                className="list-item__plus-button"
-                icon="+"
-                aria-label={`Add ${item.title} ${current}s`}
-                onClick={() => addAction(item.id)}
-                disabled={
-                  item.status === Enums.status.Completed && !item.isRepeat
-                }
-              />
-            )}
-            <span>{`${item[current]}/${item[total] || '??'}`}</span>
-            {!!iconStatusProps && (
-              <ButtonisedSpan
-                btnSize="small"
-                className="bold"
-                {...iconStatusProps}
-                title={item.status}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="button-group button-group--left">
+        <div className="flex flex--row start-center-contents list-item__increment-data">
+          {!!addAction && (
+            <ButtonIcon
+              btnStyle="primary"
+              btnSize="small"
+              className="list-item__plus-button"
+              icon="+"
+              aria-label={`Add ${item.title} ${current}s`}
+              onClick={() => addAction(item.id)}
+              disabled={(isComplete && !item.isRepeat) || isPlanned}
+            />
+          )}
+          <span>{`${item[current]}/${item[total] || '??'}`}</span>
+          {!!iconStatusProps && (
+            <ButtonisedSpan
+              btnSize="small"
+              className="bold"
+              {...iconStatusProps}
+              title={item.status}
+            />
+          )}
+          {isPlanned && (
             <Button
               btnStyle="primary"
               className="list-item__start-button"
@@ -75,8 +74,8 @@ function ItemListItem({ type, item, addAction, startAction }) {
             >
               Start
             </Button>
-          </div>
-        )}
+          )}
+        </div>
         <div className="button-group button-group--left">
           <ButtonisedNavButton
             to={`${Paths.base}${Paths[type].view}${item.id}`}

@@ -12,10 +12,15 @@
 
   &__increment-data {
     flex-direction: row;
+    padding: 0 5px;
   }
 
   &__plus-button {
     padding: 5px 10px;
     margin: 0 5px 0 0;
+  }
+
+  &__start-button {
+    margin-left: 45px;
   }
 }

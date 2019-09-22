@@ -3,6 +3,7 @@ import { toaster } from 'mko';
 import erzaGQL from 'erzaGQL';
 import { resetPageToZero, loadPageInfo } from 'actions/paging';
 import { showAlertError } from 'actions/alert';
+import Enums from 'constants/enums';
 import { getSingleObjectProperty } from 'utils';
 
 import {
@@ -14,7 +15,6 @@ import {
   removeItemFromState
 } from './helpers';
 import redirectPostAction from './redirectPostAction';
-import { Enums } from 'constants/values';
 
 // Query
 
@@ -111,15 +111,21 @@ export function mutateItem(query, payload, type) {
 }
 
 export function mutateStartItem(query, itemId, type) {
-  return async function(dispatch) {
+  return async function(dispatch, getState) {
     dispatch(startingGraphqlRequest());
+
+    const isPlannedFilter = window.location.href.includes(Enums.status.Planned);
+    const { lastLocation } = getState();
 
     const response = await erzaGQL({
       query,
       variables: { payload: { id: itemId, status: Enums.status.Ongoing } }
     });
 
-    dispatch(removeItemFromState[type](itemId));
+    if (isPlannedFilter) {
+      dispatch(removeItemFromState[type](itemId));
+    }
+
     dispatch(finishGraphqlRequest());
 
     const data = getSingleObjectProperty(response);
@@ -141,6 +147,13 @@ export function mutateStartItem(query, itemId, type) {
       'Saved!',
       `Successfully saved '${data.data.title}' ${type}.`
     );
+
+    if (!isPlannedFilter) {
+      // Clear out stored data because it's now stale!
+      dispatch(resetPageToZero(type));
+
+      return redirectPostAction(type, lastLocation);
+    }
   };
 }
 
