@@ -1,4 +1,6 @@
-module.exports = function mapToNewTag(data) {
-  const { name, isAdult } = data;
-  return { name, isAdult };
+module.exports = function mapToNewTag(isAdult) {
+  return function(data) {
+    const { name } = data;
+    return { name, isAdult };
+  };
 };

@@ -99,7 +99,7 @@ async function createSeries(model, payload, mappers) {
 
   return db.transaction(async function(transaction) {
     const created = await model.create(
-      { ...series, tags: newTags.map(mapToNewTag) },
+      { ...series, tags: newTags.map(mapToNewTag(series.isAdult)) },
       { include: [model.Tag], transaction }
     );
 
@@ -179,7 +179,9 @@ async function updateSeries(model, payload, mappers) {
     if (newTags.length) {
       const createdAt = Date.now();
 
-      await Tag.bulkCreate(newTags.map(mapToNewTag), { transaction });
+      await Tag.bulkCreate(newTags.map(mapToNewTag(data.isAdult)), {
+        transaction
+      });
 
       const createdTags = await Tag.findAll({
         where: { createdAt: { [Op.gte]: createdAt } },
