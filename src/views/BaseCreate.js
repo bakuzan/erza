@@ -216,6 +216,7 @@ class BaseCreate extends Component {
             isFull
             src={form.image}
             alt={`Cover for ${form.title || `${type} under creation.`}`}
+            containerStyle={{ minWidth: 235 }}
           >
             {form.image && form.image.startsWith('blob:') && (
               <div>

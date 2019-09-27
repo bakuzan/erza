@@ -16,6 +16,7 @@ $series-image-container--height: 150px;
     width: 100%;
     min-height: $series-image-container--height;
     height: auto;
+    border: 1px dashed transparent;
   }
 
   .mal-link > img {

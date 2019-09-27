@@ -6,11 +6,13 @@ import { Image } from 'mko';
 
 import './SeriesImageContainer.scss';
 
-function SeriesImageContainer({ isFull, children, ...props }) {
+function SeriesImageContainer({ containerStyle, isFull, children, ...props }) {
   return (
     <div
+      style={containerStyle}
       className={classNames('series-image-container', {
-        'series-image-container--full': isFull
+        'series-image-container--full': isFull,
+        'series-image-container--no-src': !props.src
       })}
     >
       <Image {...props} />
@@ -19,11 +21,16 @@ function SeriesImageContainer({ isFull, children, ...props }) {
   );
 }
 
+SeriesImageContainer.defaultProps = {
+  containerStyle: {}
+};
+
 SeriesImageContainer.propTypes = {
   isFull: PropTypes.bool,
   isLazy: PropTypes.bool,
   src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired
+  alt: PropTypes.string.isRequired,
+  containerStyle: PropTypes.object
 };
 
 export default SeriesImageContainer;

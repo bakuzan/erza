@@ -119,4 +119,8 @@ $theme-maps: (
     color: $primary-colour;
     z-index: map-get($z-index, popover);
   }
+
+  .series-image-container--no-src img {
+    border-color: $primary-background;
+  }
 }
