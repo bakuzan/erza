@@ -109,7 +109,7 @@ class BaseView extends Component {
     return (
       <section className="series-view">
         <Helmet>
-          <title>{`View ${capitalise(type)} - ${item.title}`}</title>
+          <title>{`View ${item.title} ${capitalise(type)}`}</title>
         </Helmet>
         <div className="series-view__content">
           <div className="flex flex--column flex--all padding-10">
@@ -152,19 +152,19 @@ class BaseView extends Component {
               </SeriesImageContainer>
               <div className="view-content__inner">
                 <List columns={2}>
-                  <li className="label">{capitalise(current)}</li>
+                  <li className="label">{current}</li>
                   <li className="value">
                     {`${item[current]} / ${item[total] || '??'}`}
                   </li>
                   {type === Strings.manga && (
                     <React.Fragment>
-                      <li className="label">{capitalise(total)}</li>
+                      <li className="label">volume</li>
                       <li className="value">
                         {`${item.volume} / ${item.series_volumes || '??'}`}
                       </li>
                     </React.Fragment>
                   )}
-                  <li className="label">Rating</li>
+                  <li className="label">rating</li>
                   <li className="value">
                     <RatingControl
                       id="rating"

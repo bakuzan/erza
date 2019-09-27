@@ -25,7 +25,7 @@ const App = ({ history, children, sidebarState }) => {
   return (
     <HelmetProvider>
       <div className={appClasses}>
-        <Helmet defaultTitle="Erza" titleTemplate="Erza - %s" />
+        <Helmet defaultTitle="Erza" titleTemplate="%s | Erza" />
         <Header />
         <Sidebar />
         <RequestIndicator />

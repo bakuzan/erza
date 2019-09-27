@@ -196,7 +196,7 @@ class BaseCreate extends Component {
     const { current, total } = getUniquePropertiesForItemType(type);
     const availableTags = this.props.typeaheadTags;
     const titlePrefix = isCreate ? Strings.create : Strings.edit;
-    const titleSuffix = isCreate || !form.title ? '' : ` - ${form.title}`;
+    const titleSuffix = isCreate || !form.title ? '' : `${form.title}`;
 
     const seriesTypes = Enums.seriesType[type];
     const SERIES_TYPE_OPTIONS = seriesTypes.map(mapEnumToSelectBox);
@@ -204,9 +204,9 @@ class BaseCreate extends Component {
     return (
       <div className="flex flex--column center-contents padding-10">
         <Helmet>
-          <title>{`${titlePrefix} ${capitalise(
+          <title>{`${titlePrefix} ${titleSuffix} ${capitalise(
             Strings[type]
-          )}${titleSuffix}`}</title>
+          )}`}</title>
         </Helmet>
         <header className="width-100">
           <h4>{`${titlePrefix} ${Strings[type]}`}</h4>
