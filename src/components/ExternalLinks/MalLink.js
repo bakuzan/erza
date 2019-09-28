@@ -4,7 +4,7 @@ import React from 'react';
 import { Image, NewTabLink } from 'mko';
 import malIcon from './myanimelist.ico';
 
-import './MalLink.scss';
+import './ExternalLinks.scss';
 
 function MalLink({ type, title, malId }) {
   const label = title
@@ -18,7 +18,7 @@ function MalLink({ type, title, malId }) {
       title={label}
       aria-label={label}
     >
-      <Image src={malIcon} alt="MyAnimelist icon" />
+      <Image src={malIcon} alt="MyAnimelist icon" width={20} height={20} />
     </NewTabLink>
   );
 }
@@ -29,4 +29,4 @@ MalLink.propTypes = {
   title: PropTypes.string
 };
 
-export default MalLink;
+export default React.memo(MalLink);

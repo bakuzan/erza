@@ -9,7 +9,8 @@ import {
   Button
 } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
-import MalLink from 'components/MalLink';
+import ContentLink from 'components/ExternalLinks/ContentLink';
+import MalLink from 'components/ExternalLinks/MalLink';
 import Paths from 'constants/paths';
 import { Enums, Icons } from 'constants/values';
 import { formatDateTimeForDisplay } from 'utils';
@@ -30,11 +31,15 @@ function ItemListItem({ type, item, addAction, startAction }) {
   const isComplete = item.status === Enums.status.Completed;
 
   const iconStatusProps = item.isRepeat
-    ? { icon: Icons.clockwise, [`aria-label`]: 'Is Repeat' }
+    ? {
+        icon: Icons.clockwise,
+        [`aria-label`]: 'Is Repeat (Complete)',
+        title: 'Is Repeat (Complete)'
+      }
     : isOnhold
-    ? { icon: Icons.pause, [`aria-label`]: 'On hold' }
+    ? { icon: Icons.pause, [`aria-label`]: 'On hold', title: 'On hold' }
     : isComplete
-    ? { icon: Icons.tick, [`aria-label`]: item.status }
+    ? { icon: Icons.tick, [`aria-label`]: item.status, title: item.status }
     : null;
 
   return (
@@ -62,7 +67,6 @@ function ItemListItem({ type, item, addAction, startAction }) {
               btnSize="small"
               className="bold"
               {...iconStatusProps}
-              title={item.status}
             />
           )}
           {isPlanned && (
@@ -97,19 +101,12 @@ function ItemListItem({ type, item, addAction, startAction }) {
           {hasMalId && (
             <MalLink type={type} malId={item.malId} title={item.title} />
           )}
-          {hasLink && (
-            <ButtonisedNewTabLink
-              href={item.link}
-              btnSize="small"
-              icon={Icons.link}
-              title="Open content link"
-              aria-label={`Open content link for ${item.title} in new tab.`}
-            />
-          )}
+          {hasLink && <ContentLink link={item.link} title={item.title} />}
         </div>
       )}
       <SeriesImageContainer
         isLazy
+        fixedWidth
         src={item.image}
         alt={`Cover for ${item.title}`}
       />

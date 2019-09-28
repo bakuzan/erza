@@ -1,0 +1,25 @@
+.mal-link {
+  display: inline-block;
+}
+
+.content-link {
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+
+  &--inline {
+    display: inline-block;
+    margin: 0 5px;
+  }
+
+  &::before {
+    font-size: 1.15rem;
+  }
+}
+
+.mal-link img,
+.content-link {
+  &:hover {
+    transform: scale(1.1);
+  }
+}

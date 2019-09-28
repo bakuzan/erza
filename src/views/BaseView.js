@@ -11,7 +11,8 @@ import {
 } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
-import MalLink from 'components/MalLink';
+import ContentLink from 'components/ExternalLinks/ContentLink';
+import MalLink from 'components/ExternalLinks/MalLink';
 import LoadableContent from 'containers/LoadableContent';
 import { capitalise, formatDateForDisplay } from 'utils';
 import {
@@ -114,7 +115,7 @@ class BaseView extends Component {
         <div className="series-view__content">
           <div className="flex flex--column flex--all padding-10">
             <header className="series-view__header">
-              <h2 className="no-margin">{item.title}</h2>
+              <h2 className="series-view__title">{item.title}</h2>
               <div className="flex-spacer" />
               <div className="button-group">
                 <Button onClick={history.goBack}>{Strings.back}</Button>
@@ -131,7 +132,7 @@ class BaseView extends Component {
                 src={item.image}
                 alt={`Cover for ${item.title}`}
               >
-                <div className="start-center-contents">
+                <div>
                   {item.malId && (
                     <MalLink
                       type={type}
@@ -140,18 +141,12 @@ class BaseView extends Component {
                     />
                   )}
                   {item.link && (
-                    <ButtonisedNewTabLink
-                      href={item.link}
-                      btnSize="small"
-                      icon={Icons.link}
-                      title="Open content link"
-                      aria-label="Open content link"
-                    />
+                    <ContentLink link={item.link} title={item.title} inline />
                   )}
                 </div>
               </SeriesImageContainer>
               <div className="view-content__inner">
-                <List columns={2}>
+                <ul className="series-view-grid">
                   <li className="label">{current}</li>
                   <li className="value">
                     {`${item[current]} / ${item[total] || '??'}`}
@@ -244,7 +239,7 @@ class BaseView extends Component {
                         </li>
                       </React.Fragment>
                     )}
-                </List>
+                </ul>
               </div>
 
               <div>

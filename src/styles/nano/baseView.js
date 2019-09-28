@@ -8,6 +8,10 @@ nano.put('.series-view', {
   minHeight: '100vh'
 });
 
+nano.put('.series-view__title', {
+  margin: `5px`
+});
+
 nano.put('.series-view__header', {
   display: 'flex',
   justifyContent: 'center',
@@ -29,14 +33,27 @@ nano.put('.series-view__content', {
   ...media.get('xxs')(smallContent)
 });
 
+const imageContainerWidth = 235;
+
 nano.put('.view-content', {
   display: 'grid',
-  gridTemplateColumns: '1fr 3fr',
+  gridTemplateColumns: `minmax(auto, ${imageContainerWidth}px) auto`,
   gridGap: `15px 0`,
+  ...media.get('xs')({ gridTemplateColumns: '1fr' }),
   ...media.get('xxs')({ gridTemplateColumns: '1fr' })
 });
-nano.put('.view-content__inner', {
-  padding: `10px 0`
+
+nano.put('.series-view-grid', {
+  display: `grid`,
+  gridTemplateColumns: `1fr 1fr`,
+  gridAutoRows: `1fr`,
+  maxWidth: `600px`,
+  padding: '5px',
+  margin: 0,
+  listStyleType: 'none',
+  li: {
+    padding: '0 5px'
+  }
 });
 
 nano.put('.series-view__rating.series-view__rating', {
