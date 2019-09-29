@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { RatingControl, LoadingSpinner, List } from 'mko';
 import {
   ButtonisedNavButton,
-  ButtonisedNewTabLink,
   ButtonisedNavLink,
   Button
 } from 'components/Buttonised';
