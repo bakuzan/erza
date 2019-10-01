@@ -21,3 +21,5 @@ tag_cte as
 select count(m.id) as 'total'
 from mangas as m
 join tag_cte as links on m.id = links.mangaId
+where
+	m.title like :search

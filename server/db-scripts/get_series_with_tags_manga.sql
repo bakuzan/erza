@@ -21,6 +21,8 @@ tag_cte as
 select *
 from mangas as m
 join tag_cte as links on m.id = links.mangaId
+where
+	m.title like :search
 order by title
 limit :limit
 offset :offset

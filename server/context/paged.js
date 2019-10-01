@@ -104,8 +104,10 @@ async function pagedSeriesByTags({
   type,
   tagIds = [],
   search = '',
-  paging = { page: 0, size: 20 }
+  paging = {}
 }) {
+  const { page = 0, size = 20 } = paging;
+
   const queryKeys =
     type === StatType.Anime
       ? {
@@ -132,15 +134,15 @@ async function pagedSeriesByTags({
     replacements: {
       search: `%${search}%`,
       tagIds: processArray(tagIds),
-      limit: paging.size,
-      offset: paging.size * paging.page
+      limit: size,
+      offset: size * page
     }
   });
 
   return {
     nodes,
     total,
-    hasMore: setHasMoreFlag(total, paging)
+    hasMore: setHasMoreFlag(total, { page, size })
   };
 }
 

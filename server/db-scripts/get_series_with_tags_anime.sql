@@ -21,6 +21,8 @@ tag_cte as
 select *
 from animes as a
 join tag_cte as links on a.id = links.animeId
+where
+	a.title like :search
 order by title
 limit :limit
 offset :offset

@@ -21,3 +21,5 @@ tag_cte as
 select count(a.id) as 'total'
 from animes as a
 join tag_cte as links on a.id = links.animeId
+where
+	a.title like :search
