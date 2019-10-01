@@ -4,7 +4,7 @@ select
 	count(links.mangaId) as 'timesUsed', 
     printf("%.2f", avg(series.rating)) as 'averageRating'
 from tags as t
-join ManagaTag as links on t.id = links.tagId
+join MangaTag as links on t.id = links.tagId
 join mangas as series on links.mangaId = series.id
 where t.isAdult = :isAdult
 group by t.id
