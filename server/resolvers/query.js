@@ -94,6 +94,12 @@ module.exports = {
       order: [['start', 'ASC']]
     });
   },
+  async seriesByTags(_, args, context) {
+    return await context.pagedSeriesByTags(args);
+  },
+  async tagStats(_, args, context) {
+    return await context.Stats.tagStats(args);
+  },
   async badImageSearch(_, { type, isAdult, limit }, context) {
     const model = context.Stats.resolveSeriesModel(type);
     return await model.findAll({

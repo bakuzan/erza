@@ -29,4 +29,11 @@ module.exports = gql`
     summary: [SummaryCount]
     series: [StatSeriesRow]
   }
+
+  type TagStat {
+    id: Int!
+    name: String!
+    timesUsed: Int
+    averageRating: String
+  }
 `;

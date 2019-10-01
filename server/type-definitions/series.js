@@ -105,6 +105,12 @@ module.exports = gql`
     end: String
   }
 
+  type SeriesPage {
+    total: Int
+    hasMore: Boolean
+    nodes: [Series]
+  }
+
   type BadImageSeries {
     id: Int
     malId: Int

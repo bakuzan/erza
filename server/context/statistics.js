@@ -122,5 +122,16 @@ module.exports = {
         return [...p, processRatingStatistics(key, list.map((x) => x.rating))];
       }, [])
       .sort(sortFn);
+  },
+  async tagStats({ type, isAdult }) {
+    const qk =
+      type === StatType.Anime ? 'get_tag_stats_anime' : 'get_tag_stats_manga';
+
+    return await db.query(SQL[qk], {
+      type: db.QueryTypes.SELECT,
+      replacements: {
+        isAdult
+      }
+    });
   }
 };

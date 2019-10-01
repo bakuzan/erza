@@ -106,6 +106,12 @@ const Query = gql`
       toDate: String!
       status: [Status]
     ): [TimelineSeries]
+    seriesByTags(
+      type: StatType!
+      tagIds: [Int]
+      search: String
+      paging: Paging
+    ): SeriesPage
 
     todoTemplateById(id: Int!): TodoTemplate
     todoTemplates: [TodoTemplate]
@@ -118,6 +124,8 @@ const Query = gql`
       isAdult: Boolean!
       limit: Int
     ): [BadImageSeries]
+
+    tagStats(type: StatType!, isAdult: Boolean!): [TagStat]
   }
 `;
 

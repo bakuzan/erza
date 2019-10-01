@@ -84,7 +84,13 @@ module.exports = {
   TodoInstance: TodoInstanceResolvers,
   // Common resolvers
   Series: {
-    __resolveType() {
+    __resolveType(data) {
+      if (data.hasOwnProperty('episode')) {
+        return 'Anime';
+      } else if (data.hasOwnProperty('chapter')) {
+        return 'Manga';
+      }
+
       return null;
     }
   },

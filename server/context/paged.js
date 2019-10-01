@@ -1,10 +1,14 @@
 const Op = require('sequelize').Op;
 
-const dateRange = require('../utils/dateRange');
+const { db } = require('../connectors');
+const SQL = require('../db-scripts');
+const { StatType } = require('../constants/enums');
 
+const dateRange = require('../utils/dateRange');
 const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('./utils/setHasMoreFlag');
 const resolveWhereIn = require('./utils/resolveWhereIn');
+const processArray = require('./utils/processArray');
 const validateSortOrder = require('./validators/validateSortOrder');
 
 // Query
@@ -96,7 +100,52 @@ async function pagedHistory(
     }));
 }
 
+async function pagedSeriesByTags({
+  type,
+  tagIds = [],
+  search = '',
+  paging = { page: 0, size: 20 }
+}) {
+  const queryKeys =
+    type === StatType.Anime
+      ? {
+          count: 'get_series_with_tags_anime_count',
+          find: 'get_series_with_tags_anime'
+        }
+      : {
+          count: 'get_series_with_tags_manga_count',
+          find: 'get_series_with_tags_manga'
+        };
+
+  const [totalData] = await db.query(SQL[queryKeys.count], {
+    type: db.QueryTypes.SELECT,
+    replacements: {
+      search: `%${search}%`,
+      tagIds: processArray(tagIds)
+    }
+  });
+
+  const total = totalData && totalData.total ? totalData.total : 0;
+
+  const nodes = await db.query(SQL[queryKeys.find], {
+    type: db.QueryTypes.SELECT,
+    replacements: {
+      search: `%${search}%`,
+      tagIds: processArray(tagIds),
+      limit: paging.size,
+      offset: paging.size * paging.page
+    }
+  });
+
+  return {
+    nodes,
+    total,
+    hasMore: setHasMoreFlag(total, paging)
+  };
+}
+
 module.exports = {
   pagedSeries,
-  pagedHistory
+  pagedHistory,
+  pagedSeriesByTags
 };
