@@ -96,3 +96,10 @@
 .tag-item > .erza-button-link {
   justify-content: flex-start;
 }
+
+// Statistics
+.tag-stats.tag-stats {
+  @include respondToAll((xxs, xs)) {
+    grid-template-columns: 1fr;
+  }
+}
