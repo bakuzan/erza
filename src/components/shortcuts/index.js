@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component } from 'react';
 
 import { AutocompleteInput, Dialog } from 'mko';
@@ -11,32 +12,20 @@ import './Shortcuts.scss';
 const shortcut = (o) => ({ ctrlKey, keyCode }) =>
   ctrlKey && keyCode === Enums.KeyCodes.q ? o.toggleVisible() : null;
 
-const sharedStyle = { transition: 'all 0.33s ease-in-out', zIndex: 100 };
-
-const VISIBLE = {
-  container: { opacity: 1, visibility: 'visible' },
-  dialog: {}
-};
-
-const HIDDEN = {
-  container: {
-    visibility: 'hidden',
-    pointerEvents: 'none',
-    opacity: 0
-  },
-  dialog: { marginTop: 30 }
-};
-
 class Shortcuts extends Component {
   constructor() {
     super();
     this.state = {
       items: Menu.reduce((p, c) => p.concat(c.children), Array(0)),
       filter: '',
-      isOpen: false
+      isOpen: false,
+      useOpenClass: false
     };
 
     this.controller = null;
+    this.timer = null;
+    this.classTimer = null;
+    this.toggleVisible = this.toggleVisible.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.performAction = this.performAction.bind(this);
   }
@@ -46,12 +35,43 @@ class Shortcuts extends Component {
     this.controller.listen();
   }
 
-  componentWillUnmount() {
-    this.controller.remove();
+  componentDidUpdate(_, prevState) {
+    if (this.state.isOpen && !prevState.isOpen) {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        const inp = document.getElementById('shortcuts');
+
+        if (inp) {
+          inp.focus();
+        }
+      }, 333);
+    }
   }
 
-  toggleVisible() {
-    this.setState((p) => ({ filter: '', isOpen: !p.isOpen }));
+  componentWillUnmount() {
+    this.controller.remove();
+    clearTimeout(this.timer);
+    clearTimeout(this.classTimer);
+  }
+
+  toggleVisible(withCallback = true) {
+    clearTimeout(this.classTimer);
+
+    this.setState(
+      (p) => ({
+        filter: '',
+        isOpen: withCallback ? true : !p.useOpenClass,
+        useOpenClass: !p.useOpenClass
+      }),
+      () => {
+        if (withCallback && !this.state.useOpenClass) {
+          this.classTimer = setTimeout(
+            () => this.setState({ isOpen: false }),
+            400
+          );
+        }
+      }
+    );
   }
 
   handleFilter(event) {
@@ -60,7 +80,7 @@ class Shortcuts extends Component {
 
   performAction(id) {
     const { link, action } = this.state.items.find((x) => x.id === id);
-    this.toggleVisible();
+    this.toggleVisible(false);
 
     if (!!link) {
       return this.props.history.push(link);
@@ -70,37 +90,34 @@ class Shortcuts extends Component {
   }
 
   render() {
-    const styles = this.state.isOpen ? VISIBLE : HIDDEN;
+    const { isOpen, useOpenClass } = this.state;
 
     return (
-      <div
-        id="shortcuts-container"
-        aria-hidden={!this.state.isOpen}
-        style={{ ...sharedStyle, ...styles.container }}
+      <Dialog
+        className={classNames('shortcuts-dialog', {
+          'shortcuts-dialog--open': useOpenClass
+        })}
+        name="shortcuts"
+        isOpen={isOpen}
+        isForm={false}
+        hasBackdrop={false}
+        hideCancel={true}
+        onCancel={() => this.toggleVisible()}
+        tabTrapProps={{ firstId: 'shortcuts', lastId: 'shortcuts' }}
+        aria-hidden={!isOpen}
       >
-        <Dialog
-          name="shortcuts"
-          style={{ ...sharedStyle, ...styles.dialog }}
-          isOpen={this.state.isOpen}
-          isForm={false}
-          hasBackdrop={false}
-          hideCancel={true}
-          onCancel={() => this.setState({ isOpen: false })}
-          tabTrapProps={{ firstId: 'shortcuts', lastId: 'shortcuts' }}
-        >
-          <AutocompleteInput
-            autoFocus
-            menuClassName="erza-autocomplete-menu"
-            id="shortcuts"
-            attr="title"
-            label="Search for a page..."
-            items={this.state.items}
-            filter={this.state.filter}
-            onChange={this.handleFilter}
-            onSelect={this.performAction}
-          />
-        </Dialog>
-      </div>
+        <AutocompleteInput
+          autoFocus
+          menuClassName="erza-autocomplete-menu"
+          id="shortcuts"
+          attr="title"
+          label="Search for a page..."
+          items={this.state.items}
+          filter={this.state.filter}
+          onChange={this.handleFilter}
+          onSelect={this.performAction}
+        />
+      </Dialog>
     );
   }
 }
