@@ -71,7 +71,7 @@ async function createSeries(model, payload, mappers) {
     const ts = tagString
       .split(',')
       .map((x) => (x ? x.trim() : null))
-      .filter((x) => x !== null);
+      .filter((x) => Boolean(x));
 
     const currTags = await Tag.findAll({
       raw: true,
