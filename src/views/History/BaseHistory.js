@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
-import { DateSelector, MultiSelect, SelectBox } from 'mko';
+import DateSelector from 'meiko/DateSelector';
+import MultiSelect from 'meiko/MultiSelect';
+import SelectBox from 'meiko/SelectBox';
 import SortOrderToggle from 'components/SortOrderToggle';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';

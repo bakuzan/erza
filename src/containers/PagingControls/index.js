@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { SelectBox } from 'mko';
+import SelectBox from 'meiko/SelectBox';
 import { selectPagingForType } from 'reducers/paging';
 import { setItemsPerPage } from 'actions/paging';
 import { pageSizes } from 'constants/values';
@@ -13,7 +13,6 @@ import './PagingControls.scss';
 const PagingControls = ({
   className,
   listType,
-  filters,
   pageSizeOptions = pageSizes.default,
   paging,
   changeItemsPerPage
@@ -25,9 +24,7 @@ const PagingControls = ({
     <div className={classNames('paging-controls', className)}>
       <div className="paging-controls__content-wrapper flex flex--grow flex--row">
         {!!pageInfo.total && (
-          <div className="paging-controls__item-count">{`Found ${
-            pageInfo.total
-          } item(s)`}</div>
+          <div className="paging-controls__item-count">{`Found ${pageInfo.total} item(s)`}</div>
         )}
       </div>
       <SelectBox

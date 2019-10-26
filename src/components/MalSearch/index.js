@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import { AutocompleteInput, LoadingSpinner } from 'mko';
+import AutocompleteInput from 'meiko/AutocompleteInput';
+import LoadingSpinner from 'meiko/LoadingSpinner';
 import MalSearchSuggestionItem from './MalSearchSuggestionItem';
 
 import erzaGQL from 'erzaGQL';

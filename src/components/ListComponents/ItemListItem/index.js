@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { withButtonisation } from 'mko';
+import { withButtonisation } from 'meiko/Button';
 import { ButtonisedNavButton, ButtonIcon, Button } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import ContentLink from 'components/ExternalLinks/ContentLink';

@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ClearableInput, Tickbox, SelectBox } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
+import SelectBox from 'meiko/SelectBox';
+import Tickbox from 'meiko/Tickbox';
 import FilterLink from '../FilterLink';
 import SortOrderToggle from 'components/SortOrderToggle';
 import { toggleSortOrder, setSortKey } from 'actions/sorting';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { RadioButton } from 'mko';
+import RadioButton from 'meiko/RadioButton';
 import Strings from 'constants/strings';
 
 function SortOrderToggle({ value, onChange }) {

@@ -1,4 +1,4 @@
-import { KeyCodes } from 'mko';
+import { KeyCodes } from 'meiko/constants/enums';
 
 function toKeyObj(arr) {
   return arr.reduce((p, k) => ({ ...p, [k]: k }), {});

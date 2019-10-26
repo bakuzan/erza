@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { nano } from 'mko';
+import { nano } from 'meiko/styles/nano';
 import { ButtonisedNavLink } from 'components/Buttonised';
 import Grid from 'components/Grid';
 import Paths from 'constants/paths';

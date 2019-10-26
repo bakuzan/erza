@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { withButtonisation, NewTabLink, Button as MButton, nano } from 'mko';
+import { withButtonisation, Button as MButton } from 'meiko/Button';
+import NewTabLink from 'meiko/NewTabLink';
+import { nano } from 'meiko/styles/nano';
 
 nano.put(
   '.label:nth-child(odd):hover + .value .erza-button-link--hover-override',

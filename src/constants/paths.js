@@ -1,4 +1,4 @@
-import { Urls } from 'mko';
+import Urls from 'meiko/constants/urls';
 
 export default {
   ...Urls,

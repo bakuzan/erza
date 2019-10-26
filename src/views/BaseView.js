@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { RatingControl, LoadingSpinner, List } from 'mko';
+import List from 'meiko/List';
+import LoadingSpinner from 'meiko/LoadingSpinner';
+import RatingControl from 'meiko/RatingControl';
 import {
   ButtonisedNavButton,
   ButtonisedNavLink,

@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { ClearableInput, Dialog, RatingControl } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
+import Dialog from 'meiko/Dialog';
+import RatingControl from 'meiko/RatingControl';
 import { ButtonIcon } from 'components/Buttonised';
 import {
   padNumber,

@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-import { Toaster, useGlobalStyles } from 'mko';
+import Toaster from 'meiko/Toaster';
+import { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
 import withLastLocation from 'components/withLastLocation';
 import Header from 'components/Header';
 import Sidebar from 'containers/Sidebar';

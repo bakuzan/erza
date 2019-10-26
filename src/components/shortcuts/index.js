@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import React, { Component } from 'react';
 
-import { AutocompleteInput, Dialog } from 'mko';
+import AutocompleteInput from 'meiko/AutocompleteInput';
+import Dialog from 'meiko/Dialog';
 
 import { Enums } from 'constants/values';
 import Menu from 'constants/menu';

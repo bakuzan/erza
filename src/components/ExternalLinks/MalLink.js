@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Image, NewTabLink } from 'mko';
+import Image from 'meiko/Image';
+import NewTabLink from 'meiko/NewTabLink';
 import malIcon from './myanimelist.ico';
 
 import './ExternalLinks.scss';

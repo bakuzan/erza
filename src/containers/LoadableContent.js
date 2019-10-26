@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { LoadableContent } from 'mko';
+import LoadableContent from 'meiko/LoadableContent';
 
 const mapStateToProps = (state) => ({
   isFetching: state.isFetching

@@ -3,17 +3,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
-import {
-  ClearableInput,
-  Tabs,
-  ChipListInput,
-  SelectBox,
-  Tickbox,
-  LoadingSpinner,
-  RatingControl,
-  ImageSelector,
-  DateSelector
-} from 'mko';
+import ChipListInput from 'meiko/ChipListInput';
+import ClearableInput from 'meiko/ClearableInput';
+import DateSelector from 'meiko/DateSelector';
+import ImageSelector from 'meiko/ImageSelector';
+import LoadingSpinner from 'meiko/LoadingSpinner';
+import RatingControl from 'meiko/RatingControl';
+import SelectBox from 'meiko/SelectBox';
+import Tabs from 'meiko/Tabs';
+import Tickbox from 'meiko/Tickbox';
 import { ButtonisedNavLink, Button } from 'components/Buttonised';
 import MalSearch from 'components/MalSearch';
 import SeriesImageContainer from 'components/SeriesImageContainer';

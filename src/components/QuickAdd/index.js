@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Portal, Form, ClearableInput, RatingControl, List } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
+import Form from 'meiko/Form';
+import List from 'meiko/List';
+import Portal from 'meiko/Portal';
+import RatingControl from 'meiko/RatingControl';
 import { Strings } from 'constants/values';
 import {
   getEventValue,

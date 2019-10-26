@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { List } from 'mko';
+import List from 'meiko/List';
 import { ButtonIcon, Button } from 'components/Buttonised';
 import withMedia from 'components/withMedia';
 import { fetchDailyAnime } from 'actions/dailyAnime';

@@ -1,4 +1,4 @@
-import { toaster } from 'mko';
+import toaster from 'meiko/utils/toasterService';
 
 import erzaGQL from 'erzaGQL';
 import { getTagById, getTags, getTagsMinimal } from 'erzaGQL/query';

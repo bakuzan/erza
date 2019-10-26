@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import { SimpleLoading } from 'mko';
+import { SimpleLoading } from 'meiko/Loadable';
 import { Strings } from '../../constants/values';
 import {
   mapStateToEntityList,

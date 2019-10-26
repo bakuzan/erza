@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet-async';
 
-import { ClearableInput, LoadingSpinner } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
+import LoadingSpinner from 'meiko/LoadingSpinner';
 import { Button } from 'components/Buttonised';
 import RelatedSeriesList from './TagManagementRelatedSeriesList';
 

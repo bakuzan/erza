@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet-async';
 
-import { ClearableInput } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
 import LoadableContent from 'containers/LoadableContent';
 import TagList from 'components/ListComponents/TagList';
 

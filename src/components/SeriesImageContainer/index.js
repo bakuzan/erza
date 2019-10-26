@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Image } from 'mko';
+import Image from 'meiko/Image';
 
 import './SeriesImageContainer.scss';
 

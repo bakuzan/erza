@@ -1,4 +1,4 @@
-import { nano } from 'mko';
+import { nano } from 'meiko/styles/nano';
 import { darken } from 'utils';
 import media from './media';
 

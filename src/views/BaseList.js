@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
-import { nano } from 'mko';
+import { nano } from 'meiko/styles/nano';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 import ListFilter from 'containers/ListFilter';

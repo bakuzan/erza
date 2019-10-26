@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { Sidebar } from 'mko';
+import Sidebar from 'meiko/Sidebar';
 import SidebarItem from './SidebarItem';
 import { toggleSidebarCollapse, closeSidebar } from 'actions/sidebar';
 import Menu from 'constants/menu';

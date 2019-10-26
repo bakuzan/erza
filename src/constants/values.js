@@ -1,6 +1,7 @@
 import combinedStrings from './strings';
 import combinedEnums from './enums';
-import { Icons as mkoIcons, Types } from 'mko';
+import Types from 'meiko/constants/types';
+import { default as mkoIcons } from 'meiko/constants/icons';
 
 const Icons = {
   ...mkoIcons,

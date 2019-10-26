@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { useWindowSize } from 'mko';
+import { useWindowSize } from 'meiko/hooks/useWindowSize';
 import getDisplayName from 'utils/getDisplayName';
 
 function withMedia(Wrapped, hideOnMap) {

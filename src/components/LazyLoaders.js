@@ -1,5 +1,5 @@
 import Loadable from 'react-loadable';
-import { SimpleLoading, Loading } from 'mko';
+import { SimpleLoading, Loading } from 'meiko/Loadable';
 
 export function lazyLoader(loader) {
   return Loadable({

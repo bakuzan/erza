@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { List } from 'mko';
+import List from 'meiko/List';
 import { ButtonisedNavLink } from 'components/Buttonised';
 import Paths from 'constants/paths';
 

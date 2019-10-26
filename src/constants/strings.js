@@ -1,4 +1,4 @@
-import { Strings } from 'mko';
+import Strings from 'meiko/constants/strings';
 
 export default {
   ...Strings,

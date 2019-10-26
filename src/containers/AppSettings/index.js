@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { SelectBox, Tickbox, DropdownMenu } from 'mko';
+import DropdownMenu from 'meiko/DropdownMenu';
+import SelectBox from 'meiko/SelectBox';
+import Tickbox from 'meiko/Tickbox';
 
 import { setApplicationTheme, toggleTimedTheme } from 'actions/theme';
 import { toggleSidebarVisibility } from 'actions/sidebar';
