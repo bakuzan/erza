@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-import { MultiSelect } from 'mko';
+import MultiSelect from 'meiko/MultiSelect';
 import Timeline from 'components/Timeline';
 import ContentTypeFilters from 'components/ContentTypeFilters';
 import { ButtonisedNavLink } from 'components/Buttonised';

@@ -15,3 +15,9 @@ export const monthNames = Object.freeze({
   '11': 'Nov',
   '12': 'Dec'
 });
+
+export const zoom = {
+  DEFAULT: 1,
+  MIN_DIVISOR: 1,
+  MAX_DIVISOR: 3
+};

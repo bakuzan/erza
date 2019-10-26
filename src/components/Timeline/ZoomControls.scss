@@ -1,0 +1,13 @@
+.zoom-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__button {
+    flex: unset;
+  }
+
+  &__text {
+    font-size: 0.8rem;
+  }
+}

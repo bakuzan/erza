@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 
 import Tooltip from 'meiko/Tooltip';
+import ZoomControls from './ZoomControls';
 
 import { useDimensions } from 'hooks/useDimensions';
 import Controls from './Controls';
 import timelineReducer, { initialState } from './reducer';
-import { ARROW_BUTTON_SIZE } from './utils/consts';
+import { ARROW_BUTTON_SIZE, zoom } from './utils/consts';
 import { TimelineDispatcherContext } from './utils/context';
 import getTimelineSizes from './utils/getTimelineSizes';
 import calculateTimelineArrangement from './utils/calculateTimelineArrangement';
@@ -24,8 +25,9 @@ const accountForArrowButtons = {
 function Timeline({ className, items, onUpdate, children, ...props }) {
   const [ref, { width }] = useDimensions();
   const [state, dispatch] = useReducer(timelineReducer, initialState());
+  const [zoomLevel, setZoomLevel] = useState(zoom.DEFAULT);
 
-  const sizing = getTimelineSizes(width);
+  const sizing = getTimelineSizes(width, zoomLevel);
 
   const dateRange = getDateRange(state.viewDate, sizing.parts);
   const [fromDate, toDate] = dateRange;
@@ -44,6 +46,7 @@ function Timeline({ className, items, onUpdate, children, ...props }) {
   return (
     <TimelineDispatcherContext.Provider value={dispatch}>
       <div ref={ref} className={classNames('timeline', className)}>
+        <ZoomControls level={zoomLevel} setLevel={setZoomLevel} />
         <Controls width={sizing.timelineSpace} dateRange={dateRange} />
         <div className="timeline__scroll-wrapper">
           <div className="timeline__content" style={accountForArrowButtons}>
