@@ -5,6 +5,7 @@ import ClearableInput from 'meiko/ClearableInput';
 import Dialog from 'meiko/Dialog';
 import RatingControl from 'meiko/RatingControl';
 import { ButtonIcon } from 'components/Buttonised';
+import HistoryNote from './HistoryNote';
 import {
   padNumber,
   capitalise,
@@ -108,7 +109,7 @@ class HistoryListItem extends Component {
           )}
         </div>
         {!isEditing ? (
-          <div className="history-list-item__note">{item.note}</div>
+          <HistoryNote className="history-list-item__note" text={item.note} />
         ) : (
           <ClearableInput
             id={`note-${item.id}`}
