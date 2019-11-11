@@ -22,7 +22,7 @@ const HistoryNoteLink = React.memo(function InlineLink({ href, text }) {
   const linkText = text || (domain || 'Unknown link');
 
   return (
-    <NewTabLink className="history-note-inline-link" href={href}>
+    <NewTabLink className="button button--link history-note-link" href={href}>
       {linkText}
     </NewTabLink>
   );
