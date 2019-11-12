@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -8,6 +9,7 @@ import { pageSizes } from 'constants/values';
 import { getHistoryNameForItemType } from 'utils/data';
 
 const PagedHistoryList = ({
+  className,
   isFetching,
   filters,
   items,
@@ -19,7 +21,7 @@ const PagedHistoryList = ({
   const historyType = getHistoryNameForItemType(type);
   const itemsForPage = items; // selectPageItems(items, historyType, paging);
   return (
-    <div className="flex flex--column flex--grow">
+    <div className={classNames('flex flex--column flex--grow', className)}>
       <PagingControls
         pageSizeOptions={pageSizes.history}
         listType={historyType}

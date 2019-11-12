@@ -33,13 +33,14 @@
     }
     margin-top: -5px;
     font-weight: bold;
+
+    .erza-button-link {
+      white-space: inherit;
+    }
   }
 
   @include respondTo(xs) {
     flex-direction: column;
-    > * {
-      margin: 5px 0;
-    }
 
     &__rating-block {
       padding: 0;
@@ -48,6 +49,30 @@
     &__actions {
       display: flex;
       justify-content: flex-end;
+    }
+
+    &.series-title {
+      padding-left: 5px;
+
+      .erza-button-link {
+        justify-content: flex-start;
+        width: fit-content;
+      }
+    }
+  }
+}
+
+.paged-history--column-on-small .history-list-item {
+  @include respondTo(sm) {
+    flex-direction: column;
+
+    &.series-title {
+      padding-left: 5px;
+
+      .erza-button-link {
+        justify-content: flex-start;
+        width: fit-content;
+      }
     }
   }
 }

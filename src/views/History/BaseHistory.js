@@ -3,13 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
+import { nano } from 'meiko/styles/nano';
 import DateSelector from 'meiko/DateSelector';
 import MultiSelect from 'meiko/MultiSelect';
 import SelectBox from 'meiko/SelectBox';
+import ContentTypeFilters from 'components/ContentTypeFilters';
 import SortOrderToggle from 'components/SortOrderToggle';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 import { nextPage } from 'actions/paging';
+import Paths from 'constants/paths';
+import breakpoints from 'styles/nano/media';
 
 import {
   getTimeoutSeconds,
@@ -26,6 +30,16 @@ const PagedHistoryList = lazyLoader(() =>
     /* webpackChunkName: 'PagedHistoryList' */ '../../containers/PagedHistoryList'
   )
 );
+
+nano.put('.paged-history--lifted', {
+  marginTop: `-41px`,
+  ...breakpoints.get('xs')({
+    marginTop: `0`
+  }),
+  ...breakpoints.get('xxs')({
+    marginTop: `0`
+  })
+});
 
 const KEEP_PAGE_ON_MOUNT = false;
 
@@ -123,61 +137,65 @@ class BaseHistoryView extends Component {
     const historyItems = displayList ? items : [];
 
     return (
-      <div className="flex flex--row">
+      <div className="flex flex--column padding-5">
         <Helmet>
           <title>{`${capitalise(type)} History`}</title>
         </Helmet>
-        <div className="filters-container filters-container--wider">
-          <div>
-            <DateSelector
-              id="from"
-              name="from"
-              label="from"
-              required
-              value={this.state.from}
-              beforeDate={this.state.to}
-              onChange={this.handleDateInput}
+        <ContentTypeFilters baseUrl={`${Paths.base}${Paths.history}`} />
+        <div className="flex flex--row">
+          <div className="filters-container filters-container--wider">
+            <div>
+              <DateSelector
+                id="from"
+                name="from"
+                label="from"
+                required
+                value={this.state.from}
+                beforeDate={this.state.to}
+                onChange={this.handleDateInput}
+              />
+              <DateSelector
+                id="to"
+                name="to"
+                label="to"
+                required
+                value={this.state.to}
+                afterDate={this.state.from}
+                onChange={this.handleDateInput}
+              />
+            </div>
+            <MultiSelect
+              id="ratings"
+              name="ratings"
+              label="Ratings"
+              placeholder="Filter on rating"
+              values={filters.ratings}
+              options={RATING_OPTIONS}
+              onUpdate={this.handleRatingList}
             />
-            <DateSelector
-              id="to"
-              name="to"
-              label="to"
-              required
-              value={this.state.to}
-              afterDate={this.state.from}
-              onChange={this.handleDateInput}
+            <SelectBox
+              id="sortKey"
+              name="sortKey"
+              text="sort on"
+              value={filters.sortKey}
+              onChange={this.handleUserInput}
+              options={SORT_OPTIONS}
+            />
+            <SortOrderToggle
+              value={filters.sortOrder}
+              onChange={this.handleUserInput}
             />
           </div>
-          <MultiSelect
-            id="ratings"
-            name="ratings"
-            label="Ratings"
-            placeholder="Filter on rating"
-            values={filters.ratings}
-            options={RATING_OPTIONS}
-            onUpdate={this.handleRatingList}
-          />
-          <SelectBox
-            id="sortKey"
-            name="sortKey"
-            text="sort on"
-            value={filters.sortKey}
-            onChange={this.handleUserInput}
-            options={SORT_OPTIONS}
-          />
-          <SortOrderToggle
-            value={filters.sortOrder}
-            onChange={this.handleUserInput}
-          />
+          <LoadableContent>
+            <PagedHistoryList
+              className="paged-history paged-history--lifted paged-history--column-on-small"
+              type={type}
+              filters={filters}
+              items={historyItems}
+              onLoadMore={this.handleLoadMore}
+            />
+          </LoadableContent>
         </div>
-        <LoadableContent>
-          <PagedHistoryList
-            type={type}
-            filters={filters}
-            items={historyItems}
-            onLoadMore={this.handleLoadMore}
-          />
-        </LoadableContent>
       </div>
     );
   }
