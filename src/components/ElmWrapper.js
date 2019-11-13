@@ -19,7 +19,8 @@ class ElmWrapper extends Component {
       return;
     }
 
-    const app = src.init({ node, flags });
+    const srcMain = src.Elm.Main;
+    const app = srcMain.init({ node, flags });
     if (typeof this.props.ports !== 'undefined') {
       this.props.ports(app.ports);
     }

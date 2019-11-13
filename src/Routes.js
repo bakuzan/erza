@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
 import Paths from './constants/paths';
-import { Strings } from './constants/values';
 import { routeLazyLoader } from 'components/LazyLoaders';
 import App from './containers/App';
 import Anime from './views/Anime';
@@ -12,9 +11,10 @@ import AnimeCreate from './views/Anime/AnimeCreate';
 import Manga from './views/Manga';
 import MangaView from './views/Manga/MangaView';
 import MangaCreate from './views/Manga/MangaCreate';
-import AnimeHistoryView from './views/History/AnimeHistory';
-import MangaHistoryView from './views/History/MangaHistory';
 
+const History = routeLazyLoader(() =>
+  import(/* webpackChunkName: 'History' */ './views/History')
+);
 const Home = routeLazyLoader(() =>
   import(/* webpackChunkName: 'Home' */ './views/Home')
 );
@@ -69,14 +69,9 @@ const ErzaRoutes = ({ match }) => (
     />
 
     <ErzaRoute
-      path={`${match.path}${Paths.history}${Strings.anime}`}
-      component={AnimeHistoryView}
+      path={`${match.path}${Paths.history}:type`}
+      component={History}
     />
-    <ErzaRoute
-      path={`${match.path}${Paths.history}${Strings.manga}`}
-      component={MangaHistoryView}
-    />
-
     <ErzaRoute
       path={`${match.path}${Paths.statistics}:type`}
       component={Statistics}

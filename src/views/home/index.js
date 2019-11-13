@@ -37,11 +37,7 @@ class Home extends Component {
         <Helmet>
           <title>Home</title>
         </Helmet>
-        <ElmWrapper
-          src={Yoruichi.Elm.Main}
-          flags={flags}
-          ports={this.setupPorts}
-        />
+        <ElmWrapper src={Yoruichi} flags={flags} ports={this.setupPorts} />
       </div>
     );
   }

@@ -12,7 +12,10 @@ import SortOrderToggle from 'components/SortOrderToggle';
 import { lazyLoader } from 'components/LazyLoaders';
 import LoadableContent from 'containers/LoadableContent';
 import { nextPage } from 'actions/paging';
+import { loadChaptersByDateRange } from 'actions/chapter';
+import { loadEpisodesByDateRange } from 'actions/episode';
 import Paths from 'constants/paths';
+import Strings from 'constants/strings';
 import breakpoints from 'styles/nano/media';
 
 import {
@@ -23,11 +26,11 @@ import {
   endOfDay,
   formatDateForInput
 } from 'utils';
-import { getHistoryNameForItemType } from 'utils/data';
+import { getHistoryNameForItemType, mapStateToEntityList } from 'utils/data';
 
 const PagedHistoryList = lazyLoader(() =>
   import(
-    /* webpackChunkName: 'PagedHistoryList' */ '../../containers/PagedHistoryList'
+    /* webpackChunkName: 'PagedHistoryList' */ '../containers/PagedHistoryList'
   )
 );
 
@@ -52,24 +55,17 @@ const RATING_OPTIONS = Array(10)
   .fill(null)
   .map((_, i) => ({ value: i + 1, text: `${i + 1}` }));
 
-const dateRangeForQuery = (from = new Date(), to = new Date()) => ({
-  from: startOfDay(from),
-  to: endOfDay(to)
-});
-
-const loadData = (props, { displayList, ...state }, shouldKeepPage = false) =>
-  props.loadHistory({ ...state }, shouldKeepPage);
-
-class BaseHistoryView extends Component {
+class HistoryView extends Component {
   constructor(props) {
     super(props);
-    const dr = dateRangeForQuery();
+
+    const initDate = new Date();
     this.state = {
       displayList: false,
       sortKey: 'date',
       sortOrder: 'DESC',
-      from: formatDateForInput(dr.from),
-      to: formatDateForInput(dr.to),
+      from: formatDateForInput(startOfDay(initDate)),
+      to: formatDateForInput(endOfDay(initDate)),
       ratings: []
     };
 
@@ -88,7 +84,7 @@ class BaseHistoryView extends Component {
   }
 
   componentDidMount() {
-    loadData(this.props, this.state, KEEP_PAGE_ON_MOUNT);
+    this.fetchHistoryPage(this.props, this.state, KEEP_PAGE_ON_MOUNT);
   }
 
   componentDidUpdate(prevProps) {
@@ -97,12 +93,24 @@ class BaseHistoryView extends Component {
       prevProps.type !== this.props.type ||
       prevProps.size !== this.props.size
     ) {
-      loadData(this.props, this.state);
+      this.fetchHistoryPage(this.props, this.state);
     }
   }
 
+  fetchHistoryPage(props, { displayList, ...state }, shouldKeepPage = false) {
+    const loadHistory =
+      props.type === Strings.anime
+        ? props.loadEpisodesByDateRange
+        : props.loadChaptersByDateRange;
+
+    loadHistory({ ...state }, shouldKeepPage);
+  }
+
   fetchData() {
-    debounce(() => loadData(this.props, this.state), getTimeoutSeconds(1));
+    debounce(
+      () => this.fetchHistoryPage(this.props, this.state),
+      getTimeoutSeconds(1)
+    );
   }
 
   handleDateInput(date, name, hasError) {
@@ -201,25 +209,35 @@ class BaseHistoryView extends Component {
   }
 }
 
-BaseHistoryView.propTypes = {
+HistoryView.propTypes = {
   type: PropTypes.string.isRequired,
   isAdult: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
-  loadHistory: PropTypes.func.isRequired,
   size: PropTypes.number.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.isFetching,
-  isAdult: state.isAdult,
-  ...state.paging[getHistoryNameForItemType(ownProps.type)]
-});
+function mapStateToProps(state, ownProps) {
+  const type = ownProps.match.params.type;
+  const items = mapStateToEntityList(
+    type === Strings.anime ? state.entities.episode : state.entities.chapter
+  );
+
+  return {
+    isFetching: state.isFetching,
+    isAdult: state.isAdult,
+    type,
+    items,
+    ...state.paging[getHistoryNameForItemType(type)]
+  };
+}
 
 const mapDispatchToProps = {
-  onLoadMore: nextPage
+  onLoadMore: nextPage,
+  loadChaptersByDateRange,
+  loadEpisodesByDateRange
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BaseHistoryView);
+)(HistoryView);

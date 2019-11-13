@@ -78,11 +78,7 @@ class Statistics extends Component {
         </Helmet>
         <ContentTypeFilters baseUrl={`${Paths.base}${Paths.statistics}`} />
         <div id="satellizer">
-          <ElmWrapper
-            src={Satellizer.Elm.Main}
-            flags={flags}
-            ports={this.setupPorts}
-          />
+          <ElmWrapper src={Satellizer} flags={flags} ports={this.setupPorts} />
         </div>
       </div>
     );
