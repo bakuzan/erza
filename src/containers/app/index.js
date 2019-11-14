@@ -6,12 +6,15 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import Toaster from 'meiko/Toaster';
 import { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
+
 import withLastLocation from 'components/withLastLocation';
 import Header from 'components/Header';
-import Sidebar from 'containers/Sidebar';
-import RequestIndicator from 'containers/RequestIndicator';
+import ScrollToTop from 'components/ScrollToTop';
 import Shortcuts from 'components/Shortcuts';
+
 import Alert from 'containers/Alert';
+import RequestIndicator from 'containers/RequestIndicator';
+import Sidebar from 'containers/Sidebar';
 
 import './App.scss';
 
@@ -25,6 +28,7 @@ const App = ({ history, children, sidebarState }) => {
 
   return (
     <HelmetProvider>
+      <ScrollToTop />
       <div className={appClasses}>
         <Helmet defaultTitle="Erza" titleTemplate="%s | Erza" />
         <Header />
