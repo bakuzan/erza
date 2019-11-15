@@ -19,7 +19,7 @@ const PagedHistoryList = ({
   ...props
 }) => {
   const historyType = getHistoryNameForItemType(type);
-  const itemsForPage = items; // selectPageItems(items, historyType, paging);
+  const itemsForPage = items;
   return (
     <div className={classNames('flex flex--column flex--grow', className)}>
       <PagingControls

@@ -44,7 +44,7 @@ class BasePagedList extends React.Component {
 
     const PagedList = list;
     const isQuickAddOpen = !!this.state.itemIdForQuickAdd;
-    const itemsForPage = items; //selectPageItems(items, type, paging);
+    const itemsForPage = items;
 
     return (
       <div className="flex flex--column flex--grow">

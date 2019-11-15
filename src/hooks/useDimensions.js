@@ -24,11 +24,9 @@ export function useDimensions() {
       measure();
 
       const removeResize = addEvent('resize', measure);
-      // const removeScroll = addEvent("scroll", measure);
 
       return () => {
         removeResize();
-        // removeScroll();
       };
     }
   }, [node]);

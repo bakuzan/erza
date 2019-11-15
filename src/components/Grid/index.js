@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import React, { useRef } from 'react';
+import React from 'react';
 
 import LoadingBouncer from 'meiko/LoadingBouncer';
+import { useProgressiveLoading } from 'meiko/hooks/useProgressiveLoading';
 
 import Strings from 'constants/strings';
-import { useProgressiveLoading } from 'hooks/useProgressiveLoading';
 import { isString } from 'utils';
 
 import './Grid.scss';
@@ -17,13 +17,11 @@ function Grid({
   noItemsText,
   children,
   isFetching,
-  isPaged,
   onLoadMore,
   showCount,
   ...other
 }) {
-  const ref = useRef();
-  useProgressiveLoading(ref, onLoadMore);
+  const ref = useProgressiveLoading(onLoadMore);
 
   const isFn = typeof children === 'function';
   const passedNothing = !items;
