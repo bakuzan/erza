@@ -1015,6 +1015,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.7.6":
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.0.tgz#8c81711517c56b3d00c6de706b0fb13dc3531549"
+  integrity sha512-Z7ti+HB0puCcLmFE3x90kzaVgbx6TRrYIReaygW6EkBEnJh1ajS4/inhF7CypzWeDV3NFl1AfWj0eMtdihojxw==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.1.0", "@babel/template@^7.4.0", "@babel/template@^7.4.4":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -2482,9 +2489,9 @@ axobject-query@^2.0.2:
     ast-types-flow "0.0.7"
 
 "ayaka@file:../ayaka/build":
-  version "2.0.2"
+  version "2.1.0"
   dependencies:
-    "@babel/runtime" "^7.4.2"
+    "@babel/runtime" "^7.7.6"
 
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -7496,7 +7503,7 @@ media-typer@0.3.0:
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
 "meiko@file:../meiko/build":
-  version "4.0.0"
+  version "5.0.0"
   dependencies:
     "@babel/runtime" "^7.4.5"
 
