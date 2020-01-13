@@ -1,11 +1,14 @@
+import adjustDateMonth from 'ayaka/adjustDateMonth';
+import getFirstDateOfMonth from 'ayaka/getFirstDateOfMonth';
+
 export const MOVE_VIEW_DATE = 'MOVE_VIEW_DATE';
 export const UPDATE_VIEW_DATE = 'UPDATE_VIEW_DATE';
 
 export default function timelineReducer(state, action) {
   switch (action.type) {
     case MOVE_VIEW_DATE: {
-      const viewDate = new Date(state.viewDate);
-      viewDate.setMonth(viewDate.getMonth() + action.value);
+      let viewDate = getFirstDateOfMonth(state.viewDate);
+      viewDate = adjustDateMonth(viewDate, action.value);
 
       const currentMonth = new Date();
 
