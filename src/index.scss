@@ -98,6 +98,10 @@
 }
 
 // Statistics
+#satellizer {
+  overflow: hidden;
+}
+
 .tag-stats.tag-stats {
   @include respondToAll((xxs, xs)) {
     grid-template-columns: 1fr;
