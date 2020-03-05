@@ -4,6 +4,8 @@ const SQL = require('../db-scripts');
 const { StatType, StatBreakdown } = require('../constants/enums');
 
 const groupBy = require('../utils/groupBy');
+const dateRange = require('../utils/dateRange');
+const { getLastDateOfMonth, isoDatePlusMonths } = require('../utils/isoDate');
 
 const { fmtYYYYMM, fmtYYYY } = require('./utils/formatDateColumn');
 const getBreakdownSettings = require('./utils/getBreakdownSettings');
@@ -13,6 +15,8 @@ const getSeasonalWhereClause = require('./utils/getSeasonalWhereClause');
 const processRatingStatistics = require('./rating-statistics');
 const getGroupingAndSortingFunctions = require('./rating-statistics/groupingSorting');
 const validateSortOrder = require('./validators/validateSortOrder');
+const validateSeason = require('./validators/validateSeason');
+const SAE = require('./season-anime-episode');
 
 function resolveSeriesModel(t) {
   return t === StatType.Anime ? Anime : Manga;
@@ -60,7 +64,10 @@ module.exports = {
       raw: true,
       group: column,
       where: { isAdult, ...where },
-      attributes: [[column, 'key'], [db.fn('COUNT', db.col('id')), 'value']],
+      attributes: [
+        [column, 'key'],
+        [db.fn('COUNT', db.col('id')), 'value']
+      ],
       order: opts.sortDirection ? [[column, opts.sortDirection]] : undefined
     });
 
@@ -119,7 +126,13 @@ module.exports = {
       .reduce((p, k) => {
         const key = k;
         const list = groupMap[k] || [];
-        return [...p, processRatingStatistics(key, list.map((x) => x.rating))];
+        return [
+          ...p,
+          processRatingStatistics(
+            key,
+            list.map((x) => x.rating)
+          )
+        ];
       }, [])
       .sort(sortFn);
   },
@@ -133,5 +146,49 @@ module.exports = {
         isAdult
       }
     });
+  },
+  async animeSeasonEpisodes(season) {
+    const result = validateSeason(season);
+
+    if (!result) {
+      throw new Error(
+        `Invalid season format. Expect: "YYYY-MM", where MM is 01, 04, 07 or 10.`
+      );
+    }
+
+    const initDate = `${season}-01`;
+    const [start, end] = dateRange(
+      initDate,
+      getLastDateOfMonth(isoDatePlusMonths(initDate, 2))
+    );
+
+    const items = await db.query(SQL['get_anime_episodes_for_season'], {
+      type: db.QueryTypes.SELECT,
+      replacements: { start, end }
+    });
+
+    const results = items.reduce(
+      (p, row) => {
+        p.series.push(SAE.mapToSeries(row));
+        p.episodes.push(SAE.mapToEpisode(row));
+        return p;
+      },
+      {
+        series: [],
+        episodes: []
+      }
+    );
+
+    const series = results.series.filter(
+      (x, i, a) => a.findIndex((y) => y.id === x.id) === i
+    );
+
+    return {
+      episodeCount: results.episodes.length,
+      seriesCount: series.length,
+      season,
+      series,
+      episodes: results.episodes
+    };
   }
 };

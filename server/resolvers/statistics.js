@@ -102,5 +102,8 @@ module.exports = {
         const offset = direction.toUpperCase() === 'ASC' ? 1 : -1;
         return (aV > bV ? 1 : aV < bV ? -1 : 0) * offset;
       });
+  },
+  async seasonEpisodes(_, { season }, context) {
+    return await context.Stats.animeSeasonEpisodes(season);
   }
 };

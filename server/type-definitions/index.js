@@ -98,6 +98,7 @@ const Query = gql`
       partition: HistoryPartition
     ): HistoryDetailYear
     currentSeason(sorting: [String]): [StatSeriesRow]
+    seasonEpisodes(season: String!): SeasonAnimeEpisodes
 
     seriesTimeline(
       type: StatType!

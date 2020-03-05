@@ -36,4 +36,30 @@ module.exports = gql`
     timesUsed: Int
     averageRating: String
   }
+
+  type SeasonAnime {
+    id: Int
+    title: String
+    image: String
+    malId: Int
+    rating: Int
+    totalEpisodes: Int
+    season: AnimeSeason
+  }
+
+  type SeasonEpisode {
+    id: Int
+    date: String
+    episode: Int
+    animeId: Int
+    rating: Int
+  }
+
+  type SeasonAnimeEpisodes {
+    episodeCount: Int
+    seriesCount: Int
+    season: String
+    series: [SeasonAnime]
+    episodes: [SeasonEpisode]
+  }
 `;
