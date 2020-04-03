@@ -9,13 +9,13 @@
     "babel-core": "^6.26.3",
     "medea": "file:../medea",
     "react-scripts": "3.4.0",
-    "redux-logger": "^2.6.1"
+    "redux-logger": "^3.0.6"
   },
   "dependencies": {
     "apollo-server-express": "^2.11.0",
     "ayaka": "file:../ayaka/build",
     "body-parser": "^1.19.0",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.8.0",
     "dotenv": "^8.2.0",
@@ -25,16 +25,16 @@
     "history": "^4.10.1",
     "husky": "^4.2.3",
     "imgur": "^0.3.1",
-    "immutability-helper": "^3.0.0",
-    "lint-staged": "^10.0.8",
+    "immutability-helper": "^3.0.2",
+    "lint-staged": "^10.1.1",
     "meiko": "file:../meiko/build",
     "nano-css": "^5.3.0",
     "node-sass": "^4.13.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "prop-types": "^15.7.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-helmet-async": "^1.0.4",
     "react-loadable": "^5.5.0",
     "react-redux": "^7.2.0",
@@ -44,22 +44,21 @@
     "satellizer": "file:./satellizer/build",
     "sequelize": "^5.21.5",
     "sequelize-cli": "^5.5.1",
-    "sqlite": "^3.0.3",
-    "umzug": "^2.2.0",
+    "sqlite": "^3.0.6",
+    "umzug": "^2.3.0",
     "yoruichi-shunko": "file:./yoruichi-shunko/build"
   },
   "lint-staged": {
     "{,src,server}/**/*.{js,jsx,json,scss}": [
-      "prettier --single-quote --write"
+      "prettier --write"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit-msg && npm run pretty"
+      "pre-commit": "npm run pretty"
     }
   },
   "scripts": {
-    "precommit-msg": "echo 'Precommit checks...'",
     "pretty": "lint-staged",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p start-js server",

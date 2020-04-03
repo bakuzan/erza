@@ -85,6 +85,7 @@ class HistoryListItem extends Component {
     const { item, type, editAction, deleteAction } = this.props;
     const { current } = getUniquePropertiesForItemType(type);
 
+    const formName = `historyItem-${item.id}-Delete`;
     const capitalisedCurrent = capitalise(current);
     const number = padNumber(item[current], 3);
     const canEdit = !!editAction;
@@ -150,14 +151,14 @@ class HistoryListItem extends Component {
                 <Dialog
                   isOpen={isOpen}
                   style={{ top: 0, left: `50%`, transform: `translateX(-90%)` }}
-                  name={`historyItem-${item.id}-Delete`}
+                  name={formName}
                   title={`Delete ${capitalisedCurrent} #${number}`}
                   actionText={Strings.delete}
                   onAction={this.confirmDelete}
                   onCancel={() => this.setState({ isOpen: false })}
                   tabTrapProps={{
-                    firstId: `historyDelete-${item.id}-Action`,
-                    lastId: `historyDelete-${item.id}-Cancel`
+                    firstId: `${formName}Action`,
+                    lastId: `${formName}Cancel`
                   }}
                 >
                   <p>{Strings.deleteConfirmation}</p>
