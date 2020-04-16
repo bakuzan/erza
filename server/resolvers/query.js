@@ -100,6 +100,9 @@ module.exports = {
   async tagStats(_, args, context) {
     return await context.Stats.tagStats(args);
   },
+  async tagGraph(_, args, context) {
+    return await context.Stats.tagGraph(args);
+  },
   async badImageSearch(_, { type, isAdult, limit }, context) {
     const model = context.Stats.resolveSeriesModel(type);
     return await model.findAll({
