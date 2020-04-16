@@ -37,6 +37,25 @@ module.exports = gql`
     averageRating: String
   }
 
+  type TagGraphNode {
+    id: Int!
+    label: String!
+    value: Int
+    title: String
+  }
+
+  type TagGraphEdge {
+    from: Int!
+    to: Int!
+    value: Int
+    title: String
+  }
+
+  type TagGraph {
+    nodes: [TagGraphNode]
+    edges: [TagGraphEdge]
+  }
+
   type SeasonAnime {
     id: Int
     title: String

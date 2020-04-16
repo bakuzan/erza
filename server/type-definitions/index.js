@@ -127,6 +127,7 @@ const Query = gql`
     ): [BadImageSeries]
 
     tagStats(type: StatType!, isAdult: Boolean!): [TagStat]
+    tagGraph(type: StatType!, isAdult: Boolean!): TagGraph
   }
 `;
 

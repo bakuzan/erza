@@ -147,6 +147,22 @@ module.exports = {
       }
     });
   },
+  async tagGraph({ type, isAdult }) {
+    const qk =
+      type === StatType.Anime ? 'get_tag_graph_anime' : 'get_tag_graph_manga';
+
+    const graphRows = await db.query(SQL[qk], {
+      type: db.QueryTypes.SELECT,
+      replacements: {
+        isAdult
+      }
+    });
+
+    const nodes = [];
+    const edges = [];
+
+    return { nodes, edges };
+  },
   async animeSeasonEpisodes(season) {
     const result = validateSeason(season);
 
