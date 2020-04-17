@@ -1,16 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+import { capitalise } from 'ayaka/capitalise';
 import ClearableInput from 'meiko/ClearableInput';
 import LoadableContent from 'containers/LoadableContent';
 import TagList from 'components/ListComponents/TagList';
+import { lazyLoader } from 'components/LazyLoaders';
 
+import Paths from 'constants/paths';
+import Strings from 'constants/strings';
 import { mapStateToEntityList } from 'utils/data';
 import * as actions from 'actions/tags';
 
 import './TagManagement.scss';
+
+const TagGraph = lazyLoader(() =>
+  import(/* webpackChunkName: 'TagGraph' */ '../TagGraph')
+);
 
 const loadData = (props) => props.actions.loadTagList();
 const initialState = {
@@ -53,7 +62,10 @@ class TagManagementList extends React.Component {
         <Helmet>
           <title>Tag Management</title>
         </Helmet>
-        <div className="filters-container">
+        <div
+          className="filters-container"
+          style={{ minHeight: `calc(100vh - 50px)` }}
+        >
           <div>
             <ClearableInput
               id="search"
@@ -62,6 +74,25 @@ class TagManagementList extends React.Component {
               value={this.state.search}
               onChange={this.handleUserInput}
             />
+          </div>
+
+          <div className="flex-spacer"></div>
+
+          <div>
+            <p>View graphs to see a network of the tag relations</p>
+            <div style={{ display: 'flex' }}>
+              {[Strings.anime, Strings.manga].map((value) => (
+                <NavLink
+                  key={value}
+                  className="erza-link"
+                  style={{ margin: `0 10px` }}
+                  to={`${Paths.base}${Paths.tagGraph}${value}`}
+                  onMouseEnter={() => TagGraph.preload()}
+                >
+                  {capitalise(value)}
+                </NavLink>
+              ))}
+            </div>
           </div>
         </div>
         <LoadableContent>
@@ -81,7 +112,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TagManagementList);
+export default connect(mapStateToProps, mapDispatchToProps)(TagManagementList);
