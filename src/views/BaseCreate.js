@@ -237,7 +237,7 @@ class BaseCreate extends Component {
                 <div className="flex flex--column width-100">
                   <MalSearch
                     menuClassName="erza-autocomplete-menu"
-                    id={form.malId}
+                    id={form.malId || null}
                     itemId={form.id}
                     type={type}
                     search={form.title}
@@ -534,7 +534,4 @@ const mapDispatchToProps = {
   showAlertError
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BaseCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseCreate);
