@@ -158,8 +158,23 @@ module.exports = {
       }
     });
 
-    const nodes = [];
-    const edges = [];
+    const nodes = graphRows
+      .filter((x) => x.id === x.relatedTagId)
+      .map((x) => ({
+        id: x.id,
+        label: x.name,
+        value: x.relatedLinkCount,
+        title: `${x.name}: ${x.relatedLinkCount}`
+      }));
+
+    const edges = graphRows
+      .filter((x) => x.id !== x.relatedTagId)
+      .map((x) => ({
+        from: x.id,
+        to: x.relatedTagId,
+        value: x.relatedLinkCount,
+        title: `${x.name} - ${x.relatedTagName}: ${x.relatedLinkCount}`
+      }));
 
     return { nodes, edges };
   },

@@ -21,6 +21,9 @@ const Home = routeLazyLoader(() =>
 const Statistics = routeLazyLoader(() =>
   import(/* webpackChunkName: 'Statistics' */ './views/Statistics')
 );
+const TagGraph = routeLazyLoader(() =>
+  import(/* webpackChunkName: 'TagGraph' */ './views/TagGraph')
+);
 const TagManagement = routeLazyLoader(() =>
   import(/* webpackChunkName: 'TagManagement' */ './views/TagManagement')
 );
@@ -75,6 +78,10 @@ const ErzaRoutes = ({ match }) => (
     <ErzaRoute
       path={`${match.path}${Paths.statistics}:type`}
       component={Statistics}
+    />
+    <ErzaRoute
+      path={`${match.path}${Paths.tagGraph}:type`}
+      component={TagGraph}
     />
 
     <ErzaRoute

@@ -36,3 +36,22 @@ export const getTags = gql`
     }
   }
 `;
+
+export const getTagGraph = gql`
+  query TagGraph($type: StatType!, $isAdult: Boolean!) {
+    tagGraph(type: $type, isAdult: $isAdult) {
+      nodes {
+        id
+        label
+        value
+        title
+      }
+      edges {
+        from
+        to
+        value
+        title
+      }
+    }
+  }
+`;

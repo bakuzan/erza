@@ -10,7 +10,8 @@ const themeOne = {
   anchorColourHover: '414143',
   primaryBackground: '850512',
   primaryBackgroundHover: 'cf081c',
-  primaryColour: 'e1e3ef'
+  primaryColour: 'e1e3ef',
+  neutralColour: 'B0B0B0'
 };
 
 const themeTwo = {
@@ -23,7 +24,8 @@ const themeTwo = {
   anchorColourHover: 'e1e3ef',
   primaryBackground: '850512',
   primaryBackgroundHover: 'cf081c',
-  primaryColour: 'e1e3ef'
+  primaryColour: 'e1e3ef',
+  neutralColour: 'DD0319'
 };
 
 const themeList = [themeOne, themeTwo];
@@ -31,6 +33,13 @@ const themeList = [themeOne, themeTwo];
 const DEFAULT_THEME = themeOne;
 const themes = new Map(Strings.themes.map((o, i) => [o.value, themeList[i]]));
 
-export default function getTheme(key) {
-  return themes.get(key) || DEFAULT_THEME;
+export default function getTheme(key, opts = {}) {
+  const prependHash = opts.prependHash ?? false;
+  const theme = { ...(themes.get(key) || DEFAULT_THEME) };
+
+  if (prependHash) {
+    Object.keys(theme).forEach((key) => (theme[key] = `#${theme[key]}`));
+  }
+
+  return theme;
 }

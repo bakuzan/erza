@@ -46,6 +46,8 @@
     "sequelize-cli": "^5.5.1",
     "sqlite": "^3.0.6",
     "umzug": "^2.3.0",
+    "vis-data": "^6.5.1",
+    "vis-network": "^7.5.2",
     "yoruichi-shunko": "file:./yoruichi-shunko/build"
   },
   "lint-staged": {

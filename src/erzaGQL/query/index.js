@@ -1,4 +1,4 @@
-export { getTagById, getTags, getTagsMinimal } from './tag';
+export { getTagById, getTags, getTagsMinimal, getTagGraph } from './tag';
 export {
   getEpisodes,
   getEpisodesForSeries,

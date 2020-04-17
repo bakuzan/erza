@@ -22,5 +22,6 @@ export default {
   history: '/history/',
   statistics: '/statistics/',
   tagManagement: '/tag-management/',
+  tagGraph: '/tag-graph/',
   timeline: '/timeline/'
 };
