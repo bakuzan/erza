@@ -1,4 +1,4 @@
-import { ADD_TAG, REMOVE_TAG, TAGS_LOAD } from '../constants/actions';
+import { TAG_ADD, TAG_REMOVE, TAGS_LOAD } from '../constants/actions';
 import {
   createReducer,
   addEntity,
@@ -9,8 +9,8 @@ import {
 const tags = createReducer(
   { byId: {}, allIds: [] },
   {
-    [ADD_TAG]: addEntity,
-    [REMOVE_TAG]: removeEntityById,
+    [TAG_ADD]: addEntity,
+    [TAG_REMOVE]: removeEntityById,
     [TAGS_LOAD]: loadEntityList
   }
 );

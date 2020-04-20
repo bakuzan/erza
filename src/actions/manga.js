@@ -19,7 +19,7 @@ import {
   removeItem
 } from './utils/series';
 import { mutateSeriesWithHistory } from './utils/combined';
-import { UPDATE_MANGA } from '../constants/actions';
+import { MANGA_UPDATE } from '../constants/actions';
 import { Strings } from '../constants/values';
 
 export const createManga = (item) =>
@@ -34,7 +34,7 @@ export const deleteManga = (id) =>
   removeItem(mangaRemove, { id }, Strings.manga);
 
 const updateMangaInState = (item) => ({
-  type: UPDATE_MANGA,
+  type: MANGA_UPDATE,
   item
 });
 

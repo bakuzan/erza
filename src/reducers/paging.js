@@ -3,7 +3,11 @@ import {
   SET_ITEMS_PER_PAGE,
   NEXT_PAGE,
   RESET_PAGE,
-  LOAD_PAGE_INFO
+  LOAD_PAGE_INFO,
+  ANIME_REMOVE,
+  MANGA_REMOVE,
+  CHAPTER_REMOVE,
+  EPISODE_REMOVE
 } from 'constants/actions';
 import { Strings } from 'constants/values';
 import { userSettings } from 'utils/storage';
@@ -67,11 +71,27 @@ function setPageInfo(state, action) {
   return updateState({ pageInfo: { ...action.paging } });
 }
 
+const reducePageItemTotal = (listType) => (state) => {
+  const listState = state[listType];
+  const updateState = applyStateUpdates(state, {
+    listType
+  });
+
+  return updateState({
+    pageInfo: { ...listState.pageInfo, total: listState.pageInfo.total - 1 }
+  });
+};
+
 export const paging = createReducer(initialState(), {
   [SET_ITEMS_PER_PAGE]: setItemsPerPage,
   [NEXT_PAGE]: changePage,
   [RESET_PAGE]: changePage,
-  [LOAD_PAGE_INFO]: setPageInfo
+  [LOAD_PAGE_INFO]: setPageInfo,
+  // on remove entity
+  [ANIME_REMOVE]: reducePageItemTotal(Strings.anime),
+  [MANGA_REMOVE]: reducePageItemTotal(Strings.manga),
+  [CHAPTER_REMOVE]: reducePageItemTotal(Strings.chapter),
+  [EPISODE_REMOVE]: reducePageItemTotal(Strings.episode)
 });
 
 // Selectors

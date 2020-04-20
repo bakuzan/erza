@@ -1,7 +1,7 @@
 import {
-  ADD_ANIME,
-  UPDATE_ANIME,
-  REMOVE_ANIME,
+  ANIME_ADD,
+  ANIME_UPDATE,
+  ANIME_REMOVE,
   ANIME_LOAD
 } from '../constants/actions';
 import {
@@ -15,9 +15,9 @@ import {
 const anime = createReducer(
   { byId: {}, allIds: [] },
   {
-    [ADD_ANIME]: addEntity,
-    [UPDATE_ANIME]: updateById,
-    [REMOVE_ANIME]: removeEntityById,
+    [ANIME_ADD]: addEntity,
+    [ANIME_UPDATE]: updateById,
+    [ANIME_REMOVE]: removeEntityById,
     [ANIME_LOAD]: loadEntityList
   }
 );

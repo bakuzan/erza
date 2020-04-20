@@ -124,4 +124,9 @@ $theme-maps: (
   .series-image-container--no-src img {
     border-color: $primary-background;
   }
+
+  // Tag graph
+  .vis-network .vis-navigation .vis-button.vis-button:hover {
+    box-shadow: 0 0 3px 3px $primary-background;
+  }
 }

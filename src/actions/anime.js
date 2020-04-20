@@ -20,7 +20,7 @@ import {
 } from './utils/series';
 import { mutateSeriesWithHistory } from './utils/combined';
 
-import { UPDATE_ANIME } from 'constants/actions';
+import { ANIME_UPDATE } from 'constants/actions';
 import { Strings } from 'constants/values';
 
 export const createAnime = (item) =>
@@ -35,7 +35,7 @@ export const deleteAnime = (id) =>
   removeItem(animeRemove, { id }, Strings.anime);
 
 const updateAnimeInState = (item) => ({
-  type: UPDATE_ANIME,
+  type: ANIME_UPDATE,
   item
 });
 

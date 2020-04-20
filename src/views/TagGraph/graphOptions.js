@@ -20,8 +20,10 @@ export function getGraphOptions(themeKey) {
         max: 75
       },
       font: {
-        size: 16,
-        face: "'Lucida Console', 'Courier New', monospace"
+        size: 60,
+        face: "'Lucida Console', 'Courier New', monospace",
+        background: '#fff',
+        color: '#000'
       },
       color: {
         border: theme.primaryColour,
@@ -43,8 +45,10 @@ export function getGraphOptions(themeKey) {
     },
     interaction: {
       hideEdgesOnDrag: true,
-      tooltipDelay: 200,
-      selectConnectedEdges: true
+      tooltipDelay: 250,
+      selectConnectedEdges: true,
+      multiselect: true,
+      navigationButtons: true
     },
     physics: {
       barnesHut: {

@@ -1,23 +1,23 @@
 export const GRAPHQL_REQUEST = 'GRAPHQL_REQUEST';
 export const GRAPHQL_SUCCESS = 'GRAPHQL_SUCCESS';
 
-export const ADD_ANIME = 'ADD_ANIME';
-export const UPDATE_ANIME = 'UPDATE_ANIME';
+export const ANIME_ADD = 'ANIME_ADD';
+export const ANIME_UPDATE = 'ANIME_UPDATE';
 export const ANIME_REQUEST = 'ANIME_REQUEST';
 export const ANIME_LOAD = 'ANIME_LOAD';
 export const ANIME_SUCCESS = 'ANIME_SUCCESS';
 export const ANIME_FAILURE = 'ANIME_FAILURE';
-export const REMOVE_ANIME = 'REMOVE_ANIME';
+export const ANIME_REMOVE = 'ANIME_REMOVE';
 
 export const DAILY_ANIME_LOAD = 'DAILY_ANIME_LOAD';
 
-export const ADD_MANGA = 'ADD_MANGA';
-export const UPDATE_MANGA = 'UPDATE_MANGA';
+export const MANGA_ADD = 'MANGA_ADD';
+export const MANGA_UPDATE = 'MANGA_UPDATE';
 export const MANGA_LOAD = 'MANGA_LOAD';
-export const REMOVE_MANGA = 'REMOVE_MANGA';
+export const MANGA_REMOVE = 'MANGA_REMOVE';
 
-export const ADD_TAG = 'ADD_TAG';
-export const REMOVE_TAG = 'REMOVE_TAG';
+export const TAG_ADD = 'TAG_ADD';
+export const TAG_REMOVE = 'TAG_REMOVE';
 
 export const TAGS_LOAD = 'TAGS_LOAD';
 export const TAGS_FAILURE = 'TAGS_FAILURE';

@@ -15,6 +15,8 @@ import erzaQuery from 'erzaGQL';
 import { getTagGraph } from 'erzaGQL/query';
 import { getGraphOptions } from './graphOptions';
 
+import './TagGraph.scss';
+
 const graphId = 'tag-graph';
 
 function Graph({ data, themeKey }) {
@@ -25,10 +27,13 @@ function Graph({ data, themeKey }) {
     const container = document.getElementById(graphId);
     const options = getGraphOptions(themeKey);
 
-    network.current = new Network(container, graph, options);
+    const ctrl = new Network(container, graph, options);
+    ctrl.on('select', (event) => console.log(ctrl, 'select > ', event));
+
+    network.current = ctrl;
   }, [graph, network, themeKey]);
 
-  return <div id={graphId} />;
+  return <div id={graphId} className="tag-graph" />;
 }
 
 function TagGraph({ isAdult, type, themeValue }) {

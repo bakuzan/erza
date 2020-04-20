@@ -6,7 +6,7 @@ import { tagUpdate, tagRemove } from 'erzaGQL/mutation';
 
 import { showAlertError } from 'actions/alert';
 import { startingGraphqlRequest, finishGraphqlRequest } from './utils/helpers';
-import { ADD_TAG, REMOVE_TAG, TAGS_LOAD } from 'constants/actions';
+import { TAG_ADD, TAG_REMOVE, TAGS_LOAD } from 'constants/actions';
 import { getSingleObjectProperty } from 'utils';
 
 const loadTagsData = (data) => ({
@@ -15,19 +15,19 @@ const loadTagsData = (data) => ({
 });
 
 const addTag = (item) => ({
-  type: ADD_TAG,
+  type: TAG_ADD,
   item
 });
 
 const removeTag = (id) => ({
-  type: REMOVE_TAG,
+  type: TAG_REMOVE,
   id
 });
 
 // Query
 
 export function loadTags() {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { isAdult } = getState();
@@ -39,7 +39,7 @@ export function loadTags() {
 }
 
 export function loadTagList() {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { isAdult } = getState();
@@ -54,7 +54,7 @@ export function loadTagList() {
 }
 
 export function loadTag(id) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({
@@ -70,7 +70,7 @@ export function loadTag(id) {
 // Mutate
 
 export function updateTag(payload) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({
@@ -102,7 +102,7 @@ export function updateTag(payload) {
 }
 
 export function deleteTag(id) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({ query: tagRemove, variables: { id } });
