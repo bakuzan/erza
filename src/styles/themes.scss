@@ -5,6 +5,7 @@
 // Super theme maps!
 $theme-maps: (
   one: (
+    key: 'light',
     base-background: $white,
     base-colour: $black,
     primary-background: $erza-red,
@@ -12,9 +13,11 @@ $theme-maps: (
     active-background: $erza-red-highlight,
     active-colour: $erza-silver-shade,
     faded-out: $grey80,
-    anchor-colour: $erza-red
+    anchor-colour: $erza-red,
+    tag-graph-colour: $erza-red
   ),
   two: (
+    key: 'dark',
     base-background: $black-red,
     base-colour: $white,
     primary-background: $erza-silver-shade,
@@ -22,12 +25,14 @@ $theme-maps: (
     active-background: $erza-red,
     active-colour: $erza-silver,
     faded-out: $grey80,
-    anchor-colour: $erza-red-highlight
+    anchor-colour: $erza-red-highlight,
+    tag-graph-colour: $erza-red-highlight
   )
 );
 // Super theme maps end!
 
 @include appTheme($theme-maps) {
+  $key: map-get($theme, key);
   $anchor-colour: map-get($theme, anchor-colour);
 
   // Overrides
@@ -126,7 +131,30 @@ $theme-maps: (
   }
 
   // Tag graph
-  .vis-network .vis-navigation .vis-button.vis-button:hover {
-    box-shadow: 0 0 3px 3px $primary-background;
+  .vis-network .vis-navigation .vis-button.vis-button {
+    background-position: 50% 50%;
+
+    $list: (up, left, down, right);
+    $tag-graph-colour: map-get($theme, tag-graph-colour);
+
+    &:hover {
+      box-shadow: 0 0 3px 3px $tag-graph-colour;
+    }
+
+    @each $name in $list {
+      &.vis-#{$name} {
+        background-image: url('../assets/arrow-#{$name}-circle_#{$key}.svg');
+      }
+    }
+
+    &.vis-zoomIn {
+      background-image: url('../assets/plus-circle_#{$key}.svg');
+    }
+    &.vis-zoomOut {
+      background-image: url('../assets/minus-circle_#{$key}.svg');
+    }
+    &.vis-zoomExtends {
+      background-image: url('../assets/maximize_#{$key}.svg');
+    }
   }
 }

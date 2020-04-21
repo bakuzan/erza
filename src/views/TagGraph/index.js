@@ -15,8 +15,6 @@ import erzaQuery from 'erzaGQL';
 import { getTagGraph } from 'erzaGQL/query';
 import { getGraphOptions } from './graphOptions';
 
-import './TagGraph.scss';
-
 const graphId = 'tag-graph';
 
 function Graph({ data, themeKey }) {
