@@ -83,6 +83,11 @@ class BaseListView extends Component {
     ) {
       loadData(this.props, this.state);
     }
+
+    // Go page top as paging is reset
+    if (prevProps.isAdult !== isAdult) {
+      window.scrollTo(0, 0);
+    }
   }
 
   handleUserInput({ target }) {
@@ -173,7 +178,4 @@ const mapDispatchToProps = {
   onLoadMore: nextPage
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BaseListView);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseListView);

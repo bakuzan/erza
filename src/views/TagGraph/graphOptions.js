@@ -46,6 +46,9 @@ export function getGraphOptions(themeKey) {
     interaction: {
       hideEdgesOnDrag: true,
       tooltipDelay: 250,
+      hover: true,
+      hoverConnectedEdges: true,
+      selectable: true,
       selectConnectedEdges: true,
       multiselect: true,
       navigationButtons: true

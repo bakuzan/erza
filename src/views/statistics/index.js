@@ -74,7 +74,7 @@ class Statistics extends Component {
     return (
       <div
         className="flex flex--column padding-5"
-        style={{ height: `calc(100vh - 50px)` }}
+        style={{ minHeight: `calc(100vh - 50px)` }}
       >
         <Helmet>
           <title>{`${capitalise(contentType)} Statistics`}</title>
