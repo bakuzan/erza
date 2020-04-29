@@ -11,6 +11,7 @@ const Query = gql`
   scalar HistoryPartition
 
   type Query {
+    dailyAnime(dateOffset: Int!): [Anime]
     animeById(id: Int!): Anime
     animePaged(
       search: String
@@ -27,7 +28,6 @@ const Query = gql`
       minTimesCompleted: Int
       isAdult: Boolean
     ): [Anime]
-    dailyAnime(dateOffset: Int!): [Anime]
 
     mangaById(id: Int!): Manga
     mangaPaged(
@@ -150,6 +150,19 @@ const Mutation = gql`
       history: [HistoryCreateInput]
     ): SeriesResponse
 
+    animeUpdateTags(
+      seriesId: Int!
+      newTags: [String]
+      addTagIds: [Int]
+      removeTagIds: [Int]
+    ): TagUpdateResponse
+    mangaUpdateTags(
+      seriesId: Int!
+      newTags: [String]
+      addTagIds: [Int]
+      removeTagIds: [Int]
+    ): TagUpdateResponse
+
     episodeUpdate(payload: HistoryInput!): HistoryResponse
     episodeRemove(id: Int!): DeleteResponse
 
@@ -202,6 +215,12 @@ const Mutation = gql`
     success: Boolean
     errorMessages: [String]
     data: Tag
+  }
+
+  type TagUpdateResponse {
+    success: Boolean
+    errorMessages: [String]
+    warningMessages: [String]
   }
 
   scalar Date

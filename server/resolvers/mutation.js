@@ -60,6 +60,13 @@ module.exports = {
       mapManga
     );
   },
+  // Combind Series/Tag update/create
+  async animeUpdateTags(_, args, context) {
+    return await context.updateSeriesTags(Anime, args);
+  },
+  async mangaUpdateTags(_, args, context) {
+    return await context.updateSeriesTags(Manga, args);
+  },
   // History
   async episodeUpdate(_, { payload }, context) {
     const { id, ...args } = payload;

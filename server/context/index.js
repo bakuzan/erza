@@ -5,15 +5,16 @@ const SQL = require('../db-scripts');
 const Stats = require('./statistics');
 const Paged = require('./paged');
 const Todo = require('./todo');
+const updateSeriesWithHistory = require('./update-series/withHistory');
+const updateSeriesTags = require('./update-series/tags');
+
 const { StatType } = require('../constants/enums');
 const imageStore = require('../image-store');
-
 const handleDeleteResponse = require('./utils/handleDeleteResponse');
 const resolveWhereIn = require('./utils/resolveWhereIn');
 const separateNewVsExistingTags = require('./utils/separateNewVsExistingTags');
 const mapToNewTag = require('./utils/mapToNewTag');
 const validateSeries = require('./validators/validateSeries');
-const validateAndMapHistoryInput = require('./validators/validateAndMapHistoryInput');
 
 // Query
 
@@ -97,7 +98,7 @@ async function createSeries(model, payload, mappers) {
     series.image = result.url;
   }
 
-  return db.transaction(async function(transaction) {
+  return db.transaction(async function (transaction) {
     const created = await model.create(
       { ...series, tags: newTags.map(mapToNewTag(series.isAdult)) },
       { include: [model.Tag], transaction }
@@ -125,7 +126,7 @@ async function updateSeries(model, payload, mappers) {
     };
   }
 
-  return db.transaction(async function(transaction) {
+  return db.transaction(async function (transaction) {
     const oldSeries = await model.findByPk(values.id, {
       include: [Tag],
       transaction
@@ -164,9 +165,12 @@ async function updateSeries(model, payload, mappers) {
       );
 
       if (removedExistingTags.length) {
-        await oldSeries.removeTags(removedExistingTags.map((x) => x.id), {
-          transaction
-        });
+        await oldSeries.removeTags(
+          removedExistingTags.map((x) => x.id),
+          {
+            transaction
+          }
+        );
       }
 
       if (addedExistingTags.length) {
@@ -199,70 +203,6 @@ async function updateSeries(model, payload, mappers) {
   });
 }
 
-async function updateSeriesWithHistory(
-  { model, modelHistory },
-  { series, history },
-  { mapFromSeries, mapToSeries, mapHistory },
-  validateMappers
-) {
-  const { id: seriesId, ...updates } = series;
-  const values = mapToSeries(updates);
-
-  return await db.transaction().then(async function(transaction) {
-    const oldSeries = await model.findByPk(seriesId, { transaction });
-    const oldSeriesValues = oldSeries.get({ raw: true });
-    const stales = mapFromSeries(oldSeriesValues);
-
-    if (stales.current > values.current) {
-      transaction.rollback();
-      return {
-        success: false,
-        errorMessages: [
-          `The current part is greater than the updated part. (Current: ${stales.current}, Updated: ${values.current})`
-        ],
-        data: null
-      };
-    }
-
-    const { id, ...processedSeries } = validateSeries(
-      mapToSeries({ ...oldSeriesValues, ...updates }),
-      validateMappers
-    );
-
-    await model.update(processedSeries, {
-      where: { id },
-      transaction
-    });
-
-    const updated = await oldSeries.reload({ transaction });
-
-    const validate = validateAndMapHistoryInput(
-      history,
-      updated.get({ raw: true }),
-      {
-        mapFromSeries,
-        mapHistory
-      }
-    );
-
-    if (!validate.success) {
-      transaction.rollback();
-      return {
-        success: false,
-        errorMessages: [...validate.errorMessages],
-        data: null
-      };
-    }
-
-    if (validate.historyInputs.length) {
-      await modelHistory.bulkCreate(validate.historyInputs, { transaction });
-    }
-
-    transaction.commit();
-    return { success: true, errorMessages: [], data: updated };
-  });
-}
-
 async function updateEntity(model, args, id) {
   await model.update(args, { where: { id } });
   const data = await model.findByPk(id);
@@ -285,6 +225,7 @@ module.exports = {
   createSeries,
   updateSeries,
   updateSeriesWithHistory,
+  updateSeriesTags,
   updateEntity,
   deleteEntity,
   //Helpers
