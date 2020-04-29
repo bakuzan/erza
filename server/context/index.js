@@ -213,7 +213,7 @@ async function deleteEntity(model, where) {
   const deletedCount = await model.destroy({
     where
   });
-  return handleDeleteResponse(where, deletedCount);
+  return handleDeleteResponse(where.id, deletedCount);
 }
 
 module.exports = {
