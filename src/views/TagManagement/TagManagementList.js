@@ -62,10 +62,7 @@ class TagManagementList extends React.Component {
         <Helmet>
           <title>Tag Management</title>
         </Helmet>
-        <div
-          className="filters-container"
-          style={{ height: `calc(100vh - 50px)` }}
-        >
+        <div className="filters-container">
           <div>
             <ClearableInput
               id="search"

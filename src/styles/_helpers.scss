@@ -12,7 +12,7 @@
   &--row {
     flex-direction: row;
 
-    @include respondTo(xs) {
+    @include respondToAll((xxs, xs)) {
       flex-direction: column;
     }
 

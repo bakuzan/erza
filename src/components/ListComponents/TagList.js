@@ -14,18 +14,16 @@ const containerStyle = nano.rule({
 });
 
 const gridStyle = nano.rule({
-  gridTemplateColumns: 'repeat(auto-fit, 25%)',
-  gridAutoRows: '1fr',
-  ...media.get('sm')({
-    gridTemplateColumns: 'repeat(auto-fit, 33%)'
-  }),
+  gridAutoRows: 'max-content',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(25%, 1fr))',
   ...media.get('xxs')({
-    gridTemplateColumns: 'repeat(auto-fit, 50%)'
+    gridTemplateColumns: 'repeat(auto-fill, minmax(50%, 1fr))'
   })
 });
 
 const itemStyle = nano.rule({
-  display: 'inline-block'
+  display: 'inline-block',
+  whiteSpace: 'pre-line'
 });
 
 const TagListItem = ({ item }) => (
@@ -33,8 +31,10 @@ const TagListItem = ({ item }) => (
     <ButtonisedNavLink
       className={itemStyle}
       to={`${Paths.base}${Paths.tagManagement}${item.id}`}
+      title={item.name}
+      aria-label={item.name}
     >
-      {item.name}
+      <span aria-hidden={true}>{item.name}</span>
     </ButtonisedNavLink>
   </li>
 );

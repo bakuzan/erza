@@ -6,8 +6,10 @@
     max-height: 50vh;
     overflow: auto;
   }
+
   a {
     justify-content: flex-start;
+    white-space: pre-line;
   }
 }
 
