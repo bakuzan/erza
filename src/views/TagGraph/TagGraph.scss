@@ -1,0 +1,30 @@
+.tag-graph {
+  display: flex;
+
+  .accordion {
+    padding: 10px 5px;
+  }
+
+  &__options {
+    min-width: 225px;
+  }
+
+  &__select-all {
+    border-bottom: 1px solid;
+  }
+
+  .tickbox__label {
+    width: 100%;
+  }
+
+  &__option-content {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+  }
+}
+
+.erz-graph {
+  display: flex;
+  flex: 1;
+}

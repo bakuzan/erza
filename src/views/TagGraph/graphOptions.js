@@ -50,7 +50,7 @@ export function getGraphOptions(themeKey) {
       hoverConnectedEdges: true,
       selectable: true,
       selectConnectedEdges: true,
-      multiselect: true,
+      multiselect: false,
       navigationButtons: true
     },
     physics: {
