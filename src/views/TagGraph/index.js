@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -21,6 +21,11 @@ import './TagGraph.scss';
 
 function TagGraph({ isAdult, type, themeValue }) {
   const [excluded, setExcluded] = useState([]);
+
+  // Reset filter...
+  useEffect(() => {
+    setExcluded([]);
+  }, [isAdult, type]);
 
   const state = useAsync(
     async () =>

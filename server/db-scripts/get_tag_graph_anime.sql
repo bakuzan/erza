@@ -10,3 +10,4 @@ JOIN AnimeTag tb1 ON tb2.animeId = tb1.animeId
 JOIN tags t ON t.id = tb1.tagId
 WHERE t2.id <= t.id AND t2.isAdult = :isAdult
 GROUP BY t2.id, t.id
+ORDER BY relatedLinkCount DESC
