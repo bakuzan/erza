@@ -19,7 +19,7 @@ module.exports = gql`
     series_end: String
     updatedAt: String
     createdAt: String
-    tags: [Tag]
+    tags(sorting: TagSorting): [Tag]
   }
 
   type Anime implements Series {
@@ -41,7 +41,7 @@ module.exports = gql`
     series_end: String
     updatedAt: String
     createdAt: String
-    tags: [Tag]
+    tags(sorting: TagSorting): [Tag]
     episode: Int
     series_episodes: Int
     _legacyIsSeason: Boolean
@@ -82,7 +82,7 @@ module.exports = gql`
     series_end: String
     updatedAt: String
     createdAt: String
-    tags: [Tag]
+    tags(sorting: TagSorting): [Tag]
     chapter: Int
     volume: Int
     series_chapters: Int
@@ -210,5 +210,10 @@ module.exports = gql`
     volume: Int
     series_chapters: Int
     series_volumes: Int
+  }
+
+  input TagSorting {
+    field: TagSortField
+    order: SortOrder!
   }
 `;

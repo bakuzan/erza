@@ -1,3 +1,4 @@
+const { resolveSorting } = require('../../utils');
 const {
   formatDateInput,
   formatDateTimeInput
@@ -5,12 +6,12 @@ const {
 
 module.exports = {
   Series: {
-    tags(instance) {
+    tags(instance, { sorting = null }) {
       if (instance.tags) {
         return instance.tags;
       }
 
-      return instance.getTags();
+      return instance.getTags({ order: resolveSorting(sorting) });
     },
     start(inst) {
       return formatDateInput(inst.start);

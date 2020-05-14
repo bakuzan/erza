@@ -38,4 +38,17 @@ module.exports = gql`
   enum CalendarMode {
     ${mapArrToGraphqlString(CalendarMode)}
   }
+
+  enum SortOrder {
+    ASC
+    DESC
+  }
+
+  enum SeriesSortField {
+    TITLE
+  }
+
+  enum TagSortField {
+    NAME
+  }
 `;

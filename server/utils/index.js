@@ -18,8 +18,13 @@ function padNumber(n, width, z = 0) {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
+function resolveSorting(sorting) {
+  return sorting ? [[sorting.field.toLowerCase(), sorting.order]] : undefined;
+}
+
 module.exports = {
   getDateParts,
   stringToBool,
-  padNumber
+  padNumber,
+  resolveSorting
 };

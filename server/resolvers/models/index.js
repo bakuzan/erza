@@ -1,3 +1,4 @@
+const { resolveSorting } = require('../../utils');
 const inSeasonCalc = require('../../utils/inSeason');
 
 const TodoTemplateResolvers = require('./todoTemplate');
@@ -60,14 +61,14 @@ module.exports = {
         return inst.animes;
       }
 
-      return inst.getAnimes({ order: [sorting] });
+      return inst.getAnimes({ order: resolveSorting(sorting) });
     },
     manga(inst, { sorting = null }) {
       if (inst.mangas) {
         return inst.mangas;
       }
 
-      return inst.getMangas({ order: [sorting] });
+      return inst.getMangas({ order: resolveSorting(sorting) });
     }
   },
   // Custom types

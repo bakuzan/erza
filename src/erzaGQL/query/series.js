@@ -23,7 +23,7 @@ const seriesByIdFields = gql`
     rating
     isAdult
     timesCompleted
-    tags {
+    tags(sorting: { field: NAME, order: ASC }) {
       id
       name
     }
@@ -39,7 +39,7 @@ const seriesByIdEditFields = gql`
     isAdult
     series_start
     series_end
-    tags {
+    tags(sorting: { field: NAME, order: ASC }) {
       id
       name
     }

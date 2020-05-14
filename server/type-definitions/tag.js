@@ -5,8 +5,13 @@ module.exports = gql`
     id: Int
     name: String
     isAdult: Boolean
-    anime(sorting: [String]): [Anime]
-    manga(sorting: [String]): [Manga]
+    anime(sorting: SeriesSorting): [Anime]
+    manga(sorting: SeriesSorting): [Manga]
+  }
+
+  input SeriesSorting {
+    field: SeriesSortField
+    order: SortOrder!
   }
 
   input TagInput {
