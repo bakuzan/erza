@@ -5,7 +5,7 @@ import React from 'react';
 import HistoryNoteLink from './HistoryNoteLink';
 
 const MATCH_CUSTOM_TEXT = /(?!\[).*?(?=\])/;
-const MATCH_LINKS = /\[.*\]\(http.*?\)|\(http.*?\)/g;
+const MATCH_LINKS = /\[.*?\]\(http.*?\)|\(http.*?\)/g;
 
 function processNoteText(text) {
   if (!text) {
