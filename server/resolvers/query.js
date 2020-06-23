@@ -11,7 +11,12 @@ const {
 } = require('../connectors');
 
 const statistics = require('./statistics');
-const { Status, StatType } = require('../constants/enums');
+const {
+  Status,
+  StatType,
+  AnimeTypes,
+  MangaTypes
+} = require('../constants/enums');
 const dateRange = require('../utils/dateRange');
 const getDateRangeForCalendarMode = require('../utils/dateRangeForCalendarMode');
 
@@ -96,6 +101,16 @@ module.exports = {
   },
   async seriesByTags(_, args, context) {
     return await context.pagedSeriesByTags(args);
+  },
+  async seriesTypes(_, { type }) {
+    switch (type) {
+      case StatType.Anime:
+        return AnimeTypes;
+      case StatType.Manga:
+        return MangaTypes;
+      default:
+        throw new Error('Unhandled stat type.');
+    }
   },
   async tagStats(_, args, context) {
     return await context.Stats.tagStats(args);

@@ -19,6 +19,7 @@ async function pagedSeries(
     search = '',
     status = [],
     ratings = [],
+    seriesTypes = [],
     isOwnedOnly = false,
     isAdult = false,
     sorting,
@@ -28,6 +29,7 @@ async function pagedSeries(
   const isOwnedWhere = isOwnedOnlyArgs(isOwnedOnly);
   const statusWhere = resolveWhereIn(status, 'status');
   const ratingsWhere = resolveWhereIn(ratings, 'rating');
+  const seriesTypesWhere = resolveWhereIn(seriesTypes, 'series_type');
   const sortOrder = validateSortOrder(['title', 'ASC'], sorting);
 
   return await model
@@ -39,6 +41,7 @@ async function pagedSeries(
         isAdult: { [Op.eq]: isAdult },
         ...statusWhere,
         ...ratingsWhere,
+        ...seriesTypesWhere,
         ...isOwnedWhere
       },
       order: [sortOrder],

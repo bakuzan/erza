@@ -17,6 +17,7 @@ const Query = gql`
       search: String
       status: [Status]
       ratings: [Int]
+      seriesTypes: [AnimeType]
       isOwnedOnly: Boolean
       isAdult: Boolean
       sorting: [String]
@@ -34,6 +35,7 @@ const Query = gql`
       search: String
       status: [Status]
       ratings: [Int]
+      seriesTypes: [MangaType]
       isOwnedOnly: Boolean
       isAdult: Boolean
       sorting: [String]
@@ -113,6 +115,8 @@ const Query = gql`
       search: String
       paging: Paging
     ): SeriesPage
+
+    seriesTypes(type: StatType!): [String]
 
     todoTemplateById(id: Int!): TodoTemplate
     todoTemplates: [TodoTemplate]
