@@ -44,7 +44,7 @@ async function pagedSeries(
         ...seriesTypesWhere,
         ...isOwnedWhere
       },
-      order: [sortOrder],
+      order: [sortOrder, ['title', 'ASC']],
       limit: paging.size,
       offset: paging.size * paging.page
     })
