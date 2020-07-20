@@ -433,36 +433,36 @@ class BaseCreate extends Component {
                   />
                 </div>
               </Tabs.View>
-              {type !== Strings.manga && (
-                <Tabs.View name="Seasonal">
-                  <div className="flex flex--column width-100">
-                    <DateSelector
-                      id="series_start"
-                      name="series_start"
-                      label="series start"
-                      value={formatDateForInput(form.series_start)}
-                      beforeDate={form.series_end}
-                      onChange={this.handleDateInput}
-                    />
+              <Tabs.View name="Series">
+                <div className="flex flex--column width-100">
+                  <DateSelector
+                    id="series_start"
+                    name="series_start"
+                    label="series start"
+                    value={formatDateForInput(form.series_start)}
+                    beforeDate={form.series_end}
+                    onChange={this.handleDateInput}
+                  />
 
-                    <DateSelector
-                      id="series_end"
-                      name="series_end"
-                      label="series end"
-                      value={formatDateForInput(form.series_end)}
-                      afterDate={form.series_start}
-                      onChange={this.handleDateInput}
-                    />
+                  <DateSelector
+                    id="series_end"
+                    name="series_end"
+                    label="series end"
+                    value={formatDateForInput(form.series_end)}
+                    afterDate={form.series_start}
+                    onChange={this.handleDateInput}
+                  />
 
-                    <SelectBox
-                      id="series_type"
-                      name="series_type"
-                      text="series type"
-                      value={form.series_type}
-                      onChange={this.handleUserInput}
-                      options={SERIES_TYPE_OPTIONS}
-                    />
+                  <SelectBox
+                    id="series_type"
+                    name="series_type"
+                    text="series type"
+                    value={form.series_type}
+                    onChange={this.handleUserInput}
+                    options={SERIES_TYPE_OPTIONS}
+                  />
 
+                  {type !== Strings.manga && (
                     <Tickbox
                       text="Force In Season"
                       id="legacyIsSeason"
@@ -470,9 +470,9 @@ class BaseCreate extends Component {
                       checked={form._legacyIsSeason || false}
                       onChange={this.handleUserInput}
                     />
-                  </div>
-                </Tabs.View>
-              )}
+                  )}
+                </div>
+              </Tabs.View>
             </Tabs.Container>
             <div className="button-group">
               <Button type="submit" btnStyle="primary">
