@@ -174,7 +174,8 @@ class BaseCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const item = { ...this.state.form };
+    const form = { ...this.state.form };
+    const item = { ...form, malId: form.malId || null };
 
     if (this.props.isCreate) {
       this.props.actions.create(item);

@@ -4,8 +4,7 @@ module.exports = function itemFields(Types) {
   return {
     title: {
       type: Types.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     start: {
       type: Types.DATE,

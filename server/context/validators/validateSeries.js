@@ -44,5 +44,11 @@ module.exports = function validateSeries(entity, { mapBefore, mapAfter }) {
     updates.isRepeat = false;
   }
 
-  return mapAfter({ ...item, ...updates });
+  const merged = { ...item, ...updates };
+
+  if (!merged.malId) {
+    merged.malId = null;
+  }
+
+  return mapAfter(merged);
 };

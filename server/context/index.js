@@ -19,12 +19,13 @@ const validateSeries = require('./validators/validateSeries');
 // Query
 
 async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
-  const orArgs = [{ title: { [Op.eq]: title } }];
+  const matchesTitle = { title: { [Op.eq]: title } };
+  const matchesMal = { malId: { [Op.eq]: malId } };
 
   const series = await model.count({
     where: {
       ...(id ? { id: { [Op.ne]: id } } : {}),
-      [Op.or]: malId ? [...orArgs, { malId: { [Op.eq]: malId } }] : orArgs
+      ...(malId ? matchesMal : matchesTitle)
     }
   });
 
