@@ -79,7 +79,8 @@ BasePagedList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   filters: PropTypes.object,
   isFetching: PropTypes.bool.isRequired,
-  startSeries: PropTypes.func
+  startSeries: PropTypes.func,
+  addHistoryToItem: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({

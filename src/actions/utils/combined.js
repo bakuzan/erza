@@ -12,7 +12,7 @@ export function mutateSeriesWithHistory(
   editItem,
   { type, updateInState, mapToInput }
 ) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { entities, lastLocation } = getState();
@@ -73,6 +73,9 @@ export function mutateSeriesWithHistory(
       `Successfully saved '${data.data.title}' ${type}.`
     );
 
-    return redirectPostAction(type, lastLocation);
+    // Only do the navigation if we are not on the <type>-view page.
+    if (!window.location.href.includes(`${type}-view`)) {
+      return redirectPostAction(type, lastLocation);
+    }
   };
 }

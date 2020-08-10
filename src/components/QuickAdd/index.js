@@ -20,7 +20,8 @@ import './QuickAdd.scss';
 function lockView(isOpen) {
   document.body.style = isOpen ? 'overflow: hidden;' : '';
 
-  const basePage = document.getElementById('listPage');
+  const basePage =
+    document.getElementById('listPage') ?? document.getElementById('viewPage');
 
   if (basePage) {
     basePage.setAttribute('aria-hidden', isOpen);

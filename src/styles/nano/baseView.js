@@ -43,6 +43,11 @@ nano.put('.view-content', {
   ...media.get('xxs')({ gridTemplateColumns: '1fr' })
 });
 
+nano.put('.view-content__plus-button', {
+  padding: `5px 10px`,
+  margin: `0 5px`
+});
+
 nano.put('.series-view-grid', {
   display: `grid`,
   gridTemplateColumns: `1fr 1fr`,

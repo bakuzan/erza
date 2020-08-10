@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { lazyLoader } from 'components/LazyLoaders';
-import { loadMangaById, deleteManga } from 'actions/manga';
+import { loadMangaById, deleteManga, addChapters } from 'actions/manga';
 import {
   loadChaptersBySeries,
   editChapter,
@@ -36,10 +36,8 @@ const mapDispatchToProps = {
   editAction: editChapter,
   deleteAction: deleteChapter,
   deleteSeries: deleteManga,
-  onLoadMoreHistory: nextPage
+  onLoadMoreHistory: nextPage,
+  addHistoryToItem: addChapters
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BaseView);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseView);

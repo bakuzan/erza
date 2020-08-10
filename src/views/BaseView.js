@@ -8,13 +8,16 @@ import RatingControl from 'meiko/RatingControl';
 import {
   ButtonisedNavButton,
   ButtonisedNavLink,
-  Button
+  Button,
+  ButtonIcon
 } from 'components/Buttonised';
 import SeriesImageContainer from 'components/SeriesImageContainer';
 import { lazyLoader } from 'components/LazyLoaders';
 import ContentLink from 'components/ExternalLinks/ContentLink';
 import MalLink from 'components/ExternalLinks/MalLink';
 import LoadableContent from 'containers/LoadableContent';
+import QuickAdd from 'containers/QuickAdd';
+
 import { capitalise, formatDateForDisplay } from 'utils';
 import {
   getUniquePropertiesForItemType,
@@ -22,6 +25,7 @@ import {
 } from 'utils/data';
 import Paths from 'constants/paths';
 import { Strings, Enums, Icons } from 'constants/values';
+
 import 'styles/nano/baseView';
 
 const getStatsPath = (type) => `${Paths.base}${Paths.statistics}${type}`;
@@ -41,7 +45,8 @@ class BaseView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasHistory: false
+      hasHistory: false,
+      showQuickAdd: false
     };
 
     this.fetchHistory = this.fetchHistory.bind(this);
@@ -51,6 +56,7 @@ class BaseView extends Component {
     this.handleSeriesDelete = this.handleSeriesDelete.bind(this);
     this.setStatNavLink = this.setStatNavLink.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   componentDidMount() {
@@ -100,6 +106,11 @@ class BaseView extends Component {
     }
   }
 
+  handleEdit(values) {
+    this.props.addHistoryToItem(values);
+    this.setState({ showQuickAdd: false, hasHistory: false });
+  }
+
   render() {
     const { type, item, history, historyItems } = this.props;
     const { current, total } = getUniquePropertiesForItemType(type);
@@ -108,8 +119,13 @@ class BaseView extends Component {
       return <LoadingSpinner size="fullscreen" />;
     }
 
+    const isPlanned = item.status === Enums.status.Planned;
+    const isComplete = item.status === Enums.status.Completed;
+    const canQuickAdd = !((isComplete && !item.isRepeat) || isPlanned);
+    const showViewHistoryButton = !this.state.hasHistory && !isPlanned;
+
     return (
-      <section className="series-view">
+      <section id="viewPage" className="series-view">
         <Helmet>
           <title>{`View ${item.title} ${capitalise(type)}`}</title>
         </Helmet>
@@ -150,7 +166,18 @@ class BaseView extends Component {
                 <ul className="series-view-grid">
                   <li className="label">{current}</li>
                   <li className="value">
-                    {`${item[current]} / ${item[total] || '??'}`}
+                    <div>{`${item[current]} / ${item[total] || '??'}`}</div>
+                    {canQuickAdd && (
+                      <ButtonIcon
+                        btnStyle="primary"
+                        btnSize="small"
+                        className="view-content__plus-button"
+                        icon="+"
+                        aria-label={`Add ${item.title} ${current}s`}
+                        title={`Add ${item.title} ${current}s`}
+                        onClick={() => this.setState({ showQuickAdd: true })}
+                      />
+                    )}
                   </li>
                   {type === Strings.manga && (
                     <React.Fragment>
@@ -266,7 +293,7 @@ class BaseView extends Component {
                 </List>
               </div>
               <div>
-                {!this.state.hasHistory && (
+                {showViewHistoryButton && (
                   <Button
                     btnStyle="primary"
                     onMouseOver={this.preloadHistoryList}
@@ -304,6 +331,13 @@ class BaseView extends Component {
             </Button>
           </div>
         </footer>
+        <QuickAdd
+          isOpen={this.state.showQuickAdd}
+          type={type}
+          seriesId={item.id}
+          onSubmit={this.handleEdit}
+          onClose={() => this.setState({ showQuickAdd: false })}
+        />
       </section>
     );
   }
@@ -318,7 +352,8 @@ BaseView.propTypes = {
   loadHistoryForSeries: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired,
-  onLoadMoreHistory: PropTypes.func.isRequired
+  onLoadMoreHistory: PropTypes.func.isRequired,
+  addHistoryToItem: PropTypes.func.isRequired
 };
 
 export default BaseView;

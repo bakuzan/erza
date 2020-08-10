@@ -52,6 +52,7 @@ function ItemListItem({ type, item, addAction, startAction }) {
               className="list-item__plus-button"
               icon="+"
               aria-label={`Add ${item.title} ${current}s`}
+              title={`Add ${item.title} ${current}s`}
               onClick={() => addAction(item.id)}
               disabled={(isComplete && !item.isRepeat) || isPlanned}
             />

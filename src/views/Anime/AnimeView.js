@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { lazyLoader } from 'components/LazyLoaders';
-import { loadAnimeById, deleteAnime } from 'actions/anime';
+import { loadAnimeById, deleteAnime, addEpisodes } from 'actions/anime';
 import {
   loadEpisodesBySeries,
   editEpisode,
@@ -36,10 +36,8 @@ const mapDispatchToProps = {
   editAction: editEpisode,
   deleteAction: deleteEpisode,
   deleteSeries: deleteAnime,
-  onLoadMoreHistory: nextPage
+  onLoadMoreHistory: nextPage,
+  addHistoryToItem: addEpisodes
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BaseView);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseView);
