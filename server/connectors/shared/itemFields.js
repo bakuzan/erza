@@ -1,72 +1,74 @@
+const { DataTypes } = require('sequelize');
+
 const { Statuses } = require('../../constants/enums');
 
-module.exports = function itemFields(Types) {
+module.exports = function itemFields() {
   return {
     title: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     start: {
-      type: Types.DATE,
+      type: DataTypes.DATE,
       allowNull: true
     },
     end: {
-      type: Types.DATE,
+      type: DataTypes.DATE,
       allowNull: true
     },
     status: {
-      type: Types.ENUM,
+      type: DataTypes.ENUM,
       values: [...Statuses]
     },
     owned: {
-      type: Types.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
     },
     rating: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     isAdult: {
-      type: Types.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       defaultValue: false
     },
     isRepeat: {
-      type: Types.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
     },
     timesCompleted: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
     },
     image: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       defaultValue: ''
     },
     link: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       defaultValue: ''
     },
     malId: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: null,
       allowNull: true
     },
     series_start: {
-      type: Types.DATE,
+      type: DataTypes.DATE,
       allowNull: true
     },
     series_end: {
-      type: Types.DATE,
+      type: DataTypes.DATE,
       allowNull: true
     },
     updatedAt: {
-      type: Types.DATE
+      type: DataTypes.DATE
     },
     createdAt: {
-      type: Types.DATE
+      type: DataTypes.DATE
     }
   };
 };

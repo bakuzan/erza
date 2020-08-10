@@ -1,25 +1,27 @@
+const { DataTypes } = require('sequelize');
+
 const { RepeatPattern, RepeatPatterns } = require('../constants/enums');
 
-module.exports = (db, Types) => {
+module.exports = (db) => {
   return db.define('todoTemplate', {
-    name: { type: Types.STRING, allowNull: false, unique: false },
+    name: { type: DataTypes.STRING, allowNull: false, unique: false },
     date: {
-      type: Types.DATE,
+      type: DataTypes.DATE,
       defaultValue: new Date().toISOString(),
       allowNull: false
     },
     repeatPattern: {
-      type: Types.ENUM,
+      type: DataTypes.ENUM,
       values: [...RepeatPattern],
       defaultValue: RepeatPatterns.None
     },
     repeatFor: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 1,
       allowNull: false
     },
     repeatWeekDefinition: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 1,
       allowNull: false
     }

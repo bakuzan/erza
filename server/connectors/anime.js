@@ -1,28 +1,29 @@
-const { AnimeType, AnimeTypes } = require('../constants/enums');
+const { DataTypes } = require('sequelize');
 
+const { AnimeType, AnimeTypes } = require('../constants/enums');
 const getSharedFields = require('./shared/itemFields');
 
-module.exports = (db, Types) => {
-  const sharedFields = getSharedFields(Types);
+module.exports = (db) => {
+  const sharedFields = getSharedFields();
 
   return db.define('anime', {
     ...sharedFields,
     episode: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
     },
     series_episodes: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     series_type: {
-      type: Types.ENUM,
+      type: DataTypes.ENUM,
       values: [...AnimeTypes],
       defaultValue: AnimeType.Unknown
     },
     _legacyIsSeason: {
-      type: Types.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       defaultValue: false
     }
   });

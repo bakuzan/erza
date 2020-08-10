@@ -1,13 +1,15 @@
-module.exports = (db, Types) => {
+const { DataTypes } = require('sequelize');
+
+module.exports = (db) => {
   return db.define('tag', {
     name: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       defaultValue: '',
       unique: true,
       allowNull: false
     },
     isAdult: {
-      type: Types.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       defaultValue: false
     }
   });

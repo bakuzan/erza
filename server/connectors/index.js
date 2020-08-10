@@ -6,55 +6,30 @@ const Utils = require('../utils');
 const migrate = require('../config');
 
 const initialDataInsert = require('../config/initialDataInsert');
+const extraSetup = require('./extraSetup');
 
 const db = new Sequelize(Constants.appName, null, null, {
   dialect: 'sqlite',
-  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${
-    process.env.NODE_ENV
-  }.sqlite`
+  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${process.env.NODE_ENV}.sqlite`
 });
 
-const AnimeModel = db.import('./anime');
-const MangaModel = db.import('./manga');
-const EpisodeModel = db.import('./episode');
-const ChapterModel = db.import('./chapter');
-const TagModel = db.import('./tag');
-const TodoTemplateModel = db.import('./todoTemplate');
-const TodoInstanceModel = db.import('./todoInstance');
+const modelDefiners = [
+  require('./anime'),
+  require('./manga'),
+  require('./episode'),
+  require('./chapter'),
+  require('./tag'),
+  require('./todoTemplate'),
+  require('./todoInstance')
+];
 
-// Anime-Tag
-AnimeModel.Tag = AnimeModel.belongsToMany(TagModel, {
-  through: 'AnimeTag'
-});
-TagModel.Anime = TagModel.belongsToMany(AnimeModel, {
-  through: 'AnimeTag'
-});
+// We define all models according to their files.
+for (const modelDefiner of modelDefiners) {
+  modelDefiner(db);
+}
 
-// Anime-Episode
-AnimeModel.Episode = AnimeModel.hasMany(EpisodeModel, {
-  onDelete: 'cascade'
-});
-EpisodeModel.Anime = EpisodeModel.belongsTo(AnimeModel);
-
-// Manga-Tag
-MangaModel.Tag = MangaModel.belongsToMany(TagModel, {
-  through: 'MangaTag'
-});
-TagModel.Manga = TagModel.belongsToMany(MangaModel, {
-  through: 'MangaTag'
-});
-
-// Manga-Chapter
-MangaModel.Chapter = MangaModel.hasMany(ChapterModel, {
-  onDelete: 'cascade'
-});
-ChapterModel.Manga = ChapterModel.belongsTo(MangaModel);
-
-// Todo
-TodoTemplateModel.TodoInstance = TodoTemplateModel.hasMany(TodoInstanceModel, {
-  onDelete: 'cascade'
-});
-TodoInstanceModel.TodoTemplate = TodoInstanceModel.belongsTo(TodoTemplateModel);
+// Other db setup...
+extraSetup(db);
 
 // Sync and Migrate db
 // Only add test data if sync is forced

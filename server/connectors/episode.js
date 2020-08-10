@@ -1,12 +1,14 @@
+const { DataTypes } = require('sequelize');
+
 const getSharedFields = require('./shared/historyFields');
 
-module.exports = (db, Types) => {
-  const sharedFields = getSharedFields(Types);
+module.exports = (db) => {
+  const sharedFields = getSharedFields();
 
   return db.define('episode', {
     ...sharedFields,
     episode: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   });

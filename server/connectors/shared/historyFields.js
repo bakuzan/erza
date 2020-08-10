@@ -1,15 +1,17 @@
-module.exports = function historyFields(Types) {
+const { DataTypes } = require('sequelize');
+
+module.exports = function historyFields() {
   return {
     date: {
-      type: Types.DATE,
+      type: DataTypes.DATE,
       allowNull: false
     },
     rating: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     note: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       defaultValue: '',
       allowNull: false
     }

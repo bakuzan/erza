@@ -1,32 +1,33 @@
-const { MangaType, MangaTypes } = require('../constants/enums');
+const { DataTypes } = require('sequelize');
 
+const { MangaType, MangaTypes } = require('../constants/enums');
 const getSharedFields = require('./shared/itemFields');
 
-module.exports = (db, Types) => {
-  const sharedFields = getSharedFields(Types);
+module.exports = (db) => {
+  const sharedFields = getSharedFields();
 
   return db.define('manga', {
     ...sharedFields,
     chapter: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
     },
     volume: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
     },
     series_chapters: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     series_volumes: {
-      type: Types.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     series_type: {
-      type: Types.ENUM,
+      type: DataTypes.ENUM,
       values: [...MangaTypes],
       defaultValue: MangaType.Unknown
     }
