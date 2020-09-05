@@ -24,8 +24,7 @@ async function checkIfItemExistsAlready(props) {
   const query =
     props.type === Strings.anime ? checkAnimeExists : checkMangaExists;
 
-  const data = await erzaGQL({ query, variables: { ...filters } });
-  return data.exists;
+  return await erzaGQL({ query, variables: { ...filters } });
 }
 
 const Errors = {
@@ -104,7 +103,7 @@ class MalSearch extends React.Component {
 
     const response = await checkIfItemExistsAlready(this.props);
     const alreadyExists = response.animeExists || response.mangaExists;
-    const error = alreadyExists ? Errors.exists : null;
+    const error = alreadyExists.exists ? Errors.exists : null;
     const warning = Warnings.malIsDisabled;
 
     this.setState({
