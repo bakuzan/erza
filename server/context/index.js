@@ -22,14 +22,18 @@ async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
   const matchesTitle = { title: { [Op.eq]: title } };
   const matchesMal = { malId: { [Op.eq]: malId } };
 
-  const series = await model.count({
+  const series = await model.findOne({
     where: {
       ...(id ? { id: { [Op.ne]: id } } : {}),
       ...(malId ? matchesMal : matchesTitle)
     }
   });
 
-  return series > 0;
+  return {
+    exists: series !== null,
+    id: series ? series.id : null,
+    title: series ? series.title : null
+  };
 }
 
 async function findAllRepeated(
@@ -56,7 +60,7 @@ async function createSeries(model, payload, mappers) {
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
 
   const series = validateSeries(values, mappers);
-  const exists = await checkIfSeriesAlreadyExists(model, series);
+  const { exists } = await checkIfSeriesAlreadyExists(model, series);
 
   if (exists) {
     return {
@@ -115,7 +119,7 @@ async function updateSeries(model, payload, mappers) {
   const { tags, ...values } = payload;
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
 
-  const exists = await checkIfSeriesAlreadyExists(model, values);
+  const { exists } = await checkIfSeriesAlreadyExists(model, values);
 
   if (exists) {
     return {

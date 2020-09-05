@@ -24,7 +24,8 @@ async function checkIfItemExistsAlready(props) {
   const query =
     props.type === Strings.anime ? checkAnimeExists : checkMangaExists;
 
-  return await erzaGQL({ query, variables: { ...filters } });
+  const data = await erzaGQL({ query, variables: { ...filters } });
+  return data.exists;
 }
 
 const Errors = {

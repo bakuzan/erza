@@ -23,7 +23,7 @@ const Query = gql`
       sorting: [String]
       paging: Paging
     ): AnimePage
-    animeExists(id: Int, malId: Int, title: String): Boolean
+    animeExists(id: Int, malId: Int, title: String): SeriesExistsData
     animeRepeated(
       search: String
       minTimesCompleted: Int
@@ -41,7 +41,7 @@ const Query = gql`
       sorting: [String]
       paging: Paging
     ): MangaPage
-    mangaExists(id: Int, malId: Int, title: String): Boolean
+    mangaExists(id: Int, malId: Int, title: String): SeriesExistsData
     mangaRepeated(
       search: String
       minTimesCompleted: Int
@@ -201,6 +201,12 @@ const Mutation = gql`
     success: Boolean
     errorMessages: [String]
     data: SeriesData
+  }
+
+  type SeriesExistsData {
+    exists: Boolean
+    id: Int
+    title: String
   }
 
   type HistoryData {

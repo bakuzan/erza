@@ -224,13 +224,21 @@ export const getMangaPaged = gql`
 // Check Exists
 export const checkAnimeExists = gql`
   query AnimeExists($id: Int, $malId: Int, $title: String) {
-    animeExists(id: $id, malId: $malId, title: $title)
+    animeExists(id: $id, malId: $malId, title: $title) {
+      exists
+      id
+      title
+    }
   }
 `;
 
 export const checkMangaExists = gql`
   query MangaExists($id: Int, $malId: Int, $title: String) {
-    mangaExists(id: $id, malId: $malId, title: $title)
+    mangaExists(id: $id, malId: $malId, title: $title) {
+      exists
+      id
+      title
+    }
   }
 `;
 
