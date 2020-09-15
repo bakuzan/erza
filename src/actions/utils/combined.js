@@ -10,7 +10,8 @@ import redirectPostAction from './redirectPostAction';
 export function mutateSeriesWithHistory(
   query,
   editItem,
-  { type, updateInState, mapToInput }
+  { type, updateInState, mapToInput },
+  requerySeriesById
 ) {
   return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
@@ -66,6 +67,10 @@ export function mutateSeriesWithHistory(
       }
 
       return;
+    }
+
+    if (requerySeriesById != null) {
+      dispatch(requerySeriesById(editItem.id));
     }
 
     toaster.success(

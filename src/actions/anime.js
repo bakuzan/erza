@@ -39,20 +39,25 @@ const updateAnimeInState = (item) => ({
   item
 });
 
-export const addEpisodes = (editItem) =>
-  mutateSeriesWithHistory(animeUpdateWithHistory, editItem, {
-    type: Strings.anime,
-    updateInState: ({ episode, current, ...obj }) =>
-      updateAnimeInState({
-        ...obj,
-        episode: current || episode
-      }),
-    mapToInput: (item, editItem = {}) => ({
-      id: item.id,
-      current: editItem.episode || item.episode,
-      rating: editItem.overallRating || item.rating
-    })
-  });
+export const addEpisodes = (editItem, shouldRequery = false) =>
+  mutateSeriesWithHistory(
+    animeUpdateWithHistory,
+    editItem,
+    {
+      type: Strings.anime,
+      updateInState: ({ episode, current, ...obj }) =>
+        updateAnimeInState({
+          ...obj,
+          episode: current || episode
+        }),
+      mapToInput: (item, editItem = {}) => ({
+        id: item.id,
+        current: editItem.episode || item.episode,
+        rating: editItem.overallRating || item.rating
+      })
+    },
+    shouldRequery ? loadAnimeById : null
+  );
 
 export const loadAnime = (filters = {}, pageChange = null) =>
   loadItems(getAnimePaged, filters, {

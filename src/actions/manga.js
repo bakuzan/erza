@@ -38,21 +38,26 @@ const updateMangaInState = (item) => ({
   item
 });
 
-export const addChapters = (editItem) =>
-  mutateSeriesWithHistory(mangaUpdateWithHistory, editItem, {
-    type: Strings.manga,
-    updateInState: ({ chapter, current, ...obj }) =>
-      updateMangaInState({
-        ...obj,
-        chapter: current || chapter
-      }),
-    mapToInput: (item, editItem = {}) => ({
-      id: item.id,
-      current: editItem.chapter || item.chapter,
-      volume: editItem.volume || item.volume,
-      rating: editItem.overallRating || item.rating
-    })
-  });
+export const addChapters = (editItem, shouldRequery = false) =>
+  mutateSeriesWithHistory(
+    mangaUpdateWithHistory,
+    editItem,
+    {
+      type: Strings.manga,
+      updateInState: ({ chapter, current, ...obj }) =>
+        updateMangaInState({
+          ...obj,
+          chapter: current || chapter
+        }),
+      mapToInput: (item, editItem = {}) => ({
+        id: item.id,
+        current: editItem.chapter || item.chapter,
+        volume: editItem.volume || item.volume,
+        rating: editItem.overallRating || item.rating
+      })
+    },
+    shouldRequery ? loadMangaById : null
+  );
 
 export const loadManga = (filters = {}, pageChange = null) =>
   loadItems(getMangaPaged, filters, {

@@ -107,7 +107,7 @@ class BaseView extends Component {
   }
 
   handleEdit(values) {
-    this.props.addHistoryToItem(values);
+    this.props.addHistoryToItem(values, true);
     this.setState({ showQuickAdd: false, hasHistory: false });
   }
 
