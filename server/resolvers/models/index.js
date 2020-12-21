@@ -75,6 +75,9 @@ module.exports = {
   StatSeriesRow: {
     season(inst) {
       return inSeasonCalc(inst).season;
+    },
+    year(inst) {
+      return inSeasonCalc(inst).year;
     }
   },
   TimelineSeries: {

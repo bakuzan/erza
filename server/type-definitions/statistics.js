@@ -11,6 +11,7 @@ module.exports = gql`
     title: String!
     rating: Int!
     season: String
+    year: Int
     average: Float
     highest: Int
     lowest: Int

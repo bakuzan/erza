@@ -5,7 +5,7 @@ const seasons = Object.freeze({
   winter: 'Winter',
   spring: 'Spring',
   summer: 'Summer',
-  fall: 'Fall'
+  autumn: 'Autumn'
 });
 
 const seasonMonths = Object.freeze(['01', '04', '07', '10']);

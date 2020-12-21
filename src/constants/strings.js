@@ -24,7 +24,10 @@ export default {
   // theme
   light: 'Light',
   dark: 'Dark',
-  themes: [{ name: 'Light', value: 'one' }, { name: 'Dark', value: 'two' }],
+  themes: [
+    { name: 'Light', value: 'one' },
+    { name: 'Dark', value: 'two' }
+  ],
   localUserSettings: 'settingState',
   // labels
   start: 'start',
@@ -74,6 +77,6 @@ export const SatellizerFlags = Object.freeze({
     ['Winter', '01'],
     ['Spring', '04'],
     ['Summer', '07'],
-    ['Fall', '10']
+    ['Autumn', '10']
   ])
 });
