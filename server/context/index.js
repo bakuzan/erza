@@ -7,6 +7,7 @@ const Paged = require('./paged');
 const Todo = require('./todo');
 const updateSeriesWithHistory = require('./update-series/withHistory');
 const updateSeriesTags = require('./update-series/tags');
+const getRepeatHistory = require('./repeatHistory');
 
 const { StatType } = require('../constants/enums');
 const imageStore = require('../image-store');
@@ -233,6 +234,7 @@ module.exports = {
   updateSeriesTags,
   updateEntity,
   deleteEntity,
+  getRepeatHistory,
   //Helpers
   resolveWhereIn,
   handleDeleteResponse

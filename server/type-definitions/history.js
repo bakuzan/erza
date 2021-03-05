@@ -50,4 +50,12 @@ module.exports = gql`
     note: String
     rating: Int
   }
+
+  type RepeatHistory{
+    
+  }
+
+  type RepeatHistoryResponse {
+
+  }
 `;

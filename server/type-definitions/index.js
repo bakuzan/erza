@@ -117,6 +117,7 @@ const Query = gql`
     ): SeriesPage
 
     seriesTypes(type: StatType!): [String]
+    seriesRepeatHistory(type: StatType!, seriesId: Int!): RepeatHistoryResponse
 
     todoTemplateById(id: Int!): TodoTemplate
     todoTemplates: [TodoTemplate]

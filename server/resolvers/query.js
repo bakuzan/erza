@@ -112,6 +112,9 @@ module.exports = {
         throw new Error('Unhandled stat type.');
     }
   },
+  async seriesRepeatHistory(_, args, context) {
+    return await context.getRepeatHistory(args);
+  },
   async tagStats(_, args, context) {
     return await context.Stats.tagStats(args);
   },
