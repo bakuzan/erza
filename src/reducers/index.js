@@ -17,6 +17,7 @@ import requestIndicator from './requestIndicator';
 import alert from './alert';
 import lastLocation from './lastLocation';
 import filters from './filters';
+import repeatHistory from './repeatHistory';
 
 const entities = combineReducers({
   anime,
@@ -24,7 +25,8 @@ const entities = combineReducers({
   manga,
   episode,
   chapter,
-  tags
+  tags,
+  repeatHistory
 });
 
 const createRootReducer = (history) =>

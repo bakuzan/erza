@@ -57,6 +57,7 @@ module.exports = gql`
     startDate: String
     end: Int
     endDate: String
+    isCurrentRepeat: Boolean
   }
 
   type RepeatHistoryResponse {

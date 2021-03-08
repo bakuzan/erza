@@ -1,0 +1,24 @@
+.series-repeat-history {
+  margin-bottom: 25px;
+
+  &__title {
+    margin: 10px 0px 5px;
+  }
+
+  &__warning {
+    font-style: italic;
+  }
+}
+
+.repeat-item {
+  &__date-range {
+    display: flex;
+  }
+
+  &__date:first-child {
+    margin-right: 5px;
+  }
+  &__date:last-child {
+    margin-left: 5px;
+  }
+}
