@@ -1,10 +1,12 @@
 import toaster from 'meiko/utils/toasterService';
 
 import erzaGQL from 'erzaGQL';
+import { getSeriesRepeatHistory } from 'erzaGQL/query/series';
 import { resetPageToZero, loadPageInfo } from 'actions/paging';
 import { showAlertError } from 'actions/alert';
 import Enums from 'constants/enums';
-import { getSingleObjectProperty } from 'utils';
+import { LOAD_REPEAT_HISTORY } from 'constants/actions';
+import { capitalise, getSingleObjectProperty } from 'utils';
 
 import {
   startingGraphqlRequest,
@@ -19,7 +21,7 @@ import redirectPostAction from './redirectPostAction';
 // Query
 
 export const loadItems = (query, filters, { type, pageChange }) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { isAdult, paging, sorting } = getState();
@@ -54,7 +56,7 @@ export const loadItems = (query, filters, { type, pageChange }) => {
 };
 
 export const loadItemsById = (query, variables, type) => {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({
@@ -68,10 +70,29 @@ export const loadItemsById = (query, variables, type) => {
   };
 };
 
+export const loadRepeatHistory = (statType, seriesId) => {
+  return async function (dispatch) {
+    dispatch(startingGraphqlRequest());
+
+    const response = await erzaGQL({
+      query: getSeriesRepeatHistory,
+      variables: { type: capitalise(statType), seriesId }
+    });
+
+    dispatch({
+      type: LOAD_REPEAT_HISTORY,
+      statType,
+      seriesId,
+      payload: getSingleObjectProperty(response)
+    });
+    dispatch(finishGraphqlRequest());
+  };
+};
+
 // Mutate
 
 export function mutateItem(query, payload, type) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { lastLocation } = getState();
@@ -111,7 +132,7 @@ export function mutateItem(query, payload, type) {
 }
 
 export function mutateStartItem(query, itemId, type) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const isPlannedFilter = window.location.href.includes(Enums.status.Planned);
@@ -158,7 +179,7 @@ export function mutateStartItem(query, itemId, type) {
 }
 
 export function removeItem(query, variables, type) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { lastLocation } = getState();

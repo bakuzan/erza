@@ -41,6 +41,10 @@ const PagedHistoryList = lazyLoader(() =>
   )
 );
 
+const RepeatHistory = lazyLoader(() =>
+  import(/* webpackChunkName: 'RepeatHistory' */ '../containers/RepeatHistory')
+);
+
 class BaseView extends Component {
   constructor(props) {
     super(props);
@@ -293,13 +297,15 @@ class BaseView extends Component {
                 </List>
               </div>
               <div>
+                <RepeatHistory type={type} seriesId={item.id} />
+
                 {showViewHistoryButton && (
                   <Button
                     btnStyle="primary"
                     onMouseOver={this.preloadHistoryList}
                     onClick={this.fetchHistory}
                   >
-                    View history
+                    View {current} history
                   </Button>
                 )}
                 {this.state.hasHistory && (

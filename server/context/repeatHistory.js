@@ -35,6 +35,7 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
   const items = [];
   const warningMessages = [];
   const repeats = chunk(results, isSingular ? 1 : 2);
+  const seriesTotalParts = results.length ? results[0].seriesTotalParts : null;
 
   for (const group of repeats) {
     let [ending, beginning] = group;
@@ -47,7 +48,11 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
       start: beginning.repeatInstanceNumber,
       startDate: beginning.repeatInstanceDate,
       end: ending.repeatInstanceNumber,
-      endDate: ending.repeatInstanceDate
+      endDate: ending.repeatInstanceDate,
+      isCurrentRepeat:
+        series.isRepeat &&
+        items.length === 0 &&
+        ending.repeatInstanceNumber !== seriesTotalParts
     });
   }
 
@@ -70,7 +75,7 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
     items,
     statType: type,
     seriesTitle: series.title,
-    seriesTotalParts: results.length ? results[0].seriesTotalParts : null,
+    seriesTotalParts,
     timesCompleted: series.timesCompleted,
     warningMessages
   };

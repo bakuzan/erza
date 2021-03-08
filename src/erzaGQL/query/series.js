@@ -303,3 +303,23 @@ export const getTimeline = gql`
     }
   }
 `;
+
+// Repeat History
+export const getSeriesRepeatHistory = gql`
+  query RepeatHistory($type: StatType!, $seriesId: Int!) {
+    seriesRepeatHistory(type: $type, seriesId: $seriesId) {
+      hasRepeats
+      items {
+        repeatInstanceKey
+        start
+        startDate
+        end
+        endDate
+        isCurrentRepeat
+      }
+      seriesTotalParts
+      timesCompleted
+      warningMessages
+    }
+  }
+`;
