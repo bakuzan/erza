@@ -51,11 +51,21 @@ module.exports = gql`
     rating: Int
   }
 
-  type RepeatHistory{
-    
+  type RepeatHistory {
+    repeatInstanceKey: String
+    start: Int
+    startDate: String
+    end: Int
+    endDate: String
   }
 
   type RepeatHistoryResponse {
-
+    hasRepeats: Boolean
+    items: [RepeatHistory]
+    statType: StatType
+    seriesTitle: String
+    seriesTotalParts: Int
+    timesCompleted: Int
+    warningMessages: [String]
   }
 `;

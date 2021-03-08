@@ -2,6 +2,10 @@ const { db, Anime, Manga } = require('../connectors');
 const SQL = require('../db-scripts');
 
 const { StatType } = require('../constants/enums');
+const chunk = require('../utils/chunk');
+
+const getSeriesTotalParts = (isAnime, series) =>
+  isAnime ? series.series_episodes : series.series_chapters;
 
 module.exports = async function getRepeatHistory({ type, seriesId }) {
   const isAnime = type === StatType.Anime;
@@ -9,14 +13,18 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
   const model = isAnime ? Anime : Manga;
 
   const series = await model.findByPk(seriesId, { raw: true });
-  if (series === null) {
-    // error
+  if (series === null || (!series.isRepeat && series.timesCompleted < 1)) {
+    // No possibility of a repeat.
+    return {
+      hasRepeats: false,
+      items: [],
+      seriesTotalParts: 0,
+      timesCompleted: 0,
+      warningMessages: []
+    };
   }
 
-  if (!series.isRepeat && series.timesCompleted < 1) {
-    // return empty
-  }
-
+  const isSingular = getSeriesTotalParts(isAnime, series) === 1;
   const results = await db.query(SQL[qk], {
     type: db.QueryTypes.SELECT,
     replacements: {
@@ -24,10 +32,46 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
     }
   });
 
-  /* TODO
-   * Check history
-   * Create Repeat Objects
-   * Add Warning Messages
-   * Add hasRepeatsFlag
-   */
+  const items = [];
+  const warningMessages = [];
+  const repeats = chunk(results, isSingular ? 1 : 2);
+
+  for (const group of repeats) {
+    let [ending, beginning] = group;
+    if (isSingular) {
+      beginning = ending;
+    }
+
+    items.push({
+      repeatInstanceKey: `${beginning.repeatInstanceId}_${ending.repeatInstanceId}`,
+      start: beginning.repeatInstanceNumber,
+      startDate: beginning.repeatInstanceDate,
+      end: ending.repeatInstanceNumber,
+      endDate: ending.repeatInstanceDate
+    });
+  }
+
+  const isFirstRepeat = series.isRepeat && items.length === 1;
+  const hasMissingRecord = series.timesCompleted !== items.length;
+  const missingCount = Math.max(1, series.timesCompleted - items.length);
+
+  if (series.isRepeat) {
+    warningMessages.push(`'${series.title}' is currently being repeated.`);
+  }
+
+  if (!isFirstRepeat && hasMissingRecord) {
+    warningMessages.push(
+      `Please be aware that '${series.title}' is missing ${missingCount} repeat records.`
+    );
+  }
+
+  return {
+    hasRepeats: true,
+    items,
+    statType: type,
+    seriesTitle: series.title,
+    seriesTotalParts: results.length ? results[0].seriesTotalParts : null,
+    timesCompleted: series.timesCompleted,
+    warningMessages
+  };
 };
