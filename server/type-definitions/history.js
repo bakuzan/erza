@@ -55,8 +55,10 @@ module.exports = gql`
     repeatInstanceKey: String
     start: Int
     startDate: String
+    startDateFormatted: String
     end: Int
     endDate: String
+    endDateFormatted: String
     isCurrentRepeat: Boolean
   }
 
@@ -64,6 +66,7 @@ module.exports = gql`
     hasRepeats: Boolean
     items: [RepeatHistory]
     statType: StatType
+    seriesId: Int
     seriesTitle: String
     seriesTotalParts: Int
     timesCompleted: Int

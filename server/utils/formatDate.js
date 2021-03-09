@@ -1,3 +1,4 @@
+const { monthNames } = require('../constants');
 const { padNumber } = require('./index');
 
 function formatDateInput(date) {
@@ -17,6 +18,10 @@ module.exports = {
   formatDateYYYYMM(date) {
     const d = formatDateInput(date);
     return d ? d.slice(0, 7) : d;
+  },
+  formatDate(date) {
+    const [yyyy, mm, dd] = formatDateInput(date).split('-');
+    return [dd, monthNames[mm], yyyy].join(' ');
   },
   formatDateInput,
   formatDateTimeInput(date) {
