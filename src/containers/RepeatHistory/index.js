@@ -10,7 +10,6 @@ import { loadRepeatHistory } from 'actions/utils/series';
 import './RepeatHistory.scss';
 
 function RepeatHistory({ type, seriesId, loadData, ...props }) {
-  console.log('RepeatHistory Render -> ', type, seriesId, props);
   useEffect(() => {
     loadData(type, seriesId);
   }, [type, seriesId]);
@@ -34,7 +33,7 @@ function RepeatHistory({ type, seriesId, loadData, ...props }) {
         <Grid items={warningMessages}>
           {(item) => (
             <li key={item} className="series-repeat-history__warning">
-              * {item}
+              {item}
             </li>
           )}
         </Grid>
