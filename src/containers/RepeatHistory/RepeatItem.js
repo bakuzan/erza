@@ -6,7 +6,7 @@ import { formatDateForDisplay, padNumber } from 'utils';
 function RepeatItem(props) {
   const isSingular = props.seriesTotalParts === 1;
   const showEndDate = !isSingular && !props.isCurrentRepeat;
-  console.log('RepeatItem -> ', props);
+
   return (
     <li className="repeat-item">
       <div className="repeat-item__date-range">
@@ -14,7 +14,9 @@ function RepeatItem(props) {
           {formatDateForDisplay(props.startDate)} (#{padNumber(props.start, 3)})
         </div>
         {!isSingular && <span>-</span>}
-        {props.isCurrentRepeat && <div>Present</div>}
+        {props.isCurrentRepeat && (
+          <div className="repeat-item__date">Present</div>
+        )}
         {showEndDate && (
           <div className="repeat-item__date">
             {formatDateForDisplay(props.endDate)} (#{padNumber(props.end, 3)})
@@ -31,7 +33,7 @@ RepeatItem.propTypes = {
   startDate: PropTypes.string.isRequired,
   end: PropTypes.number.isRequired,
   endDate: PropTypes.string.isRequired,
-  isCurrentRepeat: PropTypes.boolean.isRequired,
+  isCurrentRepeat: PropTypes.bool.isRequired,
   seriesTotalParts: PropTypes.number,
   timesCompleted: PropTypes.number
 };
