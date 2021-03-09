@@ -1,4 +1,5 @@
 const { resolveSorting } = require('../../utils');
+const { formatDate } = require('../../utils/formatDate');
 const inSeasonCalc = require('../../utils/inSeason');
 
 const TodoTemplateResolvers = require('./todoTemplate');
@@ -101,6 +102,14 @@ module.exports = {
   History: {
     __resolveType() {
       return null;
+    }
+  },
+  RepeatHistory: {
+    startDateFormatted(inst) {
+      return formatDate(inst.startDate);
+    },
+    endDateFormatted(inst) {
+      return formatDate(inst.endDate);
     }
   }
 };
