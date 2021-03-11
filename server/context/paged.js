@@ -91,7 +91,7 @@ async function pagedHistory(
         ...ratingWhere,
         ...where
       },
-      order: [sortOrder],
+      order: [sortOrder, [model.getTableName().slice(0, -1), 'DESC']],
       limit: paging.size,
       offset: paging.size * paging.page,
       ...options
