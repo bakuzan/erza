@@ -38,7 +38,7 @@ function RepeatHistory({ type, seriesId, loadData, ...props }) {
           )}
         </Grid>
       )}
-      <Grid items={items}>
+      <Grid items={items} noItemsText={false}>
         {(item) => (
           <RepeatItem
             key={item.repeatInstanceKey}
