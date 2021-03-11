@@ -47,6 +47,11 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
       beginning = ending;
     }
 
+    // For now, if we cannot create a repeat we will ignore it.
+    if (!ending || !beginning) {
+      continue;
+    }
+
     items.push({
       repeatInstanceKey: `${beginning.repeatInstanceId}_${ending.repeatInstanceId}`,
       start: beginning.repeatInstanceNumber,

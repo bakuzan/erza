@@ -1,6 +1,8 @@
 WITH h_cte AS (
 	SELECT h.animeId, MAX(h.date) as 'date'
 	FROM episodes AS h
+	JOIN animes AS a on h.animeId = a.id
+	WHERE strftime('%Y-%m-%d', h.date) > strftime('%Y-%m-%d', a.end)	
 	GROUP BY h.animeId
 )
 SELECT 

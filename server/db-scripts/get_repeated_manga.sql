@@ -1,6 +1,8 @@
 WITH h_cte AS (
 	SELECT h.mangaId, MAX(h.date) as 'date'
 	FROM chapters AS h
+	JOIN mangas AS m on h.mangaId = m.id
+	WHERE strftime('%Y-%m-%d', h.date) > strftime('%Y-%m-%d', m.end)	
 	GROUP BY h.mangaId
 )
 SELECT 
