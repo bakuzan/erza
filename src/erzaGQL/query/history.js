@@ -95,6 +95,11 @@ export const getEpisodesForSeries = gql`
           title
         }
       }
+      averageRating {
+        mean
+        median
+        mode
+      }
     }
   }
   ${historyFields}
@@ -116,6 +121,11 @@ export const getChaptersForSeries = gql`
           id
           title
         }
+      }
+      averageRating {
+        mean
+        median
+        mode
       }
     }
   }

@@ -1,0 +1,10 @@
+.history-averages {
+  display: grid;
+  font-size: 0.85em;
+  margin: 10px 5px 0;
+
+  &__data {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

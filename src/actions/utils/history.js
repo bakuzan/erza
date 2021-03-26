@@ -17,7 +17,7 @@ import {
 // Query
 
 export function loadHistoryByDateRange(query, filters, { type, pageChange }) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { paging, isAdult } = getState();
@@ -42,7 +42,7 @@ export function loadHistoryByDateRange(query, filters, { type, pageChange }) {
     const { nodes, total, hasMore } = data;
 
     dispatch(loadItemsToState[type](nodes, updatedPaging, pageChange));
-    dispatch(loadPageInfo({ total, hasMore }, type));
+    dispatch(loadPageInfo({ total, hasMore, averageRating: null }, type));
 
     if (!pageChange) {
       dispatch(resetPageToZero(type));
@@ -53,7 +53,7 @@ export function loadHistoryByDateRange(query, filters, { type, pageChange }) {
 }
 
 export function loadHistoryBySeries(query, filters, { type, pageChange }) {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { paging } = getState();
@@ -73,10 +73,10 @@ export function loadHistoryBySeries(query, filters, { type, pageChange }) {
       return;
     }
 
-    const { nodes, total, hasMore } = data;
+    const { nodes, total, hasMore, averageRating } = data;
 
     dispatch(loadItemsToState[type](nodes, updatedPaging, pageChange));
-    dispatch(loadPageInfo({ total, hasMore }, type));
+    dispatch(loadPageInfo({ total, hasMore, averageRating }, type));
 
     if (!pageChange) {
       dispatch(resetPageToZero(type));
@@ -91,7 +91,7 @@ export function loadHistoryBySeries(query, filters, { type, pageChange }) {
 export function mutateHistoryItem(query, item, type) {
   const updateInState = refreshItemInState[type];
 
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch(startingGraphqlRequest());
 
     const { id, rating, note } = item;
@@ -132,7 +132,7 @@ export function mutateHistoryItem(query, item, type) {
 }
 
 export function removeHistoryItem(query, variables, type) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(startingGraphqlRequest());
 
     const response = await erzaGQL({

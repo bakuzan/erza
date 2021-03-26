@@ -4,6 +4,7 @@ const { db } = require('../connectors');
 const SQL = require('../db-scripts');
 const { StatType } = require('../constants/enums');
 
+const seriesAverageHistoryRating = require('./seriesAverageHistoryRating');
 const dateRange = require('../utils/dateRange');
 const isOwnedOnlyArgs = require('./utils/isOwnedOnlyArgs');
 const setHasMoreFlag = require('./utils/setHasMoreFlag');
@@ -83,6 +84,7 @@ async function pagedHistory(
 
   const ratingWhere = resolveWhereIn(ratings, 'rating');
   const sortOrder = validateSortOrder(['date', 'DESC'], sorting);
+  const averageRating = await seriesAverageHistoryRating(model, seriesId);
 
   return await model
     .findAndCountAll({
@@ -99,7 +101,8 @@ async function pagedHistory(
     .then((result) => ({
       nodes: result.rows,
       total: result.count,
-      hasMore: setHasMoreFlag(result.count, paging)
+      hasMore: setHasMoreFlag(result.count, paging),
+      averageRating
     }));
 }
 

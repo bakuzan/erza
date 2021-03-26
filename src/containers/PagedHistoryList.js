@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import PagingControls from 'containers/PagingControls';
 import HistoryList from 'components/ListComponents/HistoryList';
+import HistoryAverages from 'components/HistoryAverages';
+
 import { pageSizes } from 'constants/values';
 import { getHistoryNameForItemType } from 'utils/data';
 
@@ -20,6 +22,7 @@ const PagedHistoryList = ({
 }) => {
   const historyType = getHistoryNameForItemType(type);
   const itemsForPage = items;
+
   return (
     <div className={classNames('flex flex--column flex--grow', className)}>
       <PagingControls
@@ -27,6 +30,7 @@ const PagedHistoryList = ({
         listType={historyType}
         filters={filters}
       />
+      <HistoryAverages data={paging.pageInfo.averageRating} />
       <HistoryList
         isFetching={isFetching}
         type={type}

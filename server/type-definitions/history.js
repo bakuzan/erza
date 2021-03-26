@@ -8,6 +8,12 @@ module.exports = gql`
     note: String
   }
 
+  type HistoryAverages {
+    mean: Float
+    median: Float
+    mode: Int
+  }
+
   type Episode implements History {
     id: Int
     date: String
@@ -22,6 +28,7 @@ module.exports = gql`
     total: Int
     hasMore: Boolean
     nodes: [Episode]
+    averageRating: HistoryAverages
   }
 
   type Chapter implements History {
@@ -38,6 +45,7 @@ module.exports = gql`
     total: Int
     hasMore: Boolean
     nodes: [Chapter]
+    averageRating: HistoryAverages
   }
 
   input HistoryCreateInput {
