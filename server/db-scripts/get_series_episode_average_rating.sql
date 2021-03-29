@@ -29,15 +29,29 @@ mode AS (
 	FROM history AS h
 	GROUP BY h.rating
 	ORDER BY COUNT(*) DESC
+),
+minimum AS (
+	SELECT h.key, MIN(h.rating) AS 'minimum'
+	FROM history AS h
+	GROUP BY h.key
+),
+maximum AS (
+	SELECT h.key, MAX(h.rating) AS 'maximum'
+	FROM history AS h
+	GROUP BY h.key
 )
 SELECT 
 	h.key, 
 	a.mean AS 'mean',
 	e.median AS 'median',
 	o.rating AS 'mode', 
+	i.minimum AS 'minimum',
+	x.maximum AS 'maximum',
 	MAX(o.count)
 FROM history AS h
 JOIN mean AS a ON h.key = a.key
 JOIN median AS e ON h.key = e.key
 JOIN mode AS o ON h.key = o.key
+JOIN minimum AS i ON h.key = i.key
+JOIN maximum AS x ON h.key = x.key
 GROUP BY h.key

@@ -99,6 +99,8 @@ export const getEpisodesForSeries = gql`
         mean
         median
         mode
+        minimum
+        maximum
       }
     }
   }
@@ -126,6 +128,8 @@ export const getChaptersForSeries = gql`
         mean
         median
         mode
+        minimum
+        maximum
       }
     }
   }

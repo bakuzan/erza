@@ -12,6 +12,8 @@ module.exports = gql`
     mean: Float
     median: Float
     mode: Int
+    minimum: Int
+    maximum: Int
   }
 
   type Episode implements History {
