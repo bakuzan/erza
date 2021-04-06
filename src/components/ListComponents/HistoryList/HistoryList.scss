@@ -30,10 +30,16 @@
     padding: 10px 5px 2px;
     margin-top: -5px;
     font-weight: bold;
+    align-items: center;
 
     .erza-button-link {
       white-space: inherit;
     }
+  }
+
+  .history-repeat::before {
+    content: attr(icon);
+    font-weight: bold;
   }
 
   @include respondTo(xs) {

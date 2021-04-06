@@ -5,9 +5,16 @@ import { ButtonisedNavLink } from 'components/Buttonised';
 import Grid from 'components/Grid';
 import HistoryListItem from './HistoryListItem';
 import Paths from 'constants/paths';
+import { Icons } from 'constants/values';
 import { getHistoryNameForItemType } from 'utils/data';
 
 import './HistoryList.scss';
+
+const iconProps = {
+  icon: Icons.clockwise,
+  [`aria-label`]: 'Is Repeat',
+  title: 'Is Repeat'
+};
 
 function HistoryList({ type, editAction, deleteAction, ...props }) {
   const attr = getHistoryNameForItemType(type);
@@ -20,7 +27,9 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
   const { nodes } = items.reduce(
     ({ nodes, prevId }, item) => {
       const seriesId = item.series && item.series.id;
+
       if (seriesId && seriesId !== prevId) {
+        console.log(props, ' RENDER ITEM TITLE > ', item);
         nodes = [
           ...nodes,
           <li
@@ -30,6 +39,7 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
             <ButtonisedNavLink to={`${titleUrlBase}${seriesId}`}>
               {item.series.title}
             </ButtonisedNavLink>
+            {item.isRepeat && <div className="history-repeat" {...iconProps} />}
           </li>
         ];
       }

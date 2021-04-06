@@ -24,6 +24,7 @@ module.exports = gql`
     episode: Int
     animeId: Int
     anime: Anime
+    isRepeat: Boolean
   }
 
   type EpisodePage {
@@ -41,6 +42,7 @@ module.exports = gql`
     chapter: Int
     mangaId: Int
     manga: Manga
+    isRepeat: Boolean
   }
 
   type ChapterPage {

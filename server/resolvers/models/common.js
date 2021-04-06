@@ -36,6 +36,10 @@ module.exports = {
   History: {
     date(inst) {
       return formatDateTimeInput(inst.date);
+    },
+    isRepeat(inst) {
+      const series = (inst.anime || inst.manga || {}).dataValues;
+      return series && series.end && new Date(series.end) < new Date(inst.date);
     }
   }
 };
