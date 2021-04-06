@@ -1,7 +1,11 @@
 import toaster from 'meiko/utils/toasterService';
 import erzaGQL from 'erzaGQL';
 
-import { resetPageToZero, loadPageInfo } from 'actions/paging';
+import {
+  resetPageToZero,
+  loadPageInfo,
+  loadHistoryAverageRating
+} from 'actions/paging';
 import { showAlertError } from 'actions/alert';
 import { getSingleObjectProperty } from 'utils';
 
@@ -88,7 +92,7 @@ export function loadHistoryBySeries(query, filters, { type, pageChange }) {
 
 // Mutate
 
-export function mutateHistoryItem(query, item, type) {
+export function mutateHistoryItem(query, item, type, queryHistoryForSeries) {
   const updateInState = refreshItemInState[type];
 
   return async function (dispatch, getState) {
@@ -128,6 +132,17 @@ export function mutateHistoryItem(query, item, type) {
 
     dispatch(updateInState(data.data));
     toaster.success('Saved!', `Successfully saved '${type || 'history'}'.`);
+
+    if (data.data.rating !== historyInState.rating) {
+      const seriesId = historyInState.series.id;
+
+      dispatch(
+        updateHistoryAverages(queryHistoryForSeries, {
+          seriesId,
+          type
+        })
+      );
+    }
   };
 }
 
@@ -156,5 +171,28 @@ export function removeHistoryItem(query, variables, type) {
     }
 
     toaster.success('Deleted!', `Successfully deleted ${type}.`);
+  };
+}
+
+// History Averages
+function updateHistoryAverages(query, { type, seriesId }) {
+  return async function (dispatch, getState) {
+    const { paging } = getState();
+    const updatedPaging = resolvePaging(paging[type], null);
+
+    const response = await erzaGQL({
+      query,
+      variables: {
+        sorting: ['date', 'DESC'],
+        paging: { size: updatedPaging.size, page: updatedPaging.page },
+        seriesId
+      }
+    });
+
+    const data = getSingleObjectProperty(response);
+
+    if (data) {
+      dispatch(loadHistoryAverageRating(type, data.averageRating));
+    }
   };
 }

@@ -10,7 +10,7 @@ import {
 import { Strings } from '../constants/values';
 
 export const editEpisode = (item) =>
-  mutateHistoryItem(episodeUpdate, item, Strings.episode);
+  mutateHistoryItem(episodeUpdate, item, Strings.episode, getEpisodesForSeries);
 
 export const deleteEpisode = (id) =>
   removeHistoryItem(episodeRemove, { id }, Strings.episode);
@@ -21,8 +21,8 @@ export const loadEpisodesByDateRange = (filters = {}, pageChange = null) =>
     type: Strings.episode
   });
 
-export const loadEpisodesBySeries = (seriesId, pageChange = null) =>
-  loadHistoryBySeries(getEpisodesForSeries, seriesId, {
+export const loadEpisodesBySeries = (filters, pageChange = null) =>
+  loadHistoryBySeries(getEpisodesForSeries, filters, {
     pageChange,
     type: Strings.episode
   });

@@ -7,7 +7,7 @@ import './HistoryAverages.scss';
 
 const niceNumber = (num) => (Math.round(num * 100) / 100).toFixed(2);
 
-function HistoryAverages({ data }) {
+function HistoryAverages({ data, scores }) {
   if (!data) {
     return null;
   }

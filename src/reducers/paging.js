@@ -4,6 +4,7 @@ import {
   NEXT_PAGE,
   RESET_PAGE,
   LOAD_PAGE_INFO,
+  LOAD_HISTORY_AVERAGES,
   ANIME_REMOVE,
   MANGA_REMOVE,
   CHAPTER_REMOVE,
@@ -71,6 +72,16 @@ function setPageInfo(state, action) {
   return updateState({ pageInfo: { ...action.paging } });
 }
 
+function setHistoryAverages(state, action) {
+  const updateState = applyStateUpdates(state, action);
+  const current = state[action.listType];
+
+  return updateState({
+    ...current,
+    pageInfo: { ...current.pageInfo, averageRating: action.payload }
+  });
+}
+
 const reducePageItemTotal = (listType) => (state) => {
   const listState = state[listType];
   const updateState = applyStateUpdates(state, {
@@ -87,6 +98,7 @@ export const paging = createReducer(initialState(), {
   [NEXT_PAGE]: changePage,
   [RESET_PAGE]: changePage,
   [LOAD_PAGE_INFO]: setPageInfo,
+  [LOAD_HISTORY_AVERAGES]: setHistoryAverages,
   // on remove entity
   [ANIME_REMOVE]: reducePageItemTotal(Strings.anime),
   [MANGA_REMOVE]: reducePageItemTotal(Strings.manga),

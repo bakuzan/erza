@@ -10,7 +10,7 @@ import {
 import { Strings } from '../constants/values';
 
 export const editChapter = (item) =>
-  mutateHistoryItem(chapterUpdate, item, Strings.chapter);
+  mutateHistoryItem(chapterUpdate, item, Strings.chapter, getChaptersForSeries);
 
 export const deleteChapter = (id) =>
   removeHistoryItem(chapterRemove, { id }, Strings.chapter);
@@ -21,8 +21,8 @@ export const loadChaptersByDateRange = (filters = {}, pageChange = null) =>
     type: Strings.chapter
   });
 
-export const loadChaptersBySeries = (seriesId, pageChange = null) =>
-  loadHistoryBySeries(getChaptersForSeries, seriesId, {
+export const loadChaptersBySeries = (filters, pageChange = null) =>
+  loadHistoryBySeries(getChaptersForSeries, filters, {
     pageChange,
     type: Strings.chapter
   });

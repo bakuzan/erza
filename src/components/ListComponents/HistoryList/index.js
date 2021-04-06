@@ -29,7 +29,6 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
       const seriesId = item.series && item.series.id;
 
       if (seriesId && seriesId !== prevId) {
-        console.log(props, ' RENDER ITEM TITLE > ', item);
         nodes = [
           ...nodes,
           <li

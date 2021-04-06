@@ -26,7 +26,4 @@ const mapDispatchToProps = {
   loadDataForTypedList: loadAnime
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BaseListView);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseListView);

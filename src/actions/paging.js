@@ -2,7 +2,8 @@ import {
   NEXT_PAGE,
   RESET_PAGE,
   SET_ITEMS_PER_PAGE,
-  LOAD_PAGE_INFO
+  LOAD_PAGE_INFO,
+  LOAD_HISTORY_AVERAGES
 } from 'constants/actions';
 import { Strings } from 'constants/values';
 import { loadAnime } from './anime';
@@ -36,7 +37,7 @@ const fetchNextPage = (listType) => ({
 });
 
 const changePage = (direction, changePage, type, filters) => {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(changePage(type));
     dispatch(FetchData(type, filters)(filters, direction));
   };
@@ -55,4 +56,10 @@ export const loadPageInfo = (paging, listType) => ({
   type: LOAD_PAGE_INFO,
   paging,
   listType
+});
+
+export const loadHistoryAverageRating = (listType, payload) => ({
+  type: LOAD_HISTORY_AVERAGES,
+  listType,
+  payload
 });
