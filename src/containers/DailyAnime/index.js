@@ -35,6 +35,8 @@ function DailyAnime({ fetchDailyAnime, routeKey, items, onSelect, ...props }) {
 
   const hasDailyAnime = !!items.length;
   const displayText = createOffsetText(dateOffset, date);
+  const count = items.length;
+  const countText = `${count} ${count === 1 ? 'episode' : 'episodes'} left`;
 
   useEffect(() => {
     fetchDailyAnime(dateOffset);
@@ -54,7 +56,10 @@ function DailyAnime({ fetchDailyAnime, routeKey, items, onSelect, ...props }) {
           disabled={dateOffset > 6}
           onClick={() => handleDayChange(1)}
         />
-        <div>{displayText}</div>
+        <div className="daily-anime-header__text">
+          <div>{displayText}</div>
+          <div>{countText}</div>
+        </div>
         <ButtonIcon
           btnStyle="primary"
           icon={Icons.right}
