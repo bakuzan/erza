@@ -39,7 +39,11 @@ module.exports = {
     },
     isRepeat(inst) {
       const series = (inst.anime || inst.manga || {}).dataValues;
-      return series && series.end && new Date(series.end) < new Date(inst.date);
+      return (
+        series &&
+        series.end &&
+        formatDateInput(series.end) < formatDateInput(inst.date)
+      );
     }
   }
 };
