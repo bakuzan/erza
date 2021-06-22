@@ -10,7 +10,8 @@
     "medea": "file:../medea",
     "react-scripts": "4.0.3",
     "redux-logger": "^3.0.6",
-    "sass-loader": "^12.1.0"
+    "sass-loader": "^12.1.0",
+    "husky": "^6.0.0"
   },
   "dependencies": {
     "apollo-server-express": "^2.25.1",
@@ -67,7 +68,8 @@
     "start": "npm-run-all -p start-js server",
     "build": "react-scripts build",
     "server": "node server",
-    "cli": "node tools"
+    "cli": "node tools",
+    "prepare": "husky install"
   },
   "browserslist": [
     ">1%",
