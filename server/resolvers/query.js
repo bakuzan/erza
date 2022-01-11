@@ -35,35 +35,12 @@ module.exports = {
   async animeRepeated(_, args, context) {
     return await context.findAllRepeated(StatType.Anime, args);
   },
-  async dailyAnime(_, { dateOffset }) {
+  async dailyAnime(_, { dateOffset }, context) {
     const d = new Date();
     d.setDate(d.getDate() - dateOffset);
+    const dayOfWeekNumber = d.getDay();
 
-    const [from, to] = dateRange(d, d);
-
-    const ongoingAnimeWithEpisodes = await Anime.findAll({
-      where: {
-        status: { [Op.eq]: Status.Ongoing },
-        isAdult: { [Op.eq]: false }
-      },
-      include: [
-        {
-          model: Episode,
-          where: {
-            date: {
-              [Op.gte]: from,
-              [Op.lt]: to
-            }
-          }
-        }
-      ]
-    });
-
-    return ongoingAnimeWithEpisodes
-      .map((x) => ({ anime: x, ep: x.episodes.pop().get({ raw: true }) }))
-      .filter(({ anime, ep }) => anime.episode === ep.episode)
-      .sort((a, b) => (a.ep.date > b.ep.date ? 1 : -1))
-      .map(({ anime }) => anime);
+    return await context.getRecurrentAnime(dayOfWeekNumber);
   },
   // Manga
   async mangaById(_, { id }) {

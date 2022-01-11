@@ -54,6 +54,15 @@ async function findAllRepeated(
   });
 }
 
+async function getRecurrentAnime(dayOfWeekNumber) {
+  return await db.query(SQL['get_recurrent_anime'], {
+    type: db.QueryTypes.SELECT,
+    replacements: {
+      dayOfWeekNumber
+    }
+  });
+}
+
 // Mutation
 
 async function createSeries(model, payload, mappers) {
@@ -228,6 +237,7 @@ module.exports = {
   ...Todo,
   checkIfSeriesAlreadyExists,
   findAllRepeated,
+  getRecurrentAnime,
   createSeries,
   updateSeries,
   updateSeriesWithHistory,
