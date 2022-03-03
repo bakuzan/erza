@@ -25,8 +25,9 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
   });
 
   const { nodes } = items.reduce(
-    ({ nodes, prevId }, item) => {
+    ({ nodes, prevId, prevAttrValue }, item) => {
       const seriesId = item.series && item.series.id;
+      const attrValue = item[attr];
 
       if (seriesId && seriesId !== prevId) {
         nodes = [
@@ -39,6 +40,16 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
               {item.series.title}
             </ButtonisedNavLink>
             {item.isRepeat && <div className="history-repeat" {...iconProps} />}
+          </li>
+        ];
+      } else if (attrValue > prevAttrValue) {
+        nodes = [
+          ...nodes,
+          <li
+            key={`${seriesId}-${item.id}-repeat-break`}
+            className="history-list-item history-list-item--repeat-break"
+          >
+            <hr className="history-list-break" />
           </li>
         ];
       }
@@ -54,9 +65,9 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
         />
       ];
 
-      return { nodes, prevId: seriesId };
+      return { nodes, prevId: seriesId, prevAttrValue: attrValue };
     },
-    { nodes: [], prevId: null }
+    { nodes: [], prevId: null, prevAttrValue: null }
   );
 
   return <Grid {...props}>{nodes}</Grid>;

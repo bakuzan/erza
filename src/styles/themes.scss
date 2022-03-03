@@ -95,6 +95,10 @@ $theme-maps: (
     background-color: $base-background;
     border-bottom-color: $primary-background;
   }
+  .history-list-break {
+    background-color: $primary-background;
+    border-color: $primary-background;
+  }
 
   .history-list-item:not(.series-title) {
     border-bottom-color: $primary-colour;
