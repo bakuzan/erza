@@ -64,11 +64,14 @@
 .paged-history--column-on-small .history-list-item {
   @include respondTo(sm) {
     flex-direction: column;
-    align-items: flex-start;
 
-    &.series-title .erza-button-link {
-      justify-content: flex-start;
-      width: fit-content;
+    &.series-title {
+      flex-direction: row;
+
+      .erza-button-link {
+        justify-content: flex-start;
+        width: fit-content;
+      }
     }
   }
 }
