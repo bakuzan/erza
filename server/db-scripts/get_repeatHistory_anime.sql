@@ -14,12 +14,6 @@ WITH series_history AS
 		AND a.id = h.animeId
 		AND strftime('%Y-%m-%d', h.date) > strftime('%Y-%m-%d', a.end)
 	ORDER BY h.date DESC
-),
-repeat_history AS (
-	SELECT 
-		s.*,
-		s.previousRepeatInstanceNumber - s.repeatInstanceNumber AS repeatDifference
-	FROM series_history AS s
 )
 SELECT 
 	r.id,
@@ -30,6 +24,7 @@ SELECT
 	r.repeatInstanceId,
 	r.repeatInstanceDate,
 	r.repeatInstanceNumber
-FROM repeat_history AS r
-WHERE r.nextRepeatInstanceNumber = 0
-   OR r.repeatDifference < 1
+FROM series_history AS r
+WHERE r.previousRepeatInstanceNumber < r.repeatInstanceNumber
+   OR r.nextRepeatInstanceNumber > r.repeatInstanceNumber
+   OR r.nextRepeatInstanceNumber = 0
