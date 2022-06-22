@@ -46,7 +46,7 @@
     "satellizer": "file:./satellizer/build",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.0.3",
     "umzug": "^2.3.0",
     "vis-data": "^7.1.3",
     "vis-network": "^8.5.6",
