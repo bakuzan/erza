@@ -42,7 +42,7 @@ function HistoryList({ type, editAction, deleteAction, ...props }) {
             {item.isRepeat && <div className="history-repeat" {...iconProps} />}
           </li>
         ];
-      } else if (attrValue > prevAttrValue) {
+      } else if (attrValue >= prevAttrValue) {
         nodes = [
           ...nodes,
           <li
