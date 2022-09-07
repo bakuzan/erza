@@ -42,27 +42,41 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
     : series.series_chapters;
 
   for (const group of repeats) {
-    let [ending, beginning] = group;
+    let [end, beg] = group;
     if (isSingular) {
-      beginning = ending;
+      beg = end;
     }
 
     // For now, if we cannot create a repeat we will ignore it.
-    if (!ending || !beginning) {
+    if (!end || !beg) {
       continue;
     }
 
-    items.push({
-      repeatInstanceKey: `${beginning.repeatInstanceId}_${ending.repeatInstanceId}`,
-      start: beginning.repeatInstanceNumber,
-      startDate: beginning.repeatInstanceDate,
-      end: ending.repeatInstanceNumber,
-      endDate: ending.repeatInstanceDate,
-      isCurrentRepeat:
-        series.isRepeat &&
-        items.length === 0 &&
-        ending.repeatInstanceNumber !== seriesTotalParts
-    });
+    const pairs = [];
+    const numsMatch = beg.repeatInstanceNumber === end.repeatInstanceNumber;
+
+    // Some series have a rewatch that consists of re-watching
+    // a single episode from a plurality of episodes, therefore...
+    if (!isSingular && numsMatch) {
+      pairs.push([beg, beg]);
+      pairs.push([end, end]);
+    } else {
+      pairs.push([beg, end]);
+    }
+
+    for (let [bg, eg] of pairs) {
+      items.push({
+        repeatInstanceKey: `${bg.repeatInstanceId}_${eg.repeatInstanceId}`,
+        start: bg.repeatInstanceNumber,
+        startDate: bg.repeatInstanceDate,
+        end: eg.repeatInstanceNumber,
+        endDate: eg.repeatInstanceDate,
+        isCurrentRepeat:
+          series.isRepeat &&
+          items.length === 0 &&
+          eg.repeatInstanceNumber !== seriesTotalParts
+      });
+    }
   }
 
   const isFirstRepeat = series.isRepeat && items.length === 1;
