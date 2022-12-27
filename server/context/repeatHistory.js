@@ -80,14 +80,16 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
   }
 
   const isFirstRepeat = series.isRepeat && items.length === 1;
-  const hasMissingRecord = series.timesCompleted !== items.length;
-  const missingCount = Math.max(1, series.timesCompleted - items.length);
+  const hasMissingRecord = series.isRepeat
+    ? series.timesCompleted !== items.length - 1
+    : series.timesCompleted !== items.length;
 
   if (series.isRepeat) {
     warningMessages.push(`'${series.title}' is currently being repeated.`);
   }
 
   if (!isFirstRepeat && hasMissingRecord) {
+    const missingCount = Math.max(1, series.timesCompleted - items.length);
     warningMessages.push(
       `Please be aware that '${series.title}' is missing ${missingCount} repeat records.`
     );
