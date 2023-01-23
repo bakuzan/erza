@@ -7,7 +7,7 @@ import malIcon from './myanimelist.ico';
 
 import './ExternalLinks.scss';
 
-function MalLink({ type, title, malId }) {
+function MalLink({ type, title, malId, children }) {
   const label = title
     ? `Open MAL entry for ${title} in new tab.`
     : 'Open MAL entry in new tab.';
@@ -19,7 +19,9 @@ function MalLink({ type, title, malId }) {
       title={label}
       aria-label={label}
     >
-      <Image src={malIcon} alt="MyAnimelist icon" width={20} height={20} />
+      {children || (
+        <Image src={malIcon} alt="MyAnimelist icon" width={20} height={20} />
+      )}
     </NewTabLink>
   );
 }

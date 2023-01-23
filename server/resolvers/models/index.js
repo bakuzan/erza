@@ -1,10 +1,13 @@
 const { resolveSorting } = require('../../utils');
 const { formatDate } = require('../../utils/formatDate');
+const distinctOn = require('../../utils/distinctOn');
 const inSeasonCalc = require('../../utils/inSeason');
 
 const TodoTemplateResolvers = require('./todoTemplate');
 const TodoInstanceResolvers = require('./todoInstance');
 const common = require('./common');
+
+const setSeriesType = (items, type) => items.map((x) => ({ ...x.get(), type }));
 
 module.exports = {
   Anime: {
@@ -22,6 +25,27 @@ module.exports = {
       });
 
       return inSeasonCalc(values);
+    },
+    relations(instance) {
+      if (instance.relations) {
+        return instance.relations;
+      }
+
+      const relations = [];
+      return instance
+        .getFirstRelation()
+        .then((fr) => {
+          relations.push(...setSeriesType(fr, 'Anime'));
+          return instance.getSecondRelation();
+        })
+        .then((sr) => {
+          relations.push(...setSeriesType(sr, 'Anime'));
+          return instance.getMangas();
+        })
+        .then((mr) => {
+          relations.push(...setSeriesType(mr, 'Manga'));
+          return relations.filter(distinctOn('id', 'type'));
+        });
     }
   },
   Manga: {
@@ -32,6 +56,27 @@ module.exports = {
       }
 
       return inst.getChapters();
+    },
+    relations(instance) {
+      if (instance.relations) {
+        return instance.relations;
+      }
+
+      const relations = [];
+      return instance
+        .getFirstRelation()
+        .then((fr) => {
+          relations.push(...setSeriesType(fr, 'Manga'));
+          return instance.getSecondRelation();
+        })
+        .then((sr) => {
+          relations.push(...setSeriesType(sr, 'Manga'));
+          return instance.getAnimes();
+        })
+        .then((mr) => {
+          relations.push(...setSeriesType(mr, 'Anime'));
+          return relations.filter(distinctOn('id', 'type'));
+        });
     }
   },
   // History resolvers

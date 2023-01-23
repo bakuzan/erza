@@ -27,6 +27,11 @@ const seriesByIdFields = gql`
       id
       name
     }
+    relations {
+      id
+      type
+      title
+    }
   }
 `;
 

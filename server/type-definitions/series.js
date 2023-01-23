@@ -20,6 +20,13 @@ module.exports = gql`
     updatedAt: String
     createdAt: String
     tags(sorting: TagSorting): [Tag]
+    relations: [SeriesRelation]
+  }
+
+  type SeriesRelation {
+    type: SeriesType
+    id: Int
+    title: String
   }
 
   type Anime implements Series {
@@ -42,6 +49,7 @@ module.exports = gql`
     updatedAt: String
     createdAt: String
     tags(sorting: TagSorting): [Tag]
+    relations: [SeriesRelation]
     episode: Int
     series_episodes: Int
     _legacyIsSeason: Boolean
@@ -83,6 +91,7 @@ module.exports = gql`
     updatedAt: String
     createdAt: String
     tags(sorting: TagSorting): [Tag]
+    relations: [SeriesRelation]
     chapter: Int
     volume: Int
     series_chapters: Int

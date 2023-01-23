@@ -30,6 +30,10 @@ module.exports = gql`
     ${mapArrToGraphqlString(StatBreakdowns)}
   }
 
+  enum SeriesType {
+    Anime
+    Manga 
+  }
 
   enum RepeatPattern {
     ${mapArrToGraphqlString(RepeatPattern)}

@@ -17,6 +17,7 @@ import ContentLink from 'components/ExternalLinks/ContentLink';
 import MalLink from 'components/ExternalLinks/MalLink';
 import LoadableContent from 'containers/LoadableContent';
 import QuickAdd from 'containers/QuickAdd';
+import RelationsList from 'components/RelationsList';
 
 import { capitalise, formatDateForDisplay } from 'utils';
 import {
@@ -96,13 +97,8 @@ class BaseView extends Component {
   }
 
   handleLoadMore() {
-    const {
-      isFetching,
-      type,
-      pageInfo,
-      itemId,
-      onLoadMoreHistory
-    } = this.props;
+    const { isFetching, type, pageInfo, itemId, onLoadMoreHistory } =
+      this.props;
 
     if (!isFetching && pageInfo.hasMore) {
       const historyType = getHistoryNameForItemType(type);
@@ -297,6 +293,8 @@ class BaseView extends Component {
                 </List>
               </div>
               <div>
+                <RelationsList type={type} data={item.relations} />
+
                 <RepeatHistory type={type} seriesId={item.id} />
 
                 {showViewHistoryButton && (

@@ -37,6 +37,38 @@ module.exports = function applyExtraSetup(db) {
   });
   ChapterModel.Manga = ChapterModel.belongsTo(MangaModel);
 
+  // Anime-Anime Relations
+  AnimeModel.AnimeRelation1 = AnimeModel.belongsToMany(AnimeModel, {
+    as: 'FirstRelation',
+    through: 'AnimeAnimeRelation',
+    foreignKey: 'animeId1'
+  });
+  AnimeModel.AnimeRelation2 = AnimeModel.belongsToMany(AnimeModel, {
+    as: 'SecondRelation',
+    through: 'AnimeAnimeRelation',
+    foreignKey: 'animeId2'
+  });
+
+  // Manga-Manga Relation
+  MangaModel.MangaRelation1 = MangaModel.belongsToMany(MangaModel, {
+    as: 'FirstRelation',
+    through: 'MangaMangaRelation',
+    foreignKey: 'mangaId1'
+  });
+  MangaModel.MangaRelation2 = MangaModel.belongsToMany(MangaModel, {
+    as: 'SecondRelation',
+    through: 'MangaMangaRelation',
+    foreignKey: 'mangaId2'
+  });
+
+  // Anime-Manga Relation
+  AnimeModel.MangaRelation = AnimeModel.belongsToMany(MangaModel, {
+    through: 'AnimeMangaRelation'
+  });
+  MangaModel.AnimeRelation = MangaModel.belongsToMany(AnimeModel, {
+    through: 'AnimeMangaRelation'
+  });
+
   // Todo
   TodoTemplateModel.TodoInstance = TodoTemplateModel.hasMany(
     TodoInstanceModel,
@@ -44,7 +76,6 @@ module.exports = function applyExtraSetup(db) {
       onDelete: 'cascade'
     }
   );
-  TodoInstanceModel.TodoTemplate = TodoInstanceModel.belongsTo(
-    TodoTemplateModel
-  );
+  TodoInstanceModel.TodoTemplate =
+    TodoInstanceModel.belongsTo(TodoTemplateModel);
 };
