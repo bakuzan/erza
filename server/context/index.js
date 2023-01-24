@@ -1,4 +1,5 @@
 const Op = require('sequelize').Op;
+const { capitalise } = require('ayaka/capitalise');
 
 const { db, Tag } = require('../connectors');
 const SQL = require('../db-scripts');
@@ -9,16 +10,16 @@ const updateSeriesWithHistory = require('./update-series/withHistory');
 const updateSeriesTags = require('./update-series/tags');
 const getRepeatHistory = require('./repeatHistory');
 
-const { StatType } = require('../constants/enums');
+const { SeriesType, StatType } = require('../constants/enums');
 const imageStore = require('../image-store');
 const handleDeleteResponse = require('./utils/handleDeleteResponse');
 const resolveWhereIn = require('./utils/resolveWhereIn');
 const separateNewVsExistingTags = require('./utils/separateNewVsExistingTags');
 const mapToNewTag = require('./utils/mapToNewTag');
 const validateSeries = require('./validators/validateSeries');
+const validateRelations = require('./validators/validateRelations');
 
 // Query
-
 async function checkIfSeriesAlreadyExists(model, { id, malId, title = '' }) {
   const matchesTitle = { title: { [Op.eq]: title } };
   const matchesMal = { malId: { [Op.eq]: malId } };
@@ -65,9 +66,15 @@ async function getRecurrentAnime(dayOfWeekNumber) {
 
 // Mutation
 
-async function createSeries(model, payload, mappers) {
-  const { tags, tagString, ...values } = payload;
+async function createSeries({ model, oppositeModel }, payload, mappers) {
+  const typeName = model.name;
+  const oppositeTypeName = capitalise(
+    typeName === SeriesType.Anime ? SeriesType.Manga : SeriesType.Anime
+  );
+
+  const { relations, tags, tagString, ...values } = payload;
   const { newTags, existingTags } = separateNewVsExistingTags(tags);
+  const seriesRelations = validateRelations(relations);
 
   const series = validateSeries(values, mappers);
   const { exists } = await checkIfSeriesAlreadyExists(model, series);
@@ -80,6 +87,31 @@ async function createSeries(model, payload, mappers) {
       ],
       data: null
     };
+  }
+
+  let sameTypeSeries = [];
+  let oppositeTypeSeries = [];
+
+  if (seriesRelations.length) {
+    const sameTypeMalIds = seriesRelations
+      .filter((x) => x.type === typeName)
+      .map((x) => x.malId);
+
+    sameTypeSeries = await model.findAll({
+      raw: true,
+      attributes: ['id'],
+      where: { malId: { [Op.in]: sameTypeMalIds } }
+    });
+
+    const oppositeTypeMalIds = seriesRelations
+      .filter((x) => x.type !== typeName)
+      .map((x) => x.malId);
+
+    oppositeTypeSeries = await oppositeModel.findAll({
+      raw: true,
+      attributes: ['id'],
+      where: { malId: { [Op.in]: oppositeTypeMalIds } }
+    });
   }
 
   // Handle tags passed as comma-separated string (tag names are unique!)
@@ -120,6 +152,16 @@ async function createSeries(model, payload, mappers) {
     );
 
     await created.addTags(existingTags, { transaction });
+
+    // Set relations
+    await created.addSecondRelation(
+      sameTypeSeries.map((x) => x.id),
+      { transaction }
+    );
+
+    for (const seriesId of oppositeTypeSeries.map((x) => x.id)) {
+      await created[`add${oppositeTypeName}s`](seriesId, { transaction });
+    }
 
     return { success: true, errorMessages: [], data: created };
   });

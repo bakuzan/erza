@@ -19,7 +19,11 @@ const validateTodoTemplate = require('../utils/validateTodoTemplate');
 module.exports = {
   // Anime
   async animeCreate(_, { payload }, context) {
-    return context.createSeries(Anime, payload, mapAnime);
+    return context.createSeries(
+      { model: Anime, oppositeModel: Manga },
+      payload,
+      mapAnime
+    );
   },
   async animeUpdate(_, { payload }, context) {
     return context.updateSeries(Anime, payload, mapAnime);
@@ -29,7 +33,11 @@ module.exports = {
   },
   // Manga
   async mangaCreate(_, { payload }, context) {
-    return context.createSeries(Manga, payload, mapManga);
+    return context.createSeries(
+      { model: Manga, oppositeModel: Anime },
+      payload,
+      mapManga
+    );
   },
   async mangaUpdate(_, { payload }, context) {
     return context.updateSeries(Manga, payload, mapManga);

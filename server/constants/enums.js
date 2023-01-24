@@ -56,6 +56,10 @@ module.exports = {
   SeasonType: Object.freeze(mapEnumArrayToObject(SeasonTypes)),
   MangaTypes,
   MangaType: Object.freeze(mapEnumArrayToObject(MangaTypes)),
+  SeriesType: {
+    Anime: 'anime',
+    Manga: 'manga'
+  },
   // Stat
   StatTypes,
   StatType: Object.freeze(mapEnumArrayToObject(StatTypes)),

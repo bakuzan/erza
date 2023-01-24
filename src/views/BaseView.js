@@ -68,6 +68,12 @@ class BaseView extends Component {
     loadData(this.props);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.itemId !== this.props.itemId) {
+      loadData(this.props);
+    }
+  }
+
   fetchHistory() {
     loadHistory(this.props);
     this.setState({ hasHistory: true });

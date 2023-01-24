@@ -126,6 +126,10 @@ module.exports = gql`
     title: String
     image: String
   }
+  input RelationInput {
+    type: SeriesType
+    malId: Int
+  }
 
   input SeriesInput {
     id: Int!
@@ -149,6 +153,7 @@ module.exports = gql`
     series_start: String
     series_end: String
     tags: [TagInput]
+    relations: [RelationInput]
     tagString: String
     episode: Int
     series_episodes: Int
@@ -192,6 +197,7 @@ module.exports = gql`
     series_start: String
     series_end: String
     tags: [TagInput]
+    relations: [RelationInput]
     tagString: String
     chapter: Int
     volume: Int
