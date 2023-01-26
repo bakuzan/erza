@@ -6,7 +6,7 @@ class BaseItemModel {
   }
 
   initaliseDefaults(props = {}) {
-    const { season, timesCompleted, updatedAt, ...values } = props;
+    const { relations, season, timesCompleted, updatedAt, ...values } = props;
     const now = new Date().toISOString().split('T')[0];
 
     return {
