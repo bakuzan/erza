@@ -1,4 +1,4 @@
-module.exports = function validateRelations(relations) {
+module.exports = function validateRelations(relations = []) {
   const items = [];
 
   for (let rel of relations) {
