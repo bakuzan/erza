@@ -44,7 +44,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "satellizer": "file:./satellizer/build",
-    "sequelize": "^6.17.0",
+    "sequelize": "^6.28.2",
     "sequelize-cli": "^6.4.1",
     "sqlite3": "^5.0.3",
     "umzug": "^2.3.0",
