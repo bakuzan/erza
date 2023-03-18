@@ -81,7 +81,7 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
 
   const isFirstRepeat = series.isRepeat && items.length === 1;
   const hasMissingRecord = series.isRepeat
-    ? series.timesCompleted !== items.length - 1
+    ? series.timesCompleted !== Math.max(items.length - 1, 0)
     : series.timesCompleted !== items.length;
 
   if (series.isRepeat) {
