@@ -54,9 +54,13 @@
       justify-content: flex-end;
     }
 
-    &.series-title .erza-button-link {
-      justify-content: flex-start;
-      width: fit-content;
+    &.series-title {
+      flex-direction: row;
+
+      .erza-button-link {
+        justify-content: flex-start;
+        width: fit-content;
+      }
     }
   }
 }
