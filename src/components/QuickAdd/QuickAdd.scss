@@ -1,3 +1,4 @@
+@import '../../styles/_mixins';
 @import '../../styles/_colours.scss';
 @import '../../styles/_variables.scss';
 
@@ -55,12 +56,23 @@ $success-message-colour: $forest-green;
 }
 
 .paged-list-edit .list {
-  height: 250px;
-  max-height: 250px;
+  --list-height: 300px;
+  height: var(--list-height);
+  max-height: var(--list-height);
   overflow: auto;
 
   li {
     min-height: 60px;
     max-height: 60px;
+  }
+}
+
+@include respondToAll((xxs, xs)) {
+  .paged-list-edit .list li {
+    min-height: fit-content;
+    max-height: max-content;
+    padding-bottom: 10px;
+    border-bottom: 1px solid transparent;
+    margin-bottom: 20px;
   }
 }
