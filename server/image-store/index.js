@@ -59,12 +59,14 @@ async function get(req, res) {
 
   try {
     // Check exists
-    fs.access(imagePath, fs.constants.R_OK);
+    await fs.access(imagePath, fs.constants.R_OK);
 
     res.sendFile(imagePath);
   } catch (e) {
     // If file failed (doesn't exist?) return fallback image
-    res.sendFile(path.resolve('../../public/dead-images.PNG'));
+    res.sendFile(
+      path.resolve(__dirname, '..', '..', 'public', 'dead-image.PNG')
+    );
   }
 }
 
