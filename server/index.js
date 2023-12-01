@@ -36,7 +36,7 @@ const server = new ApolloServer({
 });
 
 // Overide origin if it doesn't exist
-app.use(function(req, _, next) {
+app.use(function (req, _, next) {
   req.headers.origin = req.headers.origin || req.headers.host;
   next();
 });
@@ -50,6 +50,7 @@ app.use(
 //Imgur routes
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.get('/api/image/:key', imageStore.get);
 app.post('/api/image-upload/url', imageStore.upload);
 app.post('/api/image-upload/file', imageStore.uploadFromLocal);
 
@@ -74,7 +75,7 @@ const PORT =
 server.applyMiddleware({
   app,
   cors: {
-    origin: function(origin, callback) {
+    origin: function (origin, callback) {
       const isMaria = origin && origin.startsWith('chrome-extension://');
 
       if (Constants.whitelist.test(origin) || isMaria) {

@@ -4,6 +4,8 @@ import React from 'react';
 
 import Image from 'meiko/Image';
 
+import getImagePath from 'utils/getImagePath';
+
 import './SeriesImageContainer.scss';
 
 function SeriesImageContainer({
@@ -22,7 +24,7 @@ function SeriesImageContainer({
         'series-image-container--fixed-width': fixedWidth
       })}
     >
-      <Image {...props} />
+      <Image {...props} src={getImagePath(props.src)} />
       {children}
     </div>
   );

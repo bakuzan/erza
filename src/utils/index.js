@@ -6,9 +6,7 @@ export { default as parseIfInt } from 'ayaka/parseIfInt';
 export { default as castStringToBool } from 'ayaka/castStringToBool';
 export { default as getEventValue } from 'ayaka/getEventValue';
 export { default as padNumber } from 'ayaka/padNumber';
-export {
-  default as getSingleObjectProperty
-} from 'ayaka/getSingleObjectProperty';
+export { default as getSingleObjectProperty } from 'ayaka/getSingleObjectProperty';
 export { getTimeoutSeconds, getTimeoutMinutes } from 'ayaka/getTimeout';
 export { default as debounce } from 'ayaka/debounce';
 export { default as updateSameAsObject } from 'ayaka/updateSameAsObject';
@@ -22,9 +20,7 @@ export { default as objectsAreEqual } from 'ayaka/objectsAreEqual';
 export { default as generateUniqueId } from 'ayaka/generateUniqueId';
 export { default as compose } from 'ayaka/compose';
 export { default as curry } from 'ayaka/curry';
-export {
-  default as constructObjectFromSearchParams
-} from 'ayaka/constructObjectFromSearchParams';
+export { default as constructObjectFromSearchParams } from 'ayaka/constructObjectFromSearchParams';
 export { default as getElementCoordinates } from 'ayaka/getElementCoordinates';
 export { default as dateAsMs } from 'ayaka/dateAsMs';
 export { default as endOfDay } from 'ayaka/endOfDay';
@@ -33,15 +29,11 @@ export { default as getDayName } from 'ayaka/getDayName';
 export { default as formatDateForInput } from 'ayaka/formatDateForInput';
 export { default as formatDateForDisplay } from 'ayaka/formatDateForDisplay';
 export { default as formatDateISO } from 'ayaka/formatDateISO';
-export {
-  default as formatDateTimeForDisplay
-} from 'ayaka/formatDateTimeForDisplay';
+export { default as formatDateTimeForDisplay } from 'ayaka/formatDateTimeForDisplay';
 export { darken } from 'ayaka/palette';
 export { default as getFirstDateOfMonth } from 'ayaka/getFirstDateOfMonth';
 export { default as getLastDateOfMonth } from 'ayaka/getLastDateOfMonth';
-export {
-  default as daysDifferenceBetweenDates
-} from 'ayaka/daysDifferenceBetweenDates';
+export { default as daysDifferenceBetweenDates } from 'ayaka/daysDifferenceBetweenDates';
 
 const BAD_BLANK_MAL_DATE = '0000-00-00';
 const BAD_MAL_DATE_PART = '-00';
