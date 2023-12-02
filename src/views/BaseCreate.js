@@ -355,7 +355,7 @@ class BaseCreate extends Component {
                   <div className="image-options center-contents">
                     {showBasicUrlInput ? (
                       <ClearableInput
-                        type="url"
+                        type="text"
                         id="image"
                         name="image"
                         label="image"

@@ -131,8 +131,8 @@ async function createSeries({ model, oppositeModel }, payload, mappers) {
     newTags.push(...ts.filter((x) => !currTags.some((c) => c.name === x)));
   }
 
-  if (series.image && !series.image.includes('imgur')) {
-    const result = await imageStore.uploadUrl(series.image);
+  if (imageStore.canSaveImage(series.image)) {
+    const result = await imageStore.saveImageToFile(series.image);
 
     if (!result.success) {
       return {
@@ -142,7 +142,7 @@ async function createSeries({ model, oppositeModel }, payload, mappers) {
       };
     }
 
-    series.image = result.url;
+    series.image = result.image;
   }
 
   return db.transaction(async function (transaction) {
@@ -193,10 +193,8 @@ async function updateSeries(model, payload, mappers) {
     const series = validateSeries({ ...oldSeriesValues, ...values }, mappers);
     const { id, ...data } = series;
 
-    const oldImage = oldSeriesValues.image;
-    const hasNewImage = data.image && data.image !== oldImage;
-    if (hasNewImage && !data.image.includes('imgur')) {
-      const result = await imageStore.uploadUrl(data.image);
+    if (imageStore.canSaveImage(data.image)) {
+      const result = await imageStore.saveImageToFile(data.image);
 
       if (!result.success) {
         return {
@@ -209,7 +207,7 @@ async function updateSeries(model, payload, mappers) {
         };
       }
 
-      series.image = result.url;
+      data.image = result.image;
     }
 
     // Only run tags update if property is sent.

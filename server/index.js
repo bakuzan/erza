@@ -51,8 +51,8 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.get('/api/image/:key', imageStore.get);
-app.post('/api/image-upload/url', imageStore.upload);
-app.post('/api/image-upload/file', imageStore.uploadFromLocal);
+// app.post('/api/image-upload/url', imageStore.upload);
+// app.post('/api/image-upload/file', imageStore.uploadFromLocal);
 
 // Non-route handlers
 app.use(defaultErrorHandler);
