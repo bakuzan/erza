@@ -28,3 +28,4 @@ FROM series_history AS r
 WHERE r.previousRepeatInstanceNumber < r.repeatInstanceNumber
    OR r.nextRepeatInstanceNumber > r.repeatInstanceNumber
    OR r.nextRepeatInstanceNumber = 0
+   OR r.series_episodes = r.repeatInstanceNumber -- 2024-08-16 Fix: Required to return 'middle' records when seriesTotalParts are 1
