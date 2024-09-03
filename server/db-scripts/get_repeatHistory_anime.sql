@@ -29,3 +29,4 @@ WHERE r.previousRepeatInstanceNumber < r.repeatInstanceNumber
    OR r.nextRepeatInstanceNumber > r.repeatInstanceNumber
    OR r.nextRepeatInstanceNumber = 0
    OR r.series_episodes = r.repeatInstanceNumber -- 2024-08-16 Fix: Required to return 'middle' records when seriesTotalParts are 1
+ORDER BY r.repeatInstanceDate -- 2024-09-03 Fix: Partial rewatch with only 1 episode started   

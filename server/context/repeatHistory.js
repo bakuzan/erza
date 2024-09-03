@@ -41,10 +41,10 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
     ? series.series_episodes
     : series.series_chapters;
 
-  for (const group of repeats) {
-    let [end, beg] = group;
+  for (const group of repeats.reverse()) {
+    let [beg, end] = group;
     if (isSingular) {
-      beg = end;
+      end = beg;
     }
 
     // For now, if we cannot create a repeat we will ignore it.
@@ -53,13 +53,15 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
     }
 
     const pairs = [];
-    const numsMatch = beg.repeatInstanceNumber === end.repeatInstanceNumber;
+    const numsMatch =
+      beg.repeatInstanceNumber === end.repeatInstanceNumber ||
+      beg.repeatInstanceNumber > end.repeatInstanceNumber;
 
     // Some series have a rewatch that consists of re-watching
     // a single episode from a plurality of episodes, therefore...
     if (!isSingular && numsMatch) {
-      pairs.push([beg, beg]);
       pairs.push([end, end]);
+      pairs.push([beg, beg]);
     } else {
       pairs.push([beg, end]);
     }
@@ -91,7 +93,7 @@ module.exports = async function getRepeatHistory({ type, seriesId }) {
   if (!isFirstRepeat && hasMissingRecord) {
     const missingCount = Math.max(1, series.timesCompleted - items.length);
     warningMessages.push(
-      `Please be aware that '${series.title}' is missing ${missingCount} repeat records.`
+      `Please be aware that '${series.title}' is missing ${missingCount} repeat history records.`
     );
   }
 
